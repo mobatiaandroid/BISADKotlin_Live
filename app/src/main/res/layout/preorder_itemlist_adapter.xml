@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:background="@color/white">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        card_view:cardBackgroundColor="@android:color/white"
+        app:cardElevation="2dp"
+        app:cardCornerRadius="10dp"
+        app:cardUseCompatPadding="true"
+        card_view:cardUseCompatPadding="true"
+        android:background="@color/canteen_item_bg">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:background="@color/canteen_item_bg">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="100"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.mobatia.bisad.manager.CustomFontBoldWithoutColor
+                        android:id="@+id/notAvailableTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:textColor="@color/canteen_red"
+                        android:padding="2dp"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        android:text="Item Not Available" />
+                    <!-- <com.mobatia.naisapp.manager.CustomFontSansProTextWhite
+                         android:id="@+id/notAvailableTxt"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_alignParentRight="true"
+                         android:gravity="center"
+                         android:textColor="@color/white"
+                         android:padding="2dp"
+                         android:background="@color/red"
+                         android:textSize="12sp"
+                         android:visibility="gone"
+                         android:text="Item Not Available" />-->
+                    <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+                        android:id="@+id/itemNameTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_toLeftOf="@+id/notAvailableTxt"
+                        android:text="iten name"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+                <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                    android:id="@+id/itemDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textSize="12sp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/item_sample_description"
+                    android:maxLines="3"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="30">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="20"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+                        <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+                            android:id="@+id/amountTxt"
+                            android:layout_width="0dp"
+                            android:layout_weight="5"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:gravity="center_vertical"
+                            android:text="AED 45.00" />
+                        <com.mobatia.bisad.manager.CustomFontSansProTextWhiteWithoutColor
+                            android:id="@+id/confirmedTxt"
+                            android:layout_width="0dp"
+                            android:layout_weight="5"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:textColor="@color/canteen_red"
+                            android:textSize="12sp"
+                            android:visibility="gone"
+                            android:gravity="center"
+                            android:text="Already Ordered" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/addLinear"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="10"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/cart_add_bg"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Add"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="  +"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/multiLinear"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="8dp"
+                        android:layout_weight="10"
+                        android:background="@drawable/cart_add_bg"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+                        <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                            android:id="@+id/itemCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center"
+                            app:backGroundColor="@color/white"
+                            app:backgroundDrawable="@drawable/curvedsavebutton"
+                            app:textColor="@color/black"
+                            app:textSize="6sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:visibility="gone">
+
+                <com.mobatia.bisad.manager.NonSwipeableViewPager
+                    android:id="@+id/bannerImagePager"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/noitem"
+                    android:layout_height="match_parent" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

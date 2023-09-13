@@ -1,0 +1,173 @@
+<resources>
+    <string name="app_name">BIS_AD</string>
+    <!--Login Screen-->
+    <string name="username">USER EMAIL</string>
+    <string name="password">PASSWORD</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="terms_conditions">Please click here to let us know you have understood the
+         NAE Terms and Conditions.</string>
+    <string name="personal_info">Please check to confirm you have read and acknowledged the Nord Anglia
+        Education Personal Information Collection Statement</string>
+    <string name="agree">I have agreed to the terms and conditions.</string>
+    <string name="agree_info">I confirm I have read and acknowledged the Nord Anglia Education Personal
+        Information Collection Statement as outlined in the above link.</string>
+    <!--API ERRORS-->
+    <string name="status_106">not a valid email</string>
+    <string name="status_107">not a valid number</string>
+    <string name="status_108">password and confirm password not same</string>
+    <string name="status_109">Old password doesn\'t match!</string>
+    <string name="status_111">No student are linking with that users</string>
+    <string name="status_115">Invalid file type</string>
+    <string name="status_117">not a valid date</string>
+    <string name="status_126">File size too large( maxsize:2Mb )</string>
+    <string name="item_sample_description">Sashimi salmon and tuna with olive oil and sea salt. Base all salmon, all tuna or mixed Sashimi salmon and tuna with olive oil and sea salt. </string>
+
+    <string name="aed">AED</string>
+    <string name="add_to_wallet">Add to Wallet</string>
+    <string name="enter_amount">Enter Amount</string>
+
+    <!--HomeScreen Items-->
+
+    <string-array name="navigation_items_guest">
+
+        <item>Home</item>
+        <item>Student Information</item>
+        <item>Calendar</item>
+        <item>Messages</item>
+        <item>Communications</item>
+        <item>Absence &amp; Early Pickup</item>
+        <item>Teacher Contact</item>
+        <item>Lunch Box</item>
+        <item>Payment</item>
+        <item>Parent Meetings</item>
+        <item>Social Media</item>
+        <item>Reports</item>
+        <!-- <item>Attendance</item>-->
+        <item>Timetable</item>
+        <item>Forms</item>
+        <item>Permission Slips</item>
+        <item>Term Dates</item>
+      <!--  <item>Curriculum</item>
+        &lt;!&ndash;        <item>Update Account Details</item>&ndash;&gt;
+        <item>Staff Directory</item>-->
+        <item>Contact Us</item>
+        <item>Apps</item>
+<!--        <item>Cal</item>-->
+
+    </string-array>
+
+    <string-array name="navigation_icons_guest">
+        <item>@drawable/home</item>
+        <item>@drawable/sidebar_student_information</item>
+        <item>@drawable/calendar</item>
+        <item>@drawable/notif</item>
+        <item>@drawable/communication</item>
+        <item>@drawable/absence</item>
+        <item>@drawable/parentevening</item>
+        <item>@drawable/lunchbox_sideicon</item>
+        <item>@drawable/payment</item>
+
+        <item>@drawable/parent_association</item>
+        <item>@drawable/social</item>
+        <item>@drawable/report_side</item>
+        <!-- <item>@drawable/attendance_side</item>-->
+        <item>@drawable/time_table_side</item>
+        <item>@drawable/forms</item>
+        <item>@drawable/permission_slip</item>
+        <item>@drawable/termdates</item>
+        <!--<item>@drawable/ccas</item>
+        &lt;!&ndash;        <item>@drawable/updateaccount</item>&ndash;&gt;
+        <item>@drawable/aboutus</item>-->
+        <item>@drawable/contacts</item>
+        <item>@drawable/app</item>
+<!--        <item>@drawable/calendar</item>-->
+
+
+    </string-array>
+
+    <string name="appregisteredHint">App Registered Absences</string>
+    <string name="regNewAbsence">Register New Absence</string>
+    <string name="regEarlypickup">Register Early Pickup</string>
+    <string name="requestHint">If you need to cancel a registered absence/early pickup please contact reception (phone or email).</string>
+    <string name="null_value"></string>
+    <string name="submit">SUBMIT</string>
+    <string name="no_family_data_content">There are currently no other contacts associated with students(s).Please add at least one emergency contact for the family as required.</string>
+    <string name="own_details_confirm_first_name">First name</string>
+    <string name="own_details_confirm_last_name">Last name</string>
+    <string name="own_details_confirm_email_id">Email-ID</string>
+    <string name="own_details_confirm_home_address">Home Address</string>
+    <string name="own_details_confirm_address_line_3">Address Line 3</string>
+    <string name="own_details_confirm_communication_preference">Communication Preferences</string>
+    <string name="own_details_confirm_communication_preference_info">Please contact <font fgcolor="blue">mobileapp@bisad.ae</font> if the school preferences are incorrect.</string>
+    <string name="own_details_confirm_communication_preference_corresspondance">Contact receives school correspondance</string>
+    <string name="own_details_confirm_communication_preference_report">Contact receives school reports and has access to student details via the BISAD parent app</string>
+    <string name="own_details_confirm">Confirm</string>
+    <string name="AST_ADD_1">Address Line 1<font fgcolor="red">*</font></string>
+    <string name="AST_ADD_2">Address Line 2<font fgcolor="red">*</font></string>
+    <string name="AST_TOWN">Town<font fgcolor="red">*</font></string>
+    <string name="AST_STATE">State<font fgcolor="red">*</font></string>
+    <string name="AST_POST">Post Code<font fgcolor="red">*</font></string>
+    <string name="AST_PHONE">Phone Number<font fgcolor="red">*</font></string>
+    <string name="AST_FIRST_NAME">First Name<font fgcolor="red">*</font></string>
+    <string name="contact_details">Contact Details</string>
+    <string name="additional_contact_description">Additional contacts must have unique details. Eg A Next of Kin contact email address cannot be the same as the mother’s email address.</string>
+    <string name="local_emergency_contact_detail">Emergency contact - Must have a Malaysian country code</string>
+    <string name="data_collection_own_contact_no_hint">Phone Number<font fgcolor="red">*</font></string>
+    <string name="email">Email-ID<font fgcolor="red">*</font></string>
+    <string name="medical_note">Medical Notes</string>
+    <string name="medical_note_sub">(including allergies)</string>
+
+    <string name="passport_visa_details">Passport/Emirates Details</string>
+    <string name="passport_select_student">Select Student</string>
+    <string name="visa_passport_upload">Upload</string>
+    <string name="attach_visa">Attach Emirates</string>
+    <string name="attach_passport">Attach Passport</string>
+    <string name="insurance_details">Health Details</string>
+    <string name="display">It is important the school has the latest contact information for your family, please take the time to confirm/update your details. Please ensure you have access to the following documents before continuing:\n \u2022 Passport copy\n \u2022 Emirates ID copy</string>
+    <string name="passport_number_red">Passport Number<font fgcolor="red">*</font></string>
+    <string name="passport_expiry_new">Passport Expiry<font fgcolor="red">*</font></string>
+    <string name="emirates_id_new">Emirates ID Number<font fgcolor="red">*</font></string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="new_version_available">New Version Available</string>
+    <string name="force_update">There is a newer version available for download! Please update the app by visiting the Google Play Store</string>
+    <string name="review_confirm"><![CDATA[Review & Confirm]]></string>
+
+    <string-array name="Months">
+        <item> January </item>
+        <item> February </item>
+        <item> March </item>
+        <item> April </item>
+        <item> May </item>
+        <item> June </item>
+        <item> July </item>
+        <item> August </item>
+        <item> September </item>
+        <item> October </item>
+        <item> November </item>
+        <item> December </item>
+    </string-array>
+    <string-array name="Weeks">
+        <item> Sun</item>
+        <item> Mon</item>
+        <item> Tue</item>
+        <item> Wed</item>
+        <item> Thur</item>
+        <item> Fri</item>
+        <item> Sat</item>
+
+    </string-array>
+    <string-array name="ReEnrolList">
+        <item> Please select</item>
+        <item> Returning</item>
+        <item> Unsure</item>
+        <item> Graduating</item>
+        <item> Not returning</item>
+
+    </string-array>
+
+
+    <string name="demo_string">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                    and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                    and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+</resources>

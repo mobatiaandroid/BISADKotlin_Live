@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">192.168.0.153</domain>
+        <domain includeSubdomains="true">192.168.0.166</domain>
+        <domain includeSubdomains="true">bisad.mobatia.in</domain>
+        <domain includeSubdomains="true">stagingcms.bisad.ae</domain>
+        <domain includeSubdomains="true">mobile.bisad.ae</domain>
+        <domain includeSubdomains="true">twitter.com</domain>
+        <domain includeSubdomains="true">beta.mobatia.in</domain>
+    </domain-config>
+</network-security-config>

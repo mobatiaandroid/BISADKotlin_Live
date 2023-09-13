@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+
+<LinearLayout
+    android:id="@+id/linear"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:orientation="horizontal"
+    android:layout_marginTop="2dp"
+    android:background="@color/term_button_bg"
+    android:layout_marginBottom="4dp"
+    android:weightSum="20">
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="15"
+        android:layout_marginLeft="7dp"
+        android:background="@color/white">
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/staffImg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/staff"
+            android:gravity="center"
+            android:scaleType="centerCrop"
+            app:siBorderColor="#A0DAE5"
+            app:siBorderWidth="1dp" />
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+            android:id="@+id/staffName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/staffImg"
+            android:text="Eve"
+            android:textSize="14sp" />
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+            android:id="@+id/staffRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/staffName"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toRightOf="@+id/staffImg"
+            android:text="Teacher"
+            android:textColor="@color/grey"
+            android:textSize="12sp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/linear_mail"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:gravity="right|center"
+        android:background="@color/white">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mailImage"
+            android:visibility="gone"
+            android:src="@drawable/mailiconpe"
+            android:gravity="right"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+</LinearLayout>
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_height="1dp"
+        android:background="@drawable/list_divider"
+        android:layout_marginTop="2dp">
+    </View>
+</LinearLayout>

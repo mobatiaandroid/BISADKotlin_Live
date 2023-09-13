@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="2dp"
+        android:background="@color/term_button_bg"
+        android:layout_marginBottom="4dp"
+        android:weightSum="20">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="12"
+            android:layout_marginLeft="7dp"
+            android:background="@color/white">
+
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/studImg"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/student"
+                android:gravity="center"
+                app:siBorderColor="#A0DAE5"
+                app:siBorderWidth="1dp"
+                android:scaleType="centerCrop" />
+
+            <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@+id/studImg"
+                android:text="Eve"
+                android:textSize="14sp" />
+
+            <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                android:id="@+id/section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_toRightOf="@+id/studImg"
+                android:text="Teacher"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextNoColorSemiBold
+            android:id="@+id/status"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@color/white" />
+
+        <!--<LinearLayout
+            android:id="@+id/linear_mail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:gravity="right|center"
+            android:background="@color/white">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mailImage"
+                android:visibility="gone"
+                android:src="@drawable/mailiconpe"
+                android:gravity="right"
+                android:layout_marginRight="10dp"/>
+        </LinearLayout>-->
+
+    </LinearLayout>
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_height="1dp"
+        android:background="@drawable/list_divider"
+        android:layout_marginTop="2dp">
+    </View>
+</LinearLayout>
+
+
+
+<!--
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linear_stud"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight=".75"
+            android:orientation="vertical"
+            android:weightSum="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                android:id="@+id/section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+               android:padding="4dp"
+                app:layout_constraintTop_toBottomOf="@+id/name" />
+        </LinearLayout>
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".25"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/linear_stud"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/list_divider"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+ &lt;!&ndash;   <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:layout_margin="8dp"
+        android:layout_weight="10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_weight="7"
+    android:weightSum="1">
+
+
+    <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".75"/>
+    <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+        android:id="@+id/section"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".25"/>
+</LinearLayout>
+<com.mobatia.bisad.manager.CustomFontSansProTextBlack
+    android:id="@+id/status"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="3"/>
+    </RelativeLayout>&ndash;&gt;
+</androidx.constraintlayout.widget.ConstraintLayout>-->

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/sendEmailDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/r"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent">
+
+        <ImageView
+            android:id="@+id/a"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/dialoguetopcurve"
+            android:gravity="center"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/b"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:scaleType="fitCenter" />
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/iconImageView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/student"
+            android:gravity="center"
+            android:scaleType="centerCrop"
+            app:siBorderColor="#A0DAE5"
+            app:siBorderWidth="1dp" />
+    </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/r"
+            android:background="@drawable/dialoguebottomcurve"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/stud_linear"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
+
+                <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+                    android:id="@+id/stud_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="studnt name" />
+
+                <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                    android:id="@+id/section"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Y11D" />
+
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/stud_linear"
+                android:background="@drawable/list_divider" />
+
+            <LinearLayout
+                android:id="@+id/linear_parentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line"
+                android:layout_margin="8dp"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight=".2"
+                    android:text="Parent Name" />
+
+                <com.mobatia.bisad.manager.CustomFontSansProEditTextNoColor
+                    android:id="@+id/nametxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/textfield_bg"
+                    android:hint="name"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/dark_grey1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_parentMail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linear_parentName"
+                android:layout_margin="8dp"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight=".2"
+                    android:text="Parent Email" />
+
+                <com.mobatia.bisad.manager.CustomFontSansProEditTextNoColor
+                    android:id="@+id/mailtxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/textfield_bg"
+                    android:hint="email@gmail.com"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/dark_grey1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_Enrollstatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linear_parentMail"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight=".2"
+                    android:text="Re Enrollment Status" />
+
+                <com.mobatia.bisad.manager.CustomFontSansProEditTextNoColor
+                    android:id="@+id/statustxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/textfield_bg"
+                    android:hint="Unsure"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/dark_grey1" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

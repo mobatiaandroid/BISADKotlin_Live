@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="50dp"
+    android:layout_height="55dp"
+    android:id="@+id/bgLinear"
+    android:layout_marginRight="10dp"
+    android:background="@drawable/date">
+
+    <LinearLayout
+        android:id="@+id/bgLinearInner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+            android:id="@+id/dayTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="10sp" />
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+            android:id="@+id/dateTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+            android:id="@+id/monthTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textColor="@color/black"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/dateSelectedImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+       android:background="@drawable/date_selected"
+        android:visibility="gone"/>
+</RelativeLayout>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainRelative"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginTop="5dp">
+
+    <RelativeLayout
+        android:id="@+id/relSub"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:paddingStart="7dp"
+        android:layout_height="58dp">
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+            android:id="@+id/tripsDateTxt"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:text="12-12-2019"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+        <com.mobatia.bisad.manager.CustomFontSansProTextWhiteWithoutColor
+            android:id="@+id/pdfTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="12sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/Grey_600"
+            android:layout_below="@+id/tripsDateTxt"
+            android:text="Trips Title"
+            />
+
+        <LinearLayout
+            android:id="@+id/mainLinear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:textColor="@color/red"
+                android:textSize="12sp" />
+
+            <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                android:id="@+id/tripsAmountTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
+                android:text="100 AED"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/blue"
+        android:layout_below="@+id/relSub"/>
+
+</RelativeLayout>

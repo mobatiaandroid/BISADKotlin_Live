@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white">
+    <RelativeLayout
+        android:id="@+id/relativeHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+    <WebView
+        android:id="@+id/paymentWeb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_below="@+id/relativeHeader"/>
+    <include
+        android:id="@+id/progressDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/custom_progress_layout"
+        android:visibility="gone"
+        android:layout_centerInParent="true" />
+    <LinearLayout
+        android:id="@+id/mainLinear"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeHeader"
+        android:orientation="vertical"
+        android:weightSum="100"
+        android:visibility="visible">
+        <ImageView
+            android:id="@+id/bannerImageViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            android:background="@drawable/payment_default_banner"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="70">
+
+            <ScrollView
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants">
+
+
+
+                    <RelativeLayout
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:visibility="visible">
+                        <LinearLayout
+                            android:id="@+id/date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/closing_new">
+
+                            <com.mobatia.bisad.manager.CustomFontSansProTextWhite
+                                android:id="@+id/closingTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginRight="15dp"
+                                android:padding="5dp"
+                                android:textSize="18sp" />
+
+                        </LinearLayout>
+                        <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+                            android:id="@+id/descriptionTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:singleLine="true"
+                            android:gravity="center"
+                            android:layout_below="@+id/date"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:layout_marginTop="5dp"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+
+                    <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:visibility="visible" />
+
+                    <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+                        android:id="@+id/installmentmainTxt"
+                        style="@style/textstyleblack"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="INSTALLMENTS"
+                        android:paddingLeft="2dp"
+                        android:background="@drawable/rectangular_border_payment"
+                        android:textSize="18sp"
+                        android:layout_below="@+id/description"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:visibility="gone"/>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/mEmiRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:overScrollMode="never"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/rectangular_border_payment"
+                        android:layout_below="@+id/installmentmainTxt"
+                        android:scrollbars="vertical" />
+                </RelativeLayout>
+            </ScrollView>
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/printLinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right"
+            android:weightSum="100">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="30">
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/emailLinear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="5dp"
+                android:layout_weight="20">
+                <ImageView
+                    android:id="@+id/mail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/email_payment"/>
+                <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Email us"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/printLinearClick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="5dp"
+                android:layout_weight="15">
+                <ImageView
+                    android:id="@+id/download"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/print_payment"
+                    />
+                <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Print"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/shareLinear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="5dp"
+                android:layout_weight="15">
+                <ImageView
+                    android:id="@+id/print"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/share_payment"/>
+                <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Share"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/downloadLinear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="5dp"
+                android:layout_weight="20">
+                <ImageView
+                    android:id="@+id/share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/download_payment"/>
+                <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Download"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

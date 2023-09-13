@@ -1,0 +1,128 @@
+<html>
+<head>
+    <!--<script src="https://test-network.mtf.gateway.mastercard.com/checkout/version/54/checkout.js"
+            data-error="errorCallback"
+
+            data-cancel="cancelCallback">
+    </script>-->
+  <script src="https://network.gateway.mastercard.com/checkout/version/54/checkout.js"
+            data-error="errorCallback"
+
+            data-cancel="cancelCallback">
+    </script>
+    <script type="text/javascript">
+                function errorCallback(error) {
+                      console.log(JSON.stringify(error));
+                }
+                function cancelCallback() {
+                      console.log('cancelCallback');
+                }
+
+
+                Checkout.configure({
+                    merchant: 'test001000000052',
+                    order: {
+                        amount: function() {
+                            //Dynamic calculation of amount
+                            return 1;
+                        },
+                        currency: 'AED',
+                        description: 'Ordered goods',
+                       id: 'T4S3189'
+                    },
+                    interaction: {
+                        merchant: {
+                            name: 'abzer',
+                            address: {
+                                line1: '200 Sample St',
+                                line2: '1234 Example Town'
+                         }
+                            }},
+
+
+
+                                   });
+
+        </script>
+    <style>
+                @font-face {
+                    font-family: SourceSansPro-Semibold;
+                    src: url(SourceSansPro-Semibold.ttf);
+
+                    font-family: SourceSansPro-Regular;
+                    src: url(SourceSansPro-Regular.ttf);
+                }
+
+
+            .title {
+                font-family: SourceSansPro-Regular;
+                font-size:16px;
+                text-align:left;
+                color:    #46C1D0;
+                text-align: ####TEXT_ALIGN####;
+            }
+
+
+
+            .date {
+                font-family: SourceSansPro-Regular;
+                font-size:14px;
+                text-align:left;
+                color:    #555555;
+                text-align: ####TEXT_ALIGN####;
+            }
+
+            .description {
+                font-family: SourceSansPro-Light;
+                text-align:justify;
+                font-size:13px;
+                color: #000000;
+                text-align: ####TEXT_ALIGN####;
+
+                padding-bottom: 40px;
+            }
+            body
+            {
+                height: auto;
+            }
+
+    .fixed {
+      position: fixed;
+       left: 0;
+       bottom: 0;
+       width: 50%;
+       margin-left: 50%;
+       background-color: #4dc4cf;
+       color: white;
+       height: 50px;
+       text-align: center;
+
+
+    }
+    .amount {
+     position: fixed;
+        left: 0;
+        bottom: -17px;
+        width: 50%;
+        margin-right: 50%;
+        color: black;
+        text-align: center;
+        background: #fff;
+        padding-top: 16px;
+        padding-bottom: 16px;
+
+
+    }
+    .height
+    {
+
+    height:200px;
+    background:#fff;
+    position:fixed;
+    }
+
+    </style>
+</head>
+<body>
+</body>
+</html>

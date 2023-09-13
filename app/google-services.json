@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "980283042249",
+    "firebase_url": "https://bisad-d0bf7.firebaseio.com",
+    "project_id": "bisad-d0bf7",
+    "storage_bucket": "bisad-d0bf7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980283042249:android:d0b6bb59b99b7201",
+        "android_client_info": {
+          "package_name": "com.mobatia.bisad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980283042249-3egp788p6dhmigmet31ifqk1ct2v54sq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLNWiaN1_0eFkyxk4XIWs7aX5SO2UbjJY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980283042249-3egp788p6dhmigmet31ifqk1ct2v54sq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "980283042249-8a27hl9gu96umn9m4m8pfb1kf66o6c3i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bisad.bisad"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
