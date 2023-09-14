@@ -18,12 +18,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobatia.bisad.R
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
+import com.mobatia.bisad.fragment.calendar_new.adapter.CalendarDateAdapter
 import com.mobatia.bisad.fragment.calendar_new.model.*
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.recyclermanager.OnItemClickListener
 import com.mobatia.bisad.recyclermanager.addOnItemClickListener
 import com.mobatia.bisad.rest.ApiClient
-import com.mobatia.bisad.fragment.calendar_new.adapter.CalendarDateAdapter
 import com.mobatia.calendardemopro.adapter.CategoryAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,7 +32,6 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
-import kotlin.collections.ArrayList
 
 class CalFragment : Fragment() {
     lateinit var jsonConstans: JsonConstants
@@ -48,7 +47,7 @@ class CalFragment : Fragment() {
     lateinit var hideBtn: TextView
     lateinit var showBtn: TextView
     lateinit var previousBtn: ImageView
-    lateinit var calendar_relative:RelativeLayout
+    lateinit var calendar_relative: RelativeLayout
     lateinit var nextBtn: ImageView
     lateinit var filterLinear: LinearLayout
     lateinit var hidePast: LinearLayout
@@ -99,11 +98,9 @@ class CalFragment : Fragment() {
         mContext = requireContext()
         initializeUI()
         var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
-        if (internetCheck)
-        {
+        if (internetCheck) {
             callCalendarApi()
-        }
-        else{
+        } else {
             InternetCheckClass.showSuccessInternetAlert(mContext)
         }
 
@@ -135,12 +132,10 @@ class CalFragment : Fragment() {
         year = Calendar.getInstance().get(Calendar.YEAR)
         currentMonth = Calendar.getInstance().get(Calendar.MONTH)
         month(currentMonth, year)
-        if(!isHide && isShow)
-        {
+        if (!isHide && isShow) {
             hideBtn.setTextColor(resources.getColor(R.color.black))
             showBtn.setTextColor(resources.getColor(R.color.split_bg))
-        }
-        else{
+        } else {
             hideBtn.setTextColor(resources.getColor(R.color.split_bg))
             showBtn.setTextColor(resources.getColor(R.color.black))
         }
@@ -160,14 +155,12 @@ class CalFragment : Fragment() {
                 year = year + 1
 
             }
-            isHide=false
-            isShow=true
-            if(!isHide && isShow)
-            {
+            isHide = false
+            isShow = true
+            if (!isHide && isShow) {
                 hideBtn.setTextColor(resources.getColor(R.color.black))
                 showBtn.setTextColor(resources.getColor(R.color.split_bg))
-            }
-            else{
+            } else {
                 hideBtn.setTextColor(resources.getColor(R.color.split_bg))
                 showBtn.setTextColor(resources.getColor(R.color.black))
             }
@@ -184,8 +177,8 @@ class CalFragment : Fragment() {
         hideBtn.setOnClickListener(View.OnClickListener {
             hideBtn.setTextColor(resources.getColor(R.color.split_bg))
             showBtn.setTextColor(resources.getColor(R.color.black))
-            isHide=true
-            isShow=false
+            isHide = true
+            isShow = false
             showCalendarEvent(
                 isAllSelected,
                 isPrimarySelected,
@@ -197,8 +190,8 @@ class CalFragment : Fragment() {
         showBtn.setOnClickListener(View.OnClickListener {
             hideBtn.setTextColor(resources.getColor(R.color.black))
             showBtn.setTextColor(resources.getColor(R.color.split_bg))
-            isHide=false
-            isShow=true
+            isHide = false
+            isShow = true
             showCalendarEvent(
                 isAllSelected,
                 isPrimarySelected,
@@ -207,14 +200,12 @@ class CalFragment : Fragment() {
             )
         })
         previousBtn.setOnClickListener(View.OnClickListener {
-            isHide=false
-            isShow=true
-            if(!isHide && isShow)
-            {
+            isHide = false
+            isShow = true
+            if (!isHide && isShow) {
                 hideBtn.setTextColor(resources.getColor(R.color.black))
                 showBtn.setTextColor(resources.getColor(R.color.split_bg))
-            }
-            else{
+            } else {
                 hideBtn.setTextColor(resources.getColor(R.color.split_bg))
                 showBtn.setTextColor(resources.getColor(R.color.black))
             }
@@ -389,8 +380,8 @@ class CalFragment : Fragment() {
                     var outputDateStrstart: String = outputFormat.format(startdate)
                     pModel.DTSTART = outputDateStrstart
 
-                }else if (primaryArrayList[i].DTSTART.length==15){
-                    Log.e("1","15")
+                } else if (primaryArrayList[i].DTSTART.length == 15) {
+                    Log.e("1", "15")
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
                     val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
                     val startdate: Date = inputFormat.parse(primaryArrayList.get(i).DTSTART)
@@ -414,7 +405,7 @@ class CalFragment : Fragment() {
                     var outputDateStrstart: String = outputFormat.format(startdate)
                     pModel.DTEND = outputDateStrstart
 
-                }else if (primaryArrayList.get(i).DTEND.toString().length == 15) {
+                } else if (primaryArrayList.get(i).DTEND.toString().length == 15) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
                     val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
                     val startdate: Date = inputFormat.parse(primaryArrayList.get(i).DTEND)
@@ -451,7 +442,7 @@ class CalFragment : Fragment() {
                     var outputDateStrstart: String = outputFormat.format(startdate)
                     sModel.DTSTART = outputDateStrstart
 
-                }else if (secondaryArrayList.get(i).DTSTART.toString().length == 15) {
+                } else if (secondaryArrayList.get(i).DTSTART.toString().length == 15) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
                     val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
                     val startdate: Date = inputFormat.parse(secondaryArrayList.get(i).DTSTART)
@@ -478,7 +469,7 @@ class CalFragment : Fragment() {
                     var outputDateStrstart: String = outputFormat.format(startdate)
                     sModel.DTEND = outputDateStrstart
 
-                }else if (secondaryArrayList.get(i).DTEND.toString().length == 15) {
+                } else if (secondaryArrayList.get(i).DTEND.toString().length == 15) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
                     val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
                     val startdate: Date = inputFormat.parse(secondaryArrayList.get(i).DTEND)
@@ -514,7 +505,7 @@ class CalFragment : Fragment() {
                     var outputDateStrstart: String = outputFormat.format(startdate)
                     wModel.DTSTART = outputDateStrstart
 
-                }else if (wholeSchoolArrayList.get(i).DTSTART.toString().length == 15) {
+                } else if (wholeSchoolArrayList.get(i).DTSTART.toString().length == 15) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
                     val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
                     val startdate: Date = inputFormat.parse(wholeSchoolArrayList.get(i).DTSTART)
@@ -539,7 +530,7 @@ class CalFragment : Fragment() {
                     var outputDateStrstart: String = outputFormat.format(startdate)
                     wModel.DTEND = outputDateStrstart
 
-                }else if (wholeSchoolArrayList.get(i).DTEND.toString().length == 15) {
+                } else if (wholeSchoolArrayList.get(i).DTEND.toString().length == 15) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
                     val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
                     val startdate: Date = inputFormat.parse(wholeSchoolArrayList.get(i).DTEND)
@@ -619,26 +610,21 @@ class CalFragment : Fragment() {
             }
 
         }
-        if(calendarShowArrayList.size>0)
+        if (calendarShowArrayList.size > 0) {
+            Log.e("calshowlist size", calendarShowArrayList.size.toString())
 
-        {
-            Log.e("calshowlist size",calendarShowArrayList.size.toString())
+            FILTERCALENDARlIST = ArrayList()
+            for (n in 0..calendarShowArrayList.size - 1) {
 
-            FILTERCALENDARlIST=ArrayList()
-            for (n in 0..calendarShowArrayList.size-1)
-            {
-
-              FILTERCALENDARlIST.add(calendarShowArrayList[n])
+                FILTERCALENDARlIST.add(calendarShowArrayList[n])
 
             }
-            Log.e("filtered size",FILTERCALENDARlIST.size.toString())
-            if (FILTERCALENDARlIST.size>0)
-            {
-                Log.e("filtercallist",FILTERCALENDARlIST.size.toString())
+            Log.e("filtered size", FILTERCALENDARlIST.size.toString())
+            if (FILTERCALENDARlIST.size > 0) {
+                Log.e("filtercallist", FILTERCALENDARlIST.size.toString())
                 var listMonth: String = ""
                 var listYear: String = ""
-                for (i in 0..FILTERCALENDARlIST.size-1)
-                {
+                for (i in 0..FILTERCALENDARlIST.size - 1) {
                     Log.e("calendar item size item", FILTERCALENDARlIST.get(i).SUMMARY);
                     if (FILTERCALENDARlIST.get(i).DTSTART.length == 20) {
                         val inputFormat: DateFormat =
@@ -663,7 +649,7 @@ class CalFragment : Fragment() {
                         var outputDateYear: String = outputFormatYear.format(startdate)
                         listMonth = outputDateMonth
                         listYear = outputDateYear
-                    } else if (FILTERCALENDARlIST.get(i).DTSTART.length==10) {
+                    } else if (FILTERCALENDARlIST.get(i).DTSTART.length == 10) {
                         val inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
                         val outputFormatYear: DateFormat = SimpleDateFormat("yyyy")
                         val outputFormatMonth: DateFormat = SimpleDateFormat("MMMM")
@@ -675,15 +661,17 @@ class CalFragment : Fragment() {
                         listMonth = outputDateMonth
                         listYear = outputDateYear
                     }
+                    monthLinear.visibility = View.VISIBLE
+                    filterLinear.visibility = View.VISIBLE
+                    hidePast.visibility = View.VISIBLE
                     if (listYear.equals(year.toString())) {
 
-                        Log.e("month",monthTxt+"  "+listMonth)
-                        if (monthTxt.equals(listMonth)) {
-                            Log.e("if","if condition")
+                        Log.e("month", monthTxt + "  " + listMonth)
+                        if (monthTxt.equals(listMonth, ignoreCase = true)) {
+                            Log.e("if", "if condition")
 //                            Log.e("month",monthTxt+"  "+listMonth)
                             var model = PrimaryModel()
-                            if (FILTERCALENDARlIST.get(i).DTSTART.length==10)
-                            {
+                            if (FILTERCALENDARlIST.get(i).DTSTART.length == 10) {
                                 val inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
                                 val outPutFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
                                 val startdate: Date =
@@ -700,29 +688,29 @@ class CalFragment : Fragment() {
                             model.color = FILTERCALENDARlIST.get(i).color
                             model.type = FILTERCALENDARlIST.get(i).type
                             calendarFilterArrayList.add(model)
-                        } else{
-                            Log.e("else","else condition")
+                        } else {
+                            Log.e("else", "else condition")
                         }
                         Log.e("calenddaer size print", calendarFilterArrayList.size.toString());
                     }
 
                 }
-Log.e("calenddaer size print", calendarFilterArrayList.size.toString());
+                Log.e("calenddaer size print", calendarFilterArrayList.size.toString());
 
-                if (calendarFilterArrayList.size>0)
-                {
-                    Log.e("calfilterlist",calendarFilterArrayList.size.toString())
+                if (calendarFilterArrayList.size > 0) {
+                    Log.e("calfilterlist", calendarFilterArrayList.size.toString())
                     calendarRecycler.visibility = View.VISIBLE
                     calendarFilterArrayList.sortByDescending { calendarFilterArrayList -> calendarFilterArrayList.DTSTART }
                     calendarFilterArrayList.reverse()
                     mCalendarFinalArrayList = ArrayList()
-                    Log.e("filter last date",calendarFilterArrayList[calendarFilterArrayList.size-1].DTSTART.toString())
-                    for (n in 0 until calendarFilterArrayList.size)
-                    {
+                    Log.e(
+                        "filter last date",
+                        calendarFilterArrayList[calendarFilterArrayList.size - 1].DTSTART.toString()
+                    )
+                    for (n in 0 until calendarFilterArrayList.size) {
 
-                        if (mCalendarFinalArrayList.size==0)
-                        {
-                            Log.e("mcalfinallist","SIZE 0")
+                        if (mCalendarFinalArrayList.size == 0) {
+                            Log.e("mcalfinallist", "SIZE 0")
                             var cModel = CalendarDateModel()
                             cModel.startDate = calendarFilterArrayList.get(n).DTSTART
                             cModel.endDate = calendarFilterArrayList.get(n).DTEND
@@ -738,19 +726,18 @@ Log.e("calenddaer size print", calendarFilterArrayList.size.toString());
                             calendarDetaiArray.add(dModel)
                             cModel.detailList = calendarDetaiArray
                             mCalendarFinalArrayList.add(cModel)
-                        }
-                        else
-                        {
-                            Log.e("mcalfinallist",mCalendarFinalArrayList.size.toString())
-                            var isFound:Boolean=false
-                            var pos:Int=-1
-                            for (o in 0 until mCalendarFinalArrayList.size)
-                            {
-                               // Log.e("DATE ",calendarFilterArrayList.get(n).DTSTART+"  :: "+mCalendarFinalArrayList.get(o).startDate)
-                                if (calendarFilterArrayList.get(n).DTSTART.equals(mCalendarFinalArrayList.get(o).startDate))
-                                {
-                                    isFound=true
-                                    pos=o
+                        } else {
+                            Log.e("mcalfinallist", mCalendarFinalArrayList.size.toString())
+                            var isFound: Boolean = false
+                            var pos: Int = -1
+                            for (o in 0 until mCalendarFinalArrayList.size) {
+                                // Log.e("DATE ",calendarFilterArrayList.get(n).DTSTART+"  :: "+mCalendarFinalArrayList.get(o).startDate)
+                                if (calendarFilterArrayList.get(n).DTSTART.equals(
+                                        mCalendarFinalArrayList.get(o).startDate
+                                    )
+                                ) {
+                                    isFound = true
+                                    pos = o
                                 }
 
                             }
@@ -787,60 +774,55 @@ Log.e("calenddaer size print", calendarFilterArrayList.size.toString());
                             }
                         }
                     }
-                    monthLinear.visibility=View.VISIBLE
-                    filterLinear.visibility=View.VISIBLE
-                    hidePast.visibility=View.VISIBLE
-                    Log.e("mfinal size",mCalendarFinalArrayList.size.toString())
-                    if (isHide && !isShow)
-                    {
-                        var calendar=ArrayList<CalendarDateModel>()
-                        if (mCalendarFinalArrayList.size>0)
-                        {
+                    monthLinear.visibility = View.VISIBLE
+                    filterLinear.visibility = View.VISIBLE
+                    hidePast.visibility = View.VISIBLE
+                    Log.e("mfinal size", mCalendarFinalArrayList.size.toString())
+                    if (isHide && !isShow) {
+                        var calendar = ArrayList<CalendarDateModel>()
+                        if (mCalendarFinalArrayList.size > 0) {
 
-                            for (s in 0 until mCalendarFinalArrayList.size)
-                            {
-                                Log.e("S calstart",mCalendarFinalArrayList.get(s).startDate.toString())
-                                if(mCalendarFinalArrayList.get(s).startDate.length==20)
-                                {
-                                    var sdf=SimpleDateFormat("MMM dd,yyyy hh:mm a")
-                                    var strDate=sdf.parse(mCalendarFinalArrayList.get(s).startDate)
-                                    if (System.currentTimeMillis()<strDate.time)
-                                    {
+                            for (s in 0 until mCalendarFinalArrayList.size) {
+                                Log.e(
+                                    "S calstart",
+                                    mCalendarFinalArrayList.get(s).startDate.toString()
+                                )
+                                if (mCalendarFinalArrayList.get(s).startDate.length == 20) {
+                                    var sdf = SimpleDateFormat("MMM dd,yyyy hh:mm a")
+                                    var strDate =
+                                        sdf.parse(mCalendarFinalArrayList.get(s).startDate)
+                                    if (System.currentTimeMillis() < strDate.time) {
 
-                                        var model=CalendarDateModel()
-                                        model.startDate=mCalendarFinalArrayList.get(s).startDate
-                                        model.endDate=mCalendarFinalArrayList.get(s).endDate
-                                        model.detailList=mCalendarFinalArrayList.get(s).detailList
+                                        var model = CalendarDateModel()
+                                        model.startDate = mCalendarFinalArrayList.get(s).startDate
+                                        model.endDate = mCalendarFinalArrayList.get(s).endDate
+                                        model.detailList = mCalendarFinalArrayList.get(s).detailList
                                         calendar.add(model)
 
                                     }
-                                }
-                                else if(mCalendarFinalArrayList.get(s).startDate.length==11)
-                                {
-                                    var sdf=SimpleDateFormat("MMM dd,yyyy")
-                                    var strDate=sdf.parse(mCalendarFinalArrayList.get(s).startDate)
-                                    if (System.currentTimeMillis()<strDate.time)
-                                    {
+                                } else if (mCalendarFinalArrayList.get(s).startDate.length == 11) {
+                                    var sdf = SimpleDateFormat("MMM dd,yyyy")
+                                    var strDate =
+                                        sdf.parse(mCalendarFinalArrayList.get(s).startDate)
+                                    if (System.currentTimeMillis() < strDate.time) {
 
-                                        var model=CalendarDateModel()
-                                        model.startDate=mCalendarFinalArrayList.get(s).startDate
-                                        model.endDate=mCalendarFinalArrayList.get(s).endDate
-                                        model.detailList=mCalendarFinalArrayList.get(s).detailList
+                                        var model = CalendarDateModel()
+                                        model.startDate = mCalendarFinalArrayList.get(s).startDate
+                                        model.endDate = mCalendarFinalArrayList.get(s).endDate
+                                        model.detailList = mCalendarFinalArrayList.get(s).detailList
                                         calendar.add(model)
 
                                     }
-                                }
-                                else if(mCalendarFinalArrayList.get(s).startDate.length==10)
-                                {
-                                    var sdf=SimpleDateFormat("yyyy-MM-dd")
-                                    var strDate=sdf.parse(mCalendarFinalArrayList.get(s).startDate)
-                                    if (System.currentTimeMillis()<strDate.time)
-                                    {
+                                } else if (mCalendarFinalArrayList.get(s).startDate.length == 10) {
+                                    var sdf = SimpleDateFormat("yyyy-MM-dd")
+                                    var strDate =
+                                        sdf.parse(mCalendarFinalArrayList.get(s).startDate)
+                                    if (System.currentTimeMillis() < strDate.time) {
 
-                                        var model=CalendarDateModel()
-                                        model.startDate=mCalendarFinalArrayList.get(s).startDate
-                                        model.endDate=mCalendarFinalArrayList.get(s).endDate
-                                        model.detailList=mCalendarFinalArrayList.get(s).detailList
+                                        var model = CalendarDateModel()
+                                        model.startDate = mCalendarFinalArrayList.get(s).startDate
+                                        model.endDate = mCalendarFinalArrayList.get(s).endDate
+                                        model.detailList = mCalendarFinalArrayList.get(s).detailList
                                         calendar.add(model)
 
                                     }
@@ -848,66 +830,54 @@ Log.e("calenddaer size print", calendarFilterArrayList.size.toString());
 
                             }
                         }
-                        Log.e("calendar size",calendar.size.toString())
-                        if (calendar.size>0)
-                        {
-                            Log.e("cal",calendar.size.toString())
-                            noEventImage.visibility=View.GONE
-                            noEventTxt.visibility=View.GONE
-                            calendarRecycler.visibility=View.VISIBLE
+                        Log.e("calendar size", calendar.size.toString())
+                        if (calendar.size > 0) {
+                            Log.e("cal", calendar.size.toString())
+                            noEventImage.visibility = View.GONE
+                            noEventTxt.visibility = View.GONE
+                            calendarRecycler.visibility = View.VISIBLE
                             val calendarListAdapter = CalendarDateAdapter(mContext, calendar)
                             calendarRecycler.adapter = calendarListAdapter
+                        } else {
+                            noEventImage.visibility = View.VISIBLE
+                            noEventTxt.visibility = View.VISIBLE
+                            calendarRecycler.visibility = View.GONE
                         }
-                        else
-                        {
-                            noEventImage.visibility=View.VISIBLE
-                            noEventTxt.visibility=View.VISIBLE
-                            calendarRecycler.visibility=View.GONE
-                        }
-                    }
-                    else
-                    {
-                        Log.e("else hide SIZE::::",mCalendarFinalArrayList.size.toString())
-                        if (mCalendarFinalArrayList.size>0)
-                        {
-                            Log.e("lastdate",mCalendarFinalArrayList[mCalendarFinalArrayList.size-1].startDate.toString())
-                            noEventImage.visibility=View.GONE
-                            noEventTxt.visibility=View.GONE
-                            calendarRecycler.visibility=View.VISIBLE
-                            val calendarListAdapter = CalendarDateAdapter(mContext, mCalendarFinalArrayList)
+                    } else {
+                        Log.e("else hide SIZE::::", mCalendarFinalArrayList.size.toString())
+                        if (mCalendarFinalArrayList.size > 0) {
+                            Log.e(
+                                "lastdate",
+                                mCalendarFinalArrayList[mCalendarFinalArrayList.size - 1].startDate.toString()
+                            )
+                            noEventImage.visibility = View.GONE
+                            noEventTxt.visibility = View.GONE
+                            calendarRecycler.visibility = View.VISIBLE
+                            val calendarListAdapter =
+                                CalendarDateAdapter(mContext, mCalendarFinalArrayList)
                             calendarRecycler.adapter = calendarListAdapter
-                        }
-                        else
-                        {
-                            noEventImage.visibility=View.VISIBLE
-                            noEventTxt.visibility=View.VISIBLE
-                            calendarRecycler.visibility=View.GONE
+                        } else {
+                            noEventImage.visibility = View.VISIBLE
+                            noEventTxt.visibility = View.VISIBLE
+                            calendarRecycler.visibility = View.GONE
                         }
                     }
 
 
-
-
+                } else {
+                    noEventImage.visibility = View.VISIBLE
+                    noEventTxt.visibility = View.VISIBLE
+                    calendarRecycler.visibility = View.GONE
                 }
-                else
-                {
-                    noEventImage.visibility=View.VISIBLE
-                    noEventTxt.visibility=View.VISIBLE
-                    calendarRecycler.visibility=View.GONE
-                }
+            } else {
+                noEventImage.visibility = View.VISIBLE
+                noEventTxt.visibility = View.VISIBLE
+                calendarRecycler.visibility = View.GONE
             }
-            else
-            {
-                noEventImage.visibility=View.VISIBLE
-                noEventTxt.visibility=View.VISIBLE
-                calendarRecycler.visibility=View.GONE
-            }
-        }
-        else
-        {
-            noEventImage.visibility=View.VISIBLE
-            noEventTxt.visibility=View.VISIBLE
-            calendarRecycler.visibility=View.GONE
+        } else {
+            noEventImage.visibility = View.VISIBLE
+            noEventTxt.visibility = View.VISIBLE
+            calendarRecycler.visibility = View.GONE
         }
     }
 
@@ -915,63 +885,63 @@ Log.e("calenddaer size print", calendarFilterArrayList.size.toString());
         when (month) {
             0 -> {
                 monthTxt = "January"
-                monthYearTxt.text = monthTxt +" "+ year.toString()
+                monthYearTxt.text = monthTxt + " " + year.toString()
 
             }
 
             1 -> {
                 monthTxt = "February"
-                monthYearTxt.text = monthTxt +" "+ year.toString()
+                monthYearTxt.text = monthTxt + " " + year.toString()
             }
 
             2 -> {
                 monthTxt = "March"
-                monthYearTxt.text = monthTxt +" "+ year.toString()
+                monthYearTxt.text = monthTxt + " " + year.toString()
             }
 
             3 -> {
                 monthTxt = "April"
-                monthYearTxt.text = monthTxt +" "+ year.toString()
+                monthYearTxt.text = monthTxt + " " + year.toString()
             }
 
             4 -> {
                 monthTxt = "May"
-                monthYearTxt.text = monthTxt +" "+ year.toString()
+                monthYearTxt.text = monthTxt + " " + year.toString()
             }
 
             5 -> {
                 monthTxt = "June"
-                monthYearTxt.text = monthTxt +" "+ year.toString()
+                monthYearTxt.text = monthTxt + " " + year.toString()
             }
 
             6 -> {
                 monthTxt = "July"
-                monthYearTxt.text = monthTxt +" "+ year.toString()
+                monthYearTxt.text = monthTxt + " " + year.toString()
             }
 
             7 -> {
                 monthTxt = "August"
-                monthYearTxt.text = monthTxt +" "+ year.toString()
+                monthYearTxt.text = monthTxt + " " + year.toString()
             }
 
             8 -> {
                 monthTxt = "September"
-                monthYearTxt.text = monthTxt  +" "+ year.toString()
+                monthYearTxt.text = monthTxt + " " + year.toString()
             }
 
             9 -> {
                 monthTxt = "October"
-                monthYearTxt.text = monthTxt  +" "+ year.toString()
+                monthYearTxt.text = monthTxt + " " + year.toString()
             }
 
             10 -> {
                 monthTxt = "November"
-                monthYearTxt.text = monthTxt  +" "+ year.toString()
+                monthYearTxt.text = monthTxt + " " + year.toString()
             }
 
             11 -> {
                 monthTxt = "December"
-                monthYearTxt.text = monthTxt  +" "+ year.toString()
+                monthYearTxt.text = monthTxt + " " + year.toString()
             }
 
         }
@@ -993,20 +963,18 @@ Log.e("calenddaer size print", calendarFilterArrayList.size.toString());
         iconImageView.setBackgroundResource(bgIcon)
         iconImageView.setImageResource(ico)
 
-        var triggerAdapter = CategoryAdapter(mContext,mTriggerModelArrayList)
+        var triggerAdapter = CategoryAdapter(mContext, mTriggerModelArrayList)
         checkRecycler.adapter = triggerAdapter
         btn_Cancel.setOnClickListener(View.OnClickListener {
             dialog.dismiss()
         })
         btn_Ok.setOnClickListener(View.OnClickListener {
-            isHide=false
-            isShow=true
-            if(!isHide && isShow)
-            {
+            isHide = false
+            isShow = true
+            if (!isHide && isShow) {
                 hideBtn.setTextColor(resources.getColor(R.color.black))
                 showBtn.setTextColor(resources.getColor(R.color.split_bg))
-            }
-            else{
+            } else {
                 hideBtn.setTextColor(resources.getColor(R.color.split_bg))
                 showBtn.setTextColor(resources.getColor(R.color.black))
             }
@@ -1330,7 +1298,7 @@ Log.e("calenddaer size print", calendarFilterArrayList.size.toString());
                     }
                 }
 
-                var triggerAdapter = CategoryAdapter(mContext,mTriggerModelArrayList)
+                var triggerAdapter = CategoryAdapter(mContext, mTriggerModelArrayList)
                 checkRecycler.adapter = triggerAdapter
 
             }
