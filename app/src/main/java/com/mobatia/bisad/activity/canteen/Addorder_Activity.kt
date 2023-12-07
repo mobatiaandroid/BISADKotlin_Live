@@ -18,6 +18,7 @@ import com.mobatia.bisad.activity.ProgressBarDialog
 import com.mobatia.bisad.activity.canteen.adapter.DateAdapter
 import com.mobatia.bisad.activity.canteen.adapter.ItemCategoriesAdapter
 import com.mobatia.bisad.activity.canteen.adapter.PreorderItemsAdapter
+import com.mobatia.bisad.activity.canteen.model.AllergyContentModel
 import com.mobatia.bisad.activity.canteen.model.DateModel
 import com.mobatia.bisad.activity.canteen.model.add_orders.*
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartApiModel
@@ -396,11 +397,18 @@ logoClickImg.setOnClickListener {
 
                     }
                 }
-
+                    var allergycontentlist:ArrayList<AllergyContentModel>
+                    allergycontentlist= ArrayList()
+                    var nmodel2=AllergyContentModel("celery","limegreen","#32CD32")
+                    allergycontentlist.add(0,nmodel2)
+                    var nmodel=AllergyContentModel("diary","yellow","#FAF9F6")
+                    allergycontentlist.add(1,nmodel)
+                    var nmodel3=AllergyContentModel("nuts","purple","#800080")
+                    allergycontentlist.add(2,nmodel3)
                     recyclerview_item.layoutManager=LinearLayoutManager(nContext)
                     var itemAdapter=PreorderItemsAdapter(item_list,nContext,date_selected,cart_list,cartTotalAmount,
                         total_items,total_price,bottomview,cart_empty,
-                        progressDialogM)
+                        progressDialogM,allergycontentlist)
                     recyclerview_item.adapter=itemAdapter
 
                 }else if (response.body()!!.status == 116) {
@@ -511,11 +519,25 @@ logoClickImg.setOnClickListener {
 
                         }
                     }
-                    //progressDialog.visibility = View.GONE
+                    var allergycontentlist:ArrayList<AllergyContentModel>
+                    allergycontentlist= ArrayList()
+                    var nmodel2=AllergyContentModel("celery","limegreen","#32CD32")
+                    allergycontentlist.add(0,nmodel2)
+                    var nmodel=AllergyContentModel("diary","yellow","#FAF9F6")
+                    allergycontentlist.add(1,nmodel)
+                    var nmodel3=AllergyContentModel("nuts","purple","#800080")
+                    allergycontentlist.add(2,nmodel3)
+
                     recyclerview_item.layoutManager=LinearLayoutManager(nContext)
                     var itemAdapter=PreorderItemsAdapter(item_list,nContext,date_selected,cart_list,cartTotalAmount,
-                        total_items,total_price,bottomview,cart_empty,progressDialogM)
+                        total_items,total_price,bottomview,cart_empty,
+                        progressDialogM,allergycontentlist)
                     recyclerview_item.adapter=itemAdapter
+                    //progressDialog.visibility = View.GONE
+                   /* recyclerview_item.layoutManager=LinearLayoutManager(nContext)
+                    var itemAdapter=PreorderItemsAdapter(item_list,nContext,date_selected,cart_list,cartTotalAmount,
+                        total_items,total_price,bottomview,cart_empty,progressDialogM)
+                    recyclerview_item.adapter=itemAdapter*/
 
 
                 }else if (response.body()!!.status == 116) {

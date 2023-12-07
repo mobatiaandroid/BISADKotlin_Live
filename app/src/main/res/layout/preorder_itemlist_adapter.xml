@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
+    android:layout_height="160dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     android:background="@color/white">
@@ -21,11 +21,12 @@
             android:weightSum="100"
             android:background="@color/canteen_item_bg">
             <LinearLayout
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="100"
                 android:orientation="vertical">
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <com.mobatia.bisad.manager.CustomFontBoldWithoutColor
@@ -38,7 +39,9 @@
                         android:padding="2dp"
                         android:textSize="12sp"
                         android:visibility="gone"
-                        android:text="Item Not Available" />
+
+                        android:text="Item Not Available"
+                        card_view:ignore="MissingConstraints" />
                     <!-- <com.mobatia.naisapp.manager.CustomFontSansProTextWhite
                          android:id="@+id/notAvailableTxt"
                          android:layout_width="wrap_content"
@@ -53,15 +56,27 @@
                          android:text="Item Not Available" />-->
                     <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
                         android:id="@+id/itemNameTxt"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="2dp"
                         android:layout_toLeftOf="@+id/notAvailableTxt"
                         android:text="iten name"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
-                </RelativeLayout>
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/info_allergy"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/info_allergy"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/itemNameTxt"
+                        android:layout_width="wrap_content"
+                        android:background="@drawable/infoicon_new"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_height="match_parent"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 <com.mobatia.bisad.manager.CustomFontSansProTextBlack
                     android:id="@+id/itemDescription"
                     android:layout_width="match_parent"
@@ -74,102 +89,134 @@
                     android:text="@string/item_sample_description"
                     android:maxLines="3"
                     />
-
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="30">
+                    android:orientation="vertical"
+                    >
+
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="20"
+                        android:id="@+id/amount_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="80"
                         android:orientation="horizontal"
-                        android:weightSum="10">
-                        <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
-                            android:id="@+id/amountTxt"
+                        android:weightSum="30"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/allergy_rec">
+
+                        <LinearLayout
+
                             android:layout_width="0dp"
-                            android:layout_weight="5"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:gravity="center_vertical"
-                            android:text="AED 45.00" />
-                        <com.mobatia.bisad.manager.CustomFontSansProTextWhiteWithoutColor
-                            android:id="@+id/confirmedTxt"
+                            android:layout_weight="20"
+                            android:orientation="horizontal"
+                            android:weightSum="10">
+
+                            <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+                                android:id="@+id/amountTxt"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="5"
+                                android:gravity="center_vertical"
+                                android:text="AED 45.00"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <com.mobatia.bisad.manager.CustomFontSansProTextWhiteWithoutColor
+                                android:id="@+id/confirmedTxt"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="5"
+                                android:gravity="center"
+                                android:text="Already Ordered"
+                                android:textColor="@color/canteen_red"
+                                android:textSize="12sp"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/addLinear"
                             android:layout_width="0dp"
-                            android:layout_weight="5"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="5dp"
+                            android:layout_height="35dp"
+                            android:layout_margin="8dp"
                             android:layout_marginBottom="5dp"
-                            android:textColor="@color/canteen_red"
-                            android:textSize="12sp"
-                            android:visibility="gone"
+                            android:layout_weight="10"
+                            android:background="@drawable/cart_add_bg"
                             android:gravity="center"
-                            android:text="Already Ordered" />
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Add"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="  +"
+                                android:textColor="@color/black"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/multiLinear"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_margin="8dp"
+                            android:layout_weight="10"
+                            android:background="@drawable/cart_add_bg"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:visibility="visible">
+
+                            <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                                android:id="@+id/itemCount"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center"
+                                app:backGroundColor="@color/white"
+                                app:backgroundDrawable="@drawable/curvedsavebutton"
+                                app:textColor="@color/black"
+                                app:textSize="6sp" />
+                        </LinearLayout>
 
                     </LinearLayout>
 
 
-                    <LinearLayout
-                        android:id="@+id/addLinear"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="10"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/cart_add_bg"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/allergy_rec"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/canteen_item_bg"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/amount_linear" />
 
-                        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="Add"
-                            android:textColor="@color/black"
-                            android:textSize="18sp" />
 
-                        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="  +"
-                            android:textColor="@color/black"
-                            android:textSize="20sp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/multiLinear"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_margin="8dp"
-                        android:layout_weight="10"
-                        android:background="@drawable/cart_add_bg"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:visibility="visible">
-                        <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
-                            android:id="@+id/itemCount"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginRight="2dp"
-                            android:layout_marginBottom="5dp"
-                            android:gravity="center"
-                            app:backGroundColor="@color/white"
-                            app:backgroundDrawable="@drawable/curvedsavebutton"
-                            app:textColor="@color/black"
-                            app:textSize="6sp" />
-                    </LinearLayout>
-
-                </LinearLayout>
             </LinearLayout>
             <RelativeLayout
                 android:layout_width="0dp"
@@ -189,4 +236,5 @@
 
 
     </androidx.cardview.widget.CardView>
+
 </RelativeLayout>
