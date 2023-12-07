@@ -243,6 +243,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/button_new"
                     android:gravity="center"
+                    android:filterTouchesWhenObscured="true"
                     android:text="@string/submit"
                     android:textColor="@color/white"
                     android:textSize="18sp"

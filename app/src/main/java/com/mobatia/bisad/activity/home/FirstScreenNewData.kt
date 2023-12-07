@@ -81,18 +81,18 @@ class FirstScreenNewData:Fragment() {
         ownContactDetailArrayList= ArrayList()
         ownContactDetailArrayList= sharedprefs.getOwnContactDetailArrayList(mContext)!!
         kinDetailArrayList= sharedprefs.getKinDetailArrayList(mContext)!!
-        closeImg=view!!.findViewById(R.id.closeImg)
-        messageTxt=view!!.findViewById(R.id.messageTxt)
-        nameOwnDetailTxt=view!!.findViewById(R.id.nameOwnDetailTxt)
-        contactTypeOwnDetailTxt=view!!.findViewById(R.id.contactTypeOwnDetailTxt)
-        ownDetailViewRelative=view!!.findViewById(R.id.ownDetailViewRelative)
-        confirmBtn=view!!.findViewById(R.id.confirmBtn)
-        helpView=view!!.findViewById(R.id.helpView)
-        NoDataLinearLayout=view!!.findViewById(R.id.NoDataLinearLayout)
-        RecyclerLinearLayout=view!!.findViewById(R.id.RecyclerLinearLayout)
-        familyContactRecycler=view!!.findViewById(R.id.familyContactRecycler)
-        RecyclerPlusBtn=view!!.findViewById(R.id.RecyclerPlusBtn)
-        plusImgNoContent=view!!.findViewById(R.id.plusImgNoContent)
+        closeImg=requireView().findViewById(R.id.closeImg)
+        messageTxt=requireView().findViewById(R.id.messageTxt)
+        nameOwnDetailTxt=requireView().findViewById(R.id.nameOwnDetailTxt)
+        contactTypeOwnDetailTxt=requireView().findViewById(R.id.contactTypeOwnDetailTxt)
+        ownDetailViewRelative=requireView().findViewById(R.id.ownDetailViewRelative)
+        confirmBtn=requireView().findViewById(R.id.confirmBtn)
+        helpView=requireView().findViewById(R.id.helpView)
+        NoDataLinearLayout=requireView().findViewById(R.id.NoDataLinearLayout)
+        RecyclerLinearLayout=requireView().findViewById(R.id.RecyclerLinearLayout)
+        familyContactRecycler=requireView().findViewById(R.id.familyContactRecycler)
+        RecyclerPlusBtn=requireView().findViewById(R.id.RecyclerPlusBtn)
+        plusImgNoContent=requireView().findViewById(R.id.plusImgNoContent)
         linearLayoutManager = LinearLayoutManager(mContext)
         familyContactRecycler.layoutManager = linearLayoutManager
         familyContactRecycler.itemAnimator = DefaultItemAnimator()
@@ -129,7 +129,7 @@ class FirstScreenNewData:Fragment() {
 
         }
         helpView.setOnClickListener(View.OnClickListener {
-            ShowHelpDialog(activity!!, "Help", R.drawable.questionmark_icon, R.drawable.round)
+            ShowHelpDialog(requireActivity(), "Help", R.drawable.questionmark_icon, R.drawable.round)
         })
 
 
@@ -155,11 +155,11 @@ class FirstScreenNewData:Fragment() {
         })
         plusImgNoContent.setOnClickListener(View.OnClickListener {
 
-            showKinDetailAdd(activity!!)
+            showKinDetailAdd(requireActivity())
         })
         RecyclerPlusBtn.setOnClickListener(View.OnClickListener {
 
-            showKinDetailAdd(activity!!)
+            showKinDetailAdd(requireActivity())
         })
 
 
@@ -1901,7 +1901,6 @@ class FirstScreenNewData:Fragment() {
                             }
                             else
                             {
-                                Log.e("PASS ARRAY SIZE",sharedprefs.getKinDetailPassArrayList(mContext)!!.size.toString())
                                 var dataArrayList=ArrayList<KinDetailApiModel>()
                                 var model=KinDetailApiModel()
                                 model.id=0
@@ -1928,7 +1927,6 @@ class FirstScreenNewData:Fragment() {
                                 sharedprefs.getKinDetailArrayList(mContext)!!.clear()
                                 sharedprefs.setKinDetailArrayList(mContext,kinDetailArrayList)
                                 sharedprefs.setKinDetailPassArrayList(mContext,kinDetailPassArrayList)
-                                Log.e("PASS ARRAY SIZE",sharedprefs.getKinDetailPassArrayList(mContext)!!.size.toString())
                                 familyKinRecyclerAdapter= FamilyContactRecyclerAdapter(sharedprefs.getKinDetailArrayList(mContext)!!)
                                 familyContactRecycler.adapter = familyKinRecyclerAdapter
                                 dialog.dismiss()

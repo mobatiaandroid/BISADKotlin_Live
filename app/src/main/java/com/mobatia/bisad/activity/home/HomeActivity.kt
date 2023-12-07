@@ -37,6 +37,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.adapter.HomeListAdapter
 import com.mobatia.bisad.activity.home.model.HealthInsuranceDetailAPIModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.apps.AppsFragment
@@ -120,14 +121,11 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission(),
             ActivityResultCallback<Boolean> { result ->
-                Log.e("result", result.toString())
                 if (result) {
                     // PERMISSION GRANTED
-                    Log.e("result", result.toString())
                     // Toast.makeText(mContext, String.valueOf(result), Toast.LENGTH_SHORT).show();
                 } else {
                     // PERMISSION NOT GRANTED
-                    Log.e("denied", result.toString())
                     val snackbar = Snackbar.make(
                         drawer_layout,
                         "Notification Permission Denied",
@@ -751,7 +749,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
             ApiClient.getClient.settingsUserDetail(bannerModel, "Bearer " + token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(context)
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -925,13 +923,12 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
         val call: Call<ResponseBody> = ApiClient.getClient.triggerUser(requestLeaveBody,"Bearer "+token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                progress.visibility=View.GONE
 
+                progress.visibility=View.GONE
+                CommonFunctions.faliurepopup(context)
             }
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val responsedata = response.body()
-                Log.e("Response Signup", responsedata.toString())
                 progress.visibility=View.GONE
                 if (responsedata != null) {
                     try {
@@ -939,7 +936,6 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                         val jsonObject = JSONObject(responsedata.string())
                         if(jsonObject.has(jsonConstans.STATUS)) {
                             val status: Int = jsonObject.optInt(jsonConstans.STATUS)
-                            Log.e("STATUS LOGIN", status.toString())
                             if (status == 100) {
                                 progress.visibility=View.GONE
                                 triggerDialog.dismiss()
@@ -986,7 +982,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
             ApiClient.getClient.dataCollectionDetail("Bearer " + token)
         call.enqueue(object : Callback<DataCollectionModel> {
             override fun onFailure(call: Call<DataCollectionModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(context)
             }
 
             override fun onResponse(
@@ -1139,14 +1135,11 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                                 context
                             )!!.size == 0
                         ) {
-                            Log.e("DATA COLLECTION", "ENTERS2")
                             sharedprefs.setIsAlreadyEnteredKin(context, true)
                             sharedprefs.setKinDetailArrayList(context, kinDetailSaveArrayList)
                             sharedprefs.setKinDetailPassArrayList(context, kinDetailSaveArrayList)
                         } else {
-                            Log.e("DATA COLLECTION", "ENTERS3")
                             if (!sharedprefs.getIsAlreadyEnteredKin(context)) {
-                                Log.e("DATA COLLECTION", "ENTERS4")
                                 sharedprefs.setIsAlreadyEnteredKin(context, true)
                                 sharedprefs.setKinDetailArrayList(context, kinDetailSaveArrayList)
                                 sharedprefs.setKinDetailPassArrayList(
@@ -1158,7 +1151,6 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     }
 
                     //Intent
-                    Log.e("DATA COLLECTION", "ENTERS5")
                     if (!sharedprefs.getSuspendTrigger(context).equals("1")) {
                         val intent = Intent(context, DataCollectionActivity::class.java)
                         context.startActivity(intent)

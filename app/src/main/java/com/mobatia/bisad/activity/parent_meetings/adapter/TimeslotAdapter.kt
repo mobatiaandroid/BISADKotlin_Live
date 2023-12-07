@@ -41,7 +41,6 @@ internal class TimeslotAdapter (var context: Context,var timeSlotList:ArrayList<
         return MyViewHolder(itemView)
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-Log.e("stst",timeSlotList.get(position).status)
         if (timeSlotList.get(position).status.equals("0")) {
             holder.gridClickRelative.setBackgroundResource(R.drawable.time_curved_rel_layout)
             holder.time_from.setTextColor(context.resources.getColor(R.color.black))
@@ -55,9 +54,7 @@ Log.e("stst",timeSlotList.get(position).status)
             holder.time_to.setTextColor(context.resources.getColor(R.color.black))
         }
          else if (timeSlotList.get(position).status.equals("2")) {
-              Log.e("stst pos",position.toString())
 
-              Log.e("status","2")
             holder.gridClickRelative.background=context.resources.getDrawable(R.drawable.slotbookedbyuser_curved_rel_layout)
             holder.time_from.setTextColor(context.resources.getColor(R.color.black))
             holder.txt_colon.setTextColor(context.resources.getColor(R.color.black))
@@ -77,14 +74,12 @@ Log.e("stst",timeSlotList.get(position).status)
         val inputDateStr = from_time
         val date: Date = inputFormat.parse(inputDateStr)
         val formt_fromtime= outputFormat.format(date)
-        Log.e("dt",holder.startTime)
         var to_time=timeSlotList[position].end_time
         val inputFormat2: DateFormat = SimpleDateFormat("hh:mm:ss")
         val outputFormat2: DateFormat = SimpleDateFormat("hh:mm aa")
         val inputDateStr2 = to_time
         val date2: Date = inputFormat2.parse(inputDateStr2)
         val formt_totime: String = outputFormat2.format(date2)
-        Log.e("dt",formt_totime)
 
         holder.time_from.text = formt_fromtime
         holder.time_to.text = formt_totime

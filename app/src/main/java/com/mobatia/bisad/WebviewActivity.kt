@@ -59,11 +59,11 @@ class WebviewActivity : AppCompatActivity() {
         if (urltoshow.contains("httpss"))
         {
             urltoshow = urltoshow.replace("httpss", "https")
-            Log.e("urltoshow",urltoshow)
+
         }
 
         webview.loadUrl(urltoshow)
-        Log.e("LOADINGURL==>",urltoshow)
+
 
         webview.webChromeClient = object : WebChromeClient() {
 

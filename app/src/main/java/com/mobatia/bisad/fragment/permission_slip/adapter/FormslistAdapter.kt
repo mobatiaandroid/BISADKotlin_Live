@@ -33,11 +33,9 @@ internal class FormslistAdapter (private var mContext: Context, var formslist:Ar
         holder.linear.setOnClickListener {
             if (formslist[position].status==null){
                 sts="0"
-                Log.e("null","true")
             }
             else{
                 sts=formslist[position].status
-                Log.e("null",formslist[position].status)
             }
             val intent = Intent(mContext, FormDetailActivity::class.java)
             intent.putExtra("title",formslist[position].title)

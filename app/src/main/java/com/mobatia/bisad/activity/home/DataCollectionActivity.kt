@@ -25,6 +25,7 @@ import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.absence.model.RequestAbsenceApiModel
 import com.mobatia.bisad.activity.home.model.DataCollectionSubmissionModel
 import com.mobatia.bisad.activity.home.model.HealthInsuranceDetailAPIModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.home.mContext
@@ -735,19 +736,18 @@ class DataCollectionActivity : FragmentActivity(), OnPageChangeListener,
         val call: Call<ResponseBody> = ApiClient.getClient.dataCollectionSubmittion(requestLeaveBody,"Bearer "+token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(context)
+
 
             }
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val responsedata = response.body()
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
 
                         val jsonObject = JSONObject(responsedata.string())
                         if(jsonObject.has(jsonConstans.STATUS)) {
                             val status: Int = jsonObject.optInt(jsonConstans.STATUS)
-                            Log.e("STATUS LOGIN", status.toString())
                             if (status == 100)
                             {
                                 showSuccessDataAlert(context,"Thank you for updating your details, please wait 5 working days for the changes to take effect","Alert",triggertype,overallStatus)

@@ -23,6 +23,7 @@ import com.mobatia.bisad.activity.communication.newsletter.model.NewsLetterDetai
 import com.mobatia.bisad.activity.communication.newsletter.model.NewsLetterListAPiModel
 import com.mobatia.bisad.activity.communication.newsletter.model.NewsLetterListModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.manager.PreferenceData
@@ -96,7 +97,7 @@ class NewsLetterDetailActivity : AppCompatActivity(){
         call.enqueue(object : Callback<NewsLetterDetailModel> {
             override fun onFailure(call: Call<NewsLetterDetailModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<NewsLetterDetailModel>, response: Response<NewsLetterDetailModel>) {
                 progressDialog.visibility = View.GONE

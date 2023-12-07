@@ -58,12 +58,12 @@ class WebviewLoad : AppCompatActivity() {
 
         webview.loadUrl("https://docs.google.com/gview?embedded=true&url=" + URLEncoder.encode(passedintent))
 
-        Log.e("PDF: ", passedintent)
+
 
     }
     inner class WebViewClient : android.webkit.WebViewClient() {
         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-            Log.e("PDFview: ",url)
+
 
             view.loadUrl(url)
             return false

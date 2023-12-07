@@ -76,18 +76,17 @@ class CalendarFragment: Fragment() {
 
     }
     private fun initializeUI(){
-        monthLinear = view!!.findViewById(R.id.monthLinear)
-        titleTextView = view!!.findViewById(R.id.titleTextView)
-        monthYearTxt = view!!.findViewById(R.id.monthYearTxt)
-        nxtBtn=view!!.findViewById(R.id.nextBtn)
-        prevBtn=view!!.findViewById(R.id.previousBtn)
-        calendarRecycler = view!!.findViewById(R.id.calendarRecycler) as RecyclerView
+        monthLinear = requireView().findViewById(R.id.monthLinear)
+        titleTextView = requireView().findViewById(R.id.titleTextView)
+        monthYearTxt = requireView().findViewById(R.id.monthYearTxt)
+        nxtBtn=requireView().findViewById(R.id.nextBtn)
+        prevBtn=requireView().findViewById(R.id.previousBtn)
+        calendarRecycler = requireView().findViewById(R.id.calendarRecycler) as RecyclerView
 
         mCalendarFinalArrayList=ArrayList()
         titleTextView.text="Calendar"
         year = Calendar.getInstance().get(Calendar.YEAR)
         currentMonth = Calendar.getInstance().get(Calendar.MONTH)
-        Log.e("cm",currentMonth.toString())
         month(currentMonth, year)
 
    nxtBtn.setOnClickListener(View.OnClickListener {
@@ -516,7 +515,6 @@ class CalendarFragment: Fragment() {
             }
 
         }
-        Log.e("prisize",primaryShowArrayList.size.toString())
 
 
         if (primaryShowArrayList.size>0){
@@ -524,7 +522,6 @@ class CalendarFragment: Fragment() {
             for (j in primaryShowArrayList.indices){
                 var month_check:String=""
                 var fModel = PrimaryModel()
-                Log.e("i",j.toString())
 
                 if (primaryShowArrayList[j].DTSTART.toString().length == 20) {
                     val inputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy hh:mm a")
@@ -542,8 +539,7 @@ class CalendarFragment: Fragment() {
 
 
                 if (month_check.equals(monthYearTxt.text)) {
-                    Log.e("check",month_check)
-                    Log.e("checktxt",monthYearTxt.text.toString())
+
                     var cModel = CalendarDateModel()
                     cModel.startDate = primaryShowArrayList[j].DTSTART
                     cModel.endDate = primaryShowArrayList[j].DTEND
@@ -560,12 +556,10 @@ class CalendarFragment: Fragment() {
                     cModel.detailList = calendarDetaiArray
                     mCalendarFinalArrayList.add(cModel)
 
-                    Log.e("finalssize",mCalendarFinalArrayList.size.toString())
                     calendarRecycler.layoutManager=LinearLayoutManager(mContext)
                     var cale_adapter = CalDateAdapter(mContext, mCalendarFinalArrayList)
                     calendarRecycler.adapter = cale_adapter
                 }else{
-                    Log.e("finalssize else",mCalendarFinalArrayList.size.toString())
                     calendarRecycler.layoutManager=LinearLayoutManager(mContext)
                     var cale_adapter = CalDateAdapter(mContext, mCalendarFinalArrayList)
                     calendarRecycler.adapter = cale_adapter
@@ -739,7 +733,6 @@ class CalendarFragment: Fragment() {
         }
 
         if (allSeleted) {
-            Log.e("all","sel")
             calendarShowArrayList = ArrayList()
             calendarShowFilteredArrayList= ArrayList()
             if (primaryShowArrayList.size > 0) {
@@ -751,14 +744,10 @@ class CalendarFragment: Fragment() {
             if (wholeSchoolShowArrayList.size > 0) {
                 calendarShowArrayList.addAll(wholeSchoolShowArrayList)
             }
-            Log.e("prisize",primaryShowArrayList.size.toString())
-            Log.e("secsize",secondaryShowArrayList.size.toString())
-            Log.e("whosize",wholeSchoolShowArrayList.size.toString())
-            Log.e("cal_size",calendarShowArrayList.size.toString())
+
             for (i in calendarShowArrayList.indices){
                 var month_check:String=""
                 var fModel = PrimaryModel()
-                Log.e("i",i.toString())
 
                 if (calendarShowArrayList[i].DTSTART.toString().length == 20) {
                     val inputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy hh:mm a")
@@ -775,14 +764,11 @@ class CalendarFragment: Fragment() {
                 }
 
                 if (month_check.equals(monthYearTxt.text)){
-                    Log.e("textmnth",monthYearTxt.text.toString())
-                    Log.e("textmnth",month_check)
-                    Log.e("size_showlist",calendarShowArrayList.size.toString())
+
 
                     for (j in 0..mCalendarFinalArrayList.size-1){
                         if (!calendarShowArrayList.get(i).DTSTART.equals(mCalendarFinalArrayList[j].startDate)){
-                            Log.e("if","tr")
-                            Log.e("else","tr")
+
                             var cModel = CalendarDateModel()
                             cModel.startDate = calendarShowArrayList.get(i).DTSTART
                             cModel.endDate = calendarShowArrayList.get(i).DTEND
@@ -798,7 +784,7 @@ class CalendarFragment: Fragment() {
                             calendarDetaiArray.add(dModel)
                             cModel.detailList = calendarDetaiArray
                             mCalendarFinalArrayList.add(cModel)
-                            Log.e("sizeinloop",mCalendarFinalArrayList.size.toString())
+
                            /* calendarRecycler.layoutManager=LinearLayoutManager(mContext)
                             var cale_adapter = CalDateAdapter(mContext, mCalendarFinalArrayList)
                             calendarRecycler.adapter = cale_adapter*/
@@ -821,7 +807,6 @@ class CalendarFragment: Fragment() {
 
 
                         }
-                        Log.e("size",mCalendarFinalArrayList.size.toString())
                         calendarRecycler.layoutManager=LinearLayoutManager(mContext)
                         var cale_adapter = CalDateAdapter(mContext, mCalendarFinalArrayList)
                         calendarRecycler.adapter = cale_adapter
@@ -832,7 +817,6 @@ class CalendarFragment: Fragment() {
 
                         /*else{
                             for (j in 0..mCalendarFinalArrayList.size ){
-                                Log.e("n","not 0"+j+" "+n)
                                 if (calendarShowArrayList.get(n).DTSTART==mCalendarFinalArrayList[j].startDate){
                                     var cModel = CalendarDateModel()
                                     cModel.startDate = calendarShowArrayList.get(n).DTSTART
@@ -850,7 +834,6 @@ class CalendarFragment: Fragment() {
                                     mCalendarFinalArrayList[j].detailList.add(dModel)
                                     cModel.detailList = calendarDetaiArray
                                     mCalendarFinalArrayList.add(cModel)
-                                    Log.e("size",mCalendarFinalArrayList.size.toString())
                                 }else{
                                     var cModel = CalendarDateModel()
                                     cModel.startDate = calendarShowArrayList.get(n).DTSTART
@@ -873,11 +856,9 @@ class CalendarFragment: Fragment() {
                         }*/
 
 
-                    Log.e("size",mCalendarFinalArrayList.size.toString())
                     calendarRecycler.layoutManager=LinearLayoutManager(mContext)
                     var cal_adapter = CalDateAdapter(mContext, mCalendarFinalArrayList)
                     calendarRecycler.adapter = cal_adapter
-                    Log.e("to","adptr")
                 }
 
             }

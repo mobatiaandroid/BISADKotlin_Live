@@ -26,6 +26,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.absence.model.RequestAbsenceApiModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.student_information.adapter.StudentListAdapter
@@ -151,7 +152,7 @@ class RequestabsenceActivity : AppCompatActivity(){
                         progressDialog.startAnimation(aniRotate)
                         progressDialog.visibility=View.VISIBLE
                         reasonAPI=enterMessage.text.toString().trim()
-                        //Log.e("Pass Value",fromDate+"  "+toDate+"   "+reasonAPI)
+
                         var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
                         if (internetCheck)
                         {
@@ -160,14 +161,12 @@ class RequestabsenceActivity : AppCompatActivity(){
                             val inputDateStr2 = fromDate
                             val date2: Date = inputFormat2.parse(inputDateStr2)
                             val f_date: String = outputFormat2.format(date2)
-                            Log.e("fd",f_date)
 
                             val inputFormat3: DateFormat = SimpleDateFormat("d-m-yyyy")
                             val outputFormat3: DateFormat = SimpleDateFormat("d-m-yyyy")
                             val inputDateStr3 = toDate
                             val date3: Date = inputFormat3.parse(inputDateStr3)
                             val t_date: String = outputFormat3.format(date3)
-                            Log.e("fd",t_date)
 
                             callAbsenceSubmitApi(f_date,t_date,reasonAPI)
                         }
@@ -280,7 +279,7 @@ class RequestabsenceActivity : AppCompatActivity(){
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<StudentListModel>, response: Response<StudentListModel>) {
                 val arraySize :Int = response.body()!!.responseArray.studentList.size
@@ -290,7 +289,6 @@ class RequestabsenceActivity : AppCompatActivity(){
 
                     if (sharedprefs.getStudentID(mContext).equals(""))
                     {
-                        Log.e("Empty Img","Empty")
                         studentName=studentArrayList.get(0).name
                         studentImg=studentArrayList.get(0).photo
                         studentId=studentArrayList.get(0).id
@@ -417,26 +415,23 @@ class RequestabsenceActivity : AppCompatActivity(){
                 + " " + Build.MODEL + " " + Build.VERSION.RELEASE
                 + " " + VERSION_CODES::class.java.fields[Build.VERSION.SDK_INT]
             .name)
-        Log.e("fromto",from + toDate)
         val token = sharedprefs.getaccesstoken(mContext)
         val requestLeaveBody= RequestAbsenceApiModel(sharedprefs.getStudentID(mContext)!!,from,toDate,reason,"2",devicename,"1.0")
         val call: Call<ResponseBody> = ApiClient.getClient.leaveRequest(requestLeaveBody,"Bearer "+token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
                 progressDialog.visibility = View.GONE
             }
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val responsedata = response.body()
                 progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
 
                         val jsonObject = JSONObject(responsedata.string())
                         if(jsonObject.has(jsonConstans.STATUS)) {
                             val status: Int = jsonObject.optInt(jsonConstans.STATUS)
-                            Log.e("STATUS LOGIN", status.toString())
                             if (status == 100) {
                                 showErrorAlert(mContext,"Successfully submitted your absence.","Success")
 
@@ -508,7 +503,6 @@ class RequestabsenceActivity : AppCompatActivity(){
                 val inputDateStr = date_temp
                 val date: Date = inputFormat.parse(inputDateStr)
                 val outputDateStr: String = outputFormat.format(date)
-                Log.e("dt", outputDateStr)
                 fromDate=date_sel.toString()
                 enterStratDate.text = outputDateStr
 
@@ -540,7 +534,6 @@ class RequestabsenceActivity : AppCompatActivity(){
                 val inputDateStr = date_temp
                 val date: Date = inputFormat.parse(inputDateStr)
                 val outputDateStr: String = outputFormat.format(date)
-                Log.e("dt", outputDateStr)
                 toDate=date_sel.toString()
                 enterEndDate.text = outputDateStr
 

@@ -160,9 +160,7 @@ class ContactUsFragment : Fragment(), LocationListener,
                 if (location != null) {
                     lat = location.latitude
                     long = location.longitude
-                    println("lat---$lat")
-                    println("lat---$long")
-                    Log.e("CONTACTLATITUDE:", (lat + long).toString())
+
                 }
             }
         }
@@ -188,16 +186,15 @@ class ContactUsFragment : Fragment(), LocationListener,
                 progressDialog.visibility = View.GONE
                 when(response.body()!!.status){
                     100 ->{
-                        Log.e("ABOUTUS", response.body()!!.responseArray.toString())
-                        Log.e("ABOUTUS", response.body()!!.responseArray.description)
+
                         aboutusdescription.addAll(response.body()!!.responseArray.contacts)
-                        Log.e("CONTACTS:", aboutusdescription.size.toString())
+
                         description = response.body()!!.responseArray.description
                         val contactusAdapter = ContactusAdapter(aboutusdescription)
                         descriptiontext.text = description
                         latitude = response.body()!!.responseArray.latitude
                         longitude = response.body()!!.responseArray.longitude
-                        println("LATITUDE:" + latitude + "Longitude:" + longitude)
+
                         contact_usrecyclerview.adapter = contactusAdapter
                     }
                     116 -> {
@@ -214,7 +211,7 @@ class ContactUsFragment : Fragment(), LocationListener,
 
 
                 mapFragment.getMapAsync { googleMap ->
-                    Log.d("Map Working", "good")
+
                     map = googleMap
                     map.uiSettings.isMapToolbarEnabled = false
                     map.uiSettings.isZoomControlsEnabled = false

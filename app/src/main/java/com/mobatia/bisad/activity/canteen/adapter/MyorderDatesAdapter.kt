@@ -24,6 +24,7 @@ import com.mobatia.bisad.activity.canteen.model.myorders.PreOrdersListModel
 import com.mobatia.bisad.activity.canteen.model.myorders.PreOrdersModel
 import com.mobatia.bisad.activity.canteen.model.order_history.OrderHistoryApiModel
 import com.mobatia.bisad.activity.canteen.model.preorder.CanteenPreorderModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.ApiClient
@@ -158,7 +159,7 @@ var item:LinearLayout,var noitem:ImageView,var progress:ProgressBarDialog) :
         val call: Call<CanteenPreorderModel> = ApiClient.getClient.cancelCanteenPreOrder(model,"Bearer "+token)
         call.enqueue(object : Callback<CanteenPreorderModel> {
             override fun onFailure(call: Call<CanteenPreorderModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mcontext)
             }
             override fun onResponse(call: Call<CanteenPreorderModel>, response: Response<CanteenPreorderModel>) {
                 val responsedata = response.body()
@@ -194,11 +195,11 @@ var item:LinearLayout,var noitem:ImageView,var progress:ProgressBarDialog) :
         val call: Call<PreOrdersModel> = ApiClient.getClient.canteen_myorder_history(model,"Bearer "+token)
         call.enqueue(object : Callback<PreOrdersModel> {
             override fun onFailure(call: Call<PreOrdersModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mcontext)
             }
             override fun onResponse(call: Call<PreOrdersModel>, response: Response<PreOrdersModel>) {
                 val responsedata = response.body()
-                Log.e("Response", responsedata.toString())
+
                 if (responsedata!!.status==100) {
 
                     dateRecyclerView.layoutManager = LinearLayoutManager(mcontext)

@@ -271,6 +271,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
+            android:filterTouchesWhenObscured="true"
             android:background="@drawable/addmoneybg"
             android:text="@string/add_to_wallet"
             android:textAllCaps="false"

@@ -28,23 +28,19 @@ var time:TextView=view.findViewById(R.id.listTxtTitle)
         return MyViewHolder(itemView)
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Log.e("ad","true")
 
         var from_time=timeSlotList[position].start_time
-        Log.e("ftime",timeSlotList[position].start_time)
         val inputFormat: DateFormat = SimpleDateFormat("hh:mm:ss")
         val outputFormat: DateFormat = SimpleDateFormat("hh:mm aa")
         val inputDateStr = from_time
         val date: Date = inputFormat.parse(inputDateStr)
         val formt_fromtime: String = outputFormat.format(date)
-        Log.e("dt",formt_fromtime)
         var to_time=timeSlotList[position].end_time
         val inputFormat2: DateFormat = SimpleDateFormat("hh:mm:ss")
         val outputFormat2: DateFormat = SimpleDateFormat("hh:mm aa")
         val inputDateStr2 = from_time
         val date2: Date = inputFormat2.parse(inputDateStr2)
         val formt_totime: String = outputFormat2.format(date2)
-        Log.e("dt",formt_totime)
 
         var room=timeSlotList[position].room
         holder.time.text = from_time + "-" + to_time

@@ -50,7 +50,6 @@ class ImagePagerDrawableAdapter( var homeBannerUrlImageArray: ArrayList<String>,
 //                    .into(imageView, new com.squareup.picasso.Callback() {
 //                        @Override
 //                        public void onSuccess() {
-//                            System.out.println("Image Succes:"+AppUtils.replace(mImagesArrayListUrlBg.get(position)));
 //
 //                        }
 //

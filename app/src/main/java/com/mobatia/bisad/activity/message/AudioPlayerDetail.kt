@@ -15,10 +15,12 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mobatia.bisad.R
+import com.mobatia.bisad.activity.home.context
 
 import com.mobatia.bisad.activity.message.model.MessageDetailApiModel
 import com.mobatia.bisad.activity.message.model.MessageDetailModel
 import com.mobatia.bisad.activity.message.model.MessageDetailNotificationModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.manager.PreferenceData
@@ -106,9 +108,9 @@ class AudioPlayerDetail : AppCompatActivity() {
         val call: Call<MessageDetailModel> = ApiClient.getClient.notifictaionDetail(studentbody,"Bearer "+token)
         call.enqueue(object : Callback<MessageDetailModel> {
             override fun onFailure(call: Call<MessageDetailModel>, t: Throwable) {
-              //  progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+
                 progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(context)
             }
             override fun onResponse(call: Call<MessageDetailModel>, response: Response<MessageDetailModel>) {
                 progressDialog.visibility = View.GONE
@@ -123,7 +125,6 @@ class AudioPlayerDetail : AppCompatActivity() {
                     updated_at = response.body()!!.responseArray.notificationArray.updated_at
                     url = response.body()!!.responseArray.notificationArray.url
                     player.play(url)
-                    println("MSGRESPONSEAUDIO:" + response.body()!!.responseArray.notificationArray.url)
                 } else if (response.body()!!.status == 116) {
                     AccessTokenClass.getAccessToken(mContext)
                     audiodetails()

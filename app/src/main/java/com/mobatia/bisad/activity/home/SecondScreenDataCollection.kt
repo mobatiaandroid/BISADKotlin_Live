@@ -141,7 +141,7 @@ class SecondScreenDataCollection : FragmentActivity(), ViewPager.OnPageChangeLis
             }
 
             override fun onPageScrollStateChanged(state: Int) {
-                //       Log.e("onPageState: ", String.valueOf(state));
+
             }
         })
         submitBtn.setOnClickListener(View.OnClickListener {

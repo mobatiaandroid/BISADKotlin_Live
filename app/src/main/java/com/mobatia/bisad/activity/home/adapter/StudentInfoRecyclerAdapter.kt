@@ -49,7 +49,6 @@ class StudentInfoRecyclerAdapter (private var familyContactArrayList: ArrayList<
     }
     override fun getItemCount(): Int {
 
-        Log.e("ARRAYSIZE",familyContactArrayList.size.toString())
         return familyContactArrayList.size
 
     }

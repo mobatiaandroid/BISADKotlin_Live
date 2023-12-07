@@ -22,6 +22,7 @@ import com.mobatia.bisad.activity.canteen.model.add_to_cart.*
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartApiModel
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartModel
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartResModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.AccessTokenClass
@@ -167,9 +168,10 @@ class PreorderItemsAdapter(
         val call: Call<CanteenCartModel> = ApiClient.getClient.get_canteen_cart(canteenCart,"Bearer "+token)
         call.enqueue(object : Callback<CanteenCartModel> {
             override fun onFailure(call: Call<CanteenCartModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                //progressDialogP.visibility=View.GONE
+
                 progressDialogP.hide()
+                CommonFunctions.faliurepopup(mcontext)
+
             }
             override fun onResponse(call: Call<CanteenCartModel>, response: Response<CanteenCartModel>) {
                 val responsedata = response.body()
@@ -233,9 +235,10 @@ private fun addToCart(id:String,price:String,position: Int){
     val call: Call<AddToCartCanteenModel> = ApiClient.getClient.add_to_canteen_cart(canteenadd,"Bearer "+token)
     call.enqueue(object : Callback<AddToCartCanteenModel> {
         override fun onFailure(call: Call<AddToCartCanteenModel>, t: Throwable) {
-            Log.e("Failed", t.localizedMessage)
-            //progressDialogP.visibility=View.GONE
+
             progressDialogP.hide()
+            CommonFunctions.faliurepopup(mcontext)
+
         }
         override fun onResponse(call: Call<AddToCartCanteenModel>, response: Response<AddToCartCanteenModel>) {
             val responsedata = response.body()
@@ -286,9 +289,10 @@ private fun addToCart(id:String,price:String,position: Int){
         val call: Call<CanteenCartUpdateModel> = ApiClient.getClient.update_canteen_cart(canteenadd,"Bearer "+token)
         call.enqueue(object : Callback<CanteenCartUpdateModel> {
             override fun onFailure(call: Call<CanteenCartUpdateModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                //progressDialogP.visibility=View.GONE
+
                 progressDialogP.hide()
+                CommonFunctions.faliurepopup(mcontext)
+
             }
             override fun onResponse(call: Call<CanteenCartUpdateModel>, response: Response<CanteenCartUpdateModel>) {
                 val responsedata = response.body()
@@ -342,9 +346,10 @@ private fun addToCart(id:String,price:String,position: Int){
         val call: Call<CanteenCartRemoveModel> = ApiClient.getClient.remove_canteen_cart(canteenadd,"Bearer "+token)
         call.enqueue(object : Callback<CanteenCartRemoveModel> {
             override fun onFailure(call: Call<CanteenCartRemoveModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                //progressDialogP.visibility=View.GONE
+
                 progressDialogP.hide()
+                CommonFunctions.faliurepopup(mcontext)
+
             }
             override fun onResponse(call: Call<CanteenCartRemoveModel>, response: Response<CanteenCartRemoveModel>) {
                 val responsedata = response.body()

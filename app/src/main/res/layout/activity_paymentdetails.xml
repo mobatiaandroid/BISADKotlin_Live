@@ -248,6 +248,7 @@
                                 android:layout_height="28dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="30"
+                                android:filterTouchesWhenObscured="true"
                                 android:background="@color/rel_two"
                                 android:gravity="center"
                                 android:text="PAY"

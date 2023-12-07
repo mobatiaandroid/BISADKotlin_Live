@@ -381,7 +381,6 @@ class CalFragment : Fragment() {
                     pModel.DTSTART = outputDateStrstart
 
                 } else if (primaryArrayList[i].DTSTART.length == 15) {
-                    Log.e("1", "15")
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
                     val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
                     val startdate: Date = inputFormat.parse(primaryArrayList.get(i).DTSTART)
@@ -611,7 +610,6 @@ class CalFragment : Fragment() {
 
         }
         if (calendarShowArrayList.size > 0) {
-            Log.e("calshowlist size", calendarShowArrayList.size.toString())
 
             FILTERCALENDARlIST = ArrayList()
             for (n in 0..calendarShowArrayList.size - 1) {
@@ -619,13 +617,10 @@ class CalFragment : Fragment() {
                 FILTERCALENDARlIST.add(calendarShowArrayList[n])
 
             }
-            Log.e("filtered size", FILTERCALENDARlIST.size.toString())
             if (FILTERCALENDARlIST.size > 0) {
-                Log.e("filtercallist", FILTERCALENDARlIST.size.toString())
                 var listMonth: String = ""
                 var listYear: String = ""
                 for (i in 0..FILTERCALENDARlIST.size - 1) {
-                    Log.e("calendar item size item", FILTERCALENDARlIST.get(i).SUMMARY);
                     if (FILTERCALENDARlIST.get(i).DTSTART.length == 20) {
                         val inputFormat: DateFormat =
                             SimpleDateFormat("MMM dd,yyyy hh:mm a")
@@ -666,10 +661,7 @@ class CalFragment : Fragment() {
                     hidePast.visibility = View.VISIBLE
                     if (listYear.equals(year.toString())) {
 
-                        Log.e("month", monthTxt + "  " + listMonth)
                         if (monthTxt.equals(listMonth, ignoreCase = true)) {
-                            Log.e("if", "if condition")
-//                            Log.e("month",monthTxt+"  "+listMonth)
                             var model = PrimaryModel()
                             if (FILTERCALENDARlIST.get(i).DTSTART.length == 10) {
                                 val inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -689,28 +681,20 @@ class CalFragment : Fragment() {
                             model.type = FILTERCALENDARlIST.get(i).type
                             calendarFilterArrayList.add(model)
                         } else {
-                            Log.e("else", "else condition")
                         }
-                        Log.e("calenddaer size print", calendarFilterArrayList.size.toString());
                     }
 
                 }
-                Log.e("calenddaer size print", calendarFilterArrayList.size.toString());
 
                 if (calendarFilterArrayList.size > 0) {
-                    Log.e("calfilterlist", calendarFilterArrayList.size.toString())
                     calendarRecycler.visibility = View.VISIBLE
                     calendarFilterArrayList.sortByDescending { calendarFilterArrayList -> calendarFilterArrayList.DTSTART }
                     calendarFilterArrayList.reverse()
                     mCalendarFinalArrayList = ArrayList()
-                    Log.e(
-                        "filter last date",
-                        calendarFilterArrayList[calendarFilterArrayList.size - 1].DTSTART.toString()
-                    )
+
                     for (n in 0 until calendarFilterArrayList.size) {
 
                         if (mCalendarFinalArrayList.size == 0) {
-                            Log.e("mcalfinallist", "SIZE 0")
                             var cModel = CalendarDateModel()
                             cModel.startDate = calendarFilterArrayList.get(n).DTSTART
                             cModel.endDate = calendarFilterArrayList.get(n).DTEND
@@ -727,11 +711,9 @@ class CalFragment : Fragment() {
                             cModel.detailList = calendarDetaiArray
                             mCalendarFinalArrayList.add(cModel)
                         } else {
-                            Log.e("mcalfinallist", mCalendarFinalArrayList.size.toString())
                             var isFound: Boolean = false
                             var pos: Int = -1
                             for (o in 0 until mCalendarFinalArrayList.size) {
-                                // Log.e("DATE ",calendarFilterArrayList.get(n).DTSTART+"  :: "+mCalendarFinalArrayList.get(o).startDate)
                                 if (calendarFilterArrayList.get(n).DTSTART.equals(
                                         mCalendarFinalArrayList.get(o).startDate
                                     )
@@ -777,16 +759,12 @@ class CalFragment : Fragment() {
                     monthLinear.visibility = View.VISIBLE
                     filterLinear.visibility = View.VISIBLE
                     hidePast.visibility = View.VISIBLE
-                    Log.e("mfinal size", mCalendarFinalArrayList.size.toString())
                     if (isHide && !isShow) {
                         var calendar = ArrayList<CalendarDateModel>()
                         if (mCalendarFinalArrayList.size > 0) {
 
                             for (s in 0 until mCalendarFinalArrayList.size) {
-                                Log.e(
-                                    "S calstart",
-                                    mCalendarFinalArrayList.get(s).startDate.toString()
-                                )
+
                                 if (mCalendarFinalArrayList.get(s).startDate.length == 20) {
                                     var sdf = SimpleDateFormat("MMM dd,yyyy hh:mm a")
                                     var strDate =
@@ -830,9 +808,7 @@ class CalFragment : Fragment() {
 
                             }
                         }
-                        Log.e("calendar size", calendar.size.toString())
                         if (calendar.size > 0) {
-                            Log.e("cal", calendar.size.toString())
                             noEventImage.visibility = View.GONE
                             noEventTxt.visibility = View.GONE
                             calendarRecycler.visibility = View.VISIBLE
@@ -844,12 +820,8 @@ class CalFragment : Fragment() {
                             calendarRecycler.visibility = View.GONE
                         }
                     } else {
-                        Log.e("else hide SIZE::::", mCalendarFinalArrayList.size.toString())
                         if (mCalendarFinalArrayList.size > 0) {
-                            Log.e(
-                                "lastdate",
-                                mCalendarFinalArrayList[mCalendarFinalArrayList.size - 1].startDate.toString()
-                            )
+
                             noEventImage.visibility = View.GONE
                             noEventTxt.visibility = View.GONE
                             calendarRecycler.visibility = View.VISIBLE

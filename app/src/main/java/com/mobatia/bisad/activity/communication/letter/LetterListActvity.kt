@@ -29,6 +29,7 @@ import com.mobatia.bisad.activity.communication.newsletter.adapter.NewsLetterRec
 import com.mobatia.bisad.activity.communication.newsletter.model.NewLetterListDetailModel
 import com.mobatia.bisad.activity.communication.newsletter.model.NewsLetterListModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.messages.adapter.MessageListRecyclerAdapter
@@ -149,7 +150,7 @@ class LetterListActvity : AppCompatActivity() {
         call.enqueue(object : Callback<LetterResponseModel> {
             override fun onFailure(call: Call<LetterResponseModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<LetterResponseModel>, response: Response<LetterResponseModel>) {
                 progressDialog.visibility = View.GONE

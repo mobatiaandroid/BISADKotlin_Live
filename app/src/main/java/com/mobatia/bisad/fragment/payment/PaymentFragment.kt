@@ -26,6 +26,7 @@ import com.mobatia.bisad.activity.ProgressBarDialog
 import com.mobatia.bisad.activity.payment.PaymentCategoryList
 import com.mobatia.bisad.activity.payment.PaymentInformationActivity
 import com.mobatia.bisad.activity.social_media.SocialMediaDetailActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.canteen.model.CanteenBannerResponseModel
 import com.mobatia.bisad.fragment.canteen.model.CanteenSendEmailApiModel
@@ -161,14 +162,19 @@ class PaymentFragment: Fragment() {
                         // progressDialog.startAnimation(aniRotate)
                         var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
                         if (internetCheck) {
-                            sendEmail(
+                            emailvalidationcheck( text_dialog.text.toString().trim(),
+                                text_content.text.toString().trim(),
+                                com.mobatia.bisad.fragment.home.sharedprefs.getStudentID(mContext).toString(),
+                                contactEmail,
+                                dialog)
+                            /*sendEmail(
                                 text_dialog.text.toString().trim(),
                                 text_content.text.toString().trim(),
                                 com.mobatia.bisad.fragment.home.sharedprefs.getStudentID(mContext).toString(),
                                 contactEmail,
                                 dialog
 
-                            )
+                            )*/
 
                         } else {
                             InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
@@ -190,18 +196,16 @@ class PaymentFragment: Fragment() {
         {
             override fun onFailure(call: Call<PaymentBannerResponseModel>, t: Throwable) {
                 progressDialog.hide()
-                Log.e("Failedbanner", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<PaymentBannerResponseModel>, response: Response<PaymentBannerResponseModel>) {
                 val responsedata = response.body()
-                Log.e("Response", responsedata.toString())
                 if (responsedata!!.status==100) {
                     progressDialog.hide()
                     contactEmail=response.body()!!.responseArray.data.contact_email
                     var banner_image=response.body()!!.responseArray.data.image
-                    Log.e("mail",contactEmail)
-                    Log.e("des",response.body()!!.responseArray.data.description)
-                    Log.e("im",banner_image)
+
                     if (contactEmail.isEmpty())
                     {
                         sendEmail.visibility=View.GONE
@@ -220,12 +224,10 @@ class PaymentFragment: Fragment() {
                         descriptionTV.text=response.body()!!.responseArray.data.description
                     }
                     if (banner_image.isNotEmpty()) {
-                        Log.e("bann","notemp")
                         Glide.with(mContext) //1
                             .load(banner_image)
                             .into(bannerImagePager)
                     } else {
-                        Log.e("bann","emp")
                         Glide.with(mContext)
                             .load(R.drawable.default_banner)
                             .into(bannerImagePager)
@@ -252,18 +254,14 @@ class PaymentFragment: Fragment() {
         call.enqueue(object : Callback<PaymentBannerResponseModel>
         {
             override fun onFailure(call: Call<PaymentBannerResponseModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
             }
             override fun onResponse(call: Call<PaymentBannerResponseModel>, response: Response<PaymentBannerResponseModel>) {
                 val responsedata = response.body()
-                Log.e("BannerRes", responsedata!!.status.toString())
                 if (responsedata!!.status==100) {
 
                     contactEmail=response.body()!!.responseArray.data.contact_email
                     var banner_image=response.body()!!.responseArray.data.image
-                    Log.e("mail",contactEmail)
-                    Log.e("des",response.body()!!.responseArray.data.description)
-                    Log.e("im",banner_image)
+
                     if (contactEmail.isEmpty())
                     {
                         sendEmail.visibility=View.GONE
@@ -282,12 +280,10 @@ class PaymentFragment: Fragment() {
                         descriptionTV.text=response.body()!!.responseArray.data.description
                     }
                     if (banner_image.isNotEmpty()) {
-Log.e("bann","notemp")
                         Glide.with(mContext) //1
                             .load(banner_image)
                             .into(bannerImagePager)
                     } else {
-                        Log.e("bann","emp")
                         Glide.with(mContext)
                             .load(R.drawable.default_banner)
                             .into(bannerImagePager)
@@ -310,7 +306,84 @@ Log.e("bann","notemp")
 
     }
 
+    fun emailvalidationcheck( title: String,
+                              message: String,
+                              studentID: String,
+                              staffEmail: String,
+                              dialog: Dialog){
+        val EMAIL_PATTERN :String=
+            "^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+        val pattern :String= "^([a-zA-Z ]*)$"
 
+        if (title.equals("")) {
+            val toast: Toast = Toast.makeText(
+                mContext, mContext.getResources().getString(
+                    com.mobatia.bisad.R.string.enter_subjects
+                ), Toast.LENGTH_SHORT
+            )
+            toast.show()
+        } else {
+            if (message.equals("")) {
+                val toast: Toast = Toast.makeText(
+                    mContext, mContext.getResources().getString(
+                        R.string.enter_contents
+                    ), Toast.LENGTH_SHORT
+                )
+                toast.show()
+            } else if (staffEmail.matches(EMAIL_PATTERN.toRegex())) {
+                if (title.toString().trim().matches(pattern.toRegex())) {
+                    if (title.toString().length>=500){
+                        Toast.makeText(mContext, "Subject is too long", Toast.LENGTH_SHORT).show()
+
+                    }else{
+                        if (message.toString().trim().matches(pattern.toRegex())) {
+                            if (message.length<=500){
+                                if (InternetCheckClass.isInternetAvailable(mContext)) {
+                                    sendEmail(
+                                        title,
+                                        message,
+                                        studentID,
+                                        contactEmail,
+                                        dialog
+
+                                    )
+                                } else {
+                                    CommonFunctions.faliurepopup(mContext)
+                                }
+                            }else{
+                                Toast.makeText(context, "Message is too long", Toast.LENGTH_SHORT).show()
+
+                            }
+
+                        } else {
+                            val toast: Toast = Toast.makeText(
+                                mContext, mContext.getResources().getString(
+                                    R.string.enter_valid_contents
+                                ), Toast.LENGTH_SHORT
+                            )
+                            toast.show()
+                        }
+                    }
+
+
+                } else {
+                    val toast: Toast = Toast.makeText(
+                        mContext, mContext.getResources().getString(
+                            R.string.enter_valid_subjects
+                        ), Toast.LENGTH_SHORT
+                    )
+                    toast.show()
+                }
+            } else {
+                val toast: Toast = Toast.makeText(
+                    mContext, mContext.getResources().getString(
+                        R.string.enter_valid_mail
+                    ), Toast.LENGTH_SHORT
+                )
+                toast.show()
+            }
+        }
+    }
     fun sendEmail(title: String,
                   message: String,
                   studentID: String,
@@ -323,14 +396,14 @@ Log.e("bann","notemp")
             ApiClient.getClient.sendEmailCanteen(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<SendStaffEmailModel> {
             override fun onFailure(call: Call<SendStaffEmailModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
                 //progressDialog.visibility = View.GONE
             }
 
             override fun onResponse(call: Call<SendStaffEmailModel>, response: Response<SendStaffEmailModel>) {
                 val responsedata = response.body()
                 //progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
 

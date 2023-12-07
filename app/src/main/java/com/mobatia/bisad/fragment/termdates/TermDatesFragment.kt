@@ -31,6 +31,7 @@ import com.mobatia.bisad.activity.absence.AbsenceDetailActivity
 import com.mobatia.bisad.activity.apps.AppsDetailActivity
 import com.mobatia.bisad.activity.term_dates.TermDatesDetailActivity
 import com.mobatia.bisad.activity.term_dates.model.TermDatesDetailModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.home.mContext
@@ -110,7 +111,7 @@ class TermDatesFragment : Fragment(){
         call.enqueue(object : Callback<TermDatesDetailModel>{
             override fun onFailure(call: Call<TermDatesDetailModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<TermDatesDetailModel>, response: Response<TermDatesDetailModel>) {
                 progressDialog.visibility = View.GONE
@@ -168,7 +169,6 @@ class TermDatesFragment : Fragment(){
                     pushNotificationDetail=pushNotificationDetail+"</body>\n</html>"
 
                     var htmlData=pushNotificationDetail
-                    Log.e("HTML DATA",htmlData)
                     //  webView.loadData(htmlData,"text/html; charset=utf-8","utf-8")
                     webView.loadDataWithBaseURL("file:///android_asset/fonts/",htmlData,"text/html; charset=utf-8", "utf-8", "about:blank")
 

@@ -78,8 +78,6 @@ class PaymentListActivityNew:AppCompatActivity() {
                     position
                 AppController.stud_id = stud_id
                 AppController.categoryId = categoryId*/
-                System.out.println("Student id" + stud_id)
-                println("Student id$stud_id")
                 if (payList[position].installment
                         .equals("1")
                 ) {
@@ -87,16 +85,13 @@ class PaymentListActivityNew:AppCompatActivity() {
                             .size == 1
                     ) {
                         adapterSize = 1
-                        println("adapter$adapterSize")
                     } else {
                         adapterSize =
                             payList[position].installmentArrayList
                                 .size + 1
-                        println("adapter 11$adapterSize")
                     }
                 } else {
                     adapterSize = 1
-                    println("adapter 222$adapterSize")
                 }
                 intent.putExtra("key", payList)
                 intent.putExtra("adapterSize", adapterSize)

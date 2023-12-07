@@ -28,7 +28,6 @@ class TimeTablePopUpRecyclerAdapter (private var mContetx: Context, private var 
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val summary = timeTableList[position]
-        Log.e("START TIME",timeTableList.get(position).starttime)
         if (timeTableList.get(position).day.equals(""))
         {
 

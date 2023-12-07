@@ -46,6 +46,7 @@ import com.mobatia.bisad.activity.home.DataCollectionActivity
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.home.PageView
 import com.mobatia.bisad.activity.home.model.HealthInsuranceDetailAPIModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.constants.NaisClassNameConstants
@@ -629,9 +630,9 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         override fun onDrag(v: View?, event: DragEvent?): Boolean {
 
             when (event?.action) {
-                DragEvent.ACTION_DRAG_STARTED -> Log.d("DRAG", "START")
+               /* DragEvent.ACTION_DRAG_STARTED -> Log.d("DRAG", "START")
                 DragEvent.ACTION_DRAG_ENTERED -> Log.d("DRAG", "ENTERED")
-                DragEvent.ACTION_DRAG_EXITED -> Log.d("DRAG", "EXITED")
+                DragEvent.ACTION_DRAG_EXITED -> Log.d("DRAG", "EXITED")*/
                 DragEvent.ACTION_DROP -> {
                     val intArray = IntArray(2)
                     v?.getLocationInWindow(intArray)
@@ -670,7 +671,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     }
 
                 }
-                DragEvent.ACTION_DRAG_ENDED -> Log.d("DRAG", "END")
+                //DragEvent.ACTION_DRAG_ENDED -> Log.d("DRAG", "END")
 
 
             }
@@ -1508,7 +1509,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
             ApiClient.getClient.bannerimages(bannerModel, "Bearer " + token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -1530,8 +1532,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                                     sharedprefs.getAppVersion(mContext)!!.replace(".", "")
                                 currentversion = currentversion.replace(".", "")
 
-                                Log.e("APPVERSIONAPI:", versionfromapi)
-                                Log.e("CURRENTVERSION:", currentversion)
+
 
                                 if (!sharedprefs.getAppVersion(mContext).equals("", true)) {
                                     if (versionfromapi > currentversion) {
@@ -1619,7 +1620,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 
     fun fragmentIntent(mFragment: Fragment?) {
         if (mFragment != null) {
-            val fragmentManager = activity!!.supportFragmentManager
+            val fragmentManager = requireActivity().supportFragmentManager
             fragmentManager.beginTransaction()
                 .add(R.id.fragment_holder, mFragment, appController.mTitles)
                 .addToBackStack(appController.mTitles).commitAllowingStateLoss() //commit
@@ -1679,7 +1680,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
             ApiClient.getClient.settingsUserDetail(bannerModel, "Bearer " + token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -1793,7 +1795,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer " + token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(
@@ -1856,7 +1859,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         val call: Call<TilesListModel> = ApiClient.getClient.titlesList("Bearer " + token)
         call.enqueue(object : Callback<TilesListModel> {
             override fun onFailure(call: Call<TilesListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(
@@ -1901,7 +1905,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         val call: Call<CountryListModel> = ApiClient.getClient.countryList("Bearer " + token)
         call.enqueue(object : Callback<CountryListModel> {
             override fun onFailure(call: Call<CountryListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(
@@ -1911,7 +1916,6 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 if (response.body()!!.status == 100) {
                     countryistArrayList.addAll(response.body()!!.responseArray.countriesList)
                     sharedprefs.setCountryArrayList(mContext, countryistArrayList)
-                    // Log.e("Country List Size", sharedprefs.getCountryArrayList(mContext).size.toString() )
 
                 } else {
                     if (response.body()!!.status == 116) {
@@ -1947,7 +1951,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
             ApiClient.getClient.relationshipList("Bearer " + token)
         call.enqueue(object : Callback<RelationShipListModel> {
             override fun onFailure(call: Call<RelationShipListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(
@@ -2002,7 +2007,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
             ApiClient.getClient.dataCollectionDetail("Bearer " + token)
         call.enqueue(object : Callback<DataCollectionModel> {
             override fun onFailure(call: Call<DataCollectionModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(
@@ -2155,14 +2161,12 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                                 mContext
                             )!!.size == 0
                         ) {
-                            Log.e("DATA COLLECTION", "ENTERS2")
+
                             sharedprefs.setIsAlreadyEnteredKin(mContext, true)
                             sharedprefs.setKinDetailArrayList(mContext, kinDetailSaveArrayList)
                             sharedprefs.setKinDetailPassArrayList(mContext, kinDetailSaveArrayList)
                         } else {
-                            Log.e("DATA COLLECTION", "ENTERS3")
                             if (!sharedprefs.getIsAlreadyEnteredKin(mContext)) {
-                                Log.e("DATA COLLECTION", "ENTERS4")
                                 sharedprefs.setIsAlreadyEnteredKin(mContext, true)
                                 sharedprefs.setKinDetailArrayList(mContext, kinDetailSaveArrayList)
                                 sharedprefs.setKinDetailPassArrayList(
@@ -2174,7 +2178,6 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     }
 
                     //Intent
-                    Log.e("DATA COLLECTION", "ENTERS5")
                     if (!sharedprefs.getSuspendTrigger(mContext).equals("1")) {
                         val intent = Intent(mContext, DataCollectionActivity::class.java)
                         activity?.startActivity(intent)
@@ -2219,7 +2222,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
-                this.activity!!,
+                this.requireActivity(),
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -2239,7 +2242,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
-                this.activity!!,
+                this.requireActivity(),
                 arrayOf(
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -2348,13 +2351,13 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         val call: Call<ResponseBody> = ApiClient.getClient.triggerUser(requestLeaveBody,"Bearer "+token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 progress.visibility=View.GONE
+                CommonFunctions.faliurepopup(mContext)
 
             }
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val responsedata = response.body()
-                Log.e("Response Signup", responsedata.toString())
                 progress.visibility=View.GONE
                 if (responsedata != null) {
                     try {
@@ -2362,7 +2365,6 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         val jsonObject = JSONObject(responsedata.string())
                         if(jsonObject.has(jsonConstans.STATUS)) {
                             val status: Int = jsonObject.optInt(jsonConstans.STATUS)
-                            Log.e("STATUS LOGIN", status.toString())
                             if (status == 100) {
                                 progress.visibility=View.GONE
                                 triggerDialog.dismiss()
@@ -2403,7 +2405,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         call.enqueue(object : Callback<GetreenrollmentModel>{
             override fun onFailure(call: Call<GetreenrollmentModel>, t: Throwable) {
                 //progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<GetreenrollmentModel>, response: Response<GetreenrollmentModel>) {
                 //progressDialog.visibility = View.GONE
@@ -2412,7 +2415,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     var heading_reenroll=response.body()!!.responseArray.settingsdata.heading
                     current_date=response.body()!!.responseArray.current_date
                     if(response.body()!!.responseArray.settingsdata.description.isEmpty()){
-                        Log.e("des","null")
+
                     }else{
                         descrptn_reenroll=response.body()!!.responseArray.settingsdata.description
                     }
@@ -2427,13 +2430,10 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     var reenrolldetail:ReEnrolldetail=
                         ReEnrolldetail(heading_reenroll,descrptn_reenroll,
                     tandc_reenroll,person_info_url,parent_name,user_email,question)
-                    Log.e("reenrolldetail",reenrolldetail.parent_name)
 
                     reEnrollOptionList.addAll(response.body()!!.responseArray.settingsdata.options)
                     studDetailList.addAll(response.body()!!.responseArray.student)
-                    Log.e("size",studDetailList.size.toString())
                     if(studDetailList.size==0){
-                        Log.e("studList","empty")
                     }else{
                         re_enroll_popup(reenrolldetail,studDetailList,reEnrollOptionList)
                     }
@@ -2507,13 +2507,11 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         val time = Calendar.getInstance().time
         val formatter = SimpleDateFormat("dd/mm/yyyy")
         val current = formatter.format(time)
-        Log.e("curnttime",current.toString())
 
         var myCalendar= Calendar.getInstance()
         var currentDate= Calendar.getInstance().time
         var year=myCalendar[Calendar.YEAR]
         var month=myCalendar[Calendar.MONTH]
-        Log.e("m",month.toString())
         var day=myCalendar[java.util.Calendar.DAY_OF_MONTH]
         var radioButton=d.findViewById<RadioButton>(R.id.check_btn)
         var radioButton_info=d.findViewById<RadioButton>(R.id.check_btn_info)
@@ -2560,8 +2558,10 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         // progressDialog.startAnimation(aniRotate)
                         var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
                         if (internetCheck) {
-                            reEnrollMailApi( text_dialog.text.toString().trim(),
+                            emailvalidationcheck( text_dialog.text.toString().trim(),
                                 text_content.text.toString().trim(),dialog)
+                           /* reEnrollMailApi( text_dialog.text.toString().trim(),
+                                text_content.text.toString().trim(),dialog)*/
 
                         } else {
                             InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
@@ -2612,13 +2612,10 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 val selectedItem = parent.getItemAtPosition(position).toString()
 var optionlistSize=dropdownList.size-1
                 for (i in 1..optionlistSize){
-Log.e("opt",dropdownList[i])
                     if (selectedItem==dropdownList[i].toString()){
-                        Log.e("setcheck","1")
                         reEnrollsave[page_count].status=dropdownList[i]
                         check=1
                     }else if (selectedItem==dropdownList[0]){
-                        Log.e("setcheck","0")
                         check=0
                         reEnrollsave[page_count].status=""
                     }
@@ -2672,12 +2669,10 @@ Log.e("opt",dropdownList[i])
         radioButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 if (!radioButton.isSelected) {
-                    Log.e("rad","notsel")
                     radioButton.isChecked = true
                    radioButton.isSelected = true
 
                 } else {
-                    Log.e("rad","sel")
                     radioButton.isChecked = false
                     radioButton.isSelected = false
 
@@ -2688,12 +2683,10 @@ Log.e("opt",dropdownList[i])
         radioButton_info.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 if (!radioButton_info.isSelected) {
-                    Log.e("radin","notsel")
                    radioButton_info.isChecked = true
                     radioButton_info.isSelected = true
 
                 } else {
-                    Log.e("radin","sel")
                     radioButton_info.isChecked = false
                     radioButton_info.isSelected = false
 
@@ -2730,7 +2723,6 @@ Log.e("opt",dropdownList[i])
         sub_btn.setOnClickListener {
 
             if (check==0){
-                Log.e("check","plsselct")
                 radioButton.isChecked = false
                 for (i in studDetailList.indices){
                     if (reEnrollsave[i].status.isNotEmpty()){
@@ -2746,8 +2738,7 @@ Log.e("opt",dropdownList[i])
                         }else{
                         // var r1=ReEnrollSubModel(reEnrollsave[i].student_id,reEnrollsave[i].status)
                         for (j in 1..reEnrollsubmit.size ) {
-                            Log.e("save",reEnrollsave.size.toString())
-                            Log.e("sub",reEnrollsubmit.size.toString())
+
                             if (reEnrollsave[i].student_id != reEnrollsubmit[j-1].student_id) {
                                 var r1 = ReEnrollSubModel(
                                     reEnrollsave[i].student_id,
@@ -2755,7 +2746,6 @@ Log.e("opt",dropdownList[i])
                                 )
                                 reEnrollsubmit.add(j, r1)
                             } else {
-                                Log.e("new", "stud")
 
                             }
 
@@ -2775,7 +2765,6 @@ Log.e("opt",dropdownList[i])
             }else{
                 if (radioButton.isChecked) {
                     if (radioButton_info.isChecked){
-                    Log.e("check", "checked")
                     for (i in studDetailList.indices) {
                         if (reEnrollsave[i].status.isNotEmpty()) {
                             reEnrollsave[i].student_id = studDetailList[i].id
@@ -2793,8 +2782,7 @@ Log.e("opt",dropdownList[i])
                             } else {
                                 // var r1=ReEnrollSubModel(reEnrollsave[i].student_id,reEnrollsave[i].status)
                                 for (j in 1..reEnrollsubmit.size) {
-                                    Log.e("save", reEnrollsave.size.toString())
-                                    Log.e("sub", reEnrollsubmit.size.toString())
+
                                     if (reEnrollsave[i].student_id != reEnrollsubmit[j - 1].student_id) {
                                         var r1 = ReEnrollSubModel(
                                             reEnrollsave[i].student_id,
@@ -2802,7 +2790,6 @@ Log.e("opt",dropdownList[i])
                                         )
                                         reEnrollsubmit.add(j, r1)
                                     } else {
-                                        Log.e("new", "stud")
 
                                     }
 
@@ -2824,26 +2811,23 @@ Log.e("opt",dropdownList[i])
 
            /* val gson = Gson()
             val Datas= gson.toJson(reEnrollsubmit)
-            Log.e("datas",Datas)
+
             var JSON:JSONArray = JSONArray(Datas)
             //var jsonobj:JSONObject= JSONObject(JSON)
-            Log.e("json",JSON.toString())*/
+            */
 
 
 
         }
 
         nxt_btn.setOnClickListener {
-            Log.e("check",check.toString())
             if (check==0){
-                Log.e("checknxt","plsselct")
                 radioButton.isChecked = false
                 radioButton.isSelected=false
                 radioButton_info.isChecked=false
                 radioButton_info.isSelected=false
                 page_count=page_count+1
-                Log.e("nxt_pg",page_count.toString())
-                Log.e("studnt_count",studDetailList.size.toString())
+
 
                 if (page_count==studDetailList.size-1){
                     nxt_btn.visibility = GONE
@@ -2855,7 +2839,6 @@ Log.e("opt",dropdownList[i])
                     prev_btn.visibility = VISIBLE
                     sub_btn.visibility = GONE
                 }
-Log.e("stsnxt",reEnrollsave[page_count].status)
                 if (reEnrollsave[page_count].status.equals("")){
                     spinnerList.setSelection(0)
                     radioButton.isChecked = false
@@ -2893,10 +2876,7 @@ Log.e("stsnxt",reEnrollsave[page_count].status)
             }else{
                 if (radioButton.isChecked) {
                     if (radioButton_info.isChecked) {
-                    Log.e("check", "checked")
                     page_count = page_count + 1
-                    Log.e("nxt_pg", page_count.toString())
-                    Log.e("studnt_count", studDetailList.size.toString())
 
                     if (page_count == studDetailList.size - 1) {
                         nxt_btn.visibility = GONE
@@ -2959,16 +2939,13 @@ Log.e("stsnxt",reEnrollsave[page_count].status)
             }
 
         prev_btn.setOnClickListener {
-            Log.e("checkpre",check.toString())
             if (check==0){
-                Log.e("check","plsselct")
                 radioButton.isChecked=false
                 radioButton_info.isChecked=false
                 radioButton.isSelected=false
                 radioButton_info.isSelected=false
                 page_count=page_count-1
-                Log.e("pg",page_count.toString())
-                Log.e("studnt_count",studDetailList.size.toString())
+
 
                 if (page_count==0){
                     nxt_btn.visibility = VISIBLE
@@ -2986,7 +2963,6 @@ Log.e("stsnxt",reEnrollsave[page_count].status)
                         sub_btn.visibility = GONE
                     }
                 }
-Log.e("sts",reEnrollsave[page_count].status)
                 if (reEnrollsave[page_count].status.equals("")){
                     spinnerList.setSelection(0)
                     radioButton.isChecked = false
@@ -3022,10 +2998,8 @@ Log.e("sts",reEnrollsave[page_count].status)
                 }
             }else{
                 if (radioButton.isChecked){
-                    Log.e("check","checked")
             page_count=page_count-1
-            Log.e("pg",page_count.toString())
-            Log.e("studnt_count",studDetailList.size.toString())
+
 
             if (page_count==0){
                 nxt_btn.visibility = VISIBLE
@@ -3113,17 +3087,14 @@ Log.e("sts",reEnrollsave[page_count].status)
             //signatureView.clearCanvas()
 var byte_array=bitmapToBytes(bitmap)
             var base64_string=bytesToBase64(byte_array)
-            Log.e("64",base64_string)
 
 
             Base64Image.encode(bitmap) { base64 ->
                 base64?.let {
-                    Log.e("bitmp",it.toString())
                     // success
                 }
             }
             var base64String=encodeImage(bitmap)
-            Log.e("1",base64String)
 
         }*/
     }
@@ -3136,22 +3107,20 @@ var byte_array=bitmapToBytes(bitmap)
     fun  saveReenrollApi(reEnrollsubmit:ArrayList<ReEnrollSubModel>,dlg:Dialog,d:Dialog){
 
         val token = sharedprefs.getaccesstoken(mContext)
-        Log.e("size",reEnrollsubmit.size.toString())
         val save_reenroll: SaveReenrollmentApiModel? = SaveReenrollmentApiModel(reEnrollsubmit)
-        Log.e("save",save_reenroll!!.json.toString())
 
-        val call: Call<SavereenrollmentModel> = ApiClient.getClient.savereenrollmentForm(save_reenroll,"Bearer "+token)
+        val call: Call<SavereenrollmentModel> = ApiClient.getClient.savereenrollmentForm(save_reenroll!!,"Bearer "+token)
         call.enqueue(object : Callback<SavereenrollmentModel>{
             override fun onFailure(call: Call<SavereenrollmentModel>, t: Throwable) {
                 //progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<SavereenrollmentModel>, response: Response<SavereenrollmentModel>) {
                 //progressDialog.visibility = View.GONE
 
                 if (response.body()!!.status.equals("100"))
                 {
-                    Log.e("re","save")
                     showSuccessReenrollAlert(mContext, "Successfully submitted the Re Enrollment", "Thankyou",dlg,d)
 
                 }else if(response.body()!!.status.equals("116"))
@@ -3232,6 +3201,63 @@ var byte_array=bitmapToBytes(bitmap)
         }*/
         dialog.show()
     }
+    fun emailvalidationcheck( title: String,
+                              message: String,
+                              dialog: Dialog) {
+        val EMAIL_PATTERN: String =
+            "^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+        val pattern: String = "^([a-zA-Z ]*)$"
+        if (title.toString().trim().matches(pattern.toRegex())) {
+            if (title.toString().length >= 500) {
+                Toast.makeText(mContext, "Subject is too long", Toast.LENGTH_SHORT).show()
+
+            } else {
+                if (message.toString().trim().matches(pattern.toRegex())) {
+                    if (InternetCheckClass.isInternetAvailable(mContext)) {
+                        if (message.length <= 500) {
+                            reEnrollMailApi(
+                                title,
+                                message, dialog
+                            )
+                        } else {
+                            Toast.makeText(mContext, "Message is too long", Toast.LENGTH_SHORT)
+                                .show()
+
+                        }
+                    } else {
+                        CommonFunctions.faliurepopup(mContext)
+                    }
+                } else {
+                    val toast: Toast = Toast.makeText(
+                        mContext, mContext.getResources().getString(
+                            R.string.enter_valid_contents
+                        ), Toast.LENGTH_SHORT
+                    )
+                    toast.show()
+                }
+            }
+            /*if (title.equals("")) {
+            val toast: Toast = Toast.makeText(
+                mContext, mContext.getResources().getString(
+                    com.mobatia.bisad.R.string.enter_subjects
+                ), Toast.LENGTH_SHORT
+            )
+            toast.show()
+        } else {
+            if (message.equals("")) {
+                val toast: Toast = Toast.makeText(
+                    mContext, mContext.getResources().getString(
+                        R.string.enter_contents
+                    ), Toast.LENGTH_SHORT
+                )
+                toast.show()
+            } else {
+                reEnrollMailApi(title,
+                    message,dialog)
+            }
+        }*/
+        }
+    }
     private fun reEnrollMailApi(title: String,
                                   message: String,
                                   dialog: Dialog
@@ -3242,14 +3268,14 @@ var byte_array=bitmapToBytes(bitmap)
             ApiClient.getClient.re_enrollment_mailhelp(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<ReEnrollEmailModel> {
             override fun onFailure(call: Call<ReEnrollEmailModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
                 //progressDialog.visibility = View.GONE
             }
 
             override fun onResponse(call: Call<ReEnrollEmailModel>, response: Response<ReEnrollEmailModel>) {
                 val responsedata = response.body()
                 //progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
 

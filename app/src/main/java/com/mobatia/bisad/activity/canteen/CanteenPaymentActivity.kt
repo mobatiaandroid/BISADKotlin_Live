@@ -29,6 +29,7 @@ import com.mobatia.bisad.activity.payment.model.payment_gateway.PaymentGatewayAp
 import com.mobatia.bisad.activity.payment.model.payment_gateway.PaymentGatewayModel
 import com.mobatia.bisad.activity.payment.model.payment_token.PaymentTokenApiModel
 import com.mobatia.bisad.activity.payment.model.payment_token.PaymentTokenModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.student_information.adapter.StudentListAdapter
 import com.mobatia.bisad.fragment.student_information.model.StudentList
@@ -124,7 +125,6 @@ class CanteenPaymentActivity:AppCompatActivity() {
         activity=this
         paymentRelative = findViewById(R.id.paymentRelative)
         WALLET_TOPUP_LIMIT=PreferenceData().getCanteenTopUpLimit(nContext).toString()
-        Log.e("topup",WALLET_TOPUP_LIMIT)
         studentSpinner = findViewById<LinearLayout>(R.id.studentSpinner)
         back=findViewById(R.id.back)
         btn_history=findViewById(R.id.history)
@@ -159,7 +159,6 @@ class CanteenPaymentActivity:AppCompatActivity() {
             if (!amount.getText().toString().equals("")) {
                 val paymentAmounts = amount.getText().toString()
                 payAmount = amount.getText().toString()
-                Log.e("payamount",paymentAmounts)
                 val amountInt = amount.getText().toString().toInt() * 100
 
                 val payment_amount = amountInt.toString()
@@ -167,9 +166,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
                     val paymentAmount = payment_amount.toInt()
 
                     if (paymentAmount > 0) {
-                        Log.e("payments",paymentAmounts.toString())
-                        Log.e("paymentsInt",paymentAmounts.toInt().toString())
-                        Log.e("wallet",WALLET_TOPUP_LIMIT.toInt().toString())
+
                         if (paymentAmounts.toInt()<=WALLET_TOPUP_LIMIT.toInt())
                         {
                             var arrayLength = 0
@@ -184,10 +181,8 @@ class CanteenPaymentActivity:AppCompatActivity() {
                             }
                             val newArray = Arrays.copyOfRange(array, firstNonZeroAt, arrayLength)
                             val resultString = String(newArray)
-                            println("amount removed zero$resultString")
                             val unixTime = System.currentTimeMillis() / 1000L
                             orderId = "BISAD" + studentId + "C" + unixTime
-                            println("Unix Time:::" + unixTime + "Order ID" + orderId)
                             amount.getText().clear()
                             //                        startActivity(intent);
                             order_id = ""
@@ -224,7 +219,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(nContext)
                 //progressDialog.visibility = View.GONE
             }
             override fun onResponse(call: Call<StudentListModel>, response: Response<StudentListModel>) {
@@ -235,7 +230,6 @@ class CanteenPaymentActivity:AppCompatActivity() {
                     studentListArrayList.addAll(response.body()!!.responseArray.studentList)
                     if (PreferenceData().getStudentID(nContext).equals(""))
                     {
-                        Log.e("Empty Img","Empty")
                         studentName=studentListArrayList.get(0).name
                         studentImg=studentListArrayList.get(0).photo
                         studentId=studentListArrayList.get(0).id
@@ -384,11 +378,11 @@ class CanteenPaymentActivity:AppCompatActivity() {
         call.enqueue(object : Callback<WalletBalanceModel> {
             override fun onFailure(call: Call<WalletBalanceModel>, t: Throwable) {
                 mProgressRelLayout.visibility=View.GONE
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(nContext)
             }
             override fun onResponse(call: Call<WalletBalanceModel>, response: Response<WalletBalanceModel>) {
                 val responsedata = response.body()
-                Log.e("Response", responsedata.toString())
+
                 if (responsedata!!.status==100) {
                     mProgressRelLayout.visibility=View.GONE
                     WalletAmount=response!!.body()!!.responseArray.wallet_balance
@@ -429,14 +423,14 @@ class CanteenPaymentActivity:AppCompatActivity() {
             ApiClient.getClient.payment_token(paymentTokenBody, "Bearer " + token)
         call.enqueue(object : Callback<PaymentTokenModel> {
             override fun onFailure(call: Call<PaymentTokenModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(nContext)
                 mProgressRelLayout.visibility = View.GONE
             }
 
             override fun onResponse(call: Call<PaymentTokenModel>, response: Response<PaymentTokenModel>) {
                 val responsedata = response.body()
                 mProgressRelLayout.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
+
                 if (responsedata != null) {
                     try {
 
@@ -446,12 +440,11 @@ class CanteenPaymentActivity:AppCompatActivity() {
                             val ts = tsLong.toString()
                             invoice_ref="BISCANand"
                             var mechantorderRef=invoice_ref+"-"+ts
-                            Log.e("m",mechantorderRef)
-                            Log.e("w",WalletAmount.toString())
+
                             val amountDouble: Double = WalletAmount.toDouble() * 100
                             val amuntInt = amountDouble.toInt()
                             val strDoubleAmount = amuntInt.toString()
-                            Log.e("amount",strDoubleAmount)
+
                             //order_id= "BISAD" + id + "S" + studentId
                             var amt:Int=payAmount.toInt() * 100
                             mProgressRelLayout.visibility=View.VISIBLE
@@ -482,7 +475,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
         })
     }
     private fun callForPayment(payment_token:String,amount:String){
-        Log.e("paymentcall","true")
+
         mProgressRelLayout.visibility=View.VISIBLE
         val tsLong = System.currentTimeMillis() / 1000
         val ts = tsLong.toString()
@@ -495,14 +488,13 @@ class CanteenPaymentActivity:AppCompatActivity() {
             ApiClient.getClient.payment_gateway(paymentGatewayBody, "Bearer " + token)
         call.enqueue(object : Callback<PaymentGatewayModel> {
             override fun onFailure(call: Call<PaymentGatewayModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(nContext)
                 mProgressRelLayout.visibility = View.GONE
             }
 
             override fun onResponse(call: Call<PaymentGatewayModel>, response: Response<PaymentGatewayModel>) {
                 val responsedata = response.body()
                 mProgressRelLayout.visibility = View.GONE
-                Log.e("Response gateway", response.body()!!.status.toString())
                 if (responsedata != null) {
                     try {
 
@@ -512,8 +504,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
                             var orderPageUrl=responsedata.responseArray.order_paypage_url
                             var auth=responsedata.responseArray.authorization
                             val Code: String = orderPageUrl.split("=").toTypedArray().get(1)
-                            Log.e("code",Code)
-                            Log.e("auth",auth)
+
                             mProgressRelLayout.visibility = View.GONE
                             val request: CardPaymentRequest = CardPaymentRequest.Builder().gatewayUrl(auth).code(Code).build()
 
@@ -547,20 +538,16 @@ class CanteenPaymentActivity:AppCompatActivity() {
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("request_code", requestCode.toString())
-        Log.d("resultt_code", resultCode.toString())
+
         if (data == null) {
             mProgressRelLayout.visibility=View.GONE
             Toast.makeText(nContext, "transaction cancelled", Toast.LENGTH_SHORT).show()
         } else {
             if (requestCode == 101) {
                 mProgressRelLayout.visibility=View.GONE
-//            Log.d("response",data.getStringExtra("jsonResponse"));
 //            String jsonObject=data.getStringExtra("jsonResponse");
-//            Log.v("jsonResponse",jsonObject);
                 val cardPaymentData = CardPaymentData.getFromIntent(data)
-                Log.d("PAYMM", cardPaymentData.code.toString())
-                Log.d("PAYMM", cardPaymentData.reason.toString())
+
                 if (cardPaymentData.code == 2) {
 
                     /* val tripDetailsAPI = """
@@ -588,7 +575,6 @@ class CanteenPaymentActivity:AppCompatActivity() {
                     paySuccessApi()
 
 
-//                Log.d("reason",cardPaymentData.getReason());
                 } else {
                     Toast.makeText(nContext, "Transaction failed", Toast.LENGTH_SHORT).show()
                 }
@@ -608,14 +594,14 @@ class CanteenPaymentActivity:AppCompatActivity() {
             ApiClient.getClient.wallet_topup(paymentSuccessBody, "Bearer " + token)
         call.enqueue(object : Callback<WalletAmountModel> {
             override fun onFailure(call: Call<WalletAmountModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(nContext)
                 mProgressRelLayout.visibility=View.INVISIBLE
             }
 
             override fun onResponse(call: Call<WalletAmountModel>, response: Response<WalletAmountModel>) {
                 val responsedata = response.body()
                 //progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
+
                 if (responsedata != null) {
                     try {
 

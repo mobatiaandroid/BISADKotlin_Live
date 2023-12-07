@@ -40,7 +40,6 @@ class SocialMediaDetailActivity : AppCompatActivity() {
         mContext=this
         url=intent.getStringExtra("url")
         title=intent.getStringExtra("title")
-        System.out.println("CLICKEDDATA:"+"URL:"+url+"TITLE:"+title)
         initializeUI()
         getWebViewSettings()
 

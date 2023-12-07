@@ -31,6 +31,7 @@ import com.mobatia.bisad.activity.parent_meetings.model.confirm_pta.PtaConfirmat
 import com.mobatia.bisad.activity.parent_meetings.model.confirm_pta.PtaConfirmationModel
 import com.mobatia.bisad.activity.parent_meetings.model.review_list.PtaReviewListModel
 import com.mobatia.bisad.activity.parent_meetings.model.review_list.ReviewListModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.home.mContext
 import com.mobatia.bisad.fragment.home.sharedprefs
@@ -83,13 +84,11 @@ internal class ReviewAdapter (var context: Context,var review_list:ArrayList<Rev
         holder.student_class.text = review_list[position].class_name
         holder.staff_name.text = review_list[position].staff
 var date_sel=review_list[position].date
-        Log.e("dt",date_sel.toString())
         val inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
         val outputFormat: DateFormat = SimpleDateFormat("dd MMM yyyy")
         val inputDateStr = date_sel
         val date: Date = inputFormat.parse(inputDateStr)
        var date_frmt = outputFormat.format(date)
-        Log.e("datefrmt",date_frmt.toString())
         var st_time=review_list[position].start_time
         val inputFormat2: DateFormat = SimpleDateFormat("hh:mm:ss")
         val outputFormat2: DateFormat = SimpleDateFormat("hh:mm aa")
@@ -110,7 +109,6 @@ var date_sel=review_list[position].date
         var bookend_date_frmt = outputFormat4.format(date4)
 
         var st_date=date_frmt + " "+st_date_frmt+" - "+end_date_frmt
-        Log.e("dateline",st_date.toString())
         holder.start_date.text = st_date
         var en_date=bookend_date_frmt
         holder.end_date.text = "Confirm/Cancellation closes at "+ en_date
@@ -244,8 +242,7 @@ var date_sel=review_list[position].date
             ApiClient.getClient.pta_confirmation(ptaConfirm,"Bearer " + token)
         call.enqueue(object : Callback<PtaConfirmationModel> {
             override fun onFailure(call: Call<PtaConfirmationModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-               // progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(context)
             }
 
             override fun onResponse(
@@ -290,8 +287,7 @@ else
             ApiClient.getClient.pta_cancel(ptaCancel,"Bearer " + token)
         call.enqueue(object : Callback<PtaCancelModel> {
             override fun onFailure(call: Call<PtaCancelModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                // progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(context)
             }
 
             override fun onResponse(
@@ -442,8 +438,7 @@ else
             ApiClient.getClient.pta_review_list("Bearer " + token)
         call.enqueue(object : Callback<PtaReviewListModel> {
             override fun onFailure(call: Call<PtaReviewListModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                //progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(context)
             }
 
             override fun onResponse(

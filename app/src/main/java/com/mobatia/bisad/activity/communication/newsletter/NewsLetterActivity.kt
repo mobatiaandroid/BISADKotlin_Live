@@ -32,6 +32,7 @@ import com.mobatia.bisad.activity.communication.newsletter.model.NewsLetterListA
 import com.mobatia.bisad.activity.communication.newsletter.model.NewsLetterListModel
 import com.mobatia.bisad.activity.communication.newsletter.model.NewsLetterResponseModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.report_absence.adapter.RequestAbsenceRecyclerAdapter
@@ -144,7 +145,7 @@ class NewsLetterActivity : AppCompatActivity() {
         call.enqueue(object : Callback<NewsLetterListModel> {
             override fun onFailure(call: Call<NewsLetterListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<NewsLetterListModel>, response: Response<NewsLetterListModel>) {
                 progressDialog.visibility = View.GONE

@@ -19,6 +19,7 @@ import com.mobatia.bisad.activity.canteen.model.order_history.OrderHistoryApiMod
 import com.mobatia.bisad.activity.canteen.model.order_history.OrderHistoryDataModel
 import com.mobatia.bisad.activity.canteen.model.order_history.OrderHistoryResponseModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.ApiClient
@@ -51,7 +52,7 @@ class OrderhistoryActivity : AppCompatActivity() {
     private fun initfn() {
         nContext = this
         studentID=intent.getStringExtra("StudentId").toString()
-        Log.e("StudID",studentID)
+
         logoClickImg=findViewById(R.id.logoclick)
         back = findViewById(R.id.back)
         progress=ProgressBarDialog(nContext)
@@ -87,13 +88,13 @@ class OrderhistoryActivity : AppCompatActivity() {
         val call: Call<OrderHistoryResponseModel> = ApiClient.getClient.canteen_order_history(model,"Bearer "+token)
         call.enqueue(object : Callback<OrderHistoryResponseModel> {
             override fun onFailure(call: Call<OrderHistoryResponseModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(nContext)
                 progress.hide()
             }
             override fun onResponse(call: Call<OrderHistoryResponseModel>, response: Response<OrderHistoryResponseModel>) {
                 val responsedata = response.body()
                 progress.hide()
-                Log.e("Response", responsedata.toString())
+
                 if (responsedata!!.status==100) {
 
                     preorderhis_list=response.body()!!.responseArray.data

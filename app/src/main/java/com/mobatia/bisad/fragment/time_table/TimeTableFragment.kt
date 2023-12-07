@@ -38,6 +38,7 @@ import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.github.barteksc.pdfviewer.PDFView
 import com.mobatia.bisad.R
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.student_information.adapter.StudentListAdapter
@@ -161,33 +162,33 @@ class TimeTableFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(mContext)
         linearLayoutManagerVertical = LinearLayoutManager(mContext)
         linearLayoutManagerVertical1 = LinearLayoutManager(mContext)
-        weekRecyclerList = view!!.findViewById(R.id.weekRecyclerList) as RecyclerView
+        weekRecyclerList = requireView().findViewById(R.id.weekRecyclerList) as RecyclerView
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         weekRecyclerList.layoutManager = linearLayoutManager
         weekRecyclerList.itemAnimator = DefaultItemAnimator()
 
-        timeTableSingleRecycler = view!!.findViewById(R.id.timeTableSingleRecycler) as RecyclerView
-        non_primarylinear = view!!.findViewById(R.id.non_primarylinear) as LinearLayout
-        primary_pdf = view!!.findViewById(R.id.primary_pdf) as PDFView
+        timeTableSingleRecycler = requireView().findViewById(R.id.timeTableSingleRecycler) as RecyclerView
+        non_primarylinear = requireView().findViewById(R.id.non_primarylinear) as LinearLayout
+        primary_pdf = requireView().findViewById(R.id.primary_pdf) as PDFView
         linearLayoutManagerVertical1.orientation = LinearLayoutManager.VERTICAL
         timeTableSingleRecycler.layoutManager = linearLayoutManagerVertical1
         timeTableSingleRecycler.itemAnimator = DefaultItemAnimator()
 
         recyclerinitializer()
 
-        studentSpinner = view!!.findViewById(R.id.studentSpinner) as LinearLayout
-        progressDialog = view!!.findViewById(R.id.progressDialog) as RelativeLayout
+        studentSpinner = requireView().findViewById(R.id.studentSpinner) as LinearLayout
+        progressDialog = requireView().findViewById(R.id.progressDialog) as RelativeLayout
         val aniRotate: Animation =
             AnimationUtils.loadAnimation(mContext, R.anim.linear_interpolator)
         progressDialog.startAnimation(aniRotate)
-        studImg = view!!.findViewById(R.id.studImg) as ImageView
-        noDataImg = view!!.findViewById(R.id.noDataImg) as ImageView
-        studentNameTxt = view!!.findViewById(R.id.studentName) as TextView
-        card_viewAll = view!!.findViewById(R.id.card_viewAll) as CardView
-        sharepdf = view!!.findViewById(R.id.sharepdf) as ImageView
-        downloadpdf = view!!.findViewById(R.id.downloadpdf) as ImageView
-        sharedownloadlinear = view!!.findViewById(R.id.sharedownloadlinear) as LinearLayout
-        tipContainer = view!!.findViewById(R.id.tooltip_container) as ToolTipLayout
+        studImg = requireView().findViewById(R.id.studImg) as ImageView
+        noDataImg = requireView().findViewById(R.id.noDataImg) as ImageView
+        studentNameTxt = requireView().findViewById(R.id.studentName) as TextView
+        card_viewAll = requireView().findViewById(R.id.card_viewAll) as CardView
+        sharepdf = requireView().findViewById(R.id.sharepdf) as ImageView
+        downloadpdf = requireView().findViewById(R.id.downloadpdf) as ImageView
+        sharedownloadlinear = requireView().findViewById(R.id.sharedownloadlinear) as LinearLayout
+        tipContainer = requireView().findViewById(R.id.tooltip_container) as ToolTipLayout
         for (i in 0..weekListArrayString.size - 1) {
             var weekModel =
                 WeekModel(
@@ -435,7 +436,7 @@ class TimeTableFragment : Fragment() {
         call.enqueue(object : Callback<TimeTableApiDataModel> {
             override fun onFailure(call: Call<TimeTableApiDataModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+
                 showSuccessAlert(mContext, "Something went wrong.", "Alert")
             }
 
@@ -529,10 +530,7 @@ class TimeTableFragment : Fragment() {
                                                 mTimetableApiArrayList.get(t).sortname
                                             )
                                         ) {
-                                            Log.e(
-                                                "Sortname",
-                                                mTimetableApiArrayList.get(t).sortname
-                                            )
+
                                             mDayModel.id = mTimetableApiArrayList.get(t).id
                                             mDayModel.period_id =
                                                 mTimetableApiArrayList.get(t).period_id
@@ -753,7 +751,6 @@ class TimeTableFragment : Fragment() {
                             sharedownloadlinear.visibility  =View.VISIBLE
                         }
                     }
-                    Log.e("APISUCCESS", response.body().toString())
 
 
                 } else if (response.body()!!.status == 116) {
@@ -909,7 +906,7 @@ class TimeTableFragment : Fragment() {
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer " + token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
 
             override fun onResponse(
@@ -920,9 +917,8 @@ class TimeTableFragment : Fragment() {
                 if (response.body()!!.status == 100) {
 
                     studentListArrayList.addAll(response.body()!!.responseArray.studentList)
-                    System.out.println("CalendarResoponse" + response.body())
                     if (sharedprefs.getStudentID(mContext).equals("")) {
-                        Log.e("Empty Img", "Empty")
+
                         studentName = studentListArrayList.get(0).name
                         studentImg = studentListArrayList.get(0).photo
                         studentId = studentListArrayList.get(0).id
@@ -1024,7 +1020,7 @@ class TimeTableFragment : Fragment() {
     }
 
     fun recyclerinitializer() {
-        timeTableAllRecycler = view!!.findViewById(R.id.timeTableAllRecycler) as RecyclerView
+        timeTableAllRecycler = requireView().findViewById(R.id.timeTableAllRecycler) as RecyclerView
         linearLayoutManagerVertical.orientation = LinearLayoutManager.VERTICAL
         timeTableAllRecycler.layoutManager = linearLayoutManagerVertical
         timeTableAllRecycler.itemAnimator = DefaultItemAnimator()

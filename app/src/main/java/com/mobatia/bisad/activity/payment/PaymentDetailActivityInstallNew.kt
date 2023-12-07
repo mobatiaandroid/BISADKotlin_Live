@@ -141,7 +141,6 @@ class PaymentDetailActivityInstallNew:AppCompatActivity() {
         //AppController.Position = extras.getInt("pos")
         //orderId = extras.getString("orderId");
         //orderId = extras.getString("orderId");
-        println("order Id$orderId")
         merchantid = intent.getStringExtra("merchant_id").toString()
         email = intent.getStringExtra("email").toString()
         merchant_name = intent.getStringExtra("merchant_name").toString()

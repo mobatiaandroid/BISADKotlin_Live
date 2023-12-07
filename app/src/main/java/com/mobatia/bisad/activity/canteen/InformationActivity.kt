@@ -15,6 +15,7 @@ import com.mobatia.bisad.activity.canteen.model.information.InfoCanteenModel
 import com.mobatia.bisad.activity.canteen.model.information.InfoListModel
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.settings.re_enrollment.model.EnrollmentStatusModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.ApiClient
@@ -62,11 +63,11 @@ class InformationActivity : AppCompatActivity() {
         val call: Call<InfoCanteenModel> = ApiClient.getClient.getCanteenInformation("Bearer "+token)
         call.enqueue(object : Callback<InfoCanteenModel> {
             override fun onFailure(call: Call<InfoCanteenModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<InfoCanteenModel>, response: Response<InfoCanteenModel>) {
                 val responsedata = response.body()
-                Log.e("Response", responsedata.toString())
+
                 if (responsedata!!.status==100) {
 
                     if(response.body()!!.responseArray.information.size>0)

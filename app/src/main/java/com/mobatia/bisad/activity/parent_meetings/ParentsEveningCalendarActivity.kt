@@ -17,6 +17,7 @@ import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.parent_meetings.model.PtaAllottedDatesApiModel
 import com.mobatia.bisad.activity.parent_meetings.model.PtaAllottedDatesModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.AccessTokenClass
@@ -328,7 +329,7 @@ lateinit var title:TextView
         call.enqueue(object : Callback<PtaAllottedDatesModel> {
             override fun onFailure(call: Call<PtaAllottedDatesModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<PtaAllottedDatesModel>, response: Response<PtaAllottedDatesModel>) {
                 progressDialog.visibility = View.GONE
@@ -341,7 +342,6 @@ lateinit var title:TextView
                         val inputDateStr = dates
                         val date: Date = inputFormat.parse(inputDateStr)
                         val outputDateStr: String = outputFormat.format(date)
-                        Log.e("dt",outputDateStr)
                         datesToPlot.add(i,outputDateStr)
                     }
 
@@ -350,7 +350,6 @@ lateinit var title:TextView
                     for (i in 0..datesToPlot.size-1){
                         var days_s=datesToPlot[i]
 
-                        Log.e("days_s",days_s)
 
                         for (i in 0..nums_Array.size-1) {
 
@@ -358,18 +357,15 @@ lateinit var title:TextView
                             var c_month= count_month!! +1
                             var c_year=count_year
                             var c_date=c_day+"/"+c_month+"/"+c_year
-                            Log.e("c_date",c_date)
 
                             if (days_s.equals(c_date)){
 
-                                Log.e("match","match")
                                 dateTextView[i]!!.setBackgroundResource(R.drawable.roundred)
                                 dateTextView[i]!!.setTextColor(Color.WHITE)
 
                             }
 
                             else{
-                                //Log.e("no_match","no_match")
 
                             }
                         }
@@ -407,7 +403,6 @@ lateinit var title:TextView
 
         for (i in 0..datesToPlot.size-1){
             var days_s=datesToPlot[i].date
-            Log.e("days_s",days_s)
 
             for (i in 0..nums_Array.size-1) {
 
@@ -415,18 +410,15 @@ lateinit var title:TextView
                 var c_month= count_month!! +1
                 var c_year=count_year
                 var c_date=c_day+"/"+c_month+"/"+c_year
-                Log.e("c_date",c_date)
 
                 if (days_s.equals(c_date)){
 
-                    Log.e("match","match")
                     dateTextView[i]!!.setBackgroundResource(R.drawable.roundred)
                     dateTextView[i]!!.setTextColor(Color.WHITE)
 
                 }
 
                 else{
-                    //Log.e("no_match","no_match")
 
                 }
             }

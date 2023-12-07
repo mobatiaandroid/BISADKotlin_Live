@@ -25,6 +25,7 @@ import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartModel
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartResModel
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CartItemsListModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.recyclermanager.OnItemClickListener
@@ -225,7 +226,7 @@ logoClickImg.setOnClickListener {
         val call: Call<CatListModel> = ApiClient.getClient.get_canteen_categories("Bearer "+token)
         call.enqueue(object : Callback<CatListModel> {
             override fun onFailure(call: Call<CatListModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(nContext)
             }
             override fun onResponse(call: Call<CatListModel>, response: Response<CatListModel>) {
                 //progressDialogM.visibility=View.GONE
@@ -327,15 +328,14 @@ logoClickImg.setOnClickListener {
         //progressDialogM.visibility=View.VISIBLE
         progressDialogM.show()
         cart_empty.visibility=View.GONE
-       Log.e("dsel",date_selected)
         val token = PreferenceData().getaccesstoken(nContext)
         var canteenItems= CanteenItemsApiModel(PreferenceData().getStudentID(nContext).toString(),def_cat_id,
             date_selected,"0","50")
         val call: Call<ItemsListModel> = ApiClient.getClient.get_canteen_items(canteenItems,"Bearer "+token)
         call.enqueue(object : Callback<ItemsListModel> {
             override fun onFailure(call: Call<ItemsListModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
                // progressDialogM.visibility=View.GONE
+
                 progressDialogM.hide()
                 recyclerview_item.visibility=View.VISIBLE
             }
@@ -451,7 +451,7 @@ logoClickImg.setOnClickListener {
         val call: Call<ItemsListModel> = ApiClient.getClient.get_canteen_items(canteenItems,"Bearer "+token)
         call.enqueue(object : Callback<ItemsListModel> {
             override fun onFailure(call: Call<ItemsListModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 //progressDialogM.visibility=View.GONE
                 progressDialogM.hide()
                 recyclerview_item.visibility=View.VISIBLE
@@ -566,7 +566,7 @@ logoClickImg.setOnClickListener {
         val call: Call<CanteenCartModel> = ApiClient.getClient.get_canteen_cart(canteenCart,"Bearer "+token)
         call.enqueue(object : Callback<CanteenCartModel> {
             override fun onFailure(call: Call<CanteenCartModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 //progressDialogM.visibility=View.GONE
                 progressDialogM.show()
                 recyclerview_item.visibility=View.VISIBLE

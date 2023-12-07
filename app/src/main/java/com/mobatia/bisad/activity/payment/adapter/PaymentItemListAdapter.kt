@@ -51,7 +51,6 @@ var dueDate:String=""
         }
         holder.listTitle.setText(catItemList[position].invoice_description)
         if (catItemList[position].due_date.isNotEmpty()){
-            Log.e("date",catItemList[position].due_date.toString())
 
            /* val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             val formatter = SimpleDateFormat("dd.MM.yyyy HH:mm")
@@ -62,7 +61,6 @@ var dueDate:String=""
             val inputDateStr = catItemList[position].due_date
             val date: Date = inputFormat.parse(inputDateStr)
             dueDate = outputFormat.format(date)
-            Log.e("date",dueDate.toString())
             holder.listDate.setText("Due Date: " + dueDate)
         }else{
             holder.listDate.setText("")
@@ -82,7 +80,6 @@ var dueDate:String=""
              }
 
          holder.list.setOnClickListener(){
-         //    Log.e("paidby",catItemList[position].paid_by)
              var paidBy=""
              var paidDate=""
              if(catItemList[position].paid_by!=null)
@@ -99,7 +96,6 @@ var dueDate:String=""
              else{
                  paidDate=""
              }
-             Log.e("due",dueDate.toString())
                  val intent = Intent(mcontext, PaymentDetailsActivity::class.java)
                  intent.putExtra("title",title)
                  intent.putExtra("status",catItemList[position].status)

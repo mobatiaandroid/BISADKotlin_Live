@@ -37,6 +37,6 @@ class SellerFirebaseService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        Log.i("SellerFirebaseService ", "Message :: $message")
+        //Log.i("SellerFirebaseService ", "Message :: $message")
     }
 }

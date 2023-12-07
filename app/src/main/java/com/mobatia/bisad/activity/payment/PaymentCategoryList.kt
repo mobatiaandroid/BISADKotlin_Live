@@ -26,6 +26,7 @@ import com.mobatia.bisad.activity.payment.model.PayCatDataList
 import com.mobatia.bisad.activity.payment.model.PayCategoryModel
 import com.mobatia.bisad.activity.payment.model.PaymentCategoriesApiModel
 import com.mobatia.bisad.activity.payment.model.PaymentCategoryListModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.home.model.reenrollment.ReEnrollEmailApiModel
 import com.mobatia.bisad.fragment.home.model.reenrollment.ReEnrollEmailModel
@@ -108,7 +109,7 @@ class PaymentCategoryList: AppCompatActivity() {
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<StudentListModel>, response: Response<StudentListModel>) {
                 //val arraySize :Int = response.body()!!.responseArray.studentList.size
@@ -119,7 +120,6 @@ class PaymentCategoryList: AppCompatActivity() {
                     studentListArrayList.addAll(response.body()!!.responseArray.studentList)
                     if (sharedprefs.getStudentID(mContext).equals(""))
                     {
-                        Log.e("Empty Img","Empty")
                         studentName=studentListArrayList.get(0).name
                         studentImg=studentListArrayList.get(0).photo
                         studentId=studentListArrayList.get(0).id
@@ -129,7 +129,6 @@ class PaymentCategoryList: AppCompatActivity() {
                         sharedprefs.setStudentPhoto(mContext,studentImg)
                         sharedprefs.setStudentClass(mContext,studentClass)
                         studentNameTxt.text=studentName
-                        Log.e("studid(0)", sharedprefs.getStudentID(mContext).toString())
                         if(!studentImg.equals(""))
                         {
                             Glide.with(mContext) //1
@@ -228,7 +227,6 @@ class PaymentCategoryList: AppCompatActivity() {
                 sharedprefs.setStudentName(mContext,studentName)
                 sharedprefs.setStudentPhoto(mContext,studentImg)
                 sharedprefs.setStudentClass(mContext,studentClass)
-                Log.e("studidclick",sharedprefs.getStudentID(mContext).toString())
                 studentNameTxt.text=studentName
                 if(!studentImg.equals(""))
                 {
@@ -262,14 +260,14 @@ class PaymentCategoryList: AppCompatActivity() {
             ApiClient.getClient.payment_categories(paymentCategoriesBody, "Bearer " + token)
         call.enqueue(object : Callback<PayCategoryModel> {
             override fun onFailure(call: Call<PayCategoryModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(mContext)
             }
 
             override fun onResponse(call: Call<PayCategoryModel>, response: Response<PayCategoryModel>) {
                 val responsedata = response.body()
                 progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
 

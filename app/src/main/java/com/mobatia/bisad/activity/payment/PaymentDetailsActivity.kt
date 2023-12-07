@@ -31,6 +31,7 @@ import com.mobatia.bisad.activity.payment.model.payment_submit.PaymentSubmitApiM
 import com.mobatia.bisad.activity.payment.model.payment_submit.PaymentSubmitModel
 import com.mobatia.bisad.activity.payment.model.payment_token.PaymentTokenApiModel
 import com.mobatia.bisad.activity.payment.model.payment_token.PaymentTokenModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.AccessTokenClass
@@ -145,7 +146,6 @@ class PaymentDetailsActivity : AppCompatActivity() {
         val inputDateStr = due
         val date: Date = inputFormat.parse(inputDateStr)
         due_date = outputFormat.format(date)
-Log.e("due",due_date.toString())
         back.setOnClickListener {
             finish()
         }
@@ -258,7 +258,6 @@ if (status.equals("0")){
 
         }
         payTotalButton.setOnClickListener(){
-            Log.e("click","1")
 getpaymenttoken()
             /*mainLinear.visibility = GONE
             printLinear.visibility = GONE
@@ -288,14 +287,14 @@ getpaymenttoken()
             ApiClient.getClient.payment_token(paymentTokenBody, "Bearer " + token)
         call.enqueue(object : Callback<PaymentTokenModel> {
             override fun onFailure(call: Call<PaymentTokenModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
                 mProgressRelLayout.visibility = View.GONE
+                CommonFunctions.faliurepopup(context)
             }
 
             override fun onResponse(call: Call<PaymentTokenModel>, response: Response<PaymentTokenModel>) {
                 val responsedata = response.body()
                 //progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
+
                 if (responsedata != null) {
                     try {
 
@@ -304,11 +303,9 @@ getpaymenttoken()
                             val tsLong = System.currentTimeMillis() / 1000
                             val ts = tsLong.toString()
                             var mechantorderRef=invoice_ref+"-"+ts
-                            Log.e("m",mechantorderRef)
                             val amountDouble: Double = total_amount.toDouble() * 100
                             val amuntInt = amountDouble.toInt()
                             val strDoubleAmount = amuntInt.toString()
-                            Log.e("amount",strDoubleAmount)
                              //order_id= "BISAD" + id + "S" + studentId
                             callForPayment(payment_token,strDoubleAmount)
 
@@ -337,7 +334,6 @@ getpaymenttoken()
         })
     }
     private fun callForPayment(payment_token:String,amount:String){
-        Log.e("paymentcall","true")
         mProgressRelLayout.visibility=View.VISIBLE
         val tsLong = System.currentTimeMillis() / 1000
         val ts = tsLong.toString()
@@ -350,14 +346,14 @@ getpaymenttoken()
             ApiClient.getClient.payment_gateway(paymentGatewayBody, "Bearer " + token)
         call.enqueue(object : Callback<PaymentGatewayModel> {
             override fun onFailure(call: Call<PaymentGatewayModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 mProgressRelLayout.visibility = View.GONE
+                CommonFunctions.faliurepopup(context)
             }
 
             override fun onResponse(call: Call<PaymentGatewayModel>, response: Response<PaymentGatewayModel>) {
                 val responsedata = response.body()
                 //progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
 
@@ -367,8 +363,7 @@ getpaymenttoken()
                             var orderPageUrl=responsedata.responseArray.order_paypage_url
                             var auth=responsedata.responseArray.authorization
                             val Code: String = orderPageUrl.split("=").toTypedArray().get(1)
-                            Log.e("code",Code)
-                            Log.e("auth",auth)
+
                             mProgressRelLayout.visibility = View.GONE
                             val request: CardPaymentRequest = CardPaymentRequest.Builder().gatewayUrl(auth).code(Code).build()
 
@@ -401,20 +396,16 @@ getpaymenttoken()
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("request_code", requestCode.toString())
-        Log.d("resultt_code", resultCode.toString())
+
         if (data == null) {
             mProgressRelLayout.visibility=View.GONE
             Toast.makeText(context, "transaction cancelled", Toast.LENGTH_SHORT).show()
         } else {
             if (requestCode == 101) {
                 mProgressRelLayout.visibility=View.GONE
-//            Log.d("response",data.getStringExtra("jsonResponse"));
-//            String jsonObject=data.getStringExtra("jsonResponse");
-//            Log.v("jsonResponse",jsonObject);
+
                 val cardPaymentData = CardPaymentData.getFromIntent(data)
-                Log.d("PAYMM", cardPaymentData.code.toString())
-                Log.d("PAYMM", cardPaymentData.reason.toString())
+
                 if (cardPaymentData.code == 2) {
 
                    /* val tripDetailsAPI = """
@@ -438,7 +429,6 @@ getpaymenttoken()
                     paySuccessApi()
 
 
-//                Log.d("reason",cardPaymentData.getReason());
                 } else {
                     Toast.makeText(context, "Transaction failed", Toast.LENGTH_SHORT).show()
                 }
@@ -454,14 +444,13 @@ getpaymenttoken()
             ApiClient.getClient.submit_payment(paymentSuccessBody, "Bearer " + token)
         call.enqueue(object : Callback<PaymentSubmitModel> {
             override fun onFailure(call: Call<PaymentSubmitModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
                 mProgressRelLayout.visibility=View.GONE
+                CommonFunctions.faliurepopup(context)
             }
 
             override fun onResponse(call: Call<PaymentSubmitModel>, response: Response<PaymentSubmitModel>) {
                 val responsedata = response.body()
                 //progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
 
@@ -556,12 +545,10 @@ var trn_pay=PreferenceData().getTrnPayment(context)
             val br = BufferedReader(InputStreamReader(assets.open("receipfee.html")))
             sb = StringBuffer()
             eachLine = br.readLine()
-            Log.e("...line",eachLine)
             while (br.readLine() != null) {
                 sb.append(eachLine)
                 sb.append("\n")
                 eachLine = br.readLine()
-                Log.e("line",eachLine)
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -584,7 +571,6 @@ var trn_pay=PreferenceData().getTrnPayment(context)
             fullHtml = fullHtml!!.replace("###percent###", "($vat_percentage%)")
             backStatus = "2"
 
-//            Log.d("LOG3","fullHtml = "+fullHtml);
 //            paymentWeb.loadDataWithBaseURL("", fullHtml, "text/html", "UTF-8", "");
             paymentWeb.loadDataWithBaseURL(
                 "file:///android_asset/images/",
@@ -593,7 +579,6 @@ var trn_pay=PreferenceData().getTrnPayment(context)
                 "utf-8",
                 "about:blank"
             )
-            //Log.e("LOADPRINT", fullHtml);
         }*/
     }
 
@@ -626,7 +611,6 @@ var trn_pay=PreferenceData().getTrnPayment(context)
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url,favicon)
 
-            //Log.e("WebView", "print webpage loading.." + url);
         }
     }
     fun shareFile(){

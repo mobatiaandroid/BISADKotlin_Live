@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobatia.bisad.R
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.fragment.staff_directory.adapter.CategoryListAdapter
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.staff_directory.model.*
@@ -123,12 +124,12 @@ class StaffDirectoryFragment: Fragment() {
     private fun initializeUI() {
         filtered = ArrayList()
         staff_list = ArrayList()
-        searchbtn = view!!.findViewById(R.id.btnImgsearch)
-        searchtxt = view!!.findViewById(R.id.searchEditText)
-        cat_recycler = view!!.findViewById(R.id.mStaffDirectoryListView)
-        titleTextView = view!!.findViewById(R.id.titleTextView) as TextView
+        searchbtn = requireView().findViewById(R.id.btnImgsearch)
+        searchtxt = requireView().findViewById(R.id.searchEditText)
+        cat_recycler = requireView().findViewById(R.id.mStaffDirectoryListView)
+        titleTextView = requireView().findViewById(R.id.titleTextView) as TextView
         titleTextView.text = "Staff Directory"
-        progressDialog = view!!.findViewById(R.id.progressDialog)
+        progressDialog = requireView().findViewById(R.id.progressDialog)
 
     }
 
@@ -141,7 +142,7 @@ class StaffDirectoryFragment: Fragment() {
         call.enqueue(object : Callback<TeachingStaffListModel> {
             override fun onFailure(call: Call<TeachingStaffListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<TeachingStaffListModel>, response: Response<TeachingStaffListModel>) {
                 progressDialog.visibility = View.GONE

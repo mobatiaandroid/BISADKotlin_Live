@@ -112,7 +112,7 @@ class LetterDetailActivity : AppCompatActivity(){
                 "<p class='description'>"+termsDescription+"</p>"+
                 "</body>\n</html>"
         var htmlData=pushNotificationDetail
-        Log.e("HTML DATA",htmlData)
+
         //  webView.loadData(htmlData,"text/html; charset=utf-8","utf-8")
         webView.loadDataWithBaseURL("file:///android_asset/fonts/",htmlData,"text/html; charset=utf-8", "utf-8", "about:blank")
     }
@@ -136,10 +136,8 @@ class LetterDetailActivity : AppCompatActivity(){
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 progressDialog.visibility = View.VISIBLE
-                println("testing2")
                 if (newProgress == 100)
                 {
-                    println("testing1")
                     progressDialog.visibility = View.GONE
 
                 }

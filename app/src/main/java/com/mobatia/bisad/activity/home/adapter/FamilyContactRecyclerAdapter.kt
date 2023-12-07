@@ -38,7 +38,7 @@ import com.mobatia.bisad.fragment.home.model.datacollection.KinDetailApiModel
 
         if (familyContactArrayList.get(position).isConfirmed)
         {
-            Log.e("ARRAYSIZE","Adapter")
+
             holder.confirmBtn.visibility=View.GONE
             holder.confirm_text.visibility=View.GONE
             holder.ownDetailViewRelative.setBackgroundResource(R.drawable.rect_background_grey)
@@ -54,7 +54,6 @@ import com.mobatia.bisad.fragment.home.model.datacollection.KinDetailApiModel
     }
     override fun getItemCount(): Int {
 
-        Log.e("ARRAYSIZE",familyContactArrayList.size.toString())
         return familyContactArrayList.size
 
     }

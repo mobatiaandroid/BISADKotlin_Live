@@ -37,7 +37,6 @@ class CurriculumRecyclerAdapter (private var context:Context,private var calenda
 
         holder.title.text = summary.title
         holder.title.setOnClickListener(View.OnClickListener {
-            Log.e("WORKING CLICK ADAPTER","ADAP")
             context.startActivity(Intent(context, CurriculumDetail::class.java).putExtra("Url",calendarArrayList.get(position).file))
 
         })

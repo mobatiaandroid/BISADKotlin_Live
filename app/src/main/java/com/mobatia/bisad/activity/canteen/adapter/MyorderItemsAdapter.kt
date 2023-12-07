@@ -22,6 +22,7 @@ import com.mobatia.bisad.activity.ProgressBarDialog
 import com.mobatia.bisad.activity.canteen.model.myorders.*
 import com.mobatia.bisad.activity.canteen.model.order_history.OrderHistoryApiModel
 import com.mobatia.bisad.activity.canteen.model.preorder.CanteenPreorderModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.AppController
 import com.mobatia.bisad.manager.PreferenceData
@@ -208,8 +209,9 @@ class MyorderItemsAdapter (val itemlist: ArrayList<Preorderitems_list>, var mcon
         val call: Call<CanteenPreorderModel> = ApiClient.getClient.cancelCanteenPreOrderItem(model,"Bearer "+token)
         call.enqueue(object : Callback<CanteenPreorderModel> {
             override fun onFailure(call: Call<CanteenPreorderModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
                 progress.hide()
+                CommonFunctions.faliurepopup(mcontext)
+
             }
             override fun onResponse(call: Call<CanteenPreorderModel>, response: Response<CanteenPreorderModel>) {
                 val responsedata = response.body()
@@ -246,8 +248,10 @@ class MyorderItemsAdapter (val itemlist: ArrayList<Preorderitems_list>, var mcon
         val call: Call<CanteenPreorderModel> = ApiClient.getClient.updateCanteenPreOrderItem(model,"Bearer "+token)
         call.enqueue(object : Callback<CanteenPreorderModel> {
             override fun onFailure(call: Call<CanteenPreorderModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 progress.hide()
+                CommonFunctions.faliurepopup(mcontext)
+
             }
             override fun onResponse(call: Call<CanteenPreorderModel>, response: Response<CanteenPreorderModel>) {
                 val responsedata = response.body()
@@ -282,8 +286,10 @@ class MyorderItemsAdapter (val itemlist: ArrayList<Preorderitems_list>, var mcon
         val call: Call<PreOrdersModel> = ApiClient.getClient.canteen_myorder_history(model,"Bearer "+token)
         call.enqueue(object : Callback<PreOrdersModel> {
             override fun onFailure(call: Call<PreOrdersModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 progress.hide()
+                CommonFunctions.faliurepopup(mcontext)
+
             }
             override fun onResponse(call: Call<PreOrdersModel>, response: Response<PreOrdersModel>) {
                 val responsedata = response.body()

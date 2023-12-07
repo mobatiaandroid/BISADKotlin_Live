@@ -17,6 +17,7 @@ import com.mobatia.bisad.activity.canteen.model.myorders.PreOrdersModel
 import com.mobatia.bisad.activity.canteen.model.myorders.Preorderitems_list
 import com.mobatia.bisad.activity.canteen.model.order_history.OrderHistoryApiModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.ApiClient
@@ -112,15 +113,14 @@ class MyorderActivity:AppCompatActivity() {
         val call: Call<PreOrdersModel> = ApiClient.getClient.canteen_myorder_history(model,"Bearer "+token)
         call.enqueue(object : Callback<PreOrdersModel> {
             override fun onFailure(call: Call<PreOrdersModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                //progressDialogAdd.visibility=View.GONE
+                CommonFunctions.faliurepopup(nContext)
                 progressDialogAdd.hide()
             }
             override fun onResponse(call: Call<PreOrdersModel>, response: Response<PreOrdersModel>) {
                 val responsedata = response.body()
                 //progressDialogAdd.visibility=View.GONE
                 progressDialogAdd.hide()
-                Log.e("Response", responsedata.toString())
+
                 if (responsedata!!.status==100) {
                     dateRecyclerView.visibility=View.VISIBLE
                     noItemTxt.visibility=View.GONE

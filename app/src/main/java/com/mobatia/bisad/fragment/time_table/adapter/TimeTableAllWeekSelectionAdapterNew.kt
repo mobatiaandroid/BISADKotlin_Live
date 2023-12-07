@@ -66,7 +66,6 @@ class TimeTableAllWeekSelectionAdapterNew(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.periodTxt.text = mFeildList[position].sortname
-        Log.e("PERIODTEXT:",mFeildList[position].sortname)
 
         holder.timeTxt.visibility = View.GONE
         if (mPeriodModel[position].timeTableDayModel.size > 0) {

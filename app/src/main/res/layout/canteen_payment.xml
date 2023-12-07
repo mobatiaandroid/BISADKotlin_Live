@@ -267,6 +267,7 @@
         android:layout_margin="10dp"
         android:background="@drawable/addmoneybg"
         android:text="add_to_wallet"
+    android:filterTouchesWhenObscured="true"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="15dp"

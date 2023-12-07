@@ -24,6 +24,7 @@ import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.parent_meetings.ParentsEveningCalendarActivity
 import com.mobatia.bisad.activity.parent_meetings.ParentsEveninginfoActivity
 import com.mobatia.bisad.activity.parent_meetings.ReviewAppointmentsRecyclerViewActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.student_information.adapter.StudentListAdapter
 import com.mobatia.bisad.fragment.student_information.model.StudentList
@@ -93,30 +94,28 @@ class ParentsMeetingFragment:Fragment() {
     }
     private fun initializeUI(){
         mContext=requireContext()
-        titleTextView = view!!.findViewById(R.id.titleTextView) as TextView
+        titleTextView = requireView().findViewById(R.id.titleTextView) as TextView
         titleTextView.text = "Parents Meeting"
-        infoImg = view!!.findViewById(R.id.infoImg)
+        infoImg = requireView().findViewById(R.id.infoImg)
         //progressDialog = view!!.findViewById(R.id.progressDialog) as RelativeLayout
-        studentrelatv=view!!.findViewById(R.id.studentRelative)
-        student_image=view!!.findViewById(R.id.selectStudentImgView)
-        staff_image=view!!.findViewById(R.id.selectStaffImgView)
-        studentname=view!!.findViewById(R.id.studentNameTV)
-        staffRelative=view!!.findViewById(R.id.staffRelative)
+        studentrelatv=requireView().findViewById(R.id.studentRelative)
+        student_image=requireView().findViewById(R.id.selectStudentImgView)
+        staff_image=requireView().findViewById(R.id.selectStaffImgView)
+        studentname=requireView().findViewById(R.id.studentNameTV)
+        staffRelative=requireView().findViewById(R.id.staffRelative)
         staffListArray= ArrayList()
-        staffNameTV=view!!.findViewById(R.id.staffNameTV)
-        nxtbtn=view!!.findViewById(R.id.next)
-        review_img=view!!.findViewById(R.id.reviewImageView)
+        staffNameTV=requireView().findViewById(R.id.staffNameTV)
+        nxtbtn=requireView().findViewById(R.id.next)
+        review_img=requireView().findViewById(R.id.reviewImageView)
 
         onclick()
         callStudentListApi()
 
-Log.e("time", sharedprefs.getIsFirstTimeInPE(mContext).toString())
         if (sharedprefs.getIsFirstTimeInPE(mContext)) {
             sharedprefs.setIsFirstTimeInPE(mContext, false)
             val mintent = Intent(mContext, ParentsEveninginfoActivity::class.java)
             mintent.putExtra("type", 1)
             mContext.startActivity(mintent)
-            Log.e("timeafter",sharedprefs.getIsFirstTimeInPE(mContext).toString())
         }
     }
 private fun onclick(){
@@ -151,7 +150,8 @@ private fun onclick(){
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer " + token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(
@@ -241,7 +241,8 @@ private fun onclick(){
         val call: Call<StaffListModel> = ApiClient.getClient.staffList(staffBody, "Bearer " + token)
         call.enqueue(object : Callback<StaffListModel> {
             override fun onFailure(call: Call<StaffListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(

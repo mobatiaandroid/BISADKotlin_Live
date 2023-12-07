@@ -24,6 +24,7 @@ import com.mobatia.bisad.activity.parent_meetings.model.confirm_pta.PtaConfirmat
 import com.mobatia.bisad.activity.parent_meetings.model.listing_pta.PtaListingModel
 import com.mobatia.bisad.activity.parent_meetings.model.review_list.PtaReviewListModel
 import com.mobatia.bisad.activity.parent_meetings.model.review_list.ReviewListModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.AccessTokenClass
@@ -92,8 +93,9 @@ confirm_tv.setOnClickListener {
             ApiClient.getClient.pta_review_list("Bearer " + token)
         call.enqueue(object : Callback<PtaReviewListModel> {
             override fun onFailure(call: Call<PtaReviewListModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(mContext)
             }
 
             override fun onResponse(
@@ -164,8 +166,7 @@ confirm_tv.setOnClickListener {
             ApiClient.getClient.pta_confirmation(ptaConfirm,"Bearer " + token)
         call.enqueue(object : Callback<PtaConfirmationModel> {
             override fun onFailure(call: Call<PtaConfirmationModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                // progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(mContext)
             }
 
             override fun onResponse(
@@ -205,7 +206,6 @@ else
     }
     private fun showSuccess(context: Context,message : String,msgHead : String)
     {
-        Log.e("alert","true")
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

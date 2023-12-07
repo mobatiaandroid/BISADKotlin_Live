@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.messaging.FirebaseMessaging
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.manager.PreferenceData
@@ -206,20 +207,18 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
         progressDialog.visibility=View.VISIBLE
         var androidID = Settings.Secure.getString(this.contentResolver,
             Settings.Secure.ANDROID_ID)
-        System.out.println("LOGINRESPONSE:"+"email:"+email+"pass:"+password+"devid:  "+androidID+" FCM ID : "+tokenM)
         val call: Call<ResponseBody> = ApiClient.getClient.login(
             email,password,2,androidID, tokenM
         )
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
                 progressDialog.visibility=View.GONE
             }
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val responsedata = response.body()
                 progressDialog.visibility=View.GONE
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
                         progressDialog.visibility=View.GONE
@@ -227,7 +226,6 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
                         if(jsonObject.has(jsonConstans.STATUS))
                         {
                             val status : Int=jsonObject.optInt(jsonConstans.STATUS)
-                            Log.e("STATUS LOGIN",status.toString())
                             if (status==100)
                             {
                                 //Success API response
@@ -387,13 +385,13 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
         progress.visibility=View.GONE
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
                 progress.visibility=View.GONE
             }
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val responsedata = response.body()
                 progress.visibility=View.GONE
-                Log.e("Response Signup", responsedata.toString())
+
                 if (responsedata != null) {
                     try {
 
@@ -464,10 +462,7 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
 
                             }
                         }
-//                        val accessToken: String = jsonObject.optString("access_token")
-//                        Log.e("Accesstokenlog", accessToken)
-//                        AccessTokenClass.sharedprefs.setaccesstoken(mContext, accessToken)
-//                        Log.e("SharedPrefsAccess", AccessTokenClass.sharedprefs.getaccesstoken(mContext))
+
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -547,11 +542,11 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
         )
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val responsedata = response.body()
-                Log.e("Response Signup", responsedata.toString())
+
                 if (responsedata != null) {
                     try {
 

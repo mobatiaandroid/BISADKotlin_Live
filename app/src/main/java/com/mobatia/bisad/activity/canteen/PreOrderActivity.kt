@@ -28,6 +28,7 @@ import com.mobatia.bisad.activity.canteen.model.add_orders.CatListModel
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartApiModel
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.student_information.adapter.StudentListAdapter
 import com.mobatia.bisad.fragment.student_information.model.StudentList
@@ -230,7 +231,7 @@ class PreOrderActivity : AppCompatActivity(){
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(nContext)
                 progressDialog.visibility = View.GONE
             }
             override fun onResponse(call: Call<StudentListModel>, response: Response<StudentListModel>) {
@@ -344,8 +345,7 @@ class PreOrderActivity : AppCompatActivity(){
         btn_submit.setOnClickListener()
         {
             for (calendar in calendarView.selectedDates) {
-                /* println("GetDate: " + calendar.time.toString())
-                 println("GetDate: " + calendar.timeInMillis)*/
+
                 val DateF: String = calendar.get(Calendar.DATE).toString()
                 val Day: String = calendar.time.toString()
                 var strCurrentDate = ""
@@ -422,10 +422,7 @@ class PreOrderActivity : AppCompatActivity(){
                     }
                 }
                 if (isFound) {
-                    Log.e(
-                        "timexeed",
-                        "Sorry pre-ordering for the day closes at 7.30am .Please remove todays date"
-                    )
+
 
                 } else {
                     dialog.dismiss()
@@ -454,8 +451,9 @@ class PreOrderActivity : AppCompatActivity(){
         val call: Call<TimeExceedModel> = ApiClient.getClient.time_exceed_status("Bearer "+token)
         call.enqueue(object : Callback<TimeExceedModel> {
             override fun onFailure(call: Call<TimeExceedModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 progressDialogAdd.visibility=View.GONE
+                CommonFunctions.faliurepopup(nContext)
             }
             override fun onResponse(call: Call<TimeExceedModel>, response: Response<TimeExceedModel>) {
                 val responsedata = response.body()

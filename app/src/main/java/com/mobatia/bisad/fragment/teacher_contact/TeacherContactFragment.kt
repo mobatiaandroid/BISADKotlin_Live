@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.mobatia.bisad.R
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.student_information.adapter.StudentListAdapter
@@ -95,14 +96,14 @@ class TeacherContactFragment : Fragment() {
         studentImg = ""
         studentId = ""
         staffEmail = ""
-        selectStudentImgView = view!!.findViewById(R.id.selectStudentImgView) as ImageView
-        selectStaffImgView = view!!.findViewById(R.id.selectStaffImgView) as ImageView
-        studentNameTV = view!!.findViewById(R.id.studentNameTV) as TextView
-        staffNameTV = view!!.findViewById(R.id.staffNameTV) as TextView
-        staffroleTV = view!!.findViewById(R.id.staffrole) as TextView
-        contactStaffBtn = view!!.findViewById(R.id.contactStaffBtn) as Button
-        staffRelative = view!!.findViewById(R.id.staffRelative) as RelativeLayout
-        loader = view!!.findViewById(R.id.loader) as RelativeLayout
+        selectStudentImgView = requireView().findViewById(R.id.selectStudentImgView) as ImageView
+        selectStaffImgView = requireView().findViewById(R.id.selectStaffImgView) as ImageView
+        studentNameTV = requireView().findViewById(R.id.studentNameTV) as TextView
+        staffNameTV = requireView().findViewById(R.id.staffNameTV) as TextView
+        staffroleTV = requireView().findViewById(R.id.staffrole) as TextView
+        contactStaffBtn = requireView().findViewById(R.id.contactStaffBtn) as Button
+        staffRelative = requireView().findViewById(R.id.staffRelative) as RelativeLayout
+        loader = requireView().findViewById(R.id.loader) as RelativeLayout
         contactStaffBtn.visibility = View.GONE
         selectStudentImgView.setOnClickListener(View.OnClickListener {
             loader.visibility = View.VISIBLE
@@ -193,14 +194,20 @@ class TeacherContactFragment : Fragment() {
                         progressDialog.startAnimation(aniRotate)
                         var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
                         if (internetCheck) {
-                            callSendEmailToStaffApi(
+                            emailvalidationcheck( text_dialog.text.toString().trim(),
+                                text_content.text.toString().trim(),
+                                studentId,
+                                staffEmail,
+                                dialog,
+                                progressDialog)
+                           /* callSendEmailToStaffApi(
                                 text_dialog.text.toString().trim(),
                                 text_content.text.toString().trim(),
                                 studentId,
                                 staffEmail,
                                 dialog,
                                 progressDialog
-                            )
+                            )*/
 
                         } else {
                             InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
@@ -219,7 +226,7 @@ class TeacherContactFragment : Fragment() {
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer " + token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
 
             override fun onResponse(
@@ -228,7 +235,6 @@ class TeacherContactFragment : Fragment() {
             ) {
                 if (response.body()!!.status == 100) {
 
-                    Log.e("Empty Img", "Empty")
                     if (response.body()!!.responseArray.studentList.size > 0) {
                         studentListArrayList.addAll(response.body()!!.responseArray.studentList)
                     }
@@ -265,7 +271,7 @@ class TeacherContactFragment : Fragment() {
         val call: Call<StaffListModel> = ApiClient.getClient.staffList(staffBody, "Bearer " + token)
         call.enqueue(object : Callback<StaffListModel> {
             override fun onFailure(call: Call<StaffListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
 
             override fun onResponse(
@@ -437,7 +443,84 @@ class TeacherContactFragment : Fragment() {
         dialog.show()
     }
 
+fun emailvalidationcheck( title: String,
+                          message: String,
+                          studentID: String,
+                          staffEmail: String,
+                          dialog: Dialog,
+                          progressDialog: RelativeLayout){
+    val EMAIL_PATTERN :String=
+        "^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+    val pattern :String= "^([a-zA-Z ]*)$"
 
+    if (title.equals("")) {
+        val toast: Toast = Toast.makeText(
+            mContext, mContext.getResources().getString(
+                com.mobatia.bisad.R.string.enter_subjects
+            ), Toast.LENGTH_SHORT
+        )
+        toast.show()
+    } else {
+        if (message.equals("")) {
+            val toast: Toast = Toast.makeText(
+                mContext, mContext.getResources().getString(
+                    R.string.enter_contents
+                ), Toast.LENGTH_SHORT
+            )
+            toast.show()
+        } else if (staffEmail.matches(EMAIL_PATTERN.toRegex())) {
+            if (title.toString().trim().matches(pattern.toRegex())) {
+if (title.toString().length>=500){
+    Toast.makeText(mContext, "Subject is too long", Toast.LENGTH_SHORT).show()
+
+}else{
+    if (message.toString().trim().matches(pattern.toRegex())) {
+        if (InternetCheckClass.isInternetAvailable(mContext)) {
+            if (message.length<=500) {
+                callSendEmailToStaffApi(
+                    title,
+                    message,
+                    studentID,
+                    staffEmail,
+                    dialog,
+                    progressDialog
+                )
+            }else{
+                Toast.makeText(mContext, "Message is too long", Toast.LENGTH_SHORT).show()
+
+            }
+        } else {
+            CommonFunctions.faliurepopup(mContext)
+        }
+    } else {
+        val toast: Toast = Toast.makeText(
+            mContext, mContext.getResources().getString(
+                R.string.enter_valid_contents
+            ), Toast.LENGTH_SHORT
+        )
+        toast.show()
+    }
+}
+
+
+            } else {
+                val toast: Toast = Toast.makeText(
+                    mContext, mContext.getResources().getString(
+                        R.string.enter_valid_subjects
+                    ), Toast.LENGTH_SHORT
+                )
+                toast.show()
+            }
+        } else {
+            val toast: Toast = Toast.makeText(
+                mContext, mContext.getResources().getString(
+                    R.string.enter_valid_mail
+                ), Toast.LENGTH_SHORT
+            )
+            toast.show()
+        }
+    }
+}
     fun callSendEmailToStaffApi(
         title: String,
         message: String,
@@ -452,21 +535,20 @@ class TeacherContactFragment : Fragment() {
             ApiClient.getClient.sendStaffMail(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(mContext)
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val responsedata = response.body()
                 progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
 
                         val jsonObject = JSONObject(responsedata.string())
                         if (jsonObject.has(jsonConstans.STATUS)) {
                             val status: Int = jsonObject.optInt(jsonConstans.STATUS)
-                            Log.e("STATUS LOGIN", status.toString())
                             if (status == 100) {
                                 showSuccessAlert(
                                     mContext,

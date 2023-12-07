@@ -404,6 +404,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:filterTouchesWhenObscured="true"
                 android:textColor="@color/white"
                 android:background="@drawable/rect_confirm_blue_button"/>
         </LinearLayout>

@@ -130,20 +130,20 @@ class PassportEmiratesScreen(studentID:String,studentImage:String,studentName:St
     }
 
     private fun initializeUI() {
-        imagicon = view!!.findViewById(R.id.imagicon)
-        studentNameTxt = view!!.findViewById(R.id.studentName)
-        passportLinear = view!!.findViewById(R.id.passportLinear)
-        closeImg = view!!.findViewById(R.id.closeImg)
-        passportNumberTxt = view!!.findViewById(R.id.passportNumberTxt)
-        passportExpiryTxt = view!!.findViewById(R.id.passportExpiryTxt)
-        passportNationalityTxt = view!!.findViewById(R.id.passportNationalityTxt)
-        uploadPassportTxt = view!!.findViewById(R.id.uploadPassportTxt)
-        PassImageName = view!!.findViewById(R.id.PassImageName)
-        visaPermitNumberTxt = view!!.findViewById(R.id.visaPermitNumberTxt)
-        ViewSelectedPassport = view!!.findViewById(R.id.ViewSelectedPassport)
-        VisaImageName = view!!.findViewById(R.id.VisaImageName)
-        ViewSelectedVisa = view!!.findViewById(R.id.ViewSelectedVisa)
-        uploadVisa = view!!.findViewById(R.id.uploadVisa)
+        imagicon = requireView().findViewById(R.id.imagicon)
+        studentNameTxt = requireView().findViewById(R.id.studentName)
+        passportLinear = requireView().findViewById(R.id.passportLinear)
+        closeImg = requireView().findViewById(R.id.closeImg)
+        passportNumberTxt = requireView().findViewById(R.id.passportNumberTxt)
+        passportExpiryTxt = requireView().findViewById(R.id.passportExpiryTxt)
+        passportNationalityTxt = requireView().findViewById(R.id.passportNationalityTxt)
+        uploadPassportTxt = requireView().findViewById(R.id.uploadPassportTxt)
+        PassImageName = requireView().findViewById(R.id.PassImageName)
+        visaPermitNumberTxt = requireView().findViewById(R.id.visaPermitNumberTxt)
+        ViewSelectedPassport = requireView().findViewById(R.id.ViewSelectedPassport)
+        VisaImageName = requireView().findViewById(R.id.VisaImageName)
+        ViewSelectedVisa = requireView().findViewById(R.id.ViewSelectedVisa)
+        uploadVisa = requireView().findViewById(R.id.uploadVisa)
         var isFound: Boolean = false
 
         for (i in 0..passportDetailArrayList.size - 1) {
@@ -530,7 +530,7 @@ class PassportEmiratesScreen(studentID:String,studentImage:String,studentName:St
             } else {
                 // Request permission from the user
                 ActivityCompat.requestPermissions(
-                    activity!!,
+                    requireActivity(),
                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE),
                     0
                 )
@@ -554,7 +554,7 @@ class PassportEmiratesScreen(studentID:String,studentImage:String,studentName:St
             } else {
                 // Request permission from the user
                 ActivityCompat.requestPermissions(
-                    activity!!,
+                    requireActivity(),
                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE),
                     0
                 )
@@ -588,7 +588,7 @@ class PassportEmiratesScreen(studentID:String,studentImage:String,studentName:St
                         var storageDir:File = Environment.getExternalStoragePublicDirectory(
                             Environment.DIRECTORY_PICTURES)
                         pictureImagePath=storageDir.absolutePath + "/" + imageFileName
-                        Log.e("PICTUREPATH : ",pictureImagePath)
+
                         val file = File(pictureImagePath)
                         val outputFileUri = Uri.fromFile(file)
                         val cameraIntent =
@@ -628,7 +628,6 @@ class PassportEmiratesScreen(studentID:String,studentImage:String,studentName:St
                         var storageDir:File = Environment.getExternalStoragePublicDirectory(
                             Environment.DIRECTORY_PICTURES)
                         pictureImagePath=storageDir.absolutePath + "/" + imageFileName
-                        Log.e("PICTUREPATH : ",pictureImagePath)
                         val file = File(pictureImagePath)
                         val outputFileUri = Uri.fromFile(file)
                         val cameraIntent =
@@ -641,7 +640,6 @@ class PassportEmiratesScreen(studentID:String,studentImage:String,studentName:St
                         intent.type = "image/*"
                         startActivityForResult(intent, VISA_GALLERY_REQUEST)
 
-                        Log.e("WORKS","GALLERY")
                     }
                     else -> {
 
@@ -909,7 +907,6 @@ class PassportEmiratesScreen(studentID:String,studentImage:String,studentName:St
         model.updated_at= passportDetailArrayList.get(foundPosition).updated_at
         passportDetailArrayList.removeAt(foundPosition)
         passportDetailArrayList.add(foundPosition,model)
-        Log.e("passport number",passportDetailArrayList.get(foundPosition).passport_number)
         sharedprefs.getPassportDetailArrayList(mContext)!!.clear()
         var passportDummy=ArrayList<PassportApiModel>()
         sharedprefs.setPassportDetailArrayList(mContext,passportDummy)

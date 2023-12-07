@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.social_media.SocialMediaDetailActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.socialmedia.adapter.SocialMediaRecyclerAdapter
@@ -72,13 +73,13 @@ class SocialMediaFragment : Fragment(){
 
     private fun initializeUI() {
 
-        bannerImageViewPager = view!!.findViewById(R.id.bannerImageViewPager) as ImageView
+        bannerImageViewPager = requireView().findViewById(R.id.bannerImageViewPager) as ImageView
 
         linearLayoutManager = LinearLayoutManager(mContext)
-        socialMediaRecycler = view!!.findViewById(R.id.socialMediaRecycler) as RecyclerView
+        socialMediaRecycler = requireView().findViewById(R.id.socialMediaRecycler) as RecyclerView
         socialMediaRecycler.layoutManager = linearLayoutManager
         socialMediaRecycler.itemAnimator = DefaultItemAnimator()
-        progressDialog = view!!.findViewById(R.id.progressDialog) as RelativeLayout
+        progressDialog = requireView().findViewById(R.id.progressDialog)
         val aniRotate: Animation =
             AnimationUtils.loadAnimation(mContext, R.anim.linear_interpolator)
         progressDialog.startAnimation(aniRotate)
@@ -101,7 +102,6 @@ class SocialMediaFragment : Fragment(){
 
                 if (mPackage == "fb"){
 
-                    Log.d("ASD",socialMediaArrayList[position].page_id)
 
                     val facebookAppIntent: Intent
                     try {
@@ -153,10 +153,10 @@ class SocialMediaFragment : Fragment(){
             override fun onFailure(call: Call<SocialMediaListModel>, t: Throwable) {
                // loader.visibility = View.GONE
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<SocialMediaListModel>, response: Response<SocialMediaListModel>) {
-                Log.d("REEEEE",response.body().toString())
                 progressDialog.visibility = View.GONE
                 if (response.body()!!.status==100)
                 {
@@ -202,7 +202,7 @@ class SocialMediaFragment : Fragment(){
         val facebookID = pageId
 
         try {
-            val versionCode = activity!!.applicationContext.packageManager.getPackageInfo("com.facebook.katana", 0).versionCode
+            val versionCode = requireActivity().applicationContext.packageManager.getPackageInfo("com.facebook.katana", 0).versionCode
             if (!facebookID.isEmpty()) {
                 // open the Facebook app using facebookID (fb://profile/facebookID or fb://page/facebookID)
                 val uri = Uri.parse("fb://page/$facebookID")

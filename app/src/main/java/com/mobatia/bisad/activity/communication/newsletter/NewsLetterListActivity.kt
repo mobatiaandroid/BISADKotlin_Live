@@ -114,7 +114,7 @@ class NewsLetterListActivity : AppCompatActivity() {
         call.enqueue(object : Callback<NewsLetterListModel> {
             override fun onFailure(call: Call<NewsLetterListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+
             }
             override fun onResponse(call: Call<NewsLetterListModel>, response: Response<NewsLetterListModel>) {
                 progressDialog.visibility = View.GONE

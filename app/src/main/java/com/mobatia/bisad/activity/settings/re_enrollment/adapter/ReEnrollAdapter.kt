@@ -67,7 +67,7 @@ internal class ReEnrollAdapter (var context: Context,var stud_enroll_list:ArrayL
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-Log.e("ad",stud_enroll_list[position].name)
+
         holder.student_name.text = stud_enroll_list[position].name
         holder.student_class.text = stud_enroll_list[position].section
         var stud_image=stud_enroll_list[position].photo

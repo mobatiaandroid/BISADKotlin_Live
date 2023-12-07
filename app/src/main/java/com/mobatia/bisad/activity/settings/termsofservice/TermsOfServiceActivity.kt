@@ -23,6 +23,7 @@ import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.message.model.MessageDetailApiModel
 import com.mobatia.bisad.activity.message.model.MessageDetailModel
 import com.mobatia.bisad.activity.settings.termsofservice.model.TermsOfServiceModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.messages.adapter.MessageListRecyclerAdapter
@@ -97,7 +98,8 @@ class TermsOfServiceActivity : AppCompatActivity(){
         call.enqueue(object : Callback<TermsOfServiceModel> {
             override fun onFailure(call: Call<TermsOfServiceModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<TermsOfServiceModel>, response: Response<TermsOfServiceModel>) {
                 progressDialog.visibility = View.GONE
@@ -138,7 +140,6 @@ class TermsOfServiceActivity : AppCompatActivity(){
                             "<p class='title'>"+termsTitle+"</p>"+"<p class='description'>"+termsDescription+"</p>"+
                             "</body>\n</html>"
                     var htmlData=pushNotificationDetail
-                    Log.e("HTML DATA",htmlData)
                     //  webView.loadData(htmlData,"text/html; charset=utf-8","utf-8")
                     webView.loadDataWithBaseURL("file:///android_asset/fonts/",htmlData,"text/html; charset=utf-8", "utf-8", "about:blank")
 
@@ -169,10 +170,8 @@ class TermsOfServiceActivity : AppCompatActivity(){
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 progressDialog.visibility = View.VISIBLE
-                println("testing2")
                 if (newProgress == 100)
                 {
-                    println("testing1")
                     progressDialog.visibility = View.GONE
 
                 }
@@ -190,7 +189,6 @@ private fun callTermsOfServiceApi()
     call.enqueue(object : Callback<TermsOfServiceModel> {
         override fun onFailure(call: Call<TermsOfServiceModel>, t: Throwable) {
             loader.visibility = View.GONE
-            Log.e("Error", t.localizedMessage)
         }
         override fun onResponse(call: Call<TermsOfServiceModel>, response: R: AppCompatActivity(){
     lateinit var mContext: Context
@@ -250,7 +248,6 @@ private fun callTermsOfServiceApi()
         call.enqueue(object : Callback<TermsOfServiceModel> {
             override fun onFailure(call: Call<TermsOfServiceModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
             }
             override fun onResponse(call: Call<TermsOfServiceModel>, response: Response<TermsOfServiceModel>) {
                 progressDialog.visibility = View.GONE
@@ -291,7 +288,6 @@ private fun callTermsOfServiceApi()
                             "<p class='title'>"+termsTitle+"</p>"+"<p class='description'>"+termsDescription+"</p>"+
                             "</body>\n</html>";
                      var htmlData=pushNotificationDetail
-                    Log.e("HTML DATA",htmlData)
                     //  webView.loadData(htmlData,"text/html; charset=utf-8","utf-8")
                     webView.loadDataWithBaseURL("file:///android_asset/fonts/",htmlData,"text/html; charset=utf-8", "utf-8", "about:blank")
 
@@ -322,10 +318,8 @@ private fun callTermsOfServiceApi()
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 progressDialog.visibility = View.VISIBLE
-                println("testing2")
                 if (newProgress == 100)
                 {
-                    println("testing1")
                     progressDialog.visibility = View.GONE
 
                 }
@@ -343,7 +337,6 @@ private fun callTermsOfServiceApi()
     call.enqueue(object : Callback<TermsOfServiceModel> {
         override fun onFailure(call: Call<TermsOfServiceModel>, t: Throwable) {
             loader.visibility = View.GONE
-            Log.e("Error", t.localizedMessage)
         }
         override fun onResponse(call: Call<TermsOfServiceModel>, response: Response<TermsOfServiceModel>) {
             loader.visibility = View.GONE

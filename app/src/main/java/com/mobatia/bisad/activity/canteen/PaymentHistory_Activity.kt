@@ -28,6 +28,7 @@ import com.mobatia.bisad.activity.canteen.model.wallethistory.CreditHisListModel
 import com.mobatia.bisad.activity.canteen.model.wallethistory.WalletHistoryApiModel
 import com.mobatia.bisad.activity.canteen.model.wallethistory.WalletHistoryModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.student_information.adapter.StudentListAdapter
 import com.mobatia.bisad.fragment.student_information.model.StudentList
@@ -206,8 +207,7 @@ class PaymentHistory_Activity : AppCompatActivity() {
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
-                //progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(nContext)
             }
             override fun onResponse(call: Call<StudentListModel>, response: Response<StudentListModel>) {
                // progressDialog.visibility = View.GONE
@@ -217,7 +217,7 @@ class PaymentHistory_Activity : AppCompatActivity() {
                     studentListArrayList.addAll(response.body()!!.responseArray.studentList)
                     if (sharedprefs.getStudentID(nContext).equals(""))
                     {
-                        Log.e("Empty Img","Empty")
+
                         studentName=studentListArrayList.get(0).name
                         studentImg=studentListArrayList.get(0).photo
                         studentId=studentListArrayList.get(0).id
@@ -288,14 +288,12 @@ class PaymentHistory_Activity : AppCompatActivity() {
             ApiClient.getClient.get_wallet_history(paymentSuccessBody, "Bearer " + token)
         call.enqueue(object : Callback<WalletHistoryModel> {
             override fun onFailure(call: Call<WalletHistoryModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                //mProgressRelLayout.visibility=View.GONE
+                CommonFunctions.faliurepopup(nContext)
             }
 
             override fun onResponse(call: Call<WalletHistoryModel>, response: Response<WalletHistoryModel>) {
                 val responsedata = response.body()
-                //progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
+
                 if (responsedata != null) {
                     try {
 

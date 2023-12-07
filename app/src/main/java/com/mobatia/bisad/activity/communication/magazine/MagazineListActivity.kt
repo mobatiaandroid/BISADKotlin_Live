@@ -29,6 +29,7 @@ import com.mobatia.bisad.activity.communication.magazine.adapter.MagazineListAda
 import com.mobatia.bisad.activity.communication.magazine.model.MagazineResponseListModel
 import com.mobatia.bisad.activity.communication.magazine.model.MagazineResponseModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.messages.model.MessageListApiModel
@@ -149,7 +150,7 @@ class MagazineListActivity : AppCompatActivity() {
         call.enqueue(object : Callback<MagazineResponseModel> {
             override fun onFailure(call: Call<MagazineResponseModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<MagazineResponseModel>, response: Response<MagazineResponseModel>) {
                 progressDialog.visibility = View.GONE

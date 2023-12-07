@@ -24,6 +24,7 @@ import com.mobatia.bisad.activity.canteen.model.preorder.CanteenPreorderModel
 import com.mobatia.bisad.activity.canteen.model.wallet.WalletBalanceApiModel
 import com.mobatia.bisad.activity.canteen.model.wallet.WalletBalanceModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.AccessTokenClass
@@ -158,7 +159,7 @@ class Myorderbasket_Activity : AppCompatActivity() {
                             val JSON =
                                 "{\"student_id\":\"" + PreferenceData().getStudentID(nContext) + "\"," +
                                         "\"orders\":" + Data + "}"
-                            Log.e("JSON:", JSON)
+
                             //get pre order
                         //progressDialogAdd.visibility=View.VISIBLE
                         progress.show()
@@ -184,11 +185,11 @@ class Myorderbasket_Activity : AppCompatActivity() {
         val call: Call<WalletBalanceModel> = ApiClient.getClient.get_wallet_balance(canteenCart,"Bearer "+token)
         call.enqueue(object : Callback<WalletBalanceModel> {
             override fun onFailure(call: Call<WalletBalanceModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(nContext)
             }
             override fun onResponse(call: Call<WalletBalanceModel>, response: Response<WalletBalanceModel>) {
                 val responsedata = response.body()
-                Log.e("Response", responsedata.toString())
+
                 if (responsedata!!.status==100) {
                     WalletAmount=response!!.body()!!.responseArray.wallet_balance
 
@@ -230,15 +231,14 @@ class Myorderbasket_Activity : AppCompatActivity() {
         val call: Call<CanteenCartModel> = ApiClient.getClient.get_canteen_cart(canteenCart,"Bearer "+token)
         call.enqueue(object : Callback<CanteenCartModel> {
             override fun onFailure(call: Call<CanteenCartModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                //progressDialogAdd.visibility=View.GONE
+                CommonFunctions.faliurepopup(nContext)
                 progress.hide()
             }
             override fun onResponse(call: Call<CanteenCartModel>, response: Response<CanteenCartModel>) {
                 val responsedata = response.body()
                 //progressDialogAdd.visibility=View.GONE
                 progress.hide()
-                Log.e("Response", responsedata.toString())
+
                 if (responsedata!!.status==100) {
                     //progress.visibility = View.GONE
                     cart_list=response!!.body()!!.responseArray.data
@@ -314,12 +314,11 @@ class Myorderbasket_Activity : AppCompatActivity() {
         //progressDialogAdd.visibility=View.VISIBLE
         progress.show()
         var canteenCart= CanteenPreorderApiModel(PreferenceData().getStudentID(nContext).toString(),itemArray)
-        Log.e("cc",canteenCart.toString())
+
         val call: Call<CanteenPreorderModel> = ApiClient.getClient.canteen_preorder(canteenCart,"Bearer "+token)
         call.enqueue(object : Callback<CanteenPreorderModel> {
             override fun onFailure(call: Call<CanteenPreorderModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                //progressDialogAdd.visibility=View.GONE
+                CommonFunctions.faliurepopup(nContext)
                 progress.hide()
             }
             override fun onResponse(call: Call<CanteenPreorderModel>, response: Response<CanteenPreorderModel>) {
@@ -360,7 +359,7 @@ class Myorderbasket_Activity : AppCompatActivity() {
 
                     }
                 } else if (response.body()!!.status == 132) {
-                        Log.e("status","132")
+
                         dateRecyclerView.visibility=View.GONE
                         itemLinear.visibility=View.GONE
                         noItemTxt.visibility=View.GONE

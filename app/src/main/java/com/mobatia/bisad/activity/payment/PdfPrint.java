@@ -51,7 +51,6 @@ public class PdfPrint {
                             if (method.getName().equals("onWriteFinished")) {
                                 //                            pdfCallback.onPdfCreated();
                             } else {
-                                Log.e(TAG, "Layout failed");
                                 //                            pdfCallback.onPdfFailed();
                             }
                             return null;
@@ -80,7 +79,6 @@ public class PdfPrint {
 //                    if (method.getName().equals("onLayoutFinished")) {
 //                        onLayoutSuccess(printAdapter, path, fileName, fileNamenew);
 //                    } else {
-//                        Log.e(TAG, "Layout failed");
 //
 //                    }
 //                    return null;
@@ -103,7 +101,6 @@ public class PdfPrint {
 //                    System.out.print("hello");
 //
 //                } else {
-//                    Log.e(TAG, "Layout failed");
 //
 //                }
 //                return null;
@@ -121,7 +118,6 @@ public class PdfPrint {
             file.createNewFile();
             return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_WRITE);
         } catch (Exception e) {
-            Log.e(TAG, "Failed to open ParcelFileDescriptor", e);
         }
         return null;
     }

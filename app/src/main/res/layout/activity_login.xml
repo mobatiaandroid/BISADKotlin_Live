@@ -80,6 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="5dp"
+            android:filterTouchesWhenObscured="true"
             android:background="@drawable/login" />
 
         <Button
@@ -88,6 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/loginBtn"
+            android:filterTouchesWhenObscured="true"
             android:layout_alignLeft="@+id/loginCredentialsRel"
             android:layout_marginTop="5dp"
             android:background="@drawable/signup_new"

@@ -22,6 +22,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.absence.model.PickupListApiModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.permission_slip.adapter.FormslistAdapter
 import com.mobatia.bisad.fragment.permission_slip.model.PermissionSlipListApiModel
@@ -110,7 +111,8 @@ class PermissionSlipFragment : Fragment(){
         call.enqueue(object : Callback<StudentListModel>{
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<StudentListModel>, response: Response<StudentListModel>) {
                 //val arraySize :Int = response.body()!!.responseArray.studentList.size
@@ -120,7 +122,6 @@ class PermissionSlipFragment : Fragment(){
                     studentListArrayList.addAll(response.body()!!.responseArray.studentList)
                     if (sharedprefs.getStudentID(mContext).equals(""))
                     {
-                        Log.e("Empty Img","Empty")
                         studentName=studentListArrayList.get(0).name
                         studentImg=studentListArrayList.get(0).photo
                         studentId=studentListArrayList.get(0).id
@@ -130,7 +131,6 @@ class PermissionSlipFragment : Fragment(){
                         sharedprefs.setStudentPhoto(mContext,studentImg)
                         sharedprefs.setStudentClass(mContext,studentClass)
                         studentNameTxt.text=studentName
-                        Log.e("studid(0)", sharedprefs.getStudentID(mContext).toString())
                         if(!studentImg.equals(""))
                         {
                             Glide.with(mContext) //1
@@ -170,7 +170,6 @@ class PermissionSlipFragment : Fragment(){
                     }
                     var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
                     formslistApi()
-                    Log.e("TEST","call 1")
                 }
 
 
@@ -229,7 +228,6 @@ class PermissionSlipFragment : Fragment(){
                 sharedprefs.setStudentName(mContext,studentName)
                 sharedprefs.setStudentPhoto(mContext,studentImg)
                 sharedprefs.setStudentClass(mContext,studentClass)
-                Log.e("studidclick", sharedprefs.getStudentID(mContext).toString())
                 studentNameTxt.text=studentName
                 if(!studentImg.equals(""))
                 {
@@ -248,7 +246,6 @@ class PermissionSlipFragment : Fragment(){
                 }
                 progressDialog.visibility = View.VISIBLE
                 formslistApi()
-                Log.e("TEST","call 2")
 
                 //  Toast.makeText(activity, mStudentList.get(position).name, Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
@@ -260,13 +257,13 @@ class PermissionSlipFragment : Fragment(){
         progressDialog.visibility = View.VISIBLE
         formslist=ArrayList()
         val token = sharedprefs.getaccesstoken(mContext)
-        Log.e("stid", sharedprefs.getStudentID(mContext).toString())
         val list_permissionSlip= PermissionSlipListApiModel("0","20",sharedprefs.getStudentID(mContext).toString())
         val call: Call<PermissionSlipModel> = ApiClient.getClient.permissnslipList(list_permissionSlip,"Bearer "+token)
         call.enqueue(object : Callback<PermissionSlipModel>{
             override fun onFailure(call: Call<PermissionSlipModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<PermissionSlipModel>, response: Response<PermissionSlipModel>) {
                 progressDialog.visibility = View.GONE
@@ -274,12 +271,10 @@ class PermissionSlipFragment : Fragment(){
                 {
                     formslist.addAll(response.body()!!.responseArray.request)
                     if (response.body()!!.responseArray.request.size > 0){
-                        Log.e("notempty","true")
                         forms_recycler.layoutManager=LinearLayoutManager(mContext)
                         var forms_adapter= FormslistAdapter(mContext,formslist)
                         forms_recycler.adapter=forms_adapter
                     }else{
-                        Log.e("empty","true")
                         formslist=ArrayList()
                         forms_recycler.layoutManager=LinearLayoutManager(mContext)
                         var forms_adapter= FormslistAdapter(mContext,formslist)
@@ -294,7 +289,6 @@ class PermissionSlipFragment : Fragment(){
                         var internetCheck = InternetCheckClass.isInternetAvailable(com.mobatia.bisad.fragment.home.mContext)
                         if (internetCheck){
                             AccessTokenClass.getAccessToken(com.mobatia.bisad.fragment.home.mContext)
-                            Log.e("TEST","call 3")
 
                             formslistApi()
                         }else{
@@ -337,7 +331,6 @@ class PermissionSlipFragment : Fragment(){
     }
     override fun onResume() {
         super.onResume()
-        Log.e("TEST","call 1")
 
         formslistApi()
         studentNameTxt.text = sharedprefs.getStudentName(mContext)

@@ -24,6 +24,7 @@ import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.absence.model.EarlyPickupModel
 import com.mobatia.bisad.activity.absence.model.RequestPickupApiModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.InternetCheckClass.Companion.showErrorAlert
 import com.mobatia.bisad.constants.JsonConstants
@@ -148,7 +149,6 @@ class RequestearlypickupActivity : AppCompatActivity(){
 
                         showerror(mContext,"Please select your Pickup Time","Alert")
                     }else{
-                        Log.e("error",pickupName.text.toString())
                         if (pickupName.text.isEmpty()){
 
                             showerror(mContext,"Please enter pickup person name","Alert")
@@ -164,10 +164,7 @@ class RequestearlypickupActivity : AppCompatActivity(){
                                 var time=totime
                                 var pickupname_entered=pickupName.text
                                 var reason_entered=enterMessage.text
-                                Log.e("date",date_entered.toString())
-                                Log.e("time",time.toString())
-                                Log.e("pickup",pickupname_entered.toString())
-                                Log.e("reason",reason_entered.toString())
+
                                 callPickupSubmitApi(date,time.toString(),pickupname_entered.toString(),
                                     reason_entered.toString()
                                 )
@@ -270,7 +267,6 @@ if (enterStratDate.text.equals("")){
                         }
 
                         if(hour ==0) {
-                            Log.e("h","0")
                             hour = 12
                             AM_PM="AM"
                         } else if(hour<12){
@@ -281,7 +277,6 @@ if (enterStratDate.text.equals("")){
                             hour -= 12
                             AM_PM = "PM"
                         } else if (hour == 12) {
-                            Log.e("h","12")
                             hour = 12
                             AM_PM = "PM"
                         } else
@@ -336,7 +331,7 @@ if (enterStratDate.text.equals("")){
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<StudentListModel>, response: Response<StudentListModel>) {
                 val arraySize :Int = response.body()!!.responseArray.studentList.size
@@ -346,7 +341,6 @@ if (enterStratDate.text.equals("")){
 
                     if (sharedprefs.getStudentID(mContext).equals(""))
                     {
-                        Log.e("Empty Img","Empty")
                         studentName=studentArrayList.get(0).name
                         studentImg=studentArrayList.get(0).photo
                         studentId=studentArrayList.get(0).id
@@ -490,7 +484,6 @@ private fun cal() {
                 val inputDateStr = date_temp
                 val date: Date = inputFormat.parse(inputDateStr)
                 val outputDateStr: String = outputFormat.format(date)
-                Log.e("dt", outputDateStr)
                 toDate = date_sel.toString()
                 enterStratDate.text = outputDateStr
 
@@ -512,22 +505,19 @@ private fun cal() {
                 + " " + Build.MODEL + " " + Build.VERSION.RELEASE
                 + " " + Build.VERSION_CODES::class.java.fields[Build.VERSION.SDK_INT]
             .name)
-        Log.e("DEVICE NAME",devicename)
         val token = sharedprefs.getaccesstoken(mContext)
         val requestPickupBody= RequestPickupApiModel(sharedprefs.getStudentID(mContext)!!,date,time,reason,pickupby,"2",devicename,"1.0")
         val call: Call<EarlyPickupModel> = ApiClient.getClient.pickupRequest(requestPickupBody,"Bearer "+token)
         call.enqueue(object : Callback<EarlyPickupModel> {
             override fun onFailure(call: Call<EarlyPickupModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
                 progressDialog.visibility = View.GONE
             }
             override fun onResponse(call: Call<EarlyPickupModel>, response: Response<EarlyPickupModel>) {
                 val responsedata = response.body()
                 progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
 
                             if (responsedata!!.status.toString().equals("100")) {
-                                Log.e("STATUS LOGIN", responsedata.status.toString())
                                 showsuccessAlert(mContext,"Successfully submitted your earlypickup request.Please wait for Approval","Success")
 
                             } else if (responsedata.status.toString().equals("136")){

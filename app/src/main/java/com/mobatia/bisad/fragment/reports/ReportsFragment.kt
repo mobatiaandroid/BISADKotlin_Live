@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.mobatia.bisad.R
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.home.mContext
 import com.mobatia.bisad.fragment.messages.model.MessageListDetailModel
@@ -92,7 +93,8 @@ class ReportsFragment : Fragment() {
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer " + token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(
@@ -101,9 +103,7 @@ class ReportsFragment : Fragment() {
             ) {
                 if (response.body()!!.status == 100) {
                     studentListArrayList.addAll(response.body()!!.responseArray.studentList)
-                    println("CalendarResoponse" + response.body())
                     if (sharedprefs.getStudentID(mContext).equals("")) {
-                        Log.e("Empty Img", "Empty")
                         studentName = studentListArrayList.get(0).name
                         studentImg = studentListArrayList.get(0).photo
                         studentId = studentListArrayList.get(0).id
@@ -285,7 +285,8 @@ class ReportsFragment : Fragment() {
         call.enqueue(object : Callback<ReportListModel> {
             override fun onFailure(call: Call<ReportListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(

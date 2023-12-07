@@ -18,6 +18,7 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mobatia.bisad.R
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.home.sharedprefs
 import com.mobatia.bisad.fragment.staff_directory.model.SendStaffEmailApiModel
@@ -107,14 +108,19 @@ internal class CategoryListAdapter (var context:Context, var detailList:ArrayLis
                        // progressDialog.startAnimation(aniRotate)
                         var internetCheck = InternetCheckClass.isInternetAvailable(context)
                         if (internetCheck) {
-                            teachercontactApi(
+                            emailvalidationcheck(text_dialog.text.toString().trim(),
+                                text_content.text.toString().trim(),
+                                sharedprefs.getStudentID(context).toString(),
+                                staffEmail,
+                                dialog)
+                           /* teachercontactApi(
                                 text_dialog.text.toString().trim(),
                                 text_content.text.toString().trim(),
                                 sharedprefs.getStudentID(context).toString(),
                                 staffEmail,
                                 dialog
 
-                            )
+                            )*/
 
                         } else {
                             InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
@@ -185,6 +191,83 @@ internal class CategoryListAdapter (var context:Context, var detailList:ArrayLis
         return detailList.size
 
     }
+    fun emailvalidationcheck( title: String,
+                              message: String,
+                              studentID: String,
+                              staffEmail: String,
+                              dialog: Dialog){
+        val EMAIL_PATTERN :String=
+            "^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+        val pattern :String= "^([a-zA-Z ]*)$"
+
+        if (title.equals("")) {
+            val toast: Toast = Toast.makeText(
+                context, context.getResources().getString(
+                    com.mobatia.bisad.R.string.enter_subjects
+                ), Toast.LENGTH_SHORT
+            )
+            toast.show()
+        } else {
+            if (message.equals("")) {
+                val toast: Toast = Toast.makeText(
+                    context, context.getResources().getString(
+                        R.string.enter_contents
+                    ), Toast.LENGTH_SHORT
+                )
+                toast.show()
+            } else if (staffEmail.matches(EMAIL_PATTERN.toRegex())) {
+                if (title.toString().trim().matches(pattern.toRegex())) {
+                    if (title.toString().length>=500){
+                        Toast.makeText(context, "Subject is too long", Toast.LENGTH_SHORT).show()
+
+                    }else{
+                        if (message.toString().trim().matches(pattern.toRegex())) {
+                            if (InternetCheckClass.isInternetAvailable(context)) {
+                                if (message.length<=500) {
+                                    teachercontactApi(
+                                        title,
+                                        message,
+                                        studentID,
+                                        staffEmail,
+                                        dialog
+
+                                    )
+                                }else{
+                                    Toast.makeText(context, "Message is too long", Toast.LENGTH_SHORT).show()
+
+                                }
+                            } else {
+                                CommonFunctions.faliurepopup(context)
+                            }
+                        } else {
+                            val toast: Toast = Toast.makeText(
+                                context, context.getResources().getString(
+                                    R.string.enter_valid_contents
+                                ), Toast.LENGTH_SHORT
+                            )
+                            toast.show()
+                        }
+                    }
+
+
+                } else {
+                    val toast: Toast = Toast.makeText(
+                        context, context.getResources().getString(
+                            R.string.enter_valid_subjects
+                        ), Toast.LENGTH_SHORT
+                    )
+                    toast.show()
+                }
+            } else {
+                val toast: Toast = Toast.makeText(
+                    context, context.getResources().getString(
+                        R.string.enter_valid_mail
+                    ), Toast.LENGTH_SHORT
+                )
+                toast.show()
+            }
+        }
+    }
     private fun teachercontactApi(title: String,
                                   message: String,
                                   studentID: String,
@@ -197,14 +280,14 @@ internal class CategoryListAdapter (var context:Context, var detailList:ArrayLis
             ApiClient.getClient.send_email_to_staff(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<SendStaffEmailModel> {
             override fun onFailure(call: Call<SendStaffEmailModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(context)
+
                 //progressDialog.visibility = View.GONE
             }
 
             override fun onResponse(call: Call<SendStaffEmailModel>, response: Response<SendStaffEmailModel>) {
                 val responsedata = response.body()
                 //progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
 

@@ -20,6 +20,8 @@ import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.term_dates.model.TermDatesDetailApiModel
 import com.mobatia.bisad.activity.term_dates.model.TermDatesDetailModel
+import com.mobatia.bisad.constants.CommonFunctions
+import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.ApiClient
@@ -95,7 +97,8 @@ class TermDatesDetailActivity : AppCompatActivity(){
         val call: Call<TermDatesDetailModel> = ApiClient.getClient.termDatesDetails(termsDatesBody,"Bearer "+token)
         call.enqueue(object : Callback<TermDatesDetailModel> {
             override fun onFailure(call: Call<TermDatesDetailModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<TermDatesDetailModel>, response: Response<TermDatesDetailModel>) {
                 if (response.body()!!.status==100)
@@ -166,7 +169,6 @@ class TermDatesDetailActivity : AppCompatActivity(){
                     }
                     pushNotificationDetail=pushNotificationDetail+"</body>\n</html>"
                     var htmlData=pushNotificationDetail
-                    Log.e("HTML DATA",htmlData)
                     //  webView.loadData(htmlData,"text/html; charset=utf-8","utf-8")
                     webView.loadDataWithBaseURL("file:///android_asset/fonts/",htmlData,"text/html; charset=utf-8", "utf-8", "about:blank")
 

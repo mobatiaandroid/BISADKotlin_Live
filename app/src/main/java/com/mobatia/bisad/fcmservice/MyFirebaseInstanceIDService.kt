@@ -17,7 +17,6 @@ public class MyFirebaseInstanceIDService  {
 
         val refreshedToken = FirebaseInstanceId.getInstance().token.toString()
 
-        Log.e("FIREBASETOKEN", refreshedToken)
         sendRegistrationToServer(refreshedToken)
         super.onTokenRefresh()
     }*/

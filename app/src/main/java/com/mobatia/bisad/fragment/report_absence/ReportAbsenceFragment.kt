@@ -31,6 +31,7 @@ import com.mobatia.bisad.activity.absence.RequestabsenceActivity
 import com.mobatia.bisad.activity.absence.RequestearlypickupActivity
 import com.mobatia.bisad.activity.absence.model.EarlyPickupListModel
 import com.mobatia.bisad.activity.absence.model.PickupListApiModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.report_absence.adapter.PickuplistAdapter
@@ -103,21 +104,21 @@ class ReportAbsenceFragment : Fragment(){
 
     private fun initializeUI() {
 
-        studentSpinner = view!!.findViewById(R.id.studentSpinner) as LinearLayout
-        studImg = view!!.findViewById(R.id.studImg) as ImageView
-        studentNameTxt = view!!.findViewById(R.id.studentName) as TextView
-        newRequestAbsence = view!!.findViewById(R.id.newRequestAbsence)
-        newRequestPickup = view!!.findViewById(R.id.newRequestEarly)
-        heading=view!!.findViewById(R.id.appregisteredHint)
+        studentSpinner = requireView().findViewById(R.id.studentSpinner) as LinearLayout
+        studImg = requireView().findViewById(R.id.studImg) as ImageView
+        studentNameTxt = requireView().findViewById(R.id.studentName) as TextView
+        newRequestAbsence = requireView().findViewById(R.id.newRequestAbsence)
+        newRequestPickup = requireView().findViewById(R.id.newRequestEarly)
+        heading=requireView().findViewById(R.id.appregisteredHint)
         heading.text = "App Registered Absences"
-        mAbsenceListView = view!!.findViewById(R.id.mAbsenceListView) as RecyclerView
-        mPickupListView=view!!.findViewById(R.id.mPickupListView)
+        mAbsenceListView = requireView().findViewById(R.id.mAbsenceListView) as RecyclerView
+        mPickupListView=requireView().findViewById(R.id.mPickupListView)
         pickup_list= ArrayList()
         pickupListSort=ArrayList()
-        progressDialog = view!!.findViewById(R.id.progressDialog)
-        absence_btn=view!!.findViewById(R.id.absenc_btn)
+        progressDialog = requireView().findViewById(R.id.progressDialog)
+        absence_btn=requireView().findViewById(R.id.absenc_btn)
         absence_btn.setBackgroundResource(R.color.colorAccent)
-        pickup_btn=view!!.findViewById(R.id.earlypickup_btn)
+        pickup_btn=requireView().findViewById(R.id.earlypickup_btn)
         linearLayoutManager = LinearLayoutManager(mContext)
         mAbsenceListView.layoutManager = linearLayoutManager
         mAbsenceListView.itemAnimator = DefaultItemAnimator()
@@ -126,7 +127,6 @@ class ReportAbsenceFragment : Fragment(){
             override fun onClick(v: View?) {
                 //your implementation goes here
                 showStudentList(mContext,studentListArrayList)
-               // Log.e("Array Size",studentListArrayList.size.toString())
             }
         })
         val aniRotate: Animation =
@@ -183,8 +183,10 @@ class ReportAbsenceFragment : Fragment(){
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel>{
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
-                Log.e("Error", t.localizedMessage)
+
                 progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<StudentListModel>, response: Response<StudentListModel>) {
                 progressDialog.visibility = View.GONE
@@ -194,7 +196,6 @@ class ReportAbsenceFragment : Fragment(){
                     studentListArrayList.addAll(response.body()!!.responseArray.studentList)
                     if (sharedprefs.getStudentID(mContext).equals(""))
                     {
-                        Log.e("Empty Img","Empty")
                         studentName=studentListArrayList.get(0).name
                         studentImg=studentListArrayList.get(0).photo
                         studentId=studentListArrayList.get(0).id
@@ -354,7 +355,8 @@ class ReportAbsenceFragment : Fragment(){
         call.enqueue(object : Callback<AbsenceListModel>{
             override fun onFailure(call: Call<AbsenceListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<AbsenceListModel>, response: Response<AbsenceListModel>) {
                 progressDialog.visibility = View.GONE
@@ -452,7 +454,8 @@ class ReportAbsenceFragment : Fragment(){
         call.enqueue(object : Callback<PickupModel>{
             override fun onFailure(call: Call<PickupModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<PickupModel>, response: Response<PickupModel>) {
                progressDialog.visibility = View.GONE

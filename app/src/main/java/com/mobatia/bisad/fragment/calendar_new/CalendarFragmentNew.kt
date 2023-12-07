@@ -626,10 +626,8 @@ class CalendarFragmentNew : Fragment() {
                                 val dateend =
                                     inputFormat.parse(calendarShowArrayList[n].DTEND)
                                 val formattedDateend = targetFormat.format(dateend)
-                                Log.e("formattedDatestart",formattedDatestart)
 
                                 start = LocalDate.parse(formattedDatestart)
-                                Log.e("st",start.toString())
                                 end = LocalDate.parse(formattedDateend)
                             } else if (calendarShowArrayList[n].DTSTART.length == 11) {
                                 val inputFormat: DateFormat =
@@ -643,9 +641,7 @@ class CalendarFragmentNew : Fragment() {
                                     inputFormat.parse(calendarShowArrayList[n].DTEND)
                                 val formattedDateend = targetFormat.format(dateend)
 
-                                Log.e("formattedDatestart",formattedDatestart)
                                 start = LocalDate.parse(formattedDatestart)
-                                Log.e("st",start.toString())
                                 end = LocalDate.parse(formattedDateend)
                             }
 
@@ -666,9 +662,7 @@ class CalendarFragmentNew : Fragment() {
                             val dateend =
                                 inputFormat.parse(calendarShowArrayList[n].DTEND)
                             val formattedDateend = targetFormat.format(dateend)
-                            Log.e("formattedDatestart",formattedDatestart)
                             start = LocalDate.parse(formattedDatestart)
-                            Log.e("st",start.toString())
                             end = LocalDate.parse(formattedDateend)
 //                            listMonth = outputDateMonth
 //                            listYear = outputDateYear
@@ -688,7 +682,6 @@ class CalendarFragmentNew : Fragment() {
                             datesArray.add(totalDates[k].toString())
 
                         }
-                        Log.e("MULTIPLE DATES",datesArray.get(j).toString())
                         var model: PrimaryModel = PrimaryModel()
                         model.DTSTART= datesArray.get(j).toString()
                         model.DESCRIPTION=calendarShowArrayList.get(n).DESCRIPTION
@@ -793,7 +786,6 @@ class CalendarFragmentNew : Fragment() {
                     {
                         if (mCalendarFinalArrayList.size==0)
                         {
-                            Log.e("CALENDAR WORK","SIZE 0")
                             var cModel = CalendarDateModel()
                             cModel.startDate = calendarFilterArrayList.get(n).DTSTART
                             cModel.endDate = calendarFilterArrayList.get(n).DTEND
@@ -812,16 +804,12 @@ class CalendarFragmentNew : Fragment() {
                         }
                         else
                         {
-                            Log.e("CALENDAR WORK",mCalendarFinalArrayList.size.toString())
                             var isFound:Boolean=false
                             var pos:Int=-1
                             for (o in 0 until mCalendarFinalArrayList.size)
                             {
-                                Log.e("DATE ",calendarFilterArrayList.get(n).DTSTART+"  :: "+mCalendarFinalArrayList.get(o).startDate)
                                 if (calendarFilterArrayList.get(n).DTSTART.equals(mCalendarFinalArrayList.get(o).startDate))
-                                {
-                                    Log.e("FOUND","DATE FOUND")
-                                    isFound=true
+                                { isFound=true
                                     pos=o
                                 }
 
@@ -937,7 +925,6 @@ class CalendarFragmentNew : Fragment() {
                     }
                    else
                     {
-                        Log.e("SIZE::::",mCalendarFinalArrayList.size.toString())
                         if (mCalendarFinalArrayList.size>0)
                         {
                             noEventImage.visibility=View.GONE

@@ -40,7 +40,6 @@ public class PaymentReceiptActivity extends Activity {
         try {
             sb = new StringBuffer();
             eachLine = br.readLine();
-            Log.e("appcontline",eachLine);
             while (eachLine != null) {
                 sb.append(eachLine);
                 sb.append("\n");
@@ -59,7 +58,6 @@ public class PaymentReceiptActivity extends Activity {
             String invoicenote="This payment was done by "+paid_by+" for "+ student_name+" via BIS_AD Mobile App";
             //fullHtml = fullHtml.replace("###amount###", current_amount);
             Date c = Calendar.getInstance().getTime();
-            System.out.println("Current time => " + c);
 
             SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
             String formattedDate = df.format(c);

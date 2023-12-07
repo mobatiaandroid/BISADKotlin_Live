@@ -25,6 +25,7 @@ import com.mobatia.bisad.activity.parent_meetings.model.insert_pta.PtaInsertMode
 import com.mobatia.bisad.activity.parent_meetings.model.listing_pta.PtaListingApiModel
 import com.mobatia.bisad.activity.parent_meetings.model.listing_pta.PtaListingModel
 import com.mobatia.bisad.activity.parent_meetings.model.listing_pta.PtaTimeSlotList
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.recyclermanager.OnItemClickListener
@@ -100,7 +101,6 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
         val inputDateStr = dateString
         val date: Date = inputFormat.parse(inputDateStr)
         date_sel = outputFormat.format(date)
-        Log.e("dt",date_sel)
         date_header.text = date_sel
         confirm=findViewById(R.id.confirmTextView)
         cancel=findViewById(R.id.cancelTextView)
@@ -140,7 +140,6 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
 
     }
     private fun showRoomList(){
-        Log.e("roomlist","true")
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_room_slot_list)
@@ -161,7 +160,6 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
         llm.orientation = LinearLayoutManager.VERTICAL
         socialMediaList.layoutManager = llm
 
-        Log.e("tmsie",timeSlotList.size.toString())
         val socialMediaAdapter = ParentsEveningRoomListAdapter(mContext,timeSlotList)
         socialMediaList.adapter = socialMediaAdapter
         dialogDismiss.setOnClickListener { dialog.dismiss() }
@@ -178,14 +176,14 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
         val inputDateStr = date_sel
         val date: Date = inputFormat.parse(inputDateStr)
         val outputDateStr: String = outputFormat.format(date)
-        Log.e("dt", outputDateStr)
         val timeslotBody = PtaListingApiModel(studId, staff_id, outputDateStr)
         val call: Call<PtaListingModel> =
             ApiClient.getClient.listing_pta(timeslotBody, "Bearer " + token)
         call.enqueue(object : Callback<PtaListingModel> {
             override fun onFailure(call: Call<PtaListingModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(mContext)
             }
 
             override fun onResponse(
@@ -197,7 +195,6 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
 
                 if (responsedata!!.responsecode.toString().equals("200")) {
                     if(responsedata.response.statuscode.equals("303")){
-                    Log.e("STATUS LOGIN", responsedata.response.statuscode)
                         if (response.body()!!.response.data.isNotEmpty()) {
                             timeSlotList.addAll(response.body()!!.response.data)
 
@@ -297,7 +294,6 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
                                     val inputDateStr2 = timeSlotListPost[0].end_time
                                     val date2: Date = inputFormat2.parse(inputDateStr2)
                                     val formt_totime: String = outputFormat2.format(date2)
-                                    Log.e("dt",formt_totime)
 
                                     showApiAlert(mContext,"Do you want to reserve your appointment on "+ date_sel +" , "+
                                             formt_fromtime+" - "+formt_totime,"Alert"
@@ -380,8 +376,9 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
             ApiClient.getClient.insert_pta(insertPta, "Bearer " + token)
         call.enqueue(object : Callback<PtaInsertModel> {
             override fun onFailure(call: Call<PtaInsertModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(mContext)
             }
 
             override fun onResponse(

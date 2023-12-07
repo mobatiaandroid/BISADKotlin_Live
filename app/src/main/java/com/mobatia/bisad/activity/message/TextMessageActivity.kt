@@ -18,8 +18,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.activity.home.context
 import com.mobatia.bisad.activity.message.model.MessageDetailApiModel
 import com.mobatia.bisad.activity.message.model.MessageDetailModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.manager.PreferenceData
@@ -99,7 +101,7 @@ class TextMessageActivity : AppCompatActivity(){
         call.enqueue(object : Callback<MessageDetailModel> {
             override fun onFailure(call: Call<MessageDetailModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(context)
             }
             override fun onResponse(call: Call<MessageDetailModel>, response: Response<MessageDetailModel>) {
                 progressDialog.visibility = View.GONE
@@ -162,7 +164,7 @@ class TextMessageActivity : AppCompatActivity(){
                     }
                     pushNotificationDetail=pushNotificationDetail+"</body>\n</html>"
                     var htmlData=pushNotificationDetail
-                    Log.e("HTML DATA",htmlData)
+
                         //  webView.loadData(htmlData,"text/html; charset=utf-8","utf-8")
                         webView.loadDataWithBaseURL("file:///android_asset/fonts/",htmlData,"text/html; charset=utf-8", "utf-8", "about:blank")
 
@@ -200,10 +202,8 @@ class TextMessageActivity : AppCompatActivity(){
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 progressDialog.visibility = View.VISIBLE
-                println("testing2")
                 if (newProgress == 100)
                 {
-                    println("testing1")
                     progressDialog.visibility = View.GONE
 
                 }

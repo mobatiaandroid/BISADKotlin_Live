@@ -50,7 +50,7 @@ class AbsenceDetailActivity : AppCompatActivity(){
         fromDate=intent.getStringExtra("fromDate")
         relativeHeader = findViewById(R.id.relativeHeader)
         toDate=intent.getStringExtra("toDate")
-        Log.e("Values get",reason +" "+fromDate+" "+toDate)
+
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
         initUI()

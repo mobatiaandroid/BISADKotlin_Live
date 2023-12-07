@@ -1,5 +1,6 @@
 package com.mobatia.bisad.fragment.settings
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -17,21 +18,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.common.LoginActivity
 import com.mobatia.bisad.activity.home.model.HealthInsuranceDetailAPIModel
 import com.mobatia.bisad.activity.settings.re_enrollment.ReEnrollmentActivity
 import com.mobatia.bisad.activity.settings.termsofservice.TermsOfServiceActivity
 import com.mobatia.bisad.activity.settings.tutorial.TutorialActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.home.model.StudentListDataCollection
-import com.mobatia.bisad.fragment.home.model.datacollection.*
+import com.mobatia.bisad.fragment.home.model.datacollection.HealthInsuranceDetailModel
+import com.mobatia.bisad.fragment.home.model.datacollection.KinDetailApiModel
+import com.mobatia.bisad.fragment.home.model.datacollection.KinDetailsModel
+import com.mobatia.bisad.fragment.home.model.datacollection.OwnContactModel
+import com.mobatia.bisad.fragment.home.model.datacollection.OwnDetailsModel
+import com.mobatia.bisad.fragment.home.model.datacollection.PassportApiModel
+import com.mobatia.bisad.fragment.home.model.datacollection.PassportDetailModel
 import com.mobatia.bisad.fragment.settings.adapter.SettingsRecyclerAdapter
 import com.mobatia.bisad.fragment.settings.model.ChangePasswordApiModel
 import com.mobatia.bisad.fragment.settings.model.DeleteAccountModel
@@ -70,6 +86,18 @@ class SettingsFragment : Fragment(){
     var apiCall: Int = 0
     var apiCallDetail: Int = 0
     private var previousTriggerType: Int = 0
+    private val PASSWORD_PATTERN = "^" +
+            "(?=.*[@#$%^&+=])" +  // at least 1 special character
+            "(?=\\S+$)" +  // no white spaces
+            ".{8,}" +  // at least 8 characters
+            "$"
+    var PASSWORD_PATTERN1="^" +
+            "(?=.*[@#$%^&+=])" +
+            "$"
+    var PASSWORD_PATTERN2="^\\s*$"
+    var PASSWORD_PATTERN3="^" +
+            ".{8,}"
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -122,9 +150,9 @@ class SettingsFragment : Fragment(){
 
     private fun initializeUI() {
 
-        mSettingsListView = view!!.findViewById(R.id.mSettingsListView) as RecyclerView
-        titleTextView = view!!.findViewById(R.id.titleTextView) as TextView
-        progress = view!!.findViewById(R.id.progress) as ProgressBar
+        mSettingsListView = requireView().findViewById(R.id.mSettingsListView) as RecyclerView
+        titleTextView = requireView().findViewById(R.id.titleTextView) as TextView
+        progress = requireView().findViewById(R.id.progress) as ProgressBar
         titleTextView.text = "Settings"
         linearLayoutManager = LinearLayoutManager(mContext)
         mSettingsListView.layoutManager = linearLayoutManager
@@ -453,7 +481,7 @@ class SettingsFragment : Fragment(){
                 sharedprefs.setUserID(mContext,"")
                 val mIntent = Intent(activity, LoginActivity::class.java)
                 mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                activity!!.startActivity(mIntent)
+                requireActivity().startActivity(mIntent)
 
             } else{
                 callLogoutApi(dialog)
@@ -501,11 +529,11 @@ class SettingsFragment : Fragment(){
         val call: Call<DeleteAccountModel> = ApiClient.getClient.delete_account("Bearer "+token)
         call.enqueue(object : Callback<DeleteAccountModel> {
             override fun onFailure(call: Call<DeleteAccountModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<DeleteAccountModel>, response: Response<DeleteAccountModel>) {
                 val responsedata = response.body()
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata!!.status==100) {
                     progress.visibility = View.GONE
                     sharedprefs.setUserCode(mContext,"")
@@ -554,11 +582,11 @@ class SettingsFragment : Fragment(){
         val call: Call<ResponseBody> = ApiClient.getClient.logout("Bearer "+token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val responsedata = response.body()
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     progress.visibility = View.GONE
 
@@ -567,7 +595,6 @@ class SettingsFragment : Fragment(){
                         val jsonObject = JSONObject(responsedata.string())
                         if(jsonObject.has(jsonConstans.STATUS)) {
                             val status: Int = jsonObject.optInt(jsonConstans.STATUS)
-                            Log.e("STATUS LOGIN", status.toString())
                             if (status == 100) {
                                 sharedprefs.setUserCode(mContext,"")
                                 sharedprefs.setUserID(mContext,"")
@@ -617,7 +644,8 @@ class SettingsFragment : Fragment(){
 
         })
     }
-
+    fun String.onlyLetters() = all { it.isLetter() }
+    fun String.withoutWhitespace() = require(none { it.isWhitespace() }) {  }
     fun changePassword(context: Context)
     {
         val dialog = Dialog(context)
@@ -654,7 +682,48 @@ class SettingsFragment : Fragment(){
                     if (text_confirmpassword.text.toString().trim().equals("")) {
                         InternetCheckClass. showErrorAlert(context,"Please enter Confirm Password","Alert")
                     } else{
-                        callChangePasswordApi(text_currentpassword.text.toString().trim(),text_currentnewpassword.text.toString().trim(),text_confirmpassword.text.toString(),dialog)
+                        if (text_currentnewpassword.getText().toString().trim { it <= ' ' }
+                                .matches(PASSWORD_PATTERN.toRegex()) && text_confirmpassword.getText()
+                                .toString().trim { it <= ' ' }
+                                .matches(PASSWORD_PATTERN.toRegex())
+                        ) {
+
+                            callChangePasswordApi(text_currentpassword.text.toString().trim(),text_currentnewpassword.text.toString().trim(),text_confirmpassword.text.toString(),dialog)
+
+                        } else {
+                            if (!text_currentnewpassword.getText().toString().onlyLetters()&&
+                                !text_confirmpassword.getText()
+                                    .toString().onlyLetters())
+                            {
+
+                                if (!text_currentnewpassword.text.toString()
+                                        .contains(" ") &&
+                                    !text_confirmpassword.getText()
+                                        .toString()
+                                        .contains(" "))
+                                {
+
+                                    if (text_currentnewpassword.text.toString().trim()
+                                            .matches(PASSWORD_PATTERN3.toRegex()) &&
+                                        text_confirmpassword.getText()
+                                            .toString().trim { it <= ' ' }
+                                            .matches(PASSWORD_PATTERN3.toRegex())){
+                                        Log.e("password","correct")
+                                    }else{
+                                        Toast.makeText(context, "Password must contain atleast 8 characters", Toast.LENGTH_SHORT).show()
+
+                                    }
+
+                                }else{
+                                    Toast.makeText(context, "Password must not contain white spaces", Toast.LENGTH_SHORT).show()
+
+                                }
+
+                            }else{
+                                Toast.makeText(context, "Password must contain atleast 1 special character", Toast.LENGTH_SHORT).show()
+
+                        }
+                        }
                     }
                 }
             }
@@ -672,19 +741,18 @@ class SettingsFragment : Fragment(){
             ApiClient.getClient.changePassword(changePasswordBody, "Bearer " + token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val responsedata = response.body()
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
 
                         val jsonObject = JSONObject(responsedata.string())
                         if (jsonObject.has(jsonConstans.STATUS)) {
                             val status: Int = jsonObject.optInt(jsonConstans.STATUS)
-                            Log.e("STATUS LOGIN", status.toString())
                             if (status == 100) {
                                 InternetCheckClass.showErrorAlert(
                                     mContext,

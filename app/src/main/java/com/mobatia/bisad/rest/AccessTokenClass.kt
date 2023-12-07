@@ -30,12 +30,12 @@ class AccessTokenClass {
             )
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.e("Failed", t.localizedMessage)
+
                 }
 
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     val responsedata = response.body()
-                    Log.e("Response", responsedata.toString())
+
                     if (responsedata != null) {
 //                        try {
 //                            val jsonObject = JSONObject(responsedata.string())
@@ -52,7 +52,7 @@ class AccessTokenClass {
                             if(jsonObject.has(jsonConstans.STATUS))
                             {
                                 val status : Int=jsonObject.optInt(jsonConstans.STATUS)
-                                Log.e("STATUS LOGIN",status.toString())
+
                                 if (status==100)
                                 {
                                     //Success API response

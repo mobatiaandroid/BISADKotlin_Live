@@ -53,8 +53,6 @@ class CalendarDetailAdapter(private var mContext:Context,private var calendarArr
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val summary = calendarArrayList[position]
 
-        Log.e("adapter start",summary.DTSTART.toString())
-        Log.e("adapter end",summary.DTEND.toString())
 
         holder.title.text = summary.SUMMARY
         if (summary.DTSTART.length!=0)

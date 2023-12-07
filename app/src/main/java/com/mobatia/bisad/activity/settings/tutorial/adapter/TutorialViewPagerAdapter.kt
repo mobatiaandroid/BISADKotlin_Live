@@ -39,7 +39,6 @@ class TutorialViewPagerAdapter : PagerAdapter {
         inflater = LayoutInflater.from(context)
         pageview = inflater.inflate(R.layout.swipe_homefragment, null)
         val imageView = pageview?.findViewById<View>(R.id.img) as ImageView
-        //Log.e("adapterlength", imagesarray.size.toString())
         if (imagesarray[position] != -1) {
             Glide.with(context).load(imagesarray[position]).centerCrop().into(imageView)
 

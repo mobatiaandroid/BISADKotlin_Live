@@ -208,7 +208,6 @@ class PaymentprintActivity:AppCompatActivity() {
                 sb.append(eachLine)
                 sb.append("\n")
                 eachLine = br.readLine()
-                Log.e("line",eachLine)
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -270,7 +269,6 @@ class PaymentprintActivity:AppCompatActivity() {
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
 
-            //   Log.d("WebView", "print webpage loading.." + url);
         }
     }
 

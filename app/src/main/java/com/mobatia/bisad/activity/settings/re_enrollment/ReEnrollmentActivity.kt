@@ -30,6 +30,7 @@ import com.mobatia.bisad.activity.parent_meetings.adapter.ReviewAdapter
 import com.mobatia.bisad.activity.settings.re_enrollment.adapter.ReEnrollAdapter
 import com.mobatia.bisad.activity.settings.re_enrollment.model.EnrollmentStatusModel
 import com.mobatia.bisad.activity.settings.re_enrollment.model.StudentsEnrollList
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.home.mContext
 import com.mobatia.bisad.fragment.home.model.reenrollment.*
@@ -153,7 +154,6 @@ class ReEnrollmentActivity: AppCompatActivity() {
 
     }
     private fun reEnrollApi(stud_enroll_list:ArrayList<StudentsEnrollList>,position:Int){
-        Log.e("api","tr")
         reEnrollOptionList= ArrayList()
         val token = com.mobatia.bisad.fragment.home.sharedprefs.getaccesstoken(com.mobatia.bisad.fragment.home.mContext)
         var descrptn_reenroll:String=""
@@ -164,8 +164,7 @@ class ReEnrollmentActivity: AppCompatActivity() {
         val call: Call<GetreenrollmentModel> = ApiClient.getClient.getreenrollmentForm(form_reenroll,"Bearer "+token)
         call.enqueue(object : Callback<GetreenrollmentModel> {
             override fun onFailure(call: Call<GetreenrollmentModel>, t: Throwable) {
-                //progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<GetreenrollmentModel>, response: Response<GetreenrollmentModel>) {
                 //progressDialog.visibility = View.GONE
@@ -173,7 +172,6 @@ class ReEnrollmentActivity: AppCompatActivity() {
                 {
                     var heading_reenroll=response.body()!!.responseArray.settingsdata.heading
                     if(response.body()!!.responseArray.settingsdata.description.isEmpty()){
-                        Log.e("des","null")
                     }else{
                         descrptn_reenroll=response.body()!!.responseArray.settingsdata.description
                     }
@@ -188,7 +186,6 @@ class ReEnrollmentActivity: AppCompatActivity() {
                     var reenrolldetail: ReEnrolldetail =
                         ReEnrolldetail(heading_reenroll,descrptn_reenroll,
                             tandc_reenroll,person_info_url,parent_name,user_email,question)
-                    Log.e("reenrolldetail",reenrolldetail.parent_name)
 
                     reEnrollOptionList.addAll(response.body()!!.responseArray.settingsdata.options)
                     //showSuccessAlertnew(context,"alertre","suc")
@@ -222,7 +219,6 @@ class ReEnrollmentActivity: AppCompatActivity() {
     }
     private fun showReEnroll(reEnrolldetail: ReEnrolldetail, reEnrollOptionList: ArrayList<String>,
                              stud_enroll_list:ArrayList<StudentsEnrollList>,position: Int){
-        Log.e("dial","show")
         val d = Dialog(context)
         d.requestWindowFeature(Window.FEATURE_NO_TITLE)
         d.window!!.setBackgroundDrawable(ColorDrawable(Color.WHITE))
@@ -265,7 +261,6 @@ class ReEnrollmentActivity: AppCompatActivity() {
         val time = Calendar.getInstance().time
         val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
         val current = formatter.format(time)
-        Log.e("curnttime",current.toString())
 
         var myCalendar= Calendar.getInstance()
         var currentDate= Calendar.getInstance().time
@@ -314,13 +309,10 @@ class ReEnrollmentActivity: AppCompatActivity() {
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 var optionlistSize=dropdownList.size-1
                 for (i in 1..optionlistSize){
-                    Log.e("opt",dropdownList[i])
                     if (selectedItem==dropdownList[i].toString()){
-                        Log.e("setcheck","1")
                         reEnrollsave[page_count].status=dropdownList[i]
                         check=1
                     }else if (selectedItem==dropdownList[0]){
-                        Log.e("setcheck","0")
                         check=0
                         reEnrollsave[page_count].status=""
                     }
@@ -356,12 +348,10 @@ class ReEnrollmentActivity: AppCompatActivity() {
         radioButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 if (!radioButton.isSelected) {
-                    Log.e("rad","sel")
                     radioButton.isChecked = true
                     // radioButton.isSelected = true
 
                 } else {
-                    Log.e("rad","sel_false")
                     radioButton.isChecked = false
                     radioButton.isSelected = false
 
@@ -446,11 +436,13 @@ class ReEnrollmentActivity: AppCompatActivity() {
                         // progressDialog.startAnimation(aniRotate)
                         var internetCheck = InternetCheckClass.isInternetAvailable(context)
                         if (internetCheck) {
-                            reEnrollMailApi( text_dialog.text.toString().trim(),
+                            emailvalidationcheck( text_dialog.text.toString().trim(),
                                 text_content.text.toString().trim(),dialog)
+                           /* reEnrollMailApi( text_dialog.text.toString().trim(),
+                                text_content.text.toString().trim(),dialog)*/
 
                         } else {
-                            InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
+                            InternetCheckClass.showSuccessInternetAlert(context)
                         }
                     }
                 }
@@ -462,7 +454,6 @@ class ReEnrollmentActivity: AppCompatActivity() {
         sub_btn.setOnClickListener {
 
             if (check==0){
-                Log.e("check","plsselct")
                 radioButton.isChecked = false
                 radioButton.isSelected=false
                 radioButton_info.isChecked=false
@@ -471,7 +462,6 @@ class ReEnrollmentActivity: AppCompatActivity() {
                 if (reEnrollsave[0].status.isNotEmpty()){
                     reEnrollsave[0].student_id=stud_enroll_list[position].id
                 }else{
-                    Log.e("nostud","id")
                 }
                 if (reEnrollsave[0].student_id.isNotEmpty()&&reEnrollsave[0].status.isNotEmpty()){
                     var r1 =
@@ -492,11 +482,9 @@ class ReEnrollmentActivity: AppCompatActivity() {
             }else{
                 if (radioButton.isChecked) {
                     if (radioButton_info.isChecked){
-                    Log.e("check", "checked")
                     if (reEnrollsave[0].status.isNotEmpty()) {
                         reEnrollsave[0].student_id = stud_enroll_list[position].id
                     } else {
-                        Log.e("nostud", "id")
                     }
                     if (reEnrollsave[0].student_id.isNotEmpty() && reEnrollsave[0].status.isNotEmpty()) {
                         var r1 =
@@ -524,9 +512,7 @@ class ReEnrollmentActivity: AppCompatActivity() {
             com.mobatia.bisad.fragment.home.sharedprefs.setreenrollvalue(context,"2")
             d.dismiss()
         }
-        Log.e("upto","d")
         d.show()
-        Log.e("upto","daftr")
     }
 private fun setting_re_api(){
     stud_enroll_list= ArrayList()
@@ -536,15 +522,13 @@ private fun setting_re_api(){
     val call: Call<EnrollmentStatusModel> = ApiClient.getClient.get_enrollment_status("Bearer "+token)
     call.enqueue(object : Callback<EnrollmentStatusModel> {
         override fun onFailure(call: Call<EnrollmentStatusModel>, t: Throwable) {
-            Log.e("Failed", t.localizedMessage)
+CommonFunctions.faliurepopup(context)
         }
         override fun onResponse(call: Call<EnrollmentStatusModel>, response: Response<EnrollmentStatusModel>) {
             val responsedata = response.body()
-            Log.e("Response Signup", responsedata.toString())
             if (responsedata!!.status==100) {
                 progress.visibility = View.GONE
 
-Log.e("st","100")
                 stud_enroll_list.addAll(responsedata.responseArray.students)
                 enroll_rec.layoutManager= LinearLayoutManager(context)
                 var re_enroll_adapter=
@@ -577,6 +561,69 @@ Log.e("st","100")
 
     })
 }
+    fun emailvalidationcheck( title: String,
+                              message: String,
+                              dialog: Dialog){
+        val EMAIL_PATTERN :String=
+            "^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+        val pattern :String= "^([a-zA-Z ]*)$"
+        if (title.toString().trim().matches(pattern.toRegex())) {
+            if (title.toString().length>=500){
+                Toast.makeText(context, "Subject is too long", Toast.LENGTH_SHORT).show()
+
+            }else{
+                if (message.toString().trim().matches(pattern.toRegex())) {
+                    if (InternetCheckClass.isInternetAvailable(context)) {
+                        if (message.length<=500) {
+                            reEnrollMailApi(title,
+                                message,dialog)
+                        }else{
+                            Toast.makeText(context, "Message is too long", Toast.LENGTH_SHORT).show()
+
+                        }
+                    } else {
+                        CommonFunctions.faliurepopup(context)
+                    }
+                } else {
+                    val toast: Toast = Toast.makeText(
+                        context, context.getResources().getString(
+                            R.string.enter_valid_contents
+                        ), Toast.LENGTH_SHORT
+                    )
+                    toast.show()
+                }
+            }
+
+
+        } else {
+            val toast: Toast = Toast.makeText(
+                context, context.getResources().getString(
+                    R.string.enter_valid_subjects
+                ), Toast.LENGTH_SHORT
+            )
+            toast.show()
+        }/* if (title.equals("")) {
+            val toast: Toast = Toast.makeText(
+                mContext, mContext.getResources().getString(
+                    com.mobatia.bisad.R.string.enter_subjects
+                ), Toast.LENGTH_SHORT
+            )
+            toast.show()
+        } else {
+            if (message.equals("")) {
+                val toast: Toast = Toast.makeText(
+                    mContext, mContext.getResources().getString(
+                        R.string.enter_contents
+                    ), Toast.LENGTH_SHORT
+                )
+                toast.show()
+            } else {
+                reEnrollMailApi(title,
+                    message,dialog)
+            }
+        }*/
+
+    }
     private fun reEnrollMailApi(title: String,
                                 message: String,
                                 dialog: Dialog
@@ -587,14 +634,14 @@ Log.e("st","100")
             ApiClient.getClient.re_enrollment_mailhelp(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<ReEnrollEmailModel> {
             override fun onFailure(call: Call<ReEnrollEmailModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(context)
+
                 //progressDialog.visibility = View.GONE
             }
 
             override fun onResponse(call: Call<ReEnrollEmailModel>, response: Response<ReEnrollEmailModel>) {
                 val responsedata = response.body()
                 //progressDialog.visibility = View.GONE
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
 
@@ -751,22 +798,21 @@ Log.e("st","100")
     fun  saveReenrollApi(reEnrollsubmit:ArrayList<ReEnrollSubModel>,dlg:Dialog,d:Dialog){
 
         val token = com.mobatia.bisad.fragment.home.sharedprefs.getaccesstoken(mContext)
-        Log.e("size",reEnrollsubmit.size.toString())
         val save_reenroll: SaveReenrollmentApiModel? = SaveReenrollmentApiModel(reEnrollsubmit)
-        Log.e("save",save_reenroll!!.json.toString())
 
-        val call: Call<SavereenrollmentModel> = ApiClient.getClient.savereenrollmentForm(save_reenroll,"Bearer "+token)
+        val call: Call<SavereenrollmentModel> = ApiClient.getClient.savereenrollmentForm(
+            save_reenroll!!,"Bearer "+token)
         call.enqueue(object : Callback<SavereenrollmentModel>{
             override fun onFailure(call: Call<SavereenrollmentModel>, t: Throwable) {
                 //progressDialog.visibility = View.GONE
-                Log.e("Error", t.localizedMessage)
+                CommonFunctions.faliurepopup(context)
+
             }
             override fun onResponse(call: Call<SavereenrollmentModel>, response: Response<SavereenrollmentModel>) {
                 //progressDialog.visibility = View.GONE
 
                 if (response.body()!!.status.equals("100"))
                 {
-                    Log.e("re","save")
 
                     showSuccessReenrollAlert(context, "Successfully submitted the Re Enrollment", "Thankyou",dlg,d)
                     setting_re_api()

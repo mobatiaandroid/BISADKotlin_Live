@@ -30,6 +30,7 @@ import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartApiModel
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartModel
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartResModel
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CartItemsListModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.AccessTokenClass
@@ -127,7 +128,6 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
        /* holder.cartitemcount.setOnValueChangeListener { view, oldValue, newValue ->
             canteen_cart_id = items_list[position].item_id
             quantity = newValue.toString()
-            println("Click works")
             if (InternetCheckClass.isInternetAvailable(mcontext)) {
                 if (newValue != 0) {
                     if (newValue == Integer.valueOf(
@@ -226,8 +226,7 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
         val call: Call<CanteenCartModel> = ApiClient.getClient.get_canteen_cart(canteenCart,"Bearer "+token)
         call.enqueue(object : Callback<CanteenCartModel> {
             override fun onFailure(call: Call<CanteenCartModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                //progressDialogAdd.visibility=View.GONE
+                CommonFunctions.faliurepopup(mcontext)
                 progress.hide()
             }
             override fun onResponse(call: Call<CanteenCartModel>, response: Response<CanteenCartModel>) {
@@ -238,7 +237,7 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
                     //progress.visibility = View.GONE
                     cart_list=response!!.body()!!.responseArray.data
                     for (i in cart_list.indices){
-                        Log.e("ta",cart_list[i].total_amount.toString())
+
                         cartTotalAmount=cartTotalAmount + cart_list[i].total_amount
                     }
                     if (cartTotalAmount==0){
@@ -251,8 +250,7 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
                                 cartTotalItems=cartTotalItems + cart_list[i].items[j].quantity
                             }
                         }
-                        Log.e("items",cartTotalItems.toString())
-                        Log.e("price",cartTotalAmount.toString())
+
                         itemtxt.setText(cartTotalItems.toString() + "Items")
                         amnttxt.setText(cartTotalAmount.toString() + "AED")
                     }
@@ -300,8 +298,7 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
         val call: Call<CanteenCartUpdateModel> = ApiClient.getClient.update_canteen_cart(canteenadd,"Bearer "+token)
         call.enqueue(object : Callback<CanteenCartUpdateModel> {
             override fun onFailure(call: Call<CanteenCartUpdateModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                //progressDialogAdd.visibility=View.GONE
+                CommonFunctions.faliurepopup(mcontext)
                 progress.hide()
             }
             override fun onResponse(call: Call<CanteenCartUpdateModel>, response: Response<CanteenCartUpdateModel>) {
@@ -356,8 +353,7 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
         val call: Call<CanteenCartRemoveModel> = ApiClient.getClient.remove_canteen_cart(canteenadd,"Bearer "+token)
         call.enqueue(object : Callback<CanteenCartRemoveModel> {
             override fun onFailure(call: Call<CanteenCartRemoveModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
-                //progressDialogAdd.visibility=View.GONE
+                CommonFunctions.faliurepopup(mcontext)
                 progress.hide()
             }
             override fun onResponse(call: Call<CanteenCartRemoveModel>, response: Response<CanteenCartRemoveModel>) {

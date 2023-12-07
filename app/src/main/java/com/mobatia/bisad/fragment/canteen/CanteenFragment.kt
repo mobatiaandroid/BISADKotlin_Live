@@ -25,6 +25,7 @@ import com.mobatia.bisad.activity.canteen.InformationActivity
 import com.mobatia.bisad.activity.canteen.PreOrderActivity
 import com.mobatia.bisad.activity.canteen.model.TimeExceedModel
 import com.mobatia.bisad.activity.settings.re_enrollment.model.EnrollmentStatusModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.fragment.canteen.model.CanteenBannerResponseModel
 import com.mobatia.bisad.fragment.canteen.model.CanteenSendEmailApiModel
@@ -121,14 +122,19 @@ class CanteenFragment  : Fragment() {
                         // progressDialog.startAnimation(aniRotate)
                         var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
                         if (internetCheck) {
-                            sendEmail(
+                            emailvalidationcheck(text_dialog.text.toString().trim(),
+                                text_content.text.toString().trim(),
+                                sharedprefs.getStudentID(mContext).toString(),
+                                contactEmail,
+                                dialog)
+                           /* sendEmail(
                                 text_dialog.text.toString().trim(),
                                 text_content.text.toString().trim(),
                                 sharedprefs.getStudentID(mContext).toString(),
                                 contactEmail,
                                 dialog
 
-                            )
+                            )*/
 
                         } else {
                             InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
@@ -163,11 +169,11 @@ class CanteenFragment  : Fragment() {
         {
             override fun onFailure(call: Call<CanteenBannerResponseModel>, t: Throwable) {
                 progress.hide()
-                Log.e("Failed", t.localizedMessage)
+                CommonFunctions.faliurepopup(mContext)
+
             }
             override fun onResponse(call: Call<CanteenBannerResponseModel>, response: Response<CanteenBannerResponseModel>) {
                 val responsedata = response.body()
-                Log.e("Response", responsedata.toString())
                 if (responsedata!!.status==100) {
                     progress.hide()
 
@@ -222,7 +228,82 @@ class CanteenFragment  : Fragment() {
 
     }
 
+    fun emailvalidationcheck( title: String,
+                              message: String,
+                              studentID: String,
+                              staffEmail: String,
+                              dialog: Dialog){
+        val EMAIL_PATTERN :String=
+            "^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+        val pattern :String= "^([a-zA-Z ]*)$"
 
+        if (title.equals("")) {
+            val toast: Toast = Toast.makeText(
+                mContext, mContext.getResources().getString(
+                    com.mobatia.bisad.R.string.enter_subjects
+                ), Toast.LENGTH_SHORT
+            )
+            toast.show()
+        } else {
+            if (message.equals("")) {
+                val toast: Toast = Toast.makeText(
+                    mContext, mContext.getResources().getString(
+                        R.string.enter_contents
+                    ), Toast.LENGTH_SHORT
+                )
+                toast.show()
+            } else if (staffEmail.matches(EMAIL_PATTERN.toRegex())) {
+                if (title.toString().trim().matches(pattern.toRegex())) {
+                    if (title.toString().length>=500){
+                        Toast.makeText(mContext, "Subject is too long", Toast.LENGTH_SHORT).show()
+
+                    }else{
+                        if (message.toString().trim().matches(pattern.toRegex())) {
+                            if (message.length<=500) {
+                                if (InternetCheckClass.isInternetAvailable(mContext)) {
+                                    sendEmail(
+                                        title,
+                                        message,
+                                        studentID,
+                                        contactEmail,
+                                        dialog
+
+                                    )
+                                } else {
+                                    CommonFunctions.faliurepopup(mContext)
+                                }
+                            }else{
+                                Toast.makeText(context, "Message is too long", Toast.LENGTH_SHORT).show()
+
+                            }
+
+                        } else {
+                            val toast: Toast = Toast.makeText(
+                                mContext, mContext.getResources().getString(
+                                    R.string.enter_valid_contents
+                                ), Toast.LENGTH_SHORT
+                            )
+                            toast.show()
+                        }
+                    }
+                } else {
+                    val toast: Toast = Toast.makeText(
+                        mContext, mContext.getResources().getString(
+                            R.string.enter_valid_subjects
+                        ), Toast.LENGTH_SHORT
+                    )
+                    toast.show()
+                }
+            } else {
+                val toast: Toast = Toast.makeText(
+                    mContext, mContext.getResources().getString(
+                        R.string.enter_valid_mail
+                    ), Toast.LENGTH_SHORT
+                )
+                toast.show()
+            }
+        }
+    }
     fun sendEmail(title: String,
                           message: String,
                           studentID: String,
@@ -236,14 +317,15 @@ class CanteenFragment  : Fragment() {
             ApiClient.getClient.sendEmailCanteen(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<SendStaffEmailModel> {
             override fun onFailure(call: Call<SendStaffEmailModel>, t: Throwable) {
-                Log.e("Failed", t.localizedMessage)
+
                 progress.hide()
+                CommonFunctions.faliurepopup(mContext)
+
             }
 
             override fun onResponse(call: Call<SendStaffEmailModel>, response: Response<SendStaffEmailModel>) {
                 val responsedata = response.body()
                 progress.hide()
-                Log.e("Response Signup", responsedata.toString())
                 if (responsedata != null) {
                     try {
 

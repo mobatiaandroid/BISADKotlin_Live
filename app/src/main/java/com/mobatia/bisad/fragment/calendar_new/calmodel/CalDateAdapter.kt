@@ -43,7 +43,6 @@ class CalDateAdapter (
 
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Log.e("date","adptr")
         val summary = calendarArrayList[position]
 
 

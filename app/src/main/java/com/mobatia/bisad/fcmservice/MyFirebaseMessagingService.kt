@@ -34,7 +34,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //
 //            }
 //        }
-        Log.e("onMessageReceived:", remoteMessage.toString())
 
 
             if (remoteMessage.data.isNotEmpty()) {
@@ -42,7 +41,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     val json = JSONObject(remoteMessage.data.toString())
                     handleDataMessage(json)
                 } catch (e: Exception) {
-                    Log.e("FIREBASEEXCEPTION:", e.message.toString())
 
                 }
             }
@@ -53,7 +51,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 sendNotification(remoteMessage.notification!!.body)
                 println("Message Notification Body:"+ remoteMessage.notification!!.body)
 
-                //Log.e("FIREBASERECEIVED:", remoteMessage.notification.body)
 
             }
 
@@ -62,17 +59,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun handleDataMessage(json: JSONObject) {
 
-        Log.e("push json:", json.toString())
 
         try {
             val data = json.getJSONObject("body")
             val badge = data.getString("badge")
             val message = data.getString("message")
-            Log.e("FIREBASE_MSG:", message)
             badgecount=badge.toInt()
             sendNotification(message)
         } catch (e: JSONException) {
-            Log.e("JSONEXCEPTION:", e.message.toString())
 
         } catch (e: java.lang.Exception) {
 
