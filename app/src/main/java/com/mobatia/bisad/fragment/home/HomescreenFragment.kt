@@ -14,7 +14,6 @@ import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.text.Spanned
 import android.util.Base64
 import android.util.Log
 import android.view.*
@@ -26,7 +25,6 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,8 +37,6 @@ import com.kyanogen.signatureview.SignatureView
 import com.mobatia.bisad.BuildConfig
 import com.mobatia.bisad.R
 import com.mobatia.bisad.WebviewActivity
-import com.mobatia.bisad.WebviewLoad
-import com.mobatia.bisad.activity.MainActivity
 import com.mobatia.bisad.activity.common.LoginActivity
 import com.mobatia.bisad.activity.home.DataCollectionActivity
 import com.mobatia.bisad.activity.home.HomeActivity
@@ -52,11 +48,9 @@ import com.mobatia.bisad.constants.NaisClassNameConstants
 import com.mobatia.bisad.constants.NaisTabConstants
 import com.mobatia.bisad.fragment.apps.AppsFragment
 import com.mobatia.bisad.fragment.calendar_new.CalFragment
-import com.mobatia.bisad.fragment.calendar_new.CalendarFragmentNew
 import com.mobatia.bisad.fragment.canteen.CanteenFragment
 import com.mobatia.bisad.fragment.communication.CommunicationFragment
 import com.mobatia.bisad.fragment.contact_us.ContactUsFragment
-import com.mobatia.bisad.fragment.curriculum.CurriculumFragment
 import com.mobatia.bisad.fragment.forms.FormsFragment
 import com.mobatia.bisad.fragment.home.model.*
 import com.mobatia.bisad.fragment.home.model.datacollection.*
@@ -71,9 +65,6 @@ import com.mobatia.bisad.fragment.settings.adapter.TriggerAdapter
 import com.mobatia.bisad.fragment.settings.model.TriggerDataModel
 import com.mobatia.bisad.fragment.settings.model.TriggerUSer
 import com.mobatia.bisad.fragment.socialmedia.SocialMediaFragment
-import com.mobatia.bisad.fragment.staff_directory.StaffDirectoryFragment
-import com.mobatia.bisad.fragment.staff_directory.model.SendStaffEmailApiModel
-import com.mobatia.bisad.fragment.staff_directory.model.SendStaffEmailModel
 import com.mobatia.bisad.fragment.student_information.StudentInformationFragment
 import com.mobatia.bisad.fragment.student_information.model.StudentList
 import com.mobatia.bisad.fragment.student_information.model.StudentListModel
@@ -94,7 +85,6 @@ import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 lateinit var relone: RelativeLayout
@@ -148,7 +138,7 @@ lateinit var passportSaveArrayList: ArrayList<PassportApiModel>
 lateinit var healthSaveArrayList: ArrayList<HealthInsuranceDetailAPIModel>
 lateinit var mListImgArrays: TypedArray
 lateinit var TouchedView: View
-lateinit var pager_rel:RelativeLayout
+lateinit var pager_rel: RelativeLayout
 
 lateinit var classNameConstants: NaisClassNameConstants
 
@@ -161,11 +151,11 @@ private var usertype: String = ""
 private var USERDATA: String = ""
 private var previousTriggerType: Int = 0
 
- var studentName: String=""
- var studentId: String=""
- var studentImg: String=""
- var studentClass: String=""
- var studntCount: Int=0
+var studentName: String = ""
+var studentId: String = ""
+var studentImg: String = ""
+var studentClass: String = ""
+var studntCount: Int = 0
 
 lateinit var naisTabConstants: NaisTabConstants
 lateinit var sharedprefs: PreferenceData
@@ -173,7 +163,7 @@ lateinit var sharedprefs: PreferenceData
 lateinit var pager: ViewPager
 var isDraggable: Boolean = false
 lateinit var mContext: Context
-lateinit var current_date:String
+lateinit var current_date: String
 
 
 @Suppress(
@@ -182,8 +172,8 @@ lateinit var current_date:String
 )
 class HomescreenFragment : Fragment(), View.OnClickListener {
 
-   lateinit var studDetailList:ArrayList<StudentReEnrollList>
-   lateinit var reEnrollOptionList:ArrayList<String>
+    lateinit var studDetailList: ArrayList<StudentReEnrollList>
+    lateinit var reEnrollOptionList: ArrayList<String>
 
     var currentPage: Int = 0
     lateinit var jsonConstans: JsonConstants
@@ -215,8 +205,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         mListImgArrays = context!!.resources.obtainTypedArray(R.array.navigation_icons_guest)
         previousTriggerType = sharedprefs.getTriggerType(mContext)
         currentversion = BuildConfig.VERSION_NAME
-        studDetailList= ArrayList()
-        reEnrollOptionList= ArrayList()
+        studDetailList = ArrayList()
+        reEnrollOptionList = ArrayList()
         initializeUI()
 
 
@@ -338,7 +328,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     classNameConstants.STUDENT
                 } else {
                     listitems[sharedprefs
-                                        .getbuttononetextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
+                        .getbuttononetextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
                 }
             relTxtone.text = relTwoStr
             relTxtone.setTextColor(ContextCompat.getColor(mContext, R.color.white))
@@ -373,7 +363,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     classNameConstants.STUDENT
                 } else {
                     listitems[sharedprefs
-                                        .getbuttontwotextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
+                        .getbuttontwotextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
                 }
             relTxttwo.text = relTwoStr
             relTxttwo.setTextColor(ContextCompat.getColor(mContext, R.color.white))
@@ -408,7 +398,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 classNameConstants.STUDENT
             } else {
                 listitems[sharedprefs
-                                .getbuttonthreetextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
+                    .getbuttonthreetextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
             }
             relTxtthree.text = relTwoStr
             relTxtthree.setTextColor(ContextCompat.getColor(mContext, R.color.white))
@@ -445,7 +435,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 classNameConstants.STUDENT
             } else {
                 listitems[sharedprefs
-                                .getbuttonfourtextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
+                    .getbuttonfourtextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
             }
             relTxtfour.text = relTwoStr
             relTxtfour.setTextColor(ContextCompat.getColor(mContext, R.color.white))
@@ -482,7 +472,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 classNameConstants.STUDENT
             } else {
                 listitems[sharedprefs
-                                .getbuttonfivetextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
+                    .getbuttonfivetextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
             }
             relTxtfive.text = relTwoStr
             relTxtfive.setTextColor(ContextCompat.getColor(mContext, R.color.white))
@@ -515,7 +505,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 classNameConstants.STUDENT
             } else {
                 listitems[sharedprefs
-                                .getbuttonsixtextimage(mContext)!!.toInt()].uppercase(Locale.ROOT)
+                    .getbuttonsixtextimage(mContext)!!.toInt()].uppercase(Locale.ROOT)
             }
             relTxtsix.text = relTwoStr
             relTxtsix.setTextColor(ContextCompat.getColor(mContext, R.color.white))
@@ -543,7 +533,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 classNameConstants.CCAS
             } else {
                 listitems[sharedprefs
-                                .getbuttonseventextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
+                    .getbuttonseventextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
             }
             relTxtseven.text = relTwoStr
             relTxtseven.setTextColor(ContextCompat.getColor(mContext, R.color.white))
@@ -571,7 +561,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 classNameConstants.CCAS
             } else {
                 listitems[sharedprefs
-                                .getbuttoneighttextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
+                    .getbuttoneighttextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
             }
             relTxteight.text = relTwoStr
             relTxteight.setTextColor(ContextCompat.getColor(mContext, R.color.white))
@@ -599,7 +589,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 classNameConstants.CCAS
             } else {
                 listitems[sharedprefs
-                                .getbuttonninetextimage(mContext)!!.toInt()].uppercase(Locale.ROOT)
+                    .getbuttonninetextimage(mContext)!!.toInt()].uppercase(Locale.ROOT)
             }
             reltxtnine.text = relTwoStr
             reltxtnine.setTextColor(ContextCompat.getColor(mContext, R.color.white))
@@ -670,6 +660,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     }
 
                 }
+
                 DragEvent.ACTION_DRAG_ENDED -> Log.d("DRAG", "END")
 
 
@@ -884,6 +875,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     TAB_ID = naisTabConstants.TAB_STUDENT_INFORMATION
 
                 }
+
                 textdata.equals("Student Information") -> {
                     TAB_ID = naisTabConstants.TAB_STUDENT_INFORMATION
 
@@ -893,24 +885,31 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     TAB_ID = naisTabConstants.TAB_CALENDAR
 
                 }
+
                 textdata.equals(classNameConstants.MESSAGES, ignoreCase = true) -> {
                     TAB_ID = naisTabConstants.TAB_MESSAGES
                 }
+
                 textdata.equals(classNameConstants.COMMUNICATION, ignoreCase = true) -> {
                     TAB_ID = naisTabConstants.TAB_COMMUNICATION
                 }
+
                 textdata.equals(classNameConstants.REPORT_ABSENCE, ignoreCase = true) -> {
                     TAB_ID = naisTabConstants.TAB_REPORT_ABSENCE
                 }
+
                 textdata.equals(classNameConstants.TEACHER_CONTACT, ignoreCase = true) -> {
                     TAB_ID = naisTabConstants.TAB_TEACHER_CONTACT
                 }
+
                 textdata.equals(classNameConstants.SOCIAL_MEDIA, ignoreCase = true) -> {
                     TAB_ID = naisTabConstants.TAB_SOCIAL_MEDIA
                 }
+
                 textdata.equals(classNameConstants.TIME_TABLE, ignoreCase = true) -> {
                     TAB_ID = naisTabConstants.TAB_TIME_TABLE
                 }
+
                 textdata.equals(classNameConstants.TERM_DATES, ignoreCase = true) -> {
                     TAB_ID = naisTabConstants.TAB_TERM_DATES
                 }
@@ -919,13 +918,17 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     TAB_ID = naisTabConstants.TAB_CONTACT_US
 
                 }
+
                 textdata.equals(classNameConstants.APPS, ignoreCase = true) -> {
                     TAB_ID = naisTabConstants.TAB_APPS
 
-                } textdata.equals(classNameConstants.FORMS, ignoreCase = true) -> {
+                }
+
+                textdata.equals(classNameConstants.FORMS, ignoreCase = true) -> {
                     TAB_ID = naisTabConstants.TAB_FORMS
 
                 }
+
                 textdata.equals(classNameConstants.REPORTS, ignoreCase = true) -> {
                     TAB_ID = naisTabConstants.TAB_REPORTS
 
@@ -943,22 +946,29 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 //
 //                }
                 textdata.equals(classNameConstants.STAFF_DIRECTORY, ignoreCase = true) -> {
-                TAB_ID = naisTabConstants.TAB_STAFF_DIRECTORY
+                    TAB_ID = naisTabConstants.TAB_STAFF_DIRECTORY
 
-            }textdata.equals(classNameConstants.PERMISSION_SLIPS, ignoreCase = true) -> {
-                TAB_ID = naisTabConstants.TAB_PERMISSION_SLIPS
+                }
 
-            }
+                textdata.equals(classNameConstants.PERMISSION_SLIPS, ignoreCase = true) -> {
+                    TAB_ID = naisTabConstants.TAB_PERMISSION_SLIPS
+
+                }
+
                 textdata.equals(classNameConstants.PARENT_MEETINGS, ignoreCase = true) -> {
-                TAB_ID = naisTabConstants.TAB_PARENT_MEETINGS
+                    TAB_ID = naisTabConstants.TAB_PARENT_MEETINGS
 
-            } textdata.equals(classNameConstants.CANTEEN, ignoreCase = true) -> {
-                TAB_ID = naisTabConstants.TAB_CANTEEN
+                }
 
-            } textdata.equals(classNameConstants.PAYMENT, ignoreCase = true) -> {
-                TAB_ID = naisTabConstants.TAB_PAYMENT
+                textdata.equals(classNameConstants.CANTEEN, ignoreCase = true) -> {
+                    TAB_ID = naisTabConstants.TAB_CANTEEN
 
-            }
+                }
+
+                textdata.equals(classNameConstants.PAYMENT, ignoreCase = true) -> {
+                    TAB_ID = naisTabConstants.TAB_PAYMENT
+
+                }
 
             }
 
@@ -1086,7 +1096,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         relImgnine = view!!.findViewById(R.id.relImgNine) as ImageView
         mSectionText = arrayOfNulls(9)
 
-        pager_rel=view!!.findViewById(R.id.pager_rel)
+        pager_rel = view!!.findViewById(R.id.pager_rel)
         updatedata()
 
 
@@ -1149,6 +1159,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         "Alert"
                     )
                 }
+
                 naisTabConstants.TAB_CALENDAR -> {
                     showSuccessAlert(
                         mContext,
@@ -1164,10 +1175,12 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         "Alert"
                     )
                 }
+
                 naisTabConstants.TAB_COMMUNICATION -> {
                     mFragment = CommunicationFragment()
                     fragmentIntent(mFragment)
                 }
+
                 naisTabConstants.TAB_REPORT_ABSENCE -> {
                     showSuccessAlert(
                         mContext,
@@ -1175,6 +1188,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         "Alert"
                     )
                 }
+
                 naisTabConstants.TAB_TEACHER_CONTACT -> {
                     showSuccessAlert(
                         mContext,
@@ -1182,10 +1196,12 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         "Alert"
                     )
                 }
+
                 naisTabConstants.TAB_SOCIAL_MEDIA -> {
                     mFragment = SocialMediaFragment()
                     fragmentIntent(mFragment)
                 }
+
                 naisTabConstants.TAB_TIME_TABLE -> {
                     showSuccessAlert(
                         mContext,
@@ -1193,6 +1209,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         "Alert"
                     )
                 }
+
                 naisTabConstants.TAB_REPORTS -> {
                     showSuccessAlert(
                         mContext,
@@ -1248,6 +1265,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         fragmentIntent(mFragment)
                     }
                 }
+
                 naisTabConstants.TAB_APPS -> {
                     showSuccessAlert(
                         mContext,
@@ -1255,6 +1273,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         "Alert"
                     )
                 }
+
                 naisTabConstants.TAB_FORMS -> {
                     showSuccessAlert(
                         mContext,
@@ -1273,6 +1292,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         "Alert"
                     )
                 }
+
                 naisTabConstants.TAB_PARENT_MEETINGS -> {
                     showSuccessAlert(
                         mContext,
@@ -1280,6 +1300,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         "Alert"
                     )
                 }
+
                 naisTabConstants.TAB_PAYMENT -> {
                     showSuccessAlert(
                         mContext,
@@ -1287,6 +1308,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         "Alert"
                     )
                 }
+
                 naisTabConstants.TAB_CANTEEN -> {
                     showSuccessAlert(
                         mContext,
@@ -1308,6 +1330,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     mFragment = StudentInformationFragment()
                     fragmentIntent(mFragment)
                 }
+
                 naisTabConstants.TAB_CALENDAR -> {
                     sharedprefs.setStudentID(mContext, "")
                     sharedprefs.setStudentName(mContext, "")
@@ -1321,6 +1344,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     mFragment = MessageFragment()
                     fragmentIntent(mFragment)
                 }
+
                 naisTabConstants.TAB_COMMUNICATION -> {
 
                     if (ActivityCompat.checkSelfPermission(
@@ -1328,7 +1352,9 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
                         ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                             mContext,
-                            Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) {
                         checkpermissionCommunication()
 
 
@@ -1338,6 +1364,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     }
 
                 }
+
                 naisTabConstants.TAB_REPORT_ABSENCE -> {
                     sharedprefs.setStudentID(mContext, "")
                     sharedprefs.setStudentName(mContext, "")
@@ -1346,6 +1373,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     mFragment = ReportAbsenceFragment()
                     fragmentIntent(mFragment)
                 }
+
                 naisTabConstants.TAB_TEACHER_CONTACT -> {
                     sharedprefs.setStudentID(mContext, "")
                     sharedprefs.setStudentName(mContext, "")
@@ -1354,10 +1382,12 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     mFragment = TeacherContactFragment()
                     fragmentIntent(mFragment)
                 }
+
                 naisTabConstants.TAB_SOCIAL_MEDIA -> {
                     mFragment = SocialMediaFragment()
                     fragmentIntent(mFragment)
                 }
+
                 naisTabConstants.TAB_TIME_TABLE -> {
                     sharedprefs.setStudentID(mContext, "")
                     sharedprefs.setStudentName(mContext, "")
@@ -1366,6 +1396,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     mFragment = TimeTableFragment()
                     fragmentIntent(mFragment)
                 }
+
                 naisTabConstants.TAB_TERM_DATES -> {
                     mFragment = TermDatesFragment()
                     fragmentIntent(mFragment)
@@ -1436,6 +1467,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 
 
                 }
+
                 naisTabConstants.TAB_APPS -> {
                     sharedprefs.setStudentID(mContext, "")
                     sharedprefs.setStudentName(mContext, "")
@@ -1444,6 +1476,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     mFragment = AppsFragment()
                     fragmentIntent(mFragment)
                 }
+
                 naisTabConstants.TAB_FORMS -> {
                     sharedprefs.setStudentID(mContext, "")
                     sharedprefs.setStudentName(mContext, "")
@@ -1469,6 +1502,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     mFragment = PermissionSlipFragment()
                     fragmentIntent(mFragment)
                 }
+
                 naisTabConstants.TAB_PARENT_MEETINGS -> {
                     sharedprefs.setStudentID(mContext, "")
                     sharedprefs.setStudentName(mContext, "")
@@ -1486,6 +1520,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     mFragment = PaymentFragment()
                     fragmentIntent(mFragment)
                 }
+
                 naisTabConstants.TAB_CANTEEN -> {
                     sharedprefs.setStudentID(mContext, "")
                     sharedprefs.setStudentName(mContext, "")
@@ -1524,7 +1559,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                                 val responseObj = jsonObject.getJSONObject("responseArray")
                                 val dataArray = responseObj.getJSONArray("banner_images")
                                 val appVersion = responseObj.optString("android_app_version")
-                                var reEnrollStatus=responseObj.optString("enrollment_status")
+                                var reEnrollStatus = responseObj.optString("enrollment_status")
                                 sharedprefs.setAppVersion(mContext, appVersion)
                                 versionfromapi =
                                     sharedprefs.getAppVersion(mContext)!!.replace(".", "")
@@ -1548,9 +1583,9 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                                 } else {
                                     pager.setBackgroundResource(R.drawable.aboutbanner)
                                 }
-                                if (reEnrollStatus.equals("1")){
-                                    val re_enrollvalue= sharedprefs.getreenrollvalue(mContext)
-                                    if (re_enrollvalue!!.equals("1")){
+                                if (reEnrollStatus.equals("1")) {
+                                    val re_enrollvalue = sharedprefs.getreenrollvalue(mContext)
+                                    if (re_enrollvalue!! == "1") {
                                         getReenrollForm()
                                     }
 
@@ -1582,7 +1617,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         })
     }
 
-     fun showforceupdate(mContext: Context) {
+    fun showforceupdate(mContext: Context) {
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -1649,7 +1684,14 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         }
         dialog.show()
     }
-    fun showSuccessReenrollAlert(context: Context, message: String, msgHead: String,dlg:Dialog,d:Dialog) {
+
+    fun showSuccessReenrollAlert(
+        context: Context,
+        message: String,
+        msgHead: String,
+        dlg: Dialog,
+        d: Dialog
+    ) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -1696,32 +1738,29 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                                 val trigger_type = responseObj.optInt("trigger_type")
                                 val already_triggered = responseObj.optInt("already_triggered")
                                 val deleted = responseObj.optInt("deleted")
-                                if(deleted==1)
-                                {
-                                    sharedprefs.setUserCode(mContext,"")
-                                    sharedprefs.setUserID(mContext,"")
+                                if (deleted == 1) {
+                                    sharedprefs.setUserCode(mContext, "")
+                                    sharedprefs.setUserID(mContext, "")
 
-                                    var dummyOwn=ArrayList<OwnContactModel>()
-                                    sharedprefs.setOwnContactDetailArrayList(mContext,dummyOwn)
-                                    var dummyKinPass=ArrayList<KinDetailApiModel>()
-                                    sharedprefs.setKinDetailPassArrayList(mContext,dummyKinPass)
-                                    var dummyKinShow=ArrayList<KinDetailApiModel>()
-                                    sharedprefs.setKinDetailArrayList(mContext,dummyKinShow)
-                                    var dummyHealth=ArrayList<HealthInsuranceDetailAPIModel>()
-                                    sharedprefs.setHealthDetailArrayList(mContext,dummyHealth)
-                                    var dummyPassport=ArrayList<PassportApiModel>()
-                                    sharedprefs.setPassportDetailArrayList(mContext,dummyPassport)
-                                    var dummyStudent=ArrayList<StudentListDataCollection>()
-                                    sharedprefs.setStudentArrayList(mContext,dummyStudent)
-                                    sharedprefs.setUserEmail(mContext,"")
-                                    sharedprefs.setUserCode(mContext,"")
-                                    sharedprefs.setUserID(mContext,"")
+                                    var dummyOwn = ArrayList<OwnContactModel>()
+                                    sharedprefs.setOwnContactDetailArrayList(mContext, dummyOwn)
+                                    var dummyKinPass = ArrayList<KinDetailApiModel>()
+                                    sharedprefs.setKinDetailPassArrayList(mContext, dummyKinPass)
+                                    var dummyKinShow = ArrayList<KinDetailApiModel>()
+                                    sharedprefs.setKinDetailArrayList(mContext, dummyKinShow)
+                                    var dummyHealth = ArrayList<HealthInsuranceDetailAPIModel>()
+                                    sharedprefs.setHealthDetailArrayList(mContext, dummyHealth)
+                                    var dummyPassport = ArrayList<PassportApiModel>()
+                                    sharedprefs.setPassportDetailArrayList(mContext, dummyPassport)
+                                    var dummyStudent = ArrayList<StudentListDataCollection>()
+                                    sharedprefs.setStudentArrayList(mContext, dummyStudent)
+                                    sharedprefs.setUserEmail(mContext, "")
+                                    sharedprefs.setUserCode(mContext, "")
+                                    sharedprefs.setUserID(mContext, "")
                                     val mIntent = Intent(activity, LoginActivity::class.java)
                                     mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                     activity!!.startActivity(mIntent)
-                                }
-                                else
-                                {
+                                } else {
 
                                 }
                                 sharedprefs.setAppVersion(mContext, appVersion)
@@ -1729,8 +1768,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                                 sharedprefs.setTriggerType(mContext, trigger_type)
                                 sharedprefs.setAlreadyTriggered(mContext, already_triggered)
 
-                                if (sharedprefs.getDataCollection(mContext) == 1)
-                                {
+                                if (sharedprefs.getDataCollection(mContext) == 1) {
 
                                     if (sharedprefs.getAlreadyTriggered(mContext) == 0) {
                                         callDataCollectionAPI()
@@ -1750,8 +1788,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                                                 activity?.startActivity(intent)
                                             }
 
-                                        } else
-                                        {
+                                        } else {
                                             callDataCollectionAPI()
                                         }
                                     }
@@ -1815,11 +1852,11 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         model.isConfirmed = false
                         studentSaveArrayList.add(model)
                     }
-                    studentName=studentListArrayList.get(0).name
-                    studentImg=studentListArrayList.get(0).photo
-                    studentId=studentListArrayList.get(0).id
-                    studentClass=studentListArrayList.get(0).section
-                    studntCount= studentListArrayList.size
+                    studentName = studentListArrayList.get(0).name
+                    studentImg = studentListArrayList.get(0).photo
+                    studentId = studentListArrayList.get(0).id
+                    studentClass = studentListArrayList.get(0).section
+                    studntCount = studentListArrayList.size
                     sharedprefs.setStudentArrayList(mContext, studentSaveArrayList)
 
 
@@ -2237,7 +2274,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
             ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
                 mContext,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED) {
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 this.activity!!,
                 arrayOf(
@@ -2248,8 +2286,14 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
             )
         }
     }
-    fun showTriggerDataCollection(context: Context,msgHead:String,msg:String,ico:Int,bgIcon:Int)
-    {
+
+    fun showTriggerDataCollection(
+        context: Context,
+        msgHead: String,
+        msg: String,
+        ico: Int,
+        bgIcon: Int
+    ) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -2257,7 +2301,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         dialog.setContentView(R.layout.dialog_trigger_data_collection)
         var iconImageView = dialog.findViewById(R.id.iconImageView) as ImageView
         var checkRecycler = dialog.findViewById(R.id.checkRecycler) as RecyclerView
-        var linearLayoutManagerM : LinearLayoutManager = LinearLayoutManager(mContext)
+        var linearLayoutManagerM: LinearLayoutManager = LinearLayoutManager(mContext)
         checkRecycler.layoutManager = linearLayoutManagerM
         checkRecycler.itemAnimator = DefaultItemAnimator()
         iconImageView.setBackgroundResource(bgIcon)
@@ -2270,55 +2314,50 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 
         text_dialog.text = msg
         alertHead.text = msgHead
-        var categoryList= ArrayList<String>()
+        var categoryList = ArrayList<String>()
         categoryList.add("All")
         categoryList.add("Student - Contact Details")
         categoryList.add("Student - Passport & Emirates ID")
 
-        val mTriggerModelArrayList=ArrayList<TriggerDataModel>()
-        for (i in 0..categoryList.size-1)
-        {
-            var model= TriggerDataModel()
-            model.categoryName=categoryList.get(i)
-            model.checkedCategory=false
+        val mTriggerModelArrayList = ArrayList<TriggerDataModel>()
+        for (i in 0..categoryList.size - 1) {
+            var model = TriggerDataModel()
+            model.categoryName = categoryList.get(i)
+            model.checkedCategory = false
             mTriggerModelArrayList.add(model)
 
         }
-        var triggerAdapter= TriggerAdapter(mTriggerModelArrayList)
+        var triggerAdapter = TriggerAdapter(mTriggerModelArrayList)
         checkRecycler.adapter = triggerAdapter
-        checkRecycler.addOnItemClickListener(object: OnItemClickListener {
+        checkRecycler.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
-                if (position==0)
-                {
-                    mTriggerModelArrayList.get(0).checkedCategory=true
-                    mTriggerModelArrayList.get(1).checkedCategory=false
-                    mTriggerModelArrayList.get(2).checkedCategory=false
-                }
-                else if (position==1)
-                {
-                    mTriggerModelArrayList.get(0).checkedCategory=false
-                    mTriggerModelArrayList.get(1).checkedCategory=true
-                    mTriggerModelArrayList.get(2).checkedCategory=false
-                }
-                else{
-                    mTriggerModelArrayList.get(0).checkedCategory=false
-                    mTriggerModelArrayList.get(1).checkedCategory=false
-                    mTriggerModelArrayList.get(2).checkedCategory=true
+                if (position == 0) {
+                    mTriggerModelArrayList.get(0).checkedCategory = true
+                    mTriggerModelArrayList.get(1).checkedCategory = false
+                    mTriggerModelArrayList.get(2).checkedCategory = false
+                } else if (position == 1) {
+                    mTriggerModelArrayList.get(0).checkedCategory = false
+                    mTriggerModelArrayList.get(1).checkedCategory = true
+                    mTriggerModelArrayList.get(2).checkedCategory = false
+                } else {
+                    mTriggerModelArrayList.get(0).checkedCategory = false
+                    mTriggerModelArrayList.get(1).checkedCategory = false
+                    mTriggerModelArrayList.get(2).checkedCategory = true
                 }
 
-                var triggerAdapter= TriggerAdapter(mTriggerModelArrayList)
+                var triggerAdapter = TriggerAdapter(mTriggerModelArrayList)
                 checkRecycler.adapter = triggerAdapter
             }
         })
         btn_Ok.setOnClickListener()
         {
-            var valueTrigger:String="0"
+            var valueTrigger: String = "0"
             if (mTriggerModelArrayList.get(0).checkedCategory) {
-                valueTrigger="1"
+                valueTrigger = "1"
             } else if (mTriggerModelArrayList.get(1).checkedCategory) {
-                valueTrigger="2"
+                valueTrigger = "2"
             } else if (mTriggerModelArrayList.get(2).checkedCategory) {
-                valueTrigger="3"
+                valueTrigger = "3"
             }
 
             if (valueTrigger.equals("0")) {
@@ -2328,8 +2367,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                progressDialog.visibility=View.VISIBLE
-                callDataTriggerApi(valueTrigger,dialog,progressDialog)
+                progressDialog.visibility = VISIBLE
+                callDataTriggerApi(valueTrigger, dialog, progressDialog)
             }
 
             // dialog.dismiss()
@@ -2341,30 +2380,31 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         dialog.show()
     }
 
-    fun callDataTriggerApi(value:String,triggerDialog:Dialog,progress:ProgressBar)
-    {
+    fun callDataTriggerApi(value: String, triggerDialog: Dialog, progress: ProgressBar) {
         val token = sharedprefs.getaccesstoken(mContext)
-        val requestLeaveBody= TriggerUSer(value)
-        val call: Call<ResponseBody> = ApiClient.getClient.triggerUser(requestLeaveBody,"Bearer "+token)
+        val requestLeaveBody = TriggerUSer(value)
+        val call: Call<ResponseBody> =
+            ApiClient.getClient.triggerUser(requestLeaveBody, "Bearer " + token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.e("Failed", t.localizedMessage)
-                progress.visibility=View.GONE
+                progress.visibility = GONE
 
             }
+
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val responsedata = response.body()
                 Log.e("Response Signup", responsedata.toString())
-                progress.visibility=View.GONE
+                progress.visibility = GONE
                 if (responsedata != null) {
                     try {
 
                         val jsonObject = JSONObject(responsedata.string())
-                        if(jsonObject.has(jsonConstans.STATUS)) {
+                        if (jsonObject.has(jsonConstans.STATUS)) {
                             val status: Int = jsonObject.optInt(jsonConstans.STATUS)
                             Log.e("STATUS LOGIN", status.toString())
                             if (status == 100) {
-                                progress.visibility=View.GONE
+                                progress.visibility = GONE
                                 triggerDialog.dismiss()
                                 callSettingsUserDetail()
                                 // showSuccessDataAlert(mContext,"Alert","\"Update Account Details\" will start next time the Parent App is opened.", R.drawable.questionmark_icon, R.drawable.round)
@@ -2373,7 +2413,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                                 if (status == 116) {
                                     //call Token Expired
                                     AccessTokenClass.getAccessToken(mContext)
-                                    callDataTriggerApi(value,triggerDialog,progress)
+                                    callDataTriggerApi(value, triggerDialog, progress)
                                 } else {
                                     if (status == 103) {
                                         //validation check error
@@ -2385,8 +2425,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 
                             }
                         }
-                    }
-                    catch (e: Exception) {
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 }
@@ -2394,76 +2433,84 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 
         })
     }
+
     fun getReenrollForm() {
-       // progressDialog.visibility = View.VISIBLE
+        // progressDialog.visibility = View.VISIBLE
         val token = sharedprefs.getaccesstoken(mContext)
-        var descrptn_reenroll:String=""
-        val form_reenroll= GetreenrollmentApiModel(sharedprefs.getUserID(mContext)!!)
-        val call: Call<GetreenrollmentModel> = ApiClient.getClient.getreenrollmentForm(form_reenroll,"Bearer "+token)
-        call.enqueue(object : Callback<GetreenrollmentModel>{
+        var descrptn_reenroll: String = ""
+        val form_reenroll = GetreenrollmentApiModel(sharedprefs.getUserID(mContext)!!)
+        val call: Call<GetreenrollmentModel> =
+            ApiClient.getClient.getreenrollmentForm(form_reenroll, "Bearer " + token)
+        call.enqueue(object : Callback<GetreenrollmentModel> {
             override fun onFailure(call: Call<GetreenrollmentModel>, t: Throwable) {
                 //progressDialog.visibility = View.GONE
                 Log.e("Error", t.localizedMessage)
             }
-            override fun onResponse(call: Call<GetreenrollmentModel>, response: Response<GetreenrollmentModel>) {
+
+            override fun onResponse(
+                call: Call<GetreenrollmentModel>,
+                response: Response<GetreenrollmentModel>
+            ) {
                 //progressDialog.visibility = View.GONE
-                if (response.body()!!.status==100)
-                {
-                    var heading_reenroll=response.body()!!.responseArray.settingsdata.heading
-                    current_date=response.body()!!.responseArray.current_date
-                    if(response.body()!!.responseArray.settingsdata.description.isEmpty()){
-                        Log.e("des","null")
-                    }else{
-                        descrptn_reenroll=response.body()!!.responseArray.settingsdata.description
+                if (response.body()!!.status == 100) {
+                    var heading_reenroll = response.body()!!.responseArray.settingsdata.heading
+                    current_date = response.body()!!.responseArray.current_date
+                    if (response.body()!!.responseArray.settingsdata.description.isEmpty()) {
+                        Log.e("des", "null")
+                    } else {
+                        descrptn_reenroll = response.body()!!.responseArray.settingsdata.description
                     }
-                   // var descrptn_reenroll=response.body()!!.responseArray.settingsdata.description
-                    var tandc_reenroll=response.body()!!.responseArray.settingsdata.t_and_c
-                    var user_firstname=response.body()!!.responseArray.user.firstname
-                    var user_lastname=response.body()!!.responseArray.user.last_name
-                    var person_info_url=response.body()!!.responseArray.settingsdata.statement_url
-                    var parent_name=user_firstname+" "+user_lastname
-                    var user_email=response.body()!!.responseArray.user.email
-                    var question=response.body()!!.responseArray.settingsdata.question
-                    var reenrolldetail:ReEnrolldetail=
-                        ReEnrolldetail(heading_reenroll,descrptn_reenroll,
-                    tandc_reenroll,person_info_url,parent_name,user_email,question)
-                    Log.e("reenrolldetail",reenrolldetail.parent_name)
+                    // var descrptn_reenroll=response.body()!!.responseArray.settingsdata.description
+                    var tandc_reenroll = response.body()!!.responseArray.settingsdata.t_and_c
+                    var user_firstname = response.body()!!.responseArray.user.firstname
+                    var user_lastname = response.body()!!.responseArray.user.last_name
+                    var person_info_url = response.body()!!.responseArray.settingsdata.statement_url
+                    var parent_name = user_firstname + " " + user_lastname
+                    var user_email = response.body()!!.responseArray.user.email
+                    var question = response.body()!!.responseArray.settingsdata.question
+                    var reenrolldetail: ReEnrolldetail =
+                        ReEnrolldetail(
+                            heading_reenroll, descrptn_reenroll,
+                            tandc_reenroll, person_info_url, parent_name, user_email, question
+                        )
+                    Log.e("reenrolldetail", reenrolldetail.parent_name)
 
                     reEnrollOptionList.addAll(response.body()!!.responseArray.settingsdata.options)
                     studDetailList.addAll(response.body()!!.responseArray.student)
-                    Log.e("size",studDetailList.size.toString())
-                    if(studDetailList.size==0){
-                        Log.e("studList","empty")
-                    }else{
-                        re_enroll_popup(reenrolldetail,studDetailList,reEnrollOptionList)
+                    Log.e("size", studDetailList.size.toString())
+                    if (studDetailList.size == 0) {
+                        Log.e("studList", "empty")
+                    } else {
+                        re_enroll_popup(reenrolldetail, studDetailList, reEnrollOptionList)
                     }
 
 
-                }else if(response.body()!!.status.equals("116"))
-                {
+                } else if (response.body()!!.status.equals("116")) {
                     var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
-                    if (internetCheck)
-                    {
+                    if (internetCheck) {
                         AccessTokenClass.getAccessToken(mContext)
                         getReenrollForm()
-                    }
-                    else{
-                        InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
+                    } else {
+                        InternetCheckClass.showSuccessInternetAlert(mContext)
                     }
 
-                }
-                else
-                {
-                    InternetCheckClass.checkApiStatusError(response.body()!!.status.toInt(),mContext)
+                } else {
+                    InternetCheckClass.checkApiStatusError(
+                        response.body()!!.status.toInt(),
+                        mContext
+                    )
                 }
 
             }
 
         })
     }
+
     @SuppressLint("WrongConstant")
-    fun re_enroll_popup(reEnrolldetail: ReEnrolldetail, studDetailList:ArrayList<StudentReEnrollList>,
-    reEnrollOptionList: ArrayList<String>){
+    fun re_enroll_popup(
+        reEnrolldetail: ReEnrolldetail, studDetailList: ArrayList<StudentReEnrollList>,
+        reEnrollOptionList: ArrayList<String>
+    ) {
 
         val d = Dialog(mContext)
         d.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -2471,61 +2518,61 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         d.setCancelable(false)
         d.setContentView(R.layout.dialogue_re_enrollment)
 
-        var total_count:Int=studDetailList.size-1
-        var page_count:Int=0
+        var total_count: Int = studDetailList.size - 1
+        var page_count: Int = 0
 
-        var check:Int=0
-        var question=d.findViewById<TextView>(R.id.question)
-        var scrollView=d.findViewById<ScrollView>(R.id.scroll)
-        var close_img=d.findViewById<ImageView>(R.id.close_img)
-        var header=d.findViewById<TextView>(R.id.header)
-        var mailIcon=d.findViewById<LinearLayout>(R.id.linear_mail)
-        var prev_btn=d.findViewById<LinearLayout>(R.id.prev_linear)
-        var nxt_btn=d.findViewById<LinearLayout>(R.id.nxt_linear)
-        var sub_btn=d.findViewById<Button>(R.id.sub_btn)
-        var terms_and_condtns=d.findViewById<Button>(R.id.terms_conditions)
-        var personal_info=d.findViewById<Button>(R.id.personal_info)
-        var save=d.findViewById<TextView>(R.id.save)
-        var image_view=d.findViewById<ImageView>(R.id.image_view)
-        var stud_img=d.findViewById<ImageView>(R.id.stud_img)
-        var stud_name=d.findViewById<TextView>(R.id.stud_name)
-        var stud_class=d.findViewById<TextView>(R.id.stud_class)
-        var date_field=d.findViewById<EditText>(R.id.textField_date)
-        var descrcrptn=d.findViewById<TextView>(R.id.descrptn_txt)
-        var parent_name=d.findViewById<EditText>(R.id.textField_parentName)
-        var parent_email=d.findViewById<EditText>(R.id.textField_parentEmail)
-        var spinnerList=d.findViewById<Spinner>(R.id.spinnerlist)
-        var option_txt=d.findViewById<TextView>(R.id.option_txt)
-        var clear=d.findViewById<TextView>(R.id.clear)
-        var sign_linear=d.findViewById<ConstraintLayout>(R.id.sign_linear)
-        var signatureView=d.findViewById<SignatureView>(R.id.signature_view)
-        var dropdown_btn=d.findViewById<ImageView>(R.id.dropdown_btn)
-        var sign_btn=d.findViewById<Button>(R.id.signature_btn)
-        var dropdownList:ArrayList<String>
-       // var studDetailList:ArrayList<StudentReEnrollList>
+        var check: Int = 0
+        var question = d.findViewById<TextView>(R.id.question)
+        var scrollView = d.findViewById<ScrollView>(R.id.scroll)
+        var close_img = d.findViewById<ImageView>(R.id.close_img)
+        var header = d.findViewById<TextView>(R.id.header)
+        var mailIcon = d.findViewById<LinearLayout>(R.id.linear_mail)
+        var prev_btn = d.findViewById<LinearLayout>(R.id.prev_linear)
+        var nxt_btn = d.findViewById<LinearLayout>(R.id.nxt_linear)
+        var sub_btn = d.findViewById<Button>(R.id.sub_btn)
+        var terms_and_condtns = d.findViewById<Button>(R.id.terms_conditions)
+        var personal_info = d.findViewById<Button>(R.id.personal_info)
+        var save = d.findViewById<TextView>(R.id.save)
+        var image_view = d.findViewById<ImageView>(R.id.image_view)
+        var stud_img = d.findViewById<ImageView>(R.id.stud_img)
+        var stud_name = d.findViewById<TextView>(R.id.stud_name)
+        var stud_class = d.findViewById<TextView>(R.id.stud_class)
+        var date_field = d.findViewById<EditText>(R.id.textField_date)
+        var descrcrptn = d.findViewById<TextView>(R.id.descrptn_txt)
+        var parent_name = d.findViewById<EditText>(R.id.textField_parentName)
+        var parent_email = d.findViewById<EditText>(R.id.textField_parentEmail)
+        var spinnerList = d.findViewById<Spinner>(R.id.spinnerlist)
+        var option_txt = d.findViewById<TextView>(R.id.option_txt)
+        var clear = d.findViewById<TextView>(R.id.clear)
+        var sign_linear = d.findViewById<ConstraintLayout>(R.id.sign_linear)
+        var signatureView = d.findViewById<SignatureView>(R.id.signature_view)
+        var dropdown_btn = d.findViewById<ImageView>(R.id.dropdown_btn)
+        var sign_btn = d.findViewById<Button>(R.id.signature_btn)
+        var dropdownList: ArrayList<String>
+        // var studDetailList:ArrayList<StudentReEnrollList>
 
         val time = Calendar.getInstance().time
         val formatter = SimpleDateFormat("dd/mm/yyyy")
         val current = formatter.format(time)
-        Log.e("curnttime",current.toString())
+        Log.e("curnttime", current.toString())
 
-        var myCalendar= Calendar.getInstance()
-        var currentDate= Calendar.getInstance().time
-        var year=myCalendar[Calendar.YEAR]
-        var month=myCalendar[Calendar.MONTH]
-        Log.e("m",month.toString())
-        var day=myCalendar[java.util.Calendar.DAY_OF_MONTH]
-        var radioButton=d.findViewById<RadioButton>(R.id.check_btn)
-        var radioButton_info=d.findViewById<RadioButton>(R.id.check_btn_info)
-       // var crnt_date=day.toString()+"/"+month+"/"+year
-       var crnt_date=day.toString()+"/"+month+1+"/"+year
-        var header_txt= year.toString() + " Re-enrolment and NAE Terms & Conditions"
+        var myCalendar = Calendar.getInstance()
+        var currentDate = Calendar.getInstance().time
+        var year = myCalendar[Calendar.YEAR]
+        var month = myCalendar[Calendar.MONTH]
+        Log.e("m", month.toString())
+        var day = myCalendar[java.util.Calendar.DAY_OF_MONTH]
+        var radioButton = d.findViewById<RadioButton>(R.id.check_btn)
+        var radioButton_info = d.findViewById<RadioButton>(R.id.check_btn_info)
+        // var crnt_date=day.toString()+"/"+month+"/"+year
+        var crnt_date = day.toString() + "/" + month + 1 + "/" + year
+        var header_txt = year.toString() + " Re-enrolment and NAE Terms & Conditions"
 
-       // var reEnrollsave:ArrayList<ReEnrollSaveModel>
-        var reEnrollsave:ArrayList<ReEnrollSaveModel>
-        reEnrollsave=ArrayList()
-        var reEnrollsubmit:ArrayList<ReEnrollSubModel>
-        reEnrollsubmit=ArrayList()
+        // var reEnrollsave:ArrayList<ReEnrollSaveModel>
+        var reEnrollsave: ArrayList<ReEnrollSaveModel>
+        reEnrollsave = ArrayList()
+        var reEnrollsubmit: ArrayList<ReEnrollSubModel>
+        reEnrollsubmit = ArrayList()
 
         mailIcon.setOnClickListener {
             val dialog = Dialog(mContext)
@@ -2560,92 +2607,101 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         // progressDialog.startAnimation(aniRotate)
                         var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
                         if (internetCheck) {
-                            reEnrollMailApi( text_dialog.text.toString().trim(),
-                                text_content.text.toString().trim(),dialog)
+                            reEnrollMailApi(
+                                text_dialog.text.toString().trim(),
+                                text_content.text.toString().trim(), dialog
+                            )
 
                         } else {
-                            InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
+                            InternetCheckClass.showSuccessInternetAlert(mContext)
                         }
                     }
                 }
             }
-            dialogCancelButton.setOnClickListener { dialog.dismiss()
+            dialogCancelButton.setOnClickListener {
+                dialog.dismiss()
             }
             dialog.show()
         }
-        for (i in 0..studDetailList.size-1){
-            var m1=ReEnrollSaveModel("","")
-            reEnrollsave.add(i,m1)
+        for (i in 0..studDetailList.size - 1) {
+            var m1 = ReEnrollSaveModel("", "")
+            reEnrollsave.add(i, m1)
         }
-        if (page_count==total_count){
+        if (page_count == total_count) {
             nxt_btn.visibility = GONE
             prev_btn.visibility = GONE
             sub_btn.visibility = VISIBLE
         }
         header.text = reEnrolldetail.heading
         descrcrptn.text = reEnrolldetail.description
-        val dateFor= current_date.replace("-","/")
+        val dateFor = current_date.replace("-", "/")
         date_field.setText(dateFor)
-        dropdownList= ArrayList()
-       // studDetailList= ArrayList()
+        dropdownList = ArrayList()
+        // studDetailList= ArrayList()
 
         stud_name.text = studDetailList[0].name
         stud_class.text = studDetailList[0].section
-        var stud_photo= studDetailList[0].photo
-        var stud_id=studDetailList[0].id
-        dropdownList.add(0,"Please Select")
+        var stud_photo = studDetailList[0].photo
+        var stud_id = studDetailList[0].id
+        dropdownList.add(0, "Please Select")
         for (i in 1..reEnrollOptionList.size) {
 
-                dropdownList.add(i, reEnrollOptionList[i-1])
+            dropdownList.add(i, reEnrollOptionList[i - 1])
 
         }
-       /* dropdownList.add(1,"Returning")
-        dropdownList.add(2,"Unsure")
-        dropdownList.add(3,"Graduating")
-        dropdownList.add(4,"Not returning")*/
-        var sp_adapter = ArrayAdapter(mContext,
-           R.layout.spinner_textview, dropdownList)
+        /* dropdownList.add(1,"Returning")
+         dropdownList.add(2,"Unsure")
+         dropdownList.add(3,"Graduating")
+         dropdownList.add(4,"Not returning")*/
+        var sp_adapter = ArrayAdapter(
+            mContext,
+            R.layout.spinner_textview, dropdownList
+        )
         spinnerList.adapter = sp_adapter
         spinnerList.setSelection(0)
         spinnerList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
-var optionlistSize=dropdownList.size-1
-                for (i in 1..optionlistSize){
-Log.e("opt",dropdownList[i])
-                    if (selectedItem==dropdownList[i].toString()){
-                        Log.e("setcheck","1")
-                        reEnrollsave[page_count].status=dropdownList[i]
-                        check=1
-                    }else if (selectedItem==dropdownList[0]){
-                        Log.e("setcheck","0")
-                        check=0
-                        reEnrollsave[page_count].status=""
+                var optionlistSize = dropdownList.size - 1
+                for (i in 1..optionlistSize) {
+                    Log.e("opt", dropdownList[i])
+                    if (selectedItem == dropdownList[i].toString()) {
+                        Log.e("setcheck", "1")
+                        reEnrollsave[page_count].status = dropdownList[i]
+                        check = 1
+                    } else if (selectedItem == dropdownList[0]) {
+                        Log.e("setcheck", "0")
+                        check = 0
+                        reEnrollsave[page_count].status = ""
                     }
                 }
-               /* if (selectedItem == "Graduating") {
-                   reEnrollsave[page_count].status="Graduating"
-                    check=1
-                }else if (selectedItem == "Returning"){
-                    check=1
-                    reEnrollsave[page_count].status="Returning"
-                }else if (selectedItem=="Not returning"){
-                    check=1
-                    reEnrollsave[page_count].status="Not returning"
-                }else if (selectedItem=="Unsure"){
-                    check=1
-                    reEnrollsave[page_count].status="Unsure"
-                }else if (selectedItem=="Please Select"){
-                    check=0
-                    reEnrollsave[page_count].status=""
-                }*/
+                /* if (selectedItem == "Graduating") {
+                    reEnrollsave[page_count].status="Graduating"
+                     check=1
+                 }else if (selectedItem == "Returning"){
+                     check=1
+                     reEnrollsave[page_count].status="Returning"
+                 }else if (selectedItem=="Not returning"){
+                     check=1
+                     reEnrollsave[page_count].status="Not returning"
+                 }else if (selectedItem=="Unsure"){
+                     check=1
+                     reEnrollsave[page_count].status="Unsure"
+                 }else if (selectedItem=="Please Select"){
+                     check=0
+                     reEnrollsave[page_count].status=""
+                 }*/
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        if(!stud_photo.equals(""))
-        {
+        if (!stud_photo.equals("")) {
             Glide.with(mContext)
                 .load(stud_photo)
                 .placeholder(R.drawable.student)
@@ -2654,30 +2710,29 @@ Log.e("opt",dropdownList[i])
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .transform(CircleCrop())
                 .into(stud_img)
-        }
-        else{
+        } else {
             stud_img.setImageResource(R.drawable.student)
         }
 
-        if (reEnrolldetail.parent_name.isNotEmpty()){
-           parent_name.setText(reEnrolldetail.parent_name)
+        if (reEnrolldetail.parent_name.isNotEmpty()) {
+            parent_name.setText(reEnrolldetail.parent_name)
         }
-        if (reEnrolldetail.parent_email.isNotEmpty()){
+        if (reEnrolldetail.parent_email.isNotEmpty()) {
             parent_email.setText(reEnrolldetail.parent_email)
         }
-        if (reEnrolldetail.question.isNotEmpty()){
+        if (reEnrolldetail.question.isNotEmpty()) {
             question.text = reEnrolldetail.question
         }
 
         radioButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 if (!radioButton.isSelected) {
-                    Log.e("rad","notsel")
+                    Log.e("rad", "notsel")
                     radioButton.isChecked = true
-                   radioButton.isSelected = true
+                    radioButton.isSelected = true
 
                 } else {
-                    Log.e("rad","sel")
+                    Log.e("rad", "sel")
                     radioButton.isChecked = false
                     radioButton.isSelected = false
 
@@ -2688,12 +2743,12 @@ Log.e("opt",dropdownList[i])
         radioButton_info.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 if (!radioButton_info.isSelected) {
-                    Log.e("radin","notsel")
-                   radioButton_info.isChecked = true
+                    Log.e("radin", "notsel")
+                    radioButton_info.isChecked = true
                     radioButton_info.isSelected = true
 
                 } else {
-                    Log.e("radin","sel")
+                    Log.e("radin", "sel")
                     radioButton_info.isChecked = false
                     radioButton_info.isSelected = false
 
@@ -2718,168 +2773,177 @@ Log.e("opt",dropdownList[i])
         }
         terms_and_condtns.setOnClickListener {
             val intent = Intent(mContext, WebviewActivity::class.java)
-            intent.putExtra("Url",reEnrolldetail.tandc)
+            intent.putExtra("Url", reEnrolldetail.tandc)
             startActivity(intent)
 
         }
         personal_info.setOnClickListener {
             val intent = Intent(mContext, WebviewActivity::class.java)
-            intent.putExtra("Url",reEnrolldetail.pers_info_url)
+            intent.putExtra("Url", reEnrolldetail.pers_info_url)
             startActivity(intent)
         }
         sub_btn.setOnClickListener {
 
-            if (check==0){
-                Log.e("check","plsselct")
+            if (check == 0) {
+                Log.e("check", "plsselct")
                 radioButton.isChecked = false
-                for (i in studDetailList.indices){
-                    if (reEnrollsave[i].status.isNotEmpty()){
-                        reEnrollsave[i].student_id=studDetailList[i].id
+                for (i in studDetailList.indices) {
+                    if (reEnrollsave[i].status.isNotEmpty()) {
+                        reEnrollsave[i].student_id = studDetailList[i].id
                     }
                 }
-                for (i in reEnrollsave.indices){
-                    if (reEnrollsave[i].student_id.isNotEmpty()&&reEnrollsave[i].status.isNotEmpty()) {
+                for (i in reEnrollsave.indices) {
+                    if (reEnrollsave[i].student_id.isNotEmpty() && reEnrollsave[i].status.isNotEmpty()) {
                         if (reEnrollsubmit.size == 0) {
                             var r1 =
                                 ReEnrollSubModel(reEnrollsave[i].student_id, reEnrollsave[i].status)
                             reEnrollsubmit.add(0, r1)
-                        }else{
-                        // var r1=ReEnrollSubModel(reEnrollsave[i].student_id,reEnrollsave[i].status)
-                        for (j in 1..reEnrollsubmit.size ) {
-                            Log.e("save",reEnrollsave.size.toString())
-                            Log.e("sub",reEnrollsubmit.size.toString())
-                            if (reEnrollsave[i].student_id != reEnrollsubmit[j-1].student_id) {
-                                var r1 = ReEnrollSubModel(
-                                    reEnrollsave[i].student_id,
-                                    reEnrollsave[i].status
-                                )
-                                reEnrollsubmit.add(j, r1)
-                            } else {
-                                Log.e("new", "stud")
-
-                            }
-
-                        }
-                    }
-                    }
-                }
-                if (reEnrollsubmit.size>0){
-                    showerror(mContext,"Do you want to Submit?","Alert",reEnrollsubmit,d)
-                }else{
-                    showRenrollnoData(mContext,"You didn't enter any data of your child.Please Enter data and Submit",
-                        "Alert",d)
-                    //showSuccessAlert(mContext,"No Options Selected","Alert")
-                }
-
-              // saveReenrollApi(reEnrollsubmit,d)
-            }else{
-                if (radioButton.isChecked) {
-                    if (radioButton_info.isChecked){
-                    Log.e("check", "checked")
-                    for (i in studDetailList.indices) {
-                        if (reEnrollsave[i].status.isNotEmpty()) {
-                            reEnrollsave[i].student_id = studDetailList[i].id
-                        }
-                    }
-                    for (i in reEnrollsave.indices) {
-                        if (reEnrollsave[i].student_id.isNotEmpty() && reEnrollsave[i].status.isNotEmpty()) {
-                            if (reEnrollsubmit.size == 0) {
-                                var r1 =
-                                    ReEnrollSubModel(
+                        } else {
+                            // var r1=ReEnrollSubModel(reEnrollsave[i].student_id,reEnrollsave[i].status)
+                            for (j in 1..reEnrollsubmit.size) {
+                                Log.e("save", reEnrollsave.size.toString())
+                                Log.e("sub", reEnrollsubmit.size.toString())
+                                if (reEnrollsave[i].student_id != reEnrollsubmit[j - 1].student_id) {
+                                    var r1 = ReEnrollSubModel(
                                         reEnrollsave[i].student_id,
                                         reEnrollsave[i].status
                                     )
-                                reEnrollsubmit.add(0, r1)
-                            } else {
-                                // var r1=ReEnrollSubModel(reEnrollsave[i].student_id,reEnrollsave[i].status)
-                                for (j in 1..reEnrollsubmit.size) {
-                                    Log.e("save", reEnrollsave.size.toString())
-                                    Log.e("sub", reEnrollsubmit.size.toString())
-                                    if (reEnrollsave[i].student_id != reEnrollsubmit[j - 1].student_id) {
-                                        var r1 = ReEnrollSubModel(
-                                            reEnrollsave[i].student_id,
-                                            reEnrollsave[i].status
-                                        )
-                                        reEnrollsubmit.add(j, r1)
-                                    } else {
-                                        Log.e("new", "stud")
-
-                                    }
+                                    reEnrollsubmit.add(j, r1)
+                                } else {
+                                    Log.e("new", "stud")
 
                                 }
+
                             }
                         }
                     }
+                }
+                if (reEnrollsubmit.size > 0) {
                     showerror(mContext, "Do you want to Submit?", "Alert", reEnrollsubmit, d)
-                    // saveReenrollApi(reEnrollsubmit, d)
-                }else{
-                    InternetCheckClass.showErrorAlert(mContext,"Make sure you have confirmed all the declarations","Alert")
-
+                } else {
+                    showRenrollnoData(
+                        mContext,
+                        "You didn't enter any data of your child.Please Enter data and Submit",
+                        "Alert",
+                        d
+                    )
+                    //showSuccessAlert(mContext,"No Options Selected","Alert")
                 }
-                }else{
-                        InternetCheckClass.showErrorAlert(mContext,"Make sure you have confirmed all the declarations","Alert")
+
+                // saveReenrollApi(reEnrollsubmit,d)
+            } else {
+                if (radioButton.isChecked) {
+                    if (radioButton_info.isChecked) {
+                        Log.e("check", "checked")
+                        for (i in studDetailList.indices) {
+                            if (reEnrollsave[i].status.isNotEmpty()) {
+                                reEnrollsave[i].student_id = studDetailList[i].id
+                            }
+                        }
+                        for (i in reEnrollsave.indices) {
+                            if (reEnrollsave[i].student_id.isNotEmpty() && reEnrollsave[i].status.isNotEmpty()) {
+                                if (reEnrollsubmit.size == 0) {
+                                    var r1 =
+                                        ReEnrollSubModel(
+                                            reEnrollsave[i].student_id,
+                                            reEnrollsave[i].status
+                                        )
+                                    reEnrollsubmit.add(0, r1)
+                                } else {
+                                    // var r1=ReEnrollSubModel(reEnrollsave[i].student_id,reEnrollsave[i].status)
+                                    for (j in 1..reEnrollsubmit.size) {
+                                        Log.e("save", reEnrollsave.size.toString())
+                                        Log.e("sub", reEnrollsubmit.size.toString())
+                                        if (reEnrollsave[i].student_id != reEnrollsubmit[j - 1].student_id) {
+                                            var r1 = ReEnrollSubModel(
+                                                reEnrollsave[i].student_id,
+                                                reEnrollsave[i].status
+                                            )
+                                            reEnrollsubmit.add(j, r1)
+                                        } else {
+                                            Log.e("new", "stud")
+
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                        showerror(mContext, "Do you want to Submit?", "Alert", reEnrollsubmit, d)
+                        // saveReenrollApi(reEnrollsubmit, d)
+                    } else {
+                        InternetCheckClass.showErrorAlert(
+                            mContext,
+                            "Make sure you have confirmed all the declarations",
+                            "Alert"
+                        )
+
                     }
-
+                } else {
+                    InternetCheckClass.showErrorAlert(
+                        mContext,
+                        "Make sure you have confirmed all the declarations",
+                        "Alert"
+                    )
                 }
 
-           /* val gson = Gson()
-            val Datas= gson.toJson(reEnrollsubmit)
-            Log.e("datas",Datas)
-            var JSON:JSONArray = JSONArray(Datas)
-            //var jsonobj:JSONObject= JSONObject(JSON)
-            Log.e("json",JSON.toString())*/
+            }
 
+            /* val gson = Gson()
+             val Datas= gson.toJson(reEnrollsubmit)
+             Log.e("datas",Datas)
+             var JSON:JSONArray = JSONArray(Datas)
+             //var jsonobj:JSONObject= JSONObject(JSON)
+             Log.e("json",JSON.toString())*/
 
 
         }
 
         nxt_btn.setOnClickListener {
-            Log.e("check",check.toString())
-            if (check==0){
-                Log.e("checknxt","plsselct")
+            Log.e("check", check.toString())
+            if (check == 0) {
+                Log.e("checknxt", "plsselct")
                 radioButton.isChecked = false
-                radioButton.isSelected=false
-                radioButton_info.isChecked=false
-                radioButton_info.isSelected=false
-                page_count=page_count+1
-                Log.e("nxt_pg",page_count.toString())
-                Log.e("studnt_count",studDetailList.size.toString())
+                radioButton.isSelected = false
+                radioButton_info.isChecked = false
+                radioButton_info.isSelected = false
+                page_count = page_count + 1
+                Log.e("nxt_pg", page_count.toString())
+                Log.e("studnt_count", studDetailList.size.toString())
 
-                if (page_count==studDetailList.size-1){
+                if (page_count == studDetailList.size - 1) {
                     nxt_btn.visibility = GONE
                     sub_btn.visibility = VISIBLE
                     prev_btn.visibility = VISIBLE
-                }
-                else {
+                } else {
                     nxt_btn.visibility = VISIBLE
                     prev_btn.visibility = VISIBLE
                     sub_btn.visibility = GONE
                 }
-Log.e("stsnxt",reEnrollsave[page_count].status)
-                if (reEnrollsave[page_count].status.equals("")){
+                Log.e("stsnxt", reEnrollsave[page_count].status)
+                if (reEnrollsave[page_count].status.equals("")) {
                     spinnerList.setSelection(0)
                     radioButton.isChecked = false
-                    radioButton.isSelected=false
-                    radioButton_info.isSelected=false
+                    radioButton.isSelected = false
+                    radioButton_info.isSelected = false
                     radioButton_info.isChecked = false
-                }else{
-                    for (i in dropdownList.indices){
-                        if (reEnrollsave[page_count].status==dropdownList[i]){
+                } else {
+                    for (i in dropdownList.indices) {
+                        if (reEnrollsave[page_count].status == dropdownList[i]) {
                             spinnerList.setSelection(i)
                             radioButton.isChecked = true
                             radioButton_info.isChecked = true
-                            radioButton.isSelected=true
-                            radioButton_info.isSelected=true
+                            radioButton.isSelected = true
+                            radioButton_info.isSelected = true
                         }
                     }
                 }
 
                 stud_name.text = studDetailList[page_count].name
                 stud_class.text = studDetailList[page_count].section
-                var stud_photo= studDetailList[page_count].photo
-                var stud_id=studDetailList[page_count].id
-                if(!stud_photo.equals(""))
-                {
+                var stud_photo = studDetailList[page_count].photo
+                var stud_id = studDetailList[page_count].id
+                if (!stud_photo.equals("")) {
                     Glide.with(mContext)
                         .load(stud_photo)
                         .placeholder(R.drawable.student)
@@ -2890,14 +2954,94 @@ Log.e("stsnxt",reEnrollsave[page_count].status)
                         .into(stud_img)
                 }
 
-            }else{
+            } else {
                 if (radioButton.isChecked) {
                     if (radioButton_info.isChecked) {
-                    Log.e("check", "checked")
-                    page_count = page_count + 1
-                    Log.e("nxt_pg", page_count.toString())
-                    Log.e("studnt_count", studDetailList.size.toString())
+                        Log.e("check", "checked")
+                        page_count = page_count + 1
+                        Log.e("nxt_pg", page_count.toString())
+                        Log.e("studnt_count", studDetailList.size.toString())
 
+                        if (page_count == studDetailList.size - 1) {
+                            nxt_btn.visibility = GONE
+                            sub_btn.visibility = VISIBLE
+                            prev_btn.visibility = VISIBLE
+                        } else {
+                            nxt_btn.visibility = VISIBLE
+                            prev_btn.visibility = VISIBLE
+                            sub_btn.visibility = GONE
+                        }
+
+                        if (reEnrollsave[page_count].status.equals("")) {
+                            spinnerList.setSelection(0)
+                            radioButton.isChecked = false
+                            radioButton_info.isChecked = false
+                            radioButton.isSelected = false
+                            radioButton_info.isSelected = false
+                        } else {
+                            for (i in dropdownList.indices) {
+                                if (reEnrollsave[page_count].status == dropdownList[i]) {
+                                    spinnerList.setSelection(i)
+                                    radioButton.isChecked = true
+                                    radioButton_info.isChecked = true
+                                    radioButton.isSelected = true
+                                    radioButton_info.isSelected = true
+                                }
+                            }
+                        }
+
+                        stud_name.text = studDetailList[page_count].name
+                        stud_class.text = studDetailList[page_count].section
+                        var stud_photo = studDetailList[page_count].photo
+                        var stud_id = studDetailList[page_count].id
+                        if (!stud_photo.equals("")) {
+                            Glide.with(mContext)
+                                .load(stud_photo)
+                                .placeholder(R.drawable.student)
+                                .error(R.drawable.student)
+                                .skipMemoryCache(true)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .transform(CircleCrop())
+                                .into(stud_img)
+                        }
+                    } else {
+                        InternetCheckClass.showErrorAlert(
+                            mContext, "Make sure you have confirmed all the declarations", "Alert"
+                        )
+                    }
+                } else {
+                    InternetCheckClass.showErrorAlert(
+                        mContext, "Make sure you have confirmed all the declarations",
+                        "Alert"
+                    )
+                }
+
+            }
+
+            scrollView.post(Runnable { //X,Y are scroll positions untill where you want scroll up
+                val X = 0
+                val Y = 0
+                scrollView.scrollTo(X, Y)
+            })
+        }
+
+        prev_btn.setOnClickListener {
+            Log.e("checkpre", check.toString())
+            if (check == 0) {
+                Log.e("check", "plsselct")
+                radioButton.isChecked = false
+                radioButton_info.isChecked = false
+                radioButton.isSelected = false
+                radioButton_info.isSelected = false
+                page_count = page_count - 1
+                Log.e("pg", page_count.toString())
+                Log.e("studnt_count", studDetailList.size.toString())
+
+                if (page_count == 0) {
+                    nxt_btn.visibility = VISIBLE
+                    prev_btn.visibility = GONE
+                    sub_btn.visibility = GONE
+                } else if (page_count < studDetailList.size - 1) {
                     if (page_count == studDetailList.size - 1) {
                         nxt_btn.visibility = GONE
                         sub_btn.visibility = VISIBLE
@@ -2907,21 +3051,77 @@ Log.e("stsnxt",reEnrollsave[page_count].status)
                         prev_btn.visibility = VISIBLE
                         sub_btn.visibility = GONE
                     }
+                }
+                Log.e("sts", reEnrollsave[page_count].status)
+                if (reEnrollsave[page_count].status.equals("")) {
+                    spinnerList.setSelection(0)
+                    radioButton.isChecked = false
+                    radioButton_info.isChecked = false
+                    radioButton.isSelected = false
+                    radioButton_info.isSelected = false
+                } else {
+                    for (i in dropdownList.indices) {
+                        if (reEnrollsave[page_count].status == dropdownList[i]) {
+                            spinnerList.setSelection(i)
+                            radioButton.isChecked = true
+                            radioButton_info.isChecked = true
+                            radioButton.isSelected = true
+                            radioButton_info.isSelected = true
+                        }
+                    }
+                }
+
+                stud_name.text = studDetailList[page_count].name
+                stud_class.text = studDetailList[page_count].section
+                var stud_photo = studDetailList[page_count].photo
+                var stud_id = studDetailList[page_count].id
+                if (!stud_photo.equals("")) {
+                    Glide.with(mContext)
+                        .load(stud_photo)
+                        .placeholder(R.drawable.student)
+                        .error(R.drawable.student)
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .transform(CircleCrop())
+                        .into(stud_img)
+                }
+            } else {
+                if (radioButton.isChecked) {
+                    Log.e("check", "checked")
+                    page_count = page_count - 1
+                    Log.e("pg", page_count.toString())
+                    Log.e("studnt_count", studDetailList.size.toString())
+
+                    if (page_count == 0) {
+                        nxt_btn.visibility = VISIBLE
+                        prev_btn.visibility = GONE
+                        sub_btn.visibility = GONE
+                    } else if (page_count < studDetailList.size - 1) {
+                        if (page_count == studDetailList.size - 1) {
+                            nxt_btn.visibility = GONE
+                            sub_btn.visibility = VISIBLE
+                            prev_btn.visibility = VISIBLE
+                        } else {
+                            nxt_btn.visibility = VISIBLE
+                            prev_btn.visibility = VISIBLE
+                            sub_btn.visibility = GONE
+                        }
+                    }
 
                     if (reEnrollsave[page_count].status.equals("")) {
                         spinnerList.setSelection(0)
                         radioButton.isChecked = false
                         radioButton_info.isChecked = false
-                        radioButton.isSelected=false
-                        radioButton_info.isSelected=false
+                        radioButton.isSelected = false
+                        radioButton_info.isSelected = false
                     } else {
                         for (i in dropdownList.indices) {
                             if (reEnrollsave[page_count].status == dropdownList[i]) {
                                 spinnerList.setSelection(i)
                                 radioButton.isChecked = true
                                 radioButton_info.isChecked = true
-                                radioButton.isSelected=true
-                                radioButton_info.isSelected=true
+                                radioButton.isSelected = true
+                                radioButton_info.isSelected = true
                             }
                         }
                     }
@@ -2940,144 +3140,8 @@ Log.e("stsnxt",reEnrollsave[page_count].status)
                             .transform(CircleCrop())
                             .into(stud_img)
                     }
-                }else{
-                        InternetCheckClass.showErrorAlert(mContext,"Make sure you have confirmed all the declarations"
-                            ,"Alert")
-                }
-                }else{
-                    InternetCheckClass.showErrorAlert(mContext,"Make sure you have confirmed all the declarations",
-                        "Alert")
-                }
-
-            }
-
-            scrollView.post(Runnable { //X,Y are scroll positions untill where you want scroll up
-                val X = 0
-                val Y = 0
-                scrollView.scrollTo(X, Y)
-            })
-            }
-
-        prev_btn.setOnClickListener {
-            Log.e("checkpre",check.toString())
-            if (check==0){
-                Log.e("check","plsselct")
-                radioButton.isChecked=false
-                radioButton_info.isChecked=false
-                radioButton.isSelected=false
-                radioButton_info.isSelected=false
-                page_count=page_count-1
-                Log.e("pg",page_count.toString())
-                Log.e("studnt_count",studDetailList.size.toString())
-
-                if (page_count==0){
-                    nxt_btn.visibility = VISIBLE
-                    prev_btn.visibility = GONE
-                    sub_btn.visibility = GONE
-                }else if (page_count<studDetailList.size-1){
-                    if (page_count==studDetailList.size-1){
-                        nxt_btn.visibility = GONE
-                        sub_btn.visibility = VISIBLE
-                        prev_btn.visibility = VISIBLE
-                    }
-                    else{
-                        nxt_btn.visibility = VISIBLE
-                        prev_btn.visibility = VISIBLE
-                        sub_btn.visibility = GONE
-                    }
-                }
-Log.e("sts",reEnrollsave[page_count].status)
-                if (reEnrollsave[page_count].status.equals("")){
-                    spinnerList.setSelection(0)
-                    radioButton.isChecked = false
-                    radioButton_info.isChecked = false
-                    radioButton.isSelected=false
-                    radioButton_info.isSelected=false
-                }else{
-                    for (i in dropdownList.indices){
-                        if (reEnrollsave[page_count].status==dropdownList[i]){
-                            spinnerList.setSelection(i)
-                            radioButton.isChecked = true
-                            radioButton_info.isChecked = true
-                            radioButton.isSelected=true
-                            radioButton_info.isSelected=true
-                        }
-                    }
-                }
-
-                stud_name.text = studDetailList[page_count].name
-                stud_class.text = studDetailList[page_count].section
-                var stud_photo= studDetailList[page_count].photo
-                var stud_id=studDetailList[page_count].id
-                if(!stud_photo.equals(""))
-                {
-                    Glide.with(mContext)
-                        .load(stud_photo)
-                        .placeholder(R.drawable.student)
-                        .error(R.drawable.student)
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .transform(CircleCrop())
-                        .into(stud_img)
-                }
-            }else{
-                if (radioButton.isChecked){
-                    Log.e("check","checked")
-            page_count=page_count-1
-            Log.e("pg",page_count.toString())
-            Log.e("studnt_count",studDetailList.size.toString())
-
-            if (page_count==0){
-                nxt_btn.visibility = VISIBLE
-                prev_btn.visibility = GONE
-                sub_btn.visibility = GONE
-            }else if (page_count<studDetailList.size-1){
-                if (page_count==studDetailList.size-1){
-                    nxt_btn.visibility = GONE
-                    sub_btn.visibility = VISIBLE
-                    prev_btn.visibility = VISIBLE
-                }
-                else{
-                    nxt_btn.visibility = VISIBLE
-                    prev_btn.visibility = VISIBLE
-                    sub_btn.visibility = GONE
-                }
-            }
-
-            if (reEnrollsave[page_count].status.equals("")){
-                spinnerList.setSelection(0)
-                radioButton.isChecked = false
-                radioButton_info.isChecked = false
-                radioButton.isSelected=false
-                radioButton_info.isSelected=false
-            }else{
-                for (i in dropdownList.indices){
-                    if (reEnrollsave[page_count].status==dropdownList[i]){
-                        spinnerList.setSelection(i)
-                        radioButton.isChecked = true
-                        radioButton_info.isChecked = true
-                        radioButton.isSelected=true
-                        radioButton_info.isSelected=true
-                    }
-                }
-            }
-
-                    stud_name.text = studDetailList[page_count].name
-                    stud_class.text = studDetailList[page_count].section
-            var stud_photo= studDetailList[page_count].photo
-            var stud_id=studDetailList[page_count].id
-            if(!stud_photo.equals(""))
-            {
-                Glide.with(mContext)
-                    .load(stud_photo)
-                    .placeholder(R.drawable.student)
-                    .error(R.drawable.student)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .transform(CircleCrop())
-                    .into(stud_img)
-            } }else{
-                    InternetCheckClass.showErrorAlert(mContext,"Please Fill the Checkbox","Alert")
+                } else {
+                    InternetCheckClass.showErrorAlert(mContext, "Please Fill the Checkbox", "Alert")
                 }
 
             }
@@ -3090,7 +3154,7 @@ Log.e("sts",reEnrollsave[page_count].status)
 
 
         close_img.setOnClickListener {
-            sharedprefs.setreenrollvalue(mContext,"2")
+            sharedprefs.setreenrollvalue(mContext, "2")
             d.dismiss()
         }
 
@@ -3127,49 +3191,59 @@ var byte_array=bitmapToBytes(bitmap)
 
         }*/
     }
+
     fun bitmapToBytes(photo: Bitmap): ByteArray? {
         val stream = ByteArrayOutputStream()
         photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
         return stream.toByteArray()
 
     }
-    fun  saveReenrollApi(reEnrollsubmit:ArrayList<ReEnrollSubModel>,dlg:Dialog,d:Dialog){
+
+    fun saveReenrollApi(reEnrollsubmit: ArrayList<ReEnrollSubModel>, dlg: Dialog, d: Dialog) {
 
         val token = sharedprefs.getaccesstoken(mContext)
-        Log.e("size",reEnrollsubmit.size.toString())
-        val save_reenroll: SaveReenrollmentApiModel? = SaveReenrollmentApiModel(reEnrollsubmit)
-        Log.e("save",save_reenroll!!.json.toString())
+        Log.e("size", reEnrollsubmit.size.toString())
+        val save_reenroll: SaveReenrollmentApiModel = SaveReenrollmentApiModel(reEnrollsubmit)
+        Log.e("save", save_reenroll!!.json.toString())
 
-        val call: Call<SavereenrollmentModel> = ApiClient.getClient.savereenrollmentForm(save_reenroll,"Bearer "+token)
-        call.enqueue(object : Callback<SavereenrollmentModel>{
+        val call: Call<SavereenrollmentModel> =
+            ApiClient.getClient.savereenrollmentForm(save_reenroll, "Bearer " + token)
+        call.enqueue(object : Callback<SavereenrollmentModel> {
             override fun onFailure(call: Call<SavereenrollmentModel>, t: Throwable) {
                 //progressDialog.visibility = View.GONE
                 Log.e("Error", t.localizedMessage)
             }
-            override fun onResponse(call: Call<SavereenrollmentModel>, response: Response<SavereenrollmentModel>) {
+
+            override fun onResponse(
+                call: Call<SavereenrollmentModel>,
+                response: Response<SavereenrollmentModel>
+            ) {
                 //progressDialog.visibility = View.GONE
 
-                if (response.body()!!.status.equals("100"))
-                {
-                    Log.e("re","save")
-                    showSuccessReenrollAlert(mContext, "Successfully submitted the Re Enrollment", "Thankyou",dlg,d)
+                if (response.body()!!.status.equals("100")) {
+                    Log.e("re", "save")
+                    showSuccessReenrollAlert(
+                        mContext,
+                        "Successfully submitted the Re Enrollment",
+                        "Thankyou",
+                        dlg,
+                        d
+                    )
 
-                }else if(response.body()!!.status.equals("116"))
-                {
+                } else if (response.body()!!.status.equals("116")) {
                     var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
-                    if (internetCheck)
-                    {
+                    if (internetCheck) {
                         AccessTokenClass.getAccessToken(mContext)
-                        saveReenrollApi(reEnrollsubmit,dlg,d)
-                    }
-                    else{
-                        InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
+                        saveReenrollApi(reEnrollsubmit, dlg, d)
+                    } else {
+                        InternetCheckClass.showSuccessInternetAlert(mContext)
                     }
 
-                }
-                else
-                {
-                    InternetCheckClass.checkApiStatusError(response.body()!!.status.toInt(),mContext)
+                } else {
+                    InternetCheckClass.checkApiStatusError(
+                        response.body()!!.status.toInt(),
+                        mContext
+                    )
                 }
 
             }
@@ -3177,9 +3251,11 @@ var byte_array=bitmapToBytes(bitmap)
         })
 
     }
-    private fun showerror(context: Context,message : String,msgHead : String,
-                          reEnrollsubmit:ArrayList<ReEnrollSubModel>,d:Dialog)
-    {
+
+    private fun showerror(
+        context: Context, message: String, msgHead: String,
+        reEnrollsubmit: ArrayList<ReEnrollSubModel>, d: Dialog
+    ) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -3194,7 +3270,7 @@ var byte_array=bitmapToBytes(bitmap)
         alertHead.text = msgHead
         btn_Ok.setOnClickListener()
         {
-            saveReenrollApi(reEnrollsubmit,dialog,d)
+            saveReenrollApi(reEnrollsubmit, dialog, d)
             dialog.dismiss()
 
         }
@@ -3203,9 +3279,10 @@ var byte_array=bitmapToBytes(bitmap)
         }
         dialog.show()
     }
-    private fun showRenrollnoData(context: Context,message : String,msgHead : String,d:Dialog
-                          )
-    {
+
+    private fun showRenrollnoData(
+        context: Context, message: String, msgHead: String, d: Dialog
+    ) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -3216,7 +3293,7 @@ var byte_array=bitmapToBytes(bitmap)
         var alertHead = dialog.findViewById(R.id.alertHead) as TextView
         var text_dialog = dialog.findViewById(R.id.text_dialog) as TextView
         var btn_Ok = dialog.findViewById(R.id.btn_Ok) as Button
-       // var btn_Cancel = dialog.findViewById(R.id.btn_Cancel) as Button
+        // var btn_Cancel = dialog.findViewById(R.id.btn_Cancel) as Button
         text_dialog.text = message
         alertHead.text = msgHead
         btn_Ok.setOnClickListener()
@@ -3227,17 +3304,19 @@ var byte_array=bitmapToBytes(bitmap)
             //d.dismiss()
 
         }
-       /* btn_Cancel.setOnClickListener {
-            dialog.dismiss()
-        }*/
+        /* btn_Cancel.setOnClickListener {
+             dialog.dismiss()
+         }*/
         dialog.show()
     }
-    private fun reEnrollMailApi(title: String,
-                                  message: String,
-                                  dialog: Dialog
-    ){
+
+    private fun reEnrollMailApi(
+        title: String,
+        message: String,
+        dialog: Dialog
+    ) {
         val token = sharedprefs.getaccesstoken(mContext)
-        val sendMailBody = ReEnrollEmailApiModel( title, message)
+        val sendMailBody = ReEnrollEmailApiModel(title, message)
         val call: Call<ReEnrollEmailModel> =
             ApiClient.getClient.re_enrollment_mailhelp(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<ReEnrollEmailModel> {
@@ -3246,7 +3325,10 @@ var byte_array=bitmapToBytes(bitmap)
                 //progressDialog.visibility = View.GONE
             }
 
-            override fun onResponse(call: Call<ReEnrollEmailModel>, response: Response<ReEnrollEmailModel>) {
+            override fun onResponse(
+                call: Call<ReEnrollEmailModel>,
+                response: Response<ReEnrollEmailModel>
+            ) {
                 val responsedata = response.body()
                 //progressDialog.visibility = View.GONE
                 Log.e("Response Signup", responsedata.toString())
@@ -3254,7 +3336,7 @@ var byte_array=bitmapToBytes(bitmap)
                     try {
 
 
-                        if (response.body()!!.status==100) {
+                        if (response.body()!!.status == 100) {
                             dialog.dismiss()
                             showSuccessmailAlert(
                                 mContext,
@@ -3262,18 +3344,23 @@ var byte_array=bitmapToBytes(bitmap)
                                 "Success",
                                 dialog
                             )
-                        }else {
-                            if (response.body()!!.status==116) {
+                        } else {
+                            if (response.body()!!.status == 116) {
                                 //call Token Expired
-                                AccessTokenClass.getAccessToken(com.mobatia.bisad.fragment.home.mContext)
-                                reEnrollMailApi( title,
-                                    message,dialog)
+                                AccessTokenClass.getAccessToken(mContext)
+                                reEnrollMailApi(
+                                    title,
+                                    message, dialog
+                                )
                             } else {
-                                if (response.body()!!.status==103) {
+                                if (response.body()!!.status == 103) {
                                     //validation check error
                                 } else {
                                     //check status code checks
-                                    InternetCheckClass.checkApiStatusError(response.body()!!.status, mContext)
+                                    InternetCheckClass.checkApiStatusError(
+                                        response.body()!!.status,
+                                        mContext
+                                    )
                                 }
                             }
                         }
@@ -3286,6 +3373,7 @@ var byte_array=bitmapToBytes(bitmap)
 
         })
     }
+
     fun showSuccessmailAlert(context: Context, message: String, msgHead: String, mdialog: Dialog) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -3306,9 +3394,11 @@ var byte_array=bitmapToBytes(bitmap)
         }
         dialog.show()
     }
+
     fun bytesToBase64(bytes: ByteArray?): String? {
         return Base64.encodeToString(bytes, 0)
     }
+
     private fun encodeImage(bm: Bitmap): String? {
         val baos = ByteArrayOutputStream()
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos)
