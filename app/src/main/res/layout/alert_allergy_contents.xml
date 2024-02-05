@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_curve"
+    >
+
+    <com.mobatia.bisad.manager.CustomFontDJ5TextWhite
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:backgroundTint="@color/split_bg"
+        android:background="@drawable/dialoguetopcurve"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="Allergy Contents"
+        android:textColor="@color/white"
+        android:textSize="17dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/calendar_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/item_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:paddingBottom="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heading">
+        >
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:text="Item : "/>
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginLeft="4dp"
+            android:paddingLeft="4dp"
+            android:text="text"/>
+
+
+    </LinearLayout>
+<!--<View
+    android:layout_width="match_parent"
+    android:layout_height="2dp"
+    app:layout_constraintTop_toBottomOf="@+id/item_linear"
+    app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
+    android:background="@color/colorPrimary"/>-->
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_linear">
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/light_grey"
+            android:layout_weight="29"
+            android:gravity="center"
+            android:text="Color" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@color/split_bg" />
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlackSemiBold
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/light_grey"
+            android:layout_weight="69"
+            android:gravity="center"
+            android:text="Content" />
+
+    </LinearLayout>
+   <!-- <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
+        app:layout_constraintBottom_toTopOf="@+id/allergy_popup_rec"
+        android:background="@color/colorPrimary"/>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/allergy_popup_rec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

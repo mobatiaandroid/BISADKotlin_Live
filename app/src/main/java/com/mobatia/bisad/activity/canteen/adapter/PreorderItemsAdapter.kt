@@ -12,11 +12,13 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.ProgressBarDialog
+import com.mobatia.bisad.activity.canteen.model.AllergyContentModel
 import com.mobatia.bisad.activity.canteen.model.add_orders.CatItemsListModel
 import com.mobatia.bisad.activity.canteen.model.add_to_cart.*
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartApiModel
@@ -41,7 +43,8 @@ class PreorderItemsAdapter(
     var totalPrice:TextView,
     var bottomView:LinearLayout,
     var cart_empty:ImageView,
-    var progressDialogP:ProgressBarDialog) :
+    var progressDialogP:ProgressBarDialog,
+    var allergycontentlist:ArrayList<AllergyContentModel>) :
     RecyclerView.Adapter<PreorderItemsAdapter.ViewHolder>() {
   // lateinit var onBottomReachedListener: OnBottomReachedListener
     lateinit var homeBannerUrlImageArray:ArrayList<String>
@@ -61,6 +64,32 @@ class PreorderItemsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //onBottomReachedListener.onBottomReached(position)
         //bottomView.visibility=View.GONE
+        if (allergycontentlist.size>0){
+            holder.allergy_info.visibility=View.VISIBLE
+            holder.allergy_rec.visibility=View.VISIBLE
+            var llm = (LinearLayoutManager(mcontext))
+            llm.orientation = LinearLayoutManager.HORIZONTAL
+            holder.allergy_rec.layoutManager = llm
+            var allergy_adapter=AllergyContentsAdapter(allergycontentlist,mcontext)
+            holder.allergy_rec.adapter=allergy_adapter
+
+            /* holder.allergy_rec.addOnItemClickListener(object : OnItemClickListener {
+                 override fun onItemClicked(position: Int, view: View) {
+                     Toast.makeText(mcontext, allergycontentlist[position].name, Toast.LENGTH_SHORT).show()
+
+                     //allergy_contents_popup(mcontext)
+
+             }
+         })*/
+        }
+        else{
+            holder.allergy_rec.visibility=View.GONE
+            holder.allergy_info.visibility=View.GONE
+        }
+        holder.allergy_info.setOnClickListener {
+            allergy_contents_popup(mcontext,itemlist[position].item_name)
+        }
+
         holder.itemNameTxt.text=itemlist[position].item_name
         holder.itemDescription.text = itemlist[position].description
         holder.amountTxt.text = itemlist[position].price.toString() + " AED"
@@ -104,7 +133,7 @@ class PreorderItemsAdapter(
                     canteen_cart_id= cart_list.get(cartPos).items.get(i).id.toString()
                 }
             }
-          //  canteen_cart_id = cart_list[cartPos].items.get(position).id
+            //  canteen_cart_id = cart_list[cartPos].items.get(position).id
             quantity = newValue.toString()
             if (InternetCheckClass.isInternetAvailable(mcontext)) {
                 if (newValue != 0) {
@@ -140,6 +169,8 @@ class PreorderItemsAdapter(
         lateinit var multiLinear:LinearLayout
         lateinit var itemCount: ElegantNumberButton
         lateinit var bannerImagePager: ViewPager
+        lateinit var allergy_rec:RecyclerView
+        lateinit var allergy_info:ImageView
 
         init {
 
@@ -154,6 +185,8 @@ class PreorderItemsAdapter(
             itemDescription = itemView.findViewById(R.id.itemDescription)
             confirmedTxt = itemView.findViewById(R.id.confirmedTxt)
             bannerImagePager = itemView.findViewById(R.id.bannerImagePager) as ViewPager
+            allergy_rec=itemView.findViewById(R.id.allergy_rec)
+            allergy_info=itemView.findViewById(R.id.info_allergy)
         }
     }
     private fun getcanteen_cart(){
@@ -388,7 +421,24 @@ private fun addToCart(id:String,price:String,position: Int){
 
         })
     }
+    fun allergy_contents_popup(context: Context,item:String){
+        val dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.alert_allergy_contents)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        var item_name:TextView=dialog.findViewById(R.id.item_name)
+        var close:ImageView=dialog.findViewById(R.id.close)
+        close.setOnClickListener {
+            dialog.dismiss()
+        }
+        item_name.text=item
 
+        var allergy_popup_rec=dialog.findViewById<RecyclerView>(R.id.allergy_popup_rec)
+        allergy_popup_rec.layoutManager=LinearLayoutManager(context)
+        var allergypopupAdapter=AllergyPopupAdapter(allergycontentlist,context)
+        allergy_popup_rec.adapter=allergypopupAdapter
+        dialog.show()
+    }
     fun showSuccessAlertnew(context: Context, message: String, msgHead: String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
