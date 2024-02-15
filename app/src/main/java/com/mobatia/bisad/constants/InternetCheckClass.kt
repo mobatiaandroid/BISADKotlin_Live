@@ -75,11 +75,7 @@ class InternetCheckClass {
 
                 showErrorAlert(context,"Invalid username/password","Alert")
             }
-            else if (statusCode==110)
-            {
 
-                showErrorAlert(context,"Invalid username/password","Alert")
-            }
             else if (statusCode==113)
             {
                 showErrorAlert(context,"Verification code not match","Alert")
