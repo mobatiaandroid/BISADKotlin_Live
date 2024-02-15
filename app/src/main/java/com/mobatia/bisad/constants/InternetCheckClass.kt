@@ -69,6 +69,11 @@ class InternetCheckClass {
             {
                 showErrorAlert(context,"Internal server error","Alert")
             }
+            else if (statusCode==510)
+
+            {
+                showErrorAlert(context,"Too many login attempts.Please try After 1 minute.","Alert")
+            }
             else if (statusCode==110)
             {
 

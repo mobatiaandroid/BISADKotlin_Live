@@ -244,6 +244,13 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
 //                                startActivity(Intent(mContext,HomeActivity::class.java))
 //                                finish()
                             }
+                            else if (status==510) {
+                                InternetCheckClass.checkApiStatusError(status,mContext)
+                                //DialogFunctions.commonErrorAlertDialog(mContext.resources.getString(R.string.alert), ConstantFunctions.commonErrorString(response.body()!!.status), mContext)
+
+
+//						startCountdown(60000L);
+                            }
                             else{
                                 if (status==116)
                                 {
