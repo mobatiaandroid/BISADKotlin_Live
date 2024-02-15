@@ -69,10 +69,11 @@ class InternetCheckClass {
             {
                 showErrorAlert(context,"Internal server error","Alert")
             }
-            else if (statusCode==510)
 
+            else if (statusCode==110)
             {
-                showErrorAlert(context,"Too many login attempts.Please try After 1 minute.","Alert")
+
+                showErrorAlert(context,"Invalid username/password","Alert")
             }
             else if (statusCode==110)
             {
@@ -167,6 +168,11 @@ class InternetCheckClass {
             {
                 showErrorAlert(context,Resources.getSystem().getString(R.string.status_126),"Alert")
 
+            }
+            else if (statusCode==127)
+
+            {
+                showErrorAlert(context,"Too many login attempts.Please try After 1 minute.","Alert")
             }
         }
 

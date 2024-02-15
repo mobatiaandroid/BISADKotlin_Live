@@ -1,17 +1,17 @@
 package com.mobatia.bisad.activity.canteen.adapter
 
-import android.app.Activity
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,12 +19,12 @@ import androidx.viewpager.widget.ViewPager
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.ProgressBarDialog
+import com.mobatia.bisad.activity.canteen.model.AllergyContentModel
 import com.mobatia.bisad.activity.canteen.model.myorders.*
 import com.mobatia.bisad.activity.canteen.model.order_history.OrderHistoryApiModel
 import com.mobatia.bisad.activity.canteen.model.preorder.CanteenPreorderModel
 import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
-import com.mobatia.bisad.manager.AppController
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.ApiClient
 import retrofit2.Call
@@ -47,6 +47,8 @@ class MyorderItemsAdapter (val itemlist: ArrayList<Preorderitems_list>, var mcon
     var BalanceWalletAmount = 0f
     var BalanceConfirmWalletAmount = 0f
     var CartTotalAmount = 0f
+     lateinit var allergycontentlist: ArrayList<AllergyContentModel>
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.myorder_items_adapter, viewGroup, false)
@@ -56,6 +58,10 @@ class MyorderItemsAdapter (val itemlist: ArrayList<Preorderitems_list>, var mcon
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+        allergycontentlist = ArrayList()
+        if (itemlist.get(position).allergy_contents.size > 0) {
+            allergycontentlist.addAll(itemlist.get(position).allergy_contents)
+        }
         holder.bannerImagePager.visibility = View.GONE
         holder.itemNameTxt.text = itemlist[position].item_name
         holder.itemDescription.text = itemlist[position].item_description
@@ -161,7 +167,24 @@ class MyorderItemsAdapter (val itemlist: ArrayList<Preorderitems_list>, var mcon
             }
         }
 
-
+        if (allergycontentlist.size > 0) {
+            holder.allergy_rec.setVisibility(View.VISIBLE)
+            holder.allergy_info.setVisibility(View.VISIBLE)
+            val llc = LinearLayoutManager(mcontext)
+            llc.orientation = LinearLayoutManager.HORIZONTAL
+            holder.allergy_rec.setLayoutManager(llc)
+            val allergy_adapter = AllergyContentsAdapter(allergycontentlist, mcontext)
+            holder.allergy_rec.setAdapter(allergy_adapter)
+        } else {
+            holder.allergy_rec.setVisibility(View.GONE)
+            holder.allergy_info.setVisibility(View.GONE)
+        }
+        holder.allergy_info.setOnClickListener(View.OnClickListener {
+            allergy_contents_popup(
+                mcontext,
+                itemlist.get(position).item_name
+            )
+        })
 
     }
     override fun getItemCount(): Int {
@@ -183,6 +206,8 @@ class MyorderItemsAdapter (val itemlist: ArrayList<Preorderitems_list>, var mcon
         var linearlayout: LinearLayout
         var exceedLinear:LinearLayout
         var bannerImagePager: ViewPager
+        var allergy_rec: RecyclerView
+        var allergy_info: ImageView
         init {
             itemNameTxt = itemView.findViewById(R.id.itemNameTxt)
             itemDescription = itemView.findViewById(R.id.itemDescription)
@@ -196,11 +221,29 @@ class MyorderItemsAdapter (val itemlist: ArrayList<Preorderitems_list>, var mcon
             exceedLinear = itemView.findViewById(R.id.exceedLinear)
             portalTxt = itemView.findViewById(R.id.portalTxt)
             bannerImagePager = itemView.findViewById(R.id.bannerImagePager)
+            allergy_rec = itemView.findViewById<RecyclerView>(R.id.allergy_rec)
+            allergy_info = itemView.findViewById<ImageView>(R.id.info_allergy)
 
         }
     }
 
-
+    fun allergy_contents_popup(context: Context, itemname: String?) {
+        val dialog = Dialog(context!!)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.alert_allergy_contents)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val item = dialog.findViewById<TextView>(R.id.item_name)
+        val close_btn = dialog.findViewById<ImageView>(R.id.close)
+        val allergypopuprec = dialog.findViewById<RecyclerView>(R.id.allergy_popup_rec)
+        item.text = itemname
+        close_btn.setOnClickListener { dialog.dismiss() }
+        val llm = LinearLayoutManager(context)
+        llm.orientation = LinearLayoutManager.VERTICAL
+        allergypopuprec.layoutManager = llm
+        val allergypopupAdapter = AllergyPopupAdapter( allergycontentlist ,context)
+        allergypopuprec.adapter = allergypopupAdapter
+        dialog.show()
+    }
     fun callCancelPreOrderItem(order_id:String)
     {
         progress.show()

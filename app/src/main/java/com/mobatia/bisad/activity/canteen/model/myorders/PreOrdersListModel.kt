@@ -9,5 +9,5 @@ class PreOrdersListModel (
     @SerializedName("status") val status: String,
     @SerializedName("cancellation_time_exceed") val cancellation_time_exceed: String,
     @SerializedName("section") val section: String,
-    @SerializedName("canteen_preordered_items") val canteen_preordered_items: ArrayList<Preorderitems_list>
+    @SerializedName("canteen_preordered_items") val canteen_preordered_items: ArrayList<Preorderitems_list>,
 )

@@ -18,6 +18,7 @@ import com.mobatia.bisad.activity.ProgressBarDialog
 import com.mobatia.bisad.activity.canteen.adapter.DateAdapter
 import com.mobatia.bisad.activity.canteen.adapter.ItemCategoriesAdapter
 import com.mobatia.bisad.activity.canteen.adapter.PreorderItemsAdapter
+import com.mobatia.bisad.activity.canteen.model.AllergyContentModel
 import com.mobatia.bisad.activity.canteen.model.DateModel
 import com.mobatia.bisad.activity.canteen.model.add_orders.*
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartApiModel
@@ -75,6 +76,8 @@ class Addorder_Activity : AppCompatActivity() {
     lateinit var total_items: TextView
     lateinit var total_price: TextView
     var firstVisit: Boolean? = null
+    lateinit var allergycontentlist: java.util.ArrayList<AllergyContentModel>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.canteen_addorder)
@@ -395,12 +398,24 @@ logoClickImg.setOnClickListener {
 
 
                     }
+                        Log.e("student_allergy", item_list.get(i).student_allergy.toString())
+
+
+                        allergycontentlist= java.util.ArrayList()
+                        allergycontentlist.addAll(item_list.get(i).allergy_contents)
+                        Log.e("allergycontentlist", allergycontentlist.toString())
+                        if(allergycontentlist.size>0)
+                        {
+                            item_list.get(i).isAllergic=true
+                        } else {
+                            item_list.get(i).isAllergic=false
+                        }
                 }
 
                     recyclerview_item.layoutManager=LinearLayoutManager(nContext)
                     var itemAdapter=PreorderItemsAdapter(item_list,nContext,date_selected,cart_list,cartTotalAmount,
                         total_items,total_price,bottomview,cart_empty,
-                        progressDialogM)
+                        progressDialogM,allergycontentlist)
                     recyclerview_item.adapter=itemAdapter
 
                 }else if (response.body()!!.status == 116) {
@@ -510,11 +525,33 @@ logoClickImg.setOnClickListener {
 
 
                         }
+                        Log.e("student_allergy", item_list.get(i).student_allergy.toString())
+
+                        allergycontentlist= java.util.ArrayList()
+                        allergycontentlist.addAll(item_list.get(i).allergy_contents)
+                        if(allergycontentlist.size>0)
+                        {
+                            item_list.get(i).isAllergic=true
+                        } else {
+                            item_list.get(i).isAllergic=false
+                        }
+                        Log.e("allergycontentlist", allergycontentlist.toString())
                     }
                     //progressDialog.visibility = View.GONE
                     recyclerview_item.layoutManager=LinearLayoutManager(nContext)
-                    var itemAdapter=PreorderItemsAdapter(item_list,nContext,date_selected,cart_list,cartTotalAmount,
-                        total_items,total_price,bottomview,cart_empty,progressDialogM)
+                    var itemAdapter=PreorderItemsAdapter(
+                        item_list,
+                        nContext,
+                        date_selected,
+                        cart_list,
+                        cartTotalAmount,
+                        total_items,
+                        total_price,
+                        bottomview,
+                        cart_empty,
+                        progressDialogM,
+                        allergycontentlist
+                    )
                     recyclerview_item.adapter=itemAdapter
 
 

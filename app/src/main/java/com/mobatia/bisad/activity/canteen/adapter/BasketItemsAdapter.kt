@@ -1,13 +1,10 @@
 package com.mobatia.bisad.activity.canteen.adapter
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
-import com.downloader.Progress
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.ProgressBarDialog
-import com.mobatia.bisad.activity.canteen.Myorderbasket_Activity
+import com.mobatia.bisad.activity.canteen.model.AllergyContentModel
 import com.mobatia.bisad.activity.canteen.model.add_to_cart.CanteenCartRemoveApiModel
 import com.mobatia.bisad.activity.canteen.model.add_to_cart.CanteenCartRemoveModel
 import com.mobatia.bisad.activity.canteen.model.add_to_cart.CanteenCartUpdateApiModel
@@ -39,7 +35,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-import kotlin.collections.ArrayList
 
 class BasketItemsAdapter (
     var items_list: ArrayList<CartItemsListModel>, var mcontext: Context, var ordered_user_type:String,
@@ -59,6 +54,8 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
     var apiCall:Int = 0
     var homeBannerUrlImageArray: java.util.ArrayList<String>? = null
     var currentPage = 0
+    lateinit var allergycontentlist: ArrayList<AllergyContentModel>
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.basket_itemlist_adapter, viewGroup, false)
@@ -67,6 +64,10 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        allergycontentlist = ArrayList()
+        if (items_list.get(position).allergy_contents.size > 0) {
+            allergycontentlist.addAll(items_list.get(position).allergy_contents)
+        }
         holder.itemNameTxt.text = items_list[position].item_name
         holder.itemDescription.text = items_list[position].description
         holder.amountTxt.text = items_list[position].price.toString() + "AED"
@@ -125,6 +126,25 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
         holder.removeTxt.setOnClickListener {
             //cart cancel
         }
+
+        if (allergycontentlist.size > 0) {
+            holder.allergy_rec.setVisibility(View.VISIBLE)
+            holder.allergy_info.setVisibility(View.VISIBLE)
+            val llc = LinearLayoutManager(mcontext)
+            llc.orientation = LinearLayoutManager.HORIZONTAL
+            holder.allergy_rec.setLayoutManager(llc)
+            val allergy_adapter = AllergyContentsAdapter(allergycontentlist, mcontext)
+            holder.allergy_rec.setAdapter(allergy_adapter)
+        } else {
+            holder.allergy_rec.setVisibility(View.GONE)
+            holder.allergy_info.setVisibility(View.GONE)
+        }
+        holder.allergy_info.setOnClickListener(View.OnClickListener {
+            allergy_contents_popup(
+                mcontext,
+                items_list.get(position).item_name
+            )
+        })
        /* holder.cartitemcount.setOnValueChangeListener { view, oldValue, newValue ->
             canteen_cart_id = items_list[position].item_id
             quantity = newValue.toString()
@@ -199,6 +219,8 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
         var multiLinear: LinearLayout
         var linearlayout: LinearLayout
         var bannerImagePager: ViewPager
+        var allergy_rec: RecyclerView
+        var allergy_info: ImageView
         // var Datas:String=""
 
         init {
@@ -213,7 +235,26 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
             removeTxt = view.findViewById<TextView>(R.id.removeTxt)
             portalTxt = view.findViewById<TextView>(R.id.portalTxt)
             bannerImagePager = view.findViewById(R.id.bannerImagePager)
+            allergy_rec = view.findViewById(R.id.allergy_rec)
+            allergy_info = view.findViewById(R.id.info_allergy)
         }
+    }
+    fun allergy_contents_popup(mcontext:Context, itemname: String?) {
+        val dialog = Dialog(mcontext)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.alert_allergy_contents)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val item = dialog.findViewById<TextView>(R.id.item_name)
+        val close_btn = dialog.findViewById<ImageView>(R.id.close)
+        val allergypopuprec = dialog.findViewById<RecyclerView>(R.id.allergy_popup_rec)
+        item.text = itemname
+        close_btn.setOnClickListener { dialog.dismiss() }
+        val llm = LinearLayoutManager(mcontext)
+        llm.orientation = LinearLayoutManager.VERTICAL
+        allergypopuprec.layoutManager = llm
+        val allergypopupAdapter = AllergyPopupAdapter( allergycontentlist,mcontext)
+        allergypopuprec.adapter = allergypopupAdapter
+        dialog.show()
     }
     private fun getcanteen_cart(){
         cart_list= ArrayList()

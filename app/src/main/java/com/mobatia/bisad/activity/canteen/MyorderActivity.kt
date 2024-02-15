@@ -3,7 +3,6 @@ package com.mobatia.bisad.activity.canteen
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.ProgressBarDialog
 import com.mobatia.bisad.activity.canteen.adapter.MyorderDatesAdapter
+import com.mobatia.bisad.activity.canteen.model.AllergyContentModel
 import com.mobatia.bisad.activity.canteen.model.myorders.PreOrdersListModel
 import com.mobatia.bisad.activity.canteen.model.myorders.PreOrdersModel
 import com.mobatia.bisad.activity.canteen.model.myorders.Preorderitems_list
@@ -58,6 +58,7 @@ class MyorderActivity:AppCompatActivity() {
     lateinit var title:TextView
     lateinit var basket:ImageView
     lateinit var progressDialogAdd:ProgressBarDialog
+    lateinit var allergycontentlist:ArrayList<AllergyContentModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,7 +125,10 @@ class MyorderActivity:AppCompatActivity() {
                 if (responsedata!!.status==100) {
                     dateRecyclerView.visibility=View.VISIBLE
                     noItemTxt.visibility=View.GONE
+
+
                     dateRecyclerView.layoutManager = LinearLayoutManager(nContext)
+
                     dateRecyclerView.adapter = MyorderDatesAdapter(response.body()!!.responseArray.data,
                         nContext,studentID,dateRecyclerView,
                         bottomLinear,itemLinear,noItemTxt,progressDialogAdd)

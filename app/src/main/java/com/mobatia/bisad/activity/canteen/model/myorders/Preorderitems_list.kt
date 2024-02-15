@@ -1,6 +1,7 @@
 package com.mobatia.bisad.activity.canteen.model.myorders
 
 import com.google.gson.annotations.SerializedName
+import com.mobatia.bisad.activity.canteen.model.AllergyContentModel
 
 class Preorderitems_list (
     @SerializedName("id") val id: String,
@@ -12,5 +13,7 @@ class Preorderitems_list (
     @SerializedName("price") val price: String,
     @SerializedName("available_quantity") val available_quantity: String,
     @SerializedName("item_description") val item_description: String,
-    @SerializedName("cancellation_time_exceed") val cancellation_time_exceed: Int
-)
+    @SerializedName("cancellation_time_exceed") val cancellation_time_exceed: Int,
+    @SerializedName("allergy_contents") var allergy_contents:ArrayList<AllergyContentModel>,
+
+    )
