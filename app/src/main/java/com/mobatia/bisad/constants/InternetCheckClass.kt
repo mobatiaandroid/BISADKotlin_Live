@@ -165,7 +165,7 @@ class InternetCheckClass {
                 showErrorAlert(context,Resources.getSystem().getString(R.string.status_126),"Alert")
 
             }
-            else if (statusCode==127)
+            else if (statusCode==501)
 
             {
                 showErrorAlert(context,"Too many login attempts.Please try After 1 minute.","Alert")

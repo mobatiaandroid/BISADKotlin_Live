@@ -53,7 +53,7 @@ class PaymentHistory_Activity : AppCompatActivity() {
     lateinit var back: ImageView
     //lateinit var amount: EditText
     //lateinit var addToWallet: Button
-    lateinit var progress: RelativeLayout
+    lateinit var progress: ProgressBar
     lateinit var studentlist: ArrayList<String>
     //lateinit var studentname: TextView
     lateinit var dropdown: LinearLayout
@@ -103,9 +103,9 @@ class PaymentHistory_Activity : AppCompatActivity() {
         title = findViewById(R.id.titleTextView)
 
         title.text = "Payment History"
-        val aniRotate: Animation =
+        /*val aniRotate: Animation =
             AnimationUtils.loadAnimation(nContext, R.anim.linear_interpolator)
-        progress.startAnimation(aniRotate)
+        progress.startAnimation(aniRotate)*/
         back.setOnClickListener {
             finish()
         }
@@ -121,7 +121,7 @@ class PaymentHistory_Activity : AppCompatActivity() {
 
             }
         })
-        walletHistory()
+       // walletHistory()
 
     }
     fun showStudentList(context: Context ,mStudentList : ArrayList<StudentList>)
@@ -202,15 +202,16 @@ class PaymentHistory_Activity : AppCompatActivity() {
     }
     fun callStudentListApi()
     {
-        //progressDialog.visibility = View.VISIBLE
+        progress.visibility=View.VISIBLE
         val token = sharedprefs.getaccesstoken(nContext)
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
+                progress.visibility=View.GONE
                 CommonFunctions.faliurepopup(nContext)
             }
             override fun onResponse(call: Call<StudentListModel>, response: Response<StudentListModel>) {
-               // progressDialog.visibility = View.GONE
+                progress.visibility=View.GONE
                 //val arraySize :Int = response.body()!!.responseArray.studentList.size
                 if (response.body()!!.status==100)
                 {
@@ -282,24 +283,29 @@ class PaymentHistory_Activity : AppCompatActivity() {
         })
     }
     private fun walletHistory(){
+
+
         val token = PreferenceData().getaccesstoken(nContext)
         val paymentSuccessBody = WalletHistoryApiModel(PreferenceData().getStudentID(nContext).toString(),"0","50")
         val call: Call<WalletHistoryModel> =
             ApiClient.getClient.get_wallet_history(paymentSuccessBody, "Bearer " + token)
         call.enqueue(object : Callback<WalletHistoryModel> {
             override fun onFailure(call: Call<WalletHistoryModel>, t: Throwable) {
+               // progress.visibility=View.GONE
+
                 CommonFunctions.faliurepopup(nContext)
             }
 
             override fun onResponse(call: Call<WalletHistoryModel>, response: Response<WalletHistoryModel>) {
+               // progress.visibility=View.GONE
                 val responsedata = response.body()
 
                 if (responsedata != null) {
                     try {
 
                         if (response.body()!!.status==100) {
-                            //mProgressRelLayout.visibility=View.GONE
 
+                           // progress.visibility=View.GONE
                             wallethistory_list= ArrayList()
                             wallethistory_list.addAll(response.body()!!.responseArray.credit_history)
                             if (wallethistory_list.size>0)

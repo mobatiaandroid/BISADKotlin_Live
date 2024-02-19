@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
@@ -15,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.messaging.FirebaseMessaging
+import com.mobatia.bisad.BuildConfig
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.common.model.DeviceRegModel
 import com.mobatia.bisad.activity.home.HomeActivity
@@ -103,10 +105,15 @@ class SplashActivity : AppCompatActivity() {
 
     fun callDeviceRegistrationApi()
     {
+        var devicename:String= (Build.MANUFACTURER
+                + " " + Build.MODEL + " " + Build.VERSION.RELEASE
+                + " " + Build.VERSION_CODES::class.java.fields[Build.VERSION.SDK_INT]
+            .name)
+        val version: String = BuildConfig.VERSION_NAME
         val token = sharedprefs.getaccesstoken(mContext)
         var androidID = Settings.Secure.getString(this.contentResolver,
             Settings.Secure.ANDROID_ID)
-        var deviceReg= DeviceRegModel(2, tokenM,androidID)
+        var deviceReg= DeviceRegModel(2, tokenM,androidID,devicename,version)
         val call: Call<ResponseBody> = ApiClient.getClient.deviceregistration(deviceReg,"Bearer "+token)
 
         call.enqueue(object : Callback<ResponseBody> {

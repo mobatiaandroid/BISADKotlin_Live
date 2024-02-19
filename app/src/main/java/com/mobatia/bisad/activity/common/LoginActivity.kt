@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.Window
@@ -244,7 +243,7 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
 //                                startActivity(Intent(mContext,HomeActivity::class.java))
 //                                finish()
                             }
-                            else if (status==127) {
+                            else if (status==501) {
                                 InternetCheckClass.checkApiStatusError(status,mContext)
                                 //DialogFunctions.commonErrorAlertDialog(mContext.resources.getString(R.string.alert), ConstantFunctions.commonErrorString(response.body()!!.status), mContext)
 
@@ -327,11 +326,11 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
         dialog.setContentView(R.layout.dialog_layout_signup)
         var text_dialog = dialog.findViewById(R.id.text_dialog) as EditText
         var btn_maybelater = dialog.findViewById(R.id.btn_maybelater) as Button
-        var progressDialog = dialog.findViewById<RelativeLayout>(R.id.progressDialog)
+        var progressDialog1 = dialog.findViewById(R.id.progressDialog2) as ProgressBar
         var btn_signup = dialog.findViewById(R.id.btn_signup) as Button
-        val aniRotate: Animation =
+        /*val aniRotate: Animation =
             AnimationUtils.loadAnimation(mContext, R.anim.linear_interpolator)
-        progressDialog.startAnimation(aniRotate)
+        progressDialog.startAnimation(aniRotate)*/
         text_dialog.setOnEditorActionListener { v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 text_dialog.isFocusable =false
@@ -365,7 +364,7 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
                     imm?.hideSoftInputFromWindow(text_dialog.windowToken, 0)
                     var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
                     if (internetCheck) {
-                        callSignUpApi(text_dialog.text.toString().trim(),dialog,progressDialog)
+                        callSignUpApi(text_dialog.text.toString().trim(),dialog,progressDialog1)
                     } else {
                         InternetCheckClass.showSuccessInternetAlert(mContext)
                     }
@@ -383,7 +382,7 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
 
 
     //Signup API Call
-    fun callSignUpApi(email: String,dialog: Dialog,progress:RelativeLayout)
+    fun callSignUpApi(email: String, dialog: Dialog, progress: ProgressBar)
     {
         progress.visibility=View.VISIBLE
         val call: Call<ResponseBody> = ApiClient.getClient.signup(
@@ -489,6 +488,7 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
         var text_dialog = dialog.findViewById(R.id.text_dialog) as EditText
         var btn_maybelater = dialog.findViewById(R.id.btn_maybelater) as Button
         var btn_signup = dialog.findViewById(R.id.btn_signup) as Button
+        var progressd = dialog.findViewById(R.id.progressDialog1) as ProgressBar
         text_dialog.setOnEditorActionListener { v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 text_dialog.isFocusable =false
@@ -514,7 +514,7 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
                     imm?.hideSoftInputFromWindow(text_dialog.windowToken, 0)
                     var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
                     if (internetCheck) {
-                        callForgetPassword(text_dialog.text.toString().trim(),dialog)
+                        callForgetPassword(text_dialog.text.toString().trim(),dialog,progressd)
                     } else {
                         InternetCheckClass.showSuccessInternetAlert(mContext)
                     }
@@ -542,16 +542,19 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
     }
     
     // Call Forget Password API
-    fun callForgetPassword(email: String,dialog:Dialog)
+    fun callForgetPassword(email: String, dialog: Dialog, progressd: ProgressBar)
     {
+        progressd.visibility=View.VISIBLE
         val call: Call<ResponseBody> = ApiClient.getClient.forgetPassword(
             email
         )
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                progressd.visibility=View.GONE
                 CommonFunctions.faliurepopup(mContext)
             }
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                progressd.visibility=View.GONE
                 val responsedata = response.body()
 
                 if (responsedata != null) {

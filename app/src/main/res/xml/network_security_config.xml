@@ -10,5 +10,7 @@
         <domain includeSubdomains="true">beta.mobatia.in</domain>
         <domain includeSubdomains="true">gama.mobatia.in:8080</domain>
         <domain includeSubdomains="true">gama.mobatia.in</domain>
+        <domain includeSubdomains="true">ec2-3-85-200-232.compute-1.amazonaws.com</domain>
+
     </domain-config>
 </network-security-config>

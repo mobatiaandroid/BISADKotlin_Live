@@ -64,7 +64,13 @@ internal class ContactusAdapter(
         }
 
         holder.email.setOnClickListener {
-            val emailIntent = Intent(
+            val intent = Intent(Intent.ACTION_SEND)
+            val recipients = arrayOf(holder.email.text.toString())
+            intent.putExtra(Intent.EXTRA_EMAIL, recipients)
+            intent.type = "text/html"
+            intent.setPackage("com.google.android.gm")
+            context.startActivity(Intent.createChooser(intent, "Send mail"))
+           /* val emailIntent = Intent(
                 Intent.ACTION_SEND_MULTIPLE
             )
             val deliveryAddress =
@@ -90,7 +96,7 @@ internal class ContactusAdapter(
                     it.context.startActivity(emailIntent)
                     break
                 }
-            }
+            }*/
         }
 //            val intent = Intent(Intent.ACTION_SEND)
 //            intent.type = ClipDescription.MIMETYPE_TEXT_PLAIN

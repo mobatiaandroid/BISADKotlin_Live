@@ -14,9 +14,7 @@ import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.text.Spanned
 import android.util.Base64
-import android.util.Log
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -26,7 +24,6 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,8 +36,6 @@ import com.kyanogen.signatureview.SignatureView
 import com.mobatia.bisad.BuildConfig
 import com.mobatia.bisad.R
 import com.mobatia.bisad.WebviewActivity
-import com.mobatia.bisad.WebviewLoad
-import com.mobatia.bisad.activity.MainActivity
 import com.mobatia.bisad.activity.common.LoginActivity
 import com.mobatia.bisad.activity.home.DataCollectionActivity
 import com.mobatia.bisad.activity.home.HomeActivity
@@ -53,11 +48,9 @@ import com.mobatia.bisad.constants.NaisClassNameConstants
 import com.mobatia.bisad.constants.NaisTabConstants
 import com.mobatia.bisad.fragment.apps.AppsFragment
 import com.mobatia.bisad.fragment.calendar_new.CalFragment
-import com.mobatia.bisad.fragment.calendar_new.CalendarFragmentNew
 import com.mobatia.bisad.fragment.canteen.CanteenFragment
 import com.mobatia.bisad.fragment.communication.CommunicationFragment
 import com.mobatia.bisad.fragment.contact_us.ContactUsFragment
-import com.mobatia.bisad.fragment.curriculum.CurriculumFragment
 import com.mobatia.bisad.fragment.forms.FormsFragment
 import com.mobatia.bisad.fragment.home.model.*
 import com.mobatia.bisad.fragment.home.model.datacollection.*
@@ -72,9 +65,6 @@ import com.mobatia.bisad.fragment.settings.adapter.TriggerAdapter
 import com.mobatia.bisad.fragment.settings.model.TriggerDataModel
 import com.mobatia.bisad.fragment.settings.model.TriggerUSer
 import com.mobatia.bisad.fragment.socialmedia.SocialMediaFragment
-import com.mobatia.bisad.fragment.staff_directory.StaffDirectoryFragment
-import com.mobatia.bisad.fragment.staff_directory.model.SendStaffEmailApiModel
-import com.mobatia.bisad.fragment.staff_directory.model.SendStaffEmailModel
 import com.mobatia.bisad.fragment.student_information.StudentInformationFragment
 import com.mobatia.bisad.fragment.student_information.model.StudentList
 import com.mobatia.bisad.fragment.student_information.model.StudentListModel
@@ -95,7 +85,6 @@ import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 lateinit var relone: RelativeLayout
@@ -1795,8 +1784,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer " + token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
-                CommonFunctions.faliurepopup(mContext)
-
+               // CommonFunctions.faliurepopup(mContext)
+                showSessionExpiredPopUp()
             }
 
             override fun onResponse(
@@ -1852,7 +1841,34 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 
         })
     }
+    private fun showSessionExpiredPopUp() {
+        val dialog = Dialog(mContext)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.alert_dialogue_ok_layout)
+        val icon = dialog.findViewById<ImageView>(R.id.iconImageView)
+        icon.setBackgroundResource(R.drawable.round)
+        icon.setImageResource(R.drawable.exclamationicon)
+        val text = dialog.findViewById<TextView>(R.id.text_dialog)
+        val textHead = dialog.findViewById<TextView>(R.id.alertHead)
+        text.text = "You will now be logged out."
+        textHead.text = "Session Expired"
+        val dialogButton = dialog.findViewById<Button>(R.id.btn_Ok)
+        dialogButton.setOnClickListener {
+            dialog.dismiss()
+            val intent = Intent(mContext, LoginActivity::class.java)
+            //PreferenceData.setbackpresskey(mContext, "0")
+           // PreferenceData.setAccessToken(mContext, "")
+            PreferenceData().setUserCode(mContext, "")
+            //PreferenceData.setStaffId(mContext, "")
 
+            mContext.startActivity(intent)
+            //finish()
+        }
+
+        dialog.show()
+    }
     fun callTilesListApi() {
         titlesListArrayList = ArrayList()
         val token = sharedprefs.getaccesstoken(mContext)

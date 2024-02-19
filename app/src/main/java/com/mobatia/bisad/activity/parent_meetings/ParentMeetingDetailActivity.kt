@@ -167,6 +167,7 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
         dialog.show()
     }
     private fun timeslotList() {
+        alreadyslotBookedByUser = false
         timeSlotList= ArrayList()
         timeSlotListPost= ArrayList()
         progressDialog.visibility = View.VISIBLE
@@ -202,17 +203,16 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
                                 if (timeSlotList[i].status.equals("2")) {
                                     alreadyslotBookedByUser = true
                                     timeSlotListPost.add(timeSlotList[i])
-
-                                    /* confirm.setVisibility(GONE)
-                             cancel.setVisibility(GONE)*/
+                                    confirm.visibility=View.GONE
+                                    cancel.visibility=View.GONE
                                 }
                             }
                             for (i in timeSlotList.indices) {
                                 if (timeSlotList[i].status.equals("3")) {
                                     confirmedslotBookedByUser = true
                                     confirmed_link = timeSlotList[i].vpml
-                                    /* confirm.setVisibility(GONE)
-                             cancel.setVisibility(GONE)*/
+                                    confirm.visibility=View.GONE
+                                    cancel.visibility=View.GONE
                                 }
                             }
                             if (confirmedslotBookedByUser) {
