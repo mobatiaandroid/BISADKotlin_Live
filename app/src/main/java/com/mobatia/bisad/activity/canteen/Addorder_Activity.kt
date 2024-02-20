@@ -398,12 +398,10 @@ logoClickImg.setOnClickListener {
 
 
                     }
-                        Log.e("student_allergy", item_list.get(i).student_allergy.toString())
 
 
                         allergycontentlist= java.util.ArrayList()
                         allergycontentlist.addAll(item_list.get(i).allergy_contents)
-                        Log.e("allergycontentlist", allergycontentlist.toString())
                         if(allergycontentlist.size>0)
                         {
                             item_list.get(i).isAllergic=true
@@ -525,7 +523,6 @@ logoClickImg.setOnClickListener {
 
 
                         }
-                        Log.e("student_allergy", item_list.get(i).student_allergy.toString())
 
                         allergycontentlist= java.util.ArrayList()
                         allergycontentlist.addAll(item_list.get(i).allergy_contents)
@@ -535,7 +532,6 @@ logoClickImg.setOnClickListener {
                         } else {
                             item_list.get(i).isAllergic=false
                         }
-                        Log.e("allergycontentlist", allergycontentlist.toString())
                     }
                     //progressDialog.visibility = View.GONE
                     recyclerview_item.layoutManager=LinearLayoutManager(nContext)

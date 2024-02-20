@@ -31,7 +31,6 @@ class AllergyPopupAdapter (
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-Log.e("popup",allergycontentlist[position].name)
         holder.content_name.text=allergycontentlist[position].name
         val circleDrawable =
             ContextCompat.getDrawable(mcontext, R.drawable.shape_circle)

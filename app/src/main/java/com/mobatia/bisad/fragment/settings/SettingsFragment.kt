@@ -40,6 +40,7 @@ import com.mobatia.bisad.activity.settings.tutorial.TutorialActivity
 import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
+import com.mobatia.bisad.constants.ProgressBarDialog
 import com.mobatia.bisad.fragment.home.model.StudentListDataCollection
 import com.mobatia.bisad.fragment.home.model.datacollection.HealthInsuranceDetailModel
 import com.mobatia.bisad.fragment.home.model.datacollection.KinDetailApiModel
@@ -73,6 +74,8 @@ class SettingsFragment : Fragment(){
     lateinit var mSettingsArrayListRegistered : ArrayList<String>
     lateinit var mSettingsArrayListGuest: ArrayList<String>
     lateinit var progress: ProgressBar
+    var progressBarDialog: ProgressBarDialog? = null
+
     var start:Int=0
     var limit:Int=15
     lateinit var ownContactArrayList: ArrayList<OwnDetailsModel>
@@ -112,6 +115,7 @@ class SettingsFragment : Fragment(){
         mContext = requireContext()
         mSettingsArrayListRegistered= ArrayList()
         mSettingsArrayListGuest=ArrayList()
+
         if(sharedprefs.getUserCode(mContext).equals(""))
         {
             mSettingsArrayListGuest.add("Change App Settings")
@@ -153,6 +157,8 @@ class SettingsFragment : Fragment(){
         mSettingsListView = requireView().findViewById(R.id.mSettingsListView) as RecyclerView
         titleTextView = requireView().findViewById(R.id.titleTextView) as TextView
         progress = requireView().findViewById(R.id.progress) as ProgressBar
+        progressBarDialog = ProgressBarDialog(mContext!!)
+
         titleTextView.text = "Settings"
         linearLayoutManager = LinearLayoutManager(mContext)
         mSettingsListView.layoutManager = linearLayoutManager
@@ -708,7 +714,6 @@ class SettingsFragment : Fragment(){
                                         text_confirmpassword.getText()
                                             .toString().trim { it <= ' ' }
                                             .matches(PASSWORD_PATTERN3.toRegex())){
-                                        Log.e("password","correct")
                                     }else{
                                         Toast.makeText(context, "Password must contain atleast 8 characters", Toast.LENGTH_SHORT).show()
 
@@ -734,6 +739,7 @@ class SettingsFragment : Fragment(){
         dialog.show()
     }
     private fun callChangePasswordApi(currentPassword:String,newPassword:String,confirmPassword:String,dialog:Dialog) {
+        progressBarDialog!!.show()
         val token = sharedprefs.getaccesstoken(mContext)
         val changePasswordBody =
             ChangePasswordApiModel(newPassword, confirmPassword, currentPassword)
@@ -741,14 +747,18 @@ class SettingsFragment : Fragment(){
             ApiClient.getClient.changePassword(changePasswordBody, "Bearer " + token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                progressBarDialog!!.hide()
                 CommonFunctions.faliurepopup(mContext)
 
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                progressBarDialog!!.hide()
+
                 val responsedata = response.body()
                 if (responsedata != null) {
                     try {
+                        progressBarDialog!!.hide()
 
                         val jsonObject = JSONObject(responsedata.string())
                         if (jsonObject.has(jsonConstans.STATUS)) {

@@ -25,15 +25,19 @@
         android:layout_marginRight="10dp"
         android:layout_below="@+id/titleTextView"
         android:layout_above="@+id/versionText"/>
+
     <com.mobatia.bisad.manager.CustomFontSansProTextWhiteWithoutColor
         android:id="@+id/versionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:gravity="center"
-        android:text="V 3.0.9"
-        android:textColor="@color/grey"/>
+        android:text="V 3.1.3"
+        android:textColor="@color/grey" />
 
     <ProgressBar
         android:id="@+id/progress"

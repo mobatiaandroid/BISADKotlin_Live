@@ -32,7 +32,6 @@ RecyclerView.Adapter<AllergyContentsAdapter.ViewHolder>() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        Log.e("color",allergycontentlist[position].color_code)
         val circleDrawable =
             ContextCompat.getDrawable(mcontext, R.drawable.shape_circle)
         if (circleDrawable != null) {
