@@ -111,7 +111,7 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
             var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
             if (internetCheck) {
                 val intent = Intent(Intent.ACTION_SEND)
-                val recipients = arrayOf("communications@bisaddubai.com")
+                val recipients = arrayOf("comms@bisad.ae")
                 intent.putExtra(Intent.EXTRA_EMAIL, recipients)
                 intent.type = "text/html"
                 intent.setPackage("com.google.android.gm")

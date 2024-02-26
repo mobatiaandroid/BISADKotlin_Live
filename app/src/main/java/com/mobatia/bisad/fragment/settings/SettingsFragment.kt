@@ -182,7 +182,16 @@ class SettingsFragment : Fragment(){
                      }
                      else if (position==2)
                      {
-                         val deliveryAddress =
+
+                         val i = Intent(Intent.ACTION_SEND)
+                         i.type = "message/rfc822"
+                         i.putExtra(Intent.EXTRA_EMAIL, arrayOf("comms@bisad.ae"))
+                         try {
+                             startActivity(Intent.createChooser(i, "Send mail..."))
+                         } catch (ex: ActivityNotFoundException) {
+
+                         }
+                       /*  val deliveryAddress =
                              arrayOf("comms@bisad.ae")
                          val emailIntent = Intent(Intent.ACTION_SEND)
                          emailIntent.putExtra(Intent.EXTRA_EMAIL, deliveryAddress)
@@ -207,7 +216,7 @@ class SettingsFragment : Fragment(){
                                  mContext.startActivity(emailIntent)
                                  break
                              }
-                         }
+                         }*/
 //                         val to:String="communications@bisaddubai.com"
 //                         val email = Intent(Intent.ACTION_SEND)
 //                         email.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
@@ -247,7 +256,7 @@ class SettingsFragment : Fragment(){
                          else if (position==2)
                          {
                              val deliveryAddress =
-                                 arrayOf("communications@bisaddubai.com")
+                                 arrayOf("comms@bisad.ae")
                              val emailIntent = Intent(Intent.ACTION_SEND)
                              emailIntent.putExtra(Intent.EXTRA_EMAIL, deliveryAddress)
                              emailIntent.type = "text/plain"
@@ -324,7 +333,7 @@ class SettingsFragment : Fragment(){
                          {
                              val i = Intent(Intent.ACTION_SEND)
                              i.type = "message/rfc822"
-                             i.putExtra(Intent.EXTRA_EMAIL, arrayOf("communications@bisaddubai.com"))
+                             i.putExtra(Intent.EXTRA_EMAIL, arrayOf("comms@bisad.ae"))
                              try {
                                  startActivity(Intent.createChooser(i, "Send mail..."))
                              } catch (ex: ActivityNotFoundException) {
