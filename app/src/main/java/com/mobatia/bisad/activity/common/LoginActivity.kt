@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.MotionEvent
@@ -18,6 +19,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.messaging.FirebaseMessaging
+import com.mobatia.bisad.BuildConfig
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.constants.CommonFunctions
@@ -204,10 +206,15 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
     {
 
         progressDialog.visibility=View.VISIBLE
+        var devicename:String= (Build.MANUFACTURER
+                + " " + Build.MODEL + " " + Build.VERSION.RELEASE
+                + " " + Build.VERSION_CODES::class.java.fields[Build.VERSION.SDK_INT]
+            .name)
+        val version: String = BuildConfig.VERSION_NAME
         var androidID = Settings.Secure.getString(this.contentResolver,
             Settings.Secure.ANDROID_ID)
         val call: Call<ResponseBody> = ApiClient.getClient.login(
-            email,password,2,androidID, tokenM
+            email,password,2,androidID, tokenM,devicename,version
         )
 
         call.enqueue(object : Callback<ResponseBody> {

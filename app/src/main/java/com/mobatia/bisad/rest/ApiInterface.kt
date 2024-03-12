@@ -1,6 +1,7 @@
 package com.mobatia.bisad.rest
 
 import com.google.gson.JsonObject
+import com.google.gson.annotations.SerializedName
 import com.mobatia.bisad.activity.absence.model.*
 import com.mobatia.bisad.activity.canteen.model.TimeExceedModel
 import com.mobatia.bisad.activity.canteen.model.add_orders.CanteenItemsApiModel
@@ -165,7 +166,10 @@ interface ApiInterface {
         @Field("password") password: String,
         @Field("devicetype") devicetype: Int,
         @Field("deviceid") deviceid: String,
-        @Field("fcm_id") fcmid: String
+        @Field("fcm_id") fcmid: String,
+        @Field("device_name") device_name: String,
+        @Field("app_version") app_version: String
+
     ): Call<ResponseBody>
 
     /*************STUDENT_LIST****************/
