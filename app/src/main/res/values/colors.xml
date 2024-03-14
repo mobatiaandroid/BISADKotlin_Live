@@ -13,11 +13,12 @@
     <color name="present">#4BB5C4</color>
     <color name="rel_one">#4dc4cf</color>
     <color name="rel_two">#003156</color>
+    <color name="rel_three">#f0b4a0</color>
     <color name="rel_four">#9ddae6</color>
-    <color name="rel_five">#75298d</color>
-    <color name="rel_six">#f6874a</color>
+    <color name="rel_five">#1e96a5</color>
+    <color name="rel_six">#003057</color>
     <color name="rel_seven">#ffc20a</color>
-    <color name="rel_eight">#8f8c85</color>
+    <color name="rel_eight">#30cdd7</color>
     <color name="rel_nine">#ee2953</color>
     <color name="notificationr">#DD627F</color>
     <color name="parents_association_titleclr">#ee2953</color>
