@@ -388,7 +388,8 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                             mContext,
                             Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         checkpermissionCommunication()
-
+                        mFragment = CommunicationFragment()
+                        replaceFragmentsSelected(position)
 
                     } else {
                         mFragment = CommunicationFragment()

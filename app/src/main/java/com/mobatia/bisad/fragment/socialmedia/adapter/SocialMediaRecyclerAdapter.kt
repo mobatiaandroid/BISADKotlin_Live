@@ -31,32 +31,33 @@ internal class SocialMediaRecyclerAdapter (private var socialMediaArrayList: Lis
         holder.socialMediaText.text = movie.tab_type
         if (socialMediaArrayList.get(position).tab_type.equals("Youtube"))
         {
-            holder.cellLinear.setBackgroundResource(R.drawable.curve_you)
+            holder.cellLinear.setBackgroundResource(R.drawable.dailog_social_media)
             holder.socialMediaIcon.setImageResource(R.mipmap.you_new)
 
         }
         else if (socialMediaArrayList.get(position).tab_type.equals("Instagram"))
         {
-            holder.cellLinear.setBackgroundResource(R.drawable.curve_in)
+            holder.cellLinear.setBackgroundResource(R.drawable.dailog_social_media)
             holder.socialMediaIcon.setImageResource(R.mipmap.in_new)
         }
         else if (socialMediaArrayList.get(position).tab_type.equals("Facebook"))
         {
-            holder.cellLinear.setBackgroundResource(R.drawable.curve_fb)
+            holder.cellLinear.setBackgroundResource(R.drawable.dailog_social_media)
             holder.socialMediaIcon.setImageResource(R.mipmap.fa_new)
         }
-        else if (socialMediaArrayList.get(position).tab_type.equals("Twitter"))
+        else if (socialMediaArrayList.get(position).tab_type.equals("X"))
         {
-            holder.cellLinear.setBackgroundResource(R.drawable.curve_tw)
+            holder.cellLinear.setBackgroundResource(R.drawable.dailog_social_media)
             holder.socialMediaIcon.setImageResource(R.mipmap.tw_new)
+
         }
         else if (socialMediaArrayList.get(position).tab_type.equals("Linkedin"))
         {
-            holder.cellLinear.setBackgroundResource(R.drawable.curve_linked)
+            holder.cellLinear.setBackgroundResource(R.drawable.dailog_social_media)
             holder.socialMediaIcon.setImageResource(R.mipmap.linkedin)
         }
         else{
-            holder.cellLinear.setBackgroundResource(R.drawable.curve_blo)
+            holder.cellLinear.setBackgroundResource(R.drawable.dailog_social_media)
             holder.socialMediaIcon.setImageResource(R.mipmap.blo_new)
         }
     }

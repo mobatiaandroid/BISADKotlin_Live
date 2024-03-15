@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
     <LinearLayout
@@ -11,13 +12,37 @@
         android:layout_marginTop="15dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="@drawable/curve_tw">
-        <ImageView
-            android:id="@+id/socialMediaIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        android:background="@drawable/dailog_social_media">
+        <androidx.cardview.widget.CardView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="20dp"
-            android:src="@mipmap/you_new"/>
+            app:cardCornerRadius="100dp"
+            app:cardBackgroundColor="@color/white">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cardCornerRadius="100dp"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/socialMediaIcon"
+                    android:src="@mipmap/blo_new"
+                    android:scaleType="centerCrop"/>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.cardview.widget.CardView>
+        <!--<ImageView
+            android:id="@+id/socialMediaIcon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:background="@mipmap/transparent"
+            android:src="@mipmap/you_new"/>-->
         <com.mobatia.bisad.manager.CustomFontSansProTextWhite
             android:id="@+id/socialMediaText"
             android:layout_width="match_parent"

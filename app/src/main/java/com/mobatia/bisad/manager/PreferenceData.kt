@@ -105,7 +105,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_twotabid", "5")
+        return prefs.getString("button_twotabid", "4")
     }
 
     fun setbuttonthreetabid(context: Context, id: String?) {
@@ -126,7 +126,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_threetabid", "8")
+        return prefs.getString("button_threetabid", "15")
     }
 
     fun setbuttonfourtabid(context: Context, id: String?) {
@@ -147,7 +147,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_fourtabid", "9")
+        return prefs.getString("button_fourtabid", "16")
     }
 
     fun setbuttonfivetabid(context: Context, id: String?) {
@@ -168,7 +168,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_fivetabid", "3")
+        return prefs.getString("button_fivetabid", "2")
     }
 
     fun setbuttonsixtabid(context: Context, id: String?) {
@@ -189,7 +189,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_sixtabid", "4")
+        return prefs.getString("button_sixtabid", "3")
     }
 
     fun setbuttonseventabid(context: Context, id: String?) {
@@ -210,7 +210,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_seventabid", "2")
+        return prefs.getString("button_seventabid", "6")
     }
 
     fun setbuttoneighttabid(context: Context, id: String?) {
@@ -231,7 +231,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_eighttabid", "11")
+        return prefs.getString("button_eighttabid", "8")
     }
 
     fun setbuttonninetabid(context: Context, id: String?) {
@@ -252,7 +252,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_ninetabid", "6")
+        return prefs.getString("button_ninetabid", "17")
     }
 
 

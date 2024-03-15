@@ -15,6 +15,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Base64
+import android.util.Log
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -1287,6 +1288,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 
             }
         } else {
+            Log.e("tabid",intentTabId)
             when (intentTabId) {
 
 
@@ -1312,7 +1314,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     fragmentIntent(mFragment)
                 }
                 naisTabConstants.TAB_COMMUNICATION -> {
-
+Log.e("success","Sucess")
                     if (ActivityCompat.checkSelfPermission(
                             mContext,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -1320,7 +1322,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                             mContext,
                             Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         checkpermissionCommunication()
-
+                        mFragment = CommunicationFragment()
+                        fragmentIntent(mFragment)
 
                     } else {
                         mFragment = CommunicationFragment()
