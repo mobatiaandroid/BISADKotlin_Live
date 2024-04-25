@@ -87,6 +87,7 @@ class PreOrderActivity : AppCompatActivity(){
             callStudentListApi()
         }
         else{
+
             InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
         }
 

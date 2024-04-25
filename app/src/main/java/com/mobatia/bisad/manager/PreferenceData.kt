@@ -126,7 +126,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_threetabid", "15")
+        return prefs.getString("button_threetabid", "14")
     }
 
     fun setbuttonfourtabid(context: Context, id: String?) {
@@ -147,7 +147,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_fourtabid", "16")
+        return prefs.getString("button_fourtabid", "15")
     }
 
     fun setbuttonfivetabid(context: Context, id: String?) {
@@ -252,7 +252,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_ninetabid", "17")
+        return prefs.getString("button_ninetabid", "16")
     }
 
 
@@ -320,7 +320,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_threetextimage", "15")
+        return prefs.getString("button_threetextimage", "14")
     }
 
     fun setbuttonfourtextimage(context: Context, id: String?) {
@@ -341,7 +341,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_fourtextimage", "16")
+        return prefs.getString("button_fourtextimage", "15")
     }
 
     fun setbuttonfivetextimage(context: Context, id: String?) {
@@ -446,7 +446,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_ninetextimage", "17")
+        return prefs.getString("button_ninetextimage", "16")
     }
 
     fun setButtonOneGuestBg(context: Context, color: Int) {

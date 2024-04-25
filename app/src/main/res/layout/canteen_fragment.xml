@@ -85,11 +85,11 @@
             <LinearLayout
                 android:id="@+id/preOrderLinear"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="73dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="2dp"
                 android:layout_weight="1"
-                android:background="@drawable/sportsbtnorange"
+                android:background="@drawable/lunchbox_bg_border"
                 android:gravity="center"
                 android:orientation="vertical">
 

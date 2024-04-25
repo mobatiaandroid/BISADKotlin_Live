@@ -39,7 +39,7 @@
         <item>Teacher Contact</item>
         <item>Lunch Box</item>
         <item>Payment</item>
-        <item>Parent Meetings</item>
+       <!-- <item>Parent Meetings</item>-->
         <item>Social Media</item>
         <item>Reports</item>
         <!-- <item>Attendance</item>-->
@@ -67,7 +67,7 @@
         <item>@drawable/lunchbox_sideicon</item>
         <item>@drawable/payment</item>
 
-        <item>@drawable/parent_association</item>
+      <!--  <item>@drawable/parent_association</item>-->
         <item>@drawable/social</item>
         <item>@drawable/report_side</item>
         <!-- <item>@drawable/attendance_side</item>-->

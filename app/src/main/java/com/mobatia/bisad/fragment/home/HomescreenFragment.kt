@@ -326,7 +326,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         ignoreCase = true
                     )
                 ) {
-                    classNameConstants.STUDENT
+                    classNameConstants.STUDENT_INFORMATION
                 } else {
                     listitems[sharedprefs
                                         .getbuttononetextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
@@ -361,7 +361,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         ignoreCase = true
                     )
                 ) {
-                    classNameConstants.STUDENT
+                    classNameConstants.STUDENT_INFORMATION
                 } else {
                     listitems[sharedprefs
                                         .getbuttontwotextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
@@ -396,7 +396,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     ignoreCase = true
                 )
             ) {
-                classNameConstants.STUDENT
+                classNameConstants.STUDENT_INFORMATION
             } else {
                 listitems[sharedprefs
                                 .getbuttonthreetextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
@@ -433,7 +433,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     ignoreCase = true
                 )
             ) {
-                classNameConstants.STUDENT
+                classNameConstants.STUDENT_INFORMATION
             } else {
                 listitems[sharedprefs
                                 .getbuttonfourtextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
@@ -470,7 +470,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     ignoreCase = true
                 )
             ) {
-                classNameConstants.STUDENT
+                classNameConstants.STUDENT_INFORMATION
             } else {
                 listitems[sharedprefs
                                 .getbuttonfivetextimage(mContext)!!.toInt()].uppercase(Locale.getDefault())
@@ -503,7 +503,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     ignoreCase = true
                 )
             ) {
-                classNameConstants.STUDENT
+                classNameConstants.STUDENT_INFORMATION
             } else {
                 listitems[sharedprefs
                                 .getbuttonsixtextimage(mContext)!!.toInt()].uppercase(Locale.ROOT)
@@ -659,10 +659,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         Toast.makeText(mContext, "Item Already Exists !!!", Toast.LENGTH_SHORT)
                             .show()
                     }
-
                 }
-                //DragEvent.ACTION_DRAG_ENDED -> Log.d("DRAG", "END")
-
 
             }
 
@@ -673,6 +670,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 
         private fun getButtonDrawablesAndText(touchedView: View, sPosition: Int) {
             if (sPosition != 0) {
+                Log.e("touchview", touchedView.toString())
                 if (touchedView == relone) {
                     relImgone.setImageDrawable(mListImgArrays.getDrawable(sPosition))
                     val relstring: String
@@ -715,6 +713,9 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         relstring = listitems[sPosition].uppercase(Locale.getDefault())
                     }
                     relTxtthree.text = relstring
+                    Log.e("position",listitems[sPosition])
+                    Log.e("TAB_ID",TAB_ID)
+
                     getTabId(listitems[sPosition])
                     sharedprefs.setbuttonthreetabid(mContext, TAB_ID)
                     setBackgroundColorForView(listitems[sPosition], relthree)
@@ -790,6 +791,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         relstring = listitems[sPosition].uppercase(Locale.getDefault())
                     }
                     relTxteight.text = relstring
+                    Log.e("position",listitems[sPosition])
+                    Log.e("TAB_ID",TAB_ID)
                     getTabId(listitems[sPosition])
                     sharedprefs.setbuttoneighttabid(mContext, TAB_ID)
                     setBackgroundColorForView(listitems[sPosition], releight)
@@ -869,8 +872,10 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         }
 
         private fun getTabId(textdata: String) {
-            when {
+            Log.e("TA_Id",TAB_ID)
+            Log.e("textdata",textdata)
 
+            when {
                 textdata.equals(classNameConstants.STUDENT_INFORMATION) -> {
                     TAB_ID = naisTabConstants.TAB_STUDENT_INFORMATION
 
@@ -1130,6 +1135,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 
     private fun CHECKINTENTVALUE(intentTabId: String) {
         TAB_ID = intentTabId
+        Log.e("tabid",intentTabId)
         var mFragment: Fragment? = null
         if (sharedprefs.getUserCode(mContext).equals("")) {
             when (intentTabId) {

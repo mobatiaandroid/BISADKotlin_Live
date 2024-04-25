@@ -210,12 +210,12 @@
         <RelativeLayout
             android:id="@+id/myOrderRelative"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="73dp"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"
             android:layout_weight="50"
-            android:background="@drawable/sportsbtnorange"
+            android:background="@drawable/lunchbox_bg_border"
             android:gravity="center">
 
             <ImageView
