@@ -1,0 +1,249 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/includeRel"
+        layout="@layout/header_bar_fragment" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/includeRel"
+        android:orientation="vertical"
+        android:weightSum="100">
+
+        <ImageView
+            android:id="@+id/bannerImagePager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            android:background="@drawable/default_banner"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="70">
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/sendEmail"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/mailiconpe"
+                        android:visibility="gone" />
+
+                    <RelativeLayout
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:visibility="visible"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/sendEmail"
+                        android:layout_height="wrap_content">
+
+
+                        <com.mobatia.naisapp.manager.CustomFontSansProTextBlack
+                            android:id="@+id/descriptionTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:text="Description"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:visibility="gone" />
+
+                    </RelativeLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/studeLinear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_below="@+id/title"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:id="@+id/registerSchoolTripLinear"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_margin="2dp"
+                            android:gravity="center"
+                            android:background="@drawable/sportsbtnorange"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/plane" />
+
+                            <com.mobatia.naisapp.manager.CustomFontSansProTextWhite
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Register Trip" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            android:weightSum="3"
+                            app:layout_constraintTop_toBottomOf="@+id/registerSchoolTripLinear">
+
+
+
+                            <LinearLayout
+                                android:id="@+id/paymentLinear"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1.5"
+                                android:background="@drawable/sportsbtnblue"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                app:layout_constraintTop_toBottomOf="@+id/preOrderLinear">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/payment_icon" />
+
+                                <com.mobatia.naisapp.manager.CustomFontSansProTextWhite
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Payment" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lostCardLinear"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0"
+                                android:background="@drawable/sportsbtnred"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                app:layout_constraintTop_toBottomOf="@+id/preOrderLinear">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/lostcard" />
+
+                                <com.mobatia.naisapp.manager.CustomFontSansProTextWhite
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Lost ID Card" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/informationLinear"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1.5"
+                                android:background="@drawable/sportsbtngreen"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                app:layout_constraintTop_toBottomOf="@+id/preOrderLinear">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/information_cca" />
+
+                                <com.mobatia.naisapp.manager.CustomFontSansProTextWhite
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Information" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:id="@+id/staffLinear"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:weightSum="2"
+                        android:orientation="horizontal"
+                        android:layout_below="@+id/title"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:id="@+id/StaffpreOrderLinear"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="2dp"
+                            android:gravity="center"
+                            android:background="@drawable/sportsbtnorange">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/lunchbox_icon" />
+
+                            <com.mobatia.naisapp.manager.CustomFontSansProTextWhite
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Pre-Order"
+                                android:textColor="@color/white"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/StaffinformationLinear"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="2dp"
+                            android:gravity="center"
+                            android:background="@drawable/sportsbtngreen">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/information_cca"/>
+
+                            <com.mobatia.naisapp.manager.CustomFontSansProTextWhite
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:text="Information"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </ScrollView>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
