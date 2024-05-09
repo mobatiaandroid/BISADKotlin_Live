@@ -738,4 +738,13 @@ interface ApiInterface {
         @Header("Authorization") token:String
     ): Call<SendStaffEmailModel>
 
+    //Trips module
+
+    @POST("trips/banner")
+    @Headers("Content-Type: application/json")
+    fun tripsBanner(
+        @Body  sendEmailMail: CanteenSendEmailApiModel,
+        @Header("Authorization") token:String
+    ): Call<SendStaffEmailModel>
+
 }
