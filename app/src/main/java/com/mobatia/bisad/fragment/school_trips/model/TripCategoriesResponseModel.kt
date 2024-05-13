@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 class TripCategoriesResponseModel {
     @SerializedName("responsecode")
-    private var responseCode: String? = null
+     var responseCode: String? = null
 
     @SerializedName("response")
-    private var responseData: ResponseData? = null
+     var responseData: ResponseData? = null
 
     fun getResponseCode(): String? {
         return responseCode

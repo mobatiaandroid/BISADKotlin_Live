@@ -26,6 +26,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.gson.JsonObject
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.ProgressBarDialog
@@ -36,6 +37,8 @@ import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.canteen.model.CanteenSendEmailApiModel
+import com.mobatia.bisad.fragment.home.sharedprefs
+import com.mobatia.bisad.fragment.school_trips.model.TripBannerResponse
 import com.mobatia.bisad.fragment.school_trips.model.TripsBannerResponseModel
 import com.mobatia.bisad.fragment.staff_directory.model.SendStaffEmailModel
 import com.mobatia.bisad.manager.PreferenceData
@@ -94,7 +97,7 @@ class SchoolTripsFragment :Fragment(),AdapterView.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mContext = activity
+        mContext = requireActivity()
         val mTitleTextView = mRootView!!.findViewById<View>(R.id.titleTextView) as TextView
         mTitleTextView.text = "Trips"
        progressDialogP =
@@ -379,8 +382,55 @@ class SchoolTripsFragment :Fragment(),AdapterView.OnItemClickListener {
 
     private fun callTripBanner() {
        progressDialogP.show()
+        val token = sharedprefs.getaccesstoken(mContext)
+        val call: Call<TripBannerResponse> =
+            ApiClient.getClient.tripsBanner( "Bearer " + token)
+        call.enqueue(object : Callback<TripBannerResponse> {
+            override fun onFailure(call: Call<TripBannerResponse>, t: Throwable) {
 
-        val service: APIInterface = APIClient.getRetrofitInstance().create(APIInterface::class.java)
+
+                CommonFunctions.faliurepopup(mContext)
+
+            }
+
+            override fun onResponse(call: Call<TripBannerResponse>, response: Response<TripBannerResponse>) {
+                val responsedata = response.body()
+                val apiResponse: TripBannerResponse = response.body()!!
+                val response_code: Int? = response.body()!!.status
+                if (response_code == 100) {
+
+
+
+                        progressDialogP.hide()
+                        val bannerImage: String = apiResponse.responseArray!!.data!!.banner_image!!
+                        description = apiResponse.responseArray!!.data!!.description!!
+                        contactEmail = apiResponse.responseArray!!.data!!.contact_email!!
+
+                    if (bannerImage != "") {
+                        Glide.with(mContext).load(CommonFunctions.replace(bannerImage))
+                            .centerCrop().placeholder(R.drawable.default_banner)
+                            .into(bannerImagePager)
+                    } else {
+                        bannerImagePager.setBackgroundResource(R.drawable.default_banner)
+                    }
+                    if (!response.body()!!.responseArray!!.data!!.description.equals("")) {
+                        descriptionTitle.visibility = View.VISIBLE
+                        descriptionTitle.text = response.body()!!.responseArray!!.data!!.description
+                    }
+                    else descriptionTitle.visibility = View.GONE
+                    if (!response.body()!!.responseArray!!.data!!.contact_email.equals("")) {
+                        sendEmail.visibility = View.VISIBLE
+                        contactEmail = response.body()!!.responseArray!!.data!!.contact_email!!
+                    } else sendEmail.visibility = View.GONE
+
+
+                }
+
+            }
+
+        })
+
+       /* val service: APIInterface = APIClient.getRetrofitInstance().create(APIInterface::class.java)
         val call: Call<TripsBannerResponseModel> =
             service.tripBanner("Bearer " + PreferenceManager.getAccessToken(mContext))
         call.enqueue(object : Callback<TripsBannerResponseModel?> {
@@ -430,9 +480,9 @@ class SchoolTripsFragment :Fragment(),AdapterView.OnItemClickListener {
                         })
                         callTripBanner()
                     } else {
-                        /*CustomDialog dialog = new CustomDialog(mContext, getResources().getString(R.string.common_error)
+                        *//*CustomDialog dialog = new CustomDialog(mContext, getResources().getString(R.string.common_error)
 								, getResources().getString(R.string.ok));
-						dialog.show();*/
+						dialog.show();*//*
                        progressDialogP.hide()
                         AppUtils.showDialogAlertDismiss(
                             mContext as Activity?,
@@ -464,7 +514,7 @@ class SchoolTripsFragment :Fragment(),AdapterView.OnItemClickListener {
                     R.drawable.round
                 )
             }
-        })
+        })*/
     }
 }
 

@@ -1,7 +1,5 @@
 package com.mobatia.bisad.rest
 
-import com.google.gson.JsonObject
-import com.google.gson.annotations.SerializedName
 import com.mobatia.bisad.activity.absence.model.*
 import com.mobatia.bisad.activity.canteen.model.TimeExceedModel
 import com.mobatia.bisad.activity.canteen.model.add_orders.CanteenItemsApiModel
@@ -89,6 +87,8 @@ import com.mobatia.bisad.fragment.report_absence.model.AbsenceListModel
 import com.mobatia.bisad.fragment.report_absence.model.PickupModel
 import com.mobatia.bisad.fragment.reports.model.ReportApiModel
 import com.mobatia.bisad.fragment.reports.model.ReportListModel
+import com.mobatia.bisad.fragment.school_trips.model.TripBannerResponse
+import com.mobatia.bisad.fragment.school_trips.model.TripCategoriesResponseModel
 import com.mobatia.bisad.fragment.settings.model.ChangePasswordApiModel
 import com.mobatia.bisad.fragment.settings.model.DeleteAccountModel
 import com.mobatia.bisad.fragment.settings.model.TriggerUSer
@@ -106,7 +106,6 @@ import com.mobatia.bisad.fragment.teacher_contact.model.StaffListModel
 import com.mobatia.bisad.fragment.time_table.model.apimodel.TimeTableApiDataModel
 import com.mobatia.bisad.fragment.time_table.model.apimodel.TimeTableApiModel
 import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -740,11 +739,14 @@ interface ApiInterface {
 
     //Trips module
 
-    @POST("trips/banner")
+    @GET("trip_banner")
     @Headers("Content-Type: application/json")
     fun tripsBanner(
-        @Body  sendEmailMail: CanteenSendEmailApiModel,
         @Header("Authorization") token:String
-    ): Call<SendStaffEmailModel>
+    ): Call<TripBannerResponse>
+
+    @GET("Api-V1/trip_categories")
+    @Headers("Content-Type: application/json")
+    fun tripCategories(@Header("Authorization") token: String): Call<TripCategoriesResponseModel>
 
 }
