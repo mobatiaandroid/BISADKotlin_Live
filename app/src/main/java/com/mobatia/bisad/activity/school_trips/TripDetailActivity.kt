@@ -43,6 +43,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.JsonObject
+import com.mobatia.bisad.R
 import okhttp3.RequestBody
 import payment.sdk.android.PaymentClient
 import payment.sdk.android.cardpayment.CardPaymentData
@@ -195,7 +196,7 @@ class TripDetailActivity : AppCompatActivity() {
         initialiseUI()
     }
     private fun getTripDetails(tripID: String) {
-        TripDetailActivity.progressDialogP.show()
+        progressDialogP.show()
         val paramObject = JsonObject()
         // Log.e("tripID name", tripID);
         paramObject.addProperty("student_id", PreferenceManager.getStudIdForCCA(context))

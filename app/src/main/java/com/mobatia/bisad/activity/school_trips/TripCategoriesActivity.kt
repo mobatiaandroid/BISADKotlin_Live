@@ -52,8 +52,8 @@ class TripCategoriesActivity : AppCompatActivity() {
     lateinit var text_dialog: TextView
     private lateinit var progressDialogP: ProgressBarDialog
     private val progressDialog: ProgressBar? = null
-    var relativeHeader: RelativeLayout? = null
-    var headermanager: HeaderManagerNoColorSpace? = null
+    lateinit var relativeHeader: RelativeLayout
+    lateinit var headermanager: HeaderManagerNoColorSpace
     lateinit var bannerImageView: ImageView
     lateinit var descriptionTextView: TextView
     lateinit var sendEmailImageView: ImageView
@@ -95,7 +95,7 @@ class TripCategoriesActivity : AppCompatActivity() {
         if (extras != null) {
             tab_type = extras!!.getString("tab_type")
         }
-       progressDialogP = ProgressBarDialog(context, R.drawable.spinner)
+       progressDialogP = ProgressBarDialog(context)
         bannerImageView = findViewById<ImageView>(R.id.bannerImage)
         descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
         sendEmailImageView = findViewById<ImageView>(R.id.sendEmailImageView)
@@ -103,8 +103,8 @@ class TripCategoriesActivity : AppCompatActivity() {
         headermanager = HeaderManagerNoColorSpace()
         headermanager!!.getHeader(relativeHeader, 6)
         back = headermanager.getLeftButton()
-        btn_history = headermanager.getRightHistoryImage()
-        btn_history!!.visibility = View.INVISIBLE
+       // btn_history = headermanager.getRightHistoryImage()
+      //  btn_history!!.visibility = View.INVISIBLE
         categoryListRecyclerView = findViewById<RecyclerView>(R.id.categoryListRecycler)
         categoryListRecyclerView.setHasFixedSize(true)
         val spacing = 5 // 50px
@@ -119,7 +119,7 @@ class TripCategoriesActivity : AppCompatActivity() {
             CommonFunctions.hideKeyBoard(context)
             finish()
         }
-        home = headermanager.getLogoButton()
+        home = headermanager.getLogoButton()!!
         home!!.setOnClickListener {
             val `in` = Intent(
                 context,

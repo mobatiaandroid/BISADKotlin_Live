@@ -29,6 +29,7 @@ class HeaderManagerNoColorSpace : Serializable{
     lateinit var  mLeftImage: ImageView
     lateinit var  mRight: ImageView
     lateinit var  mLeft: ImageView
+    lateinit var  logoClickImgView: ImageView
     fun HeaderManagerNoColorSpace(context:Activity,heading1 :String)
     {
        this.context=context
@@ -44,9 +45,9 @@ class HeaderManagerNoColorSpace : Serializable{
     {
       v.visibility=View.INVISIBLE
     }
-    fun getHeader(headerHolder: RelativeLayout,type:Int,getHeading:Boolean) :Int
+    fun getHeader(headerHolder: RelativeLayout,type:Int) :Int
     {
-        initializeUI(getHeading, type)
+        initializeUI(type)
         relativeParams = LayoutParams(
             LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT
         )
@@ -86,6 +87,8 @@ class HeaderManagerNoColorSpace : Serializable{
             mHeading1 = headerView.findViewById<View>(R.id.heading) as TextView
             mHeading1.visibility = View.GONE
         }
+        logoClickImgView = headerView.findViewById<View>(R.id.logoClickImgView) as ImageView
+
         mHeading1 = headerView.findViewById<View>(R.id.heading) as TextView
         mHeading1.visibility = View.GONE
         mHeading1.text = heading1
@@ -99,6 +102,9 @@ class HeaderManagerNoColorSpace : Serializable{
    {
        mHeading1.text = title
    }
+    fun getLogoButton(): ImageView? {
+        return logoClickImgView
+    }
   fun getLeftButton():ImageView{
       return mLeft
   }
