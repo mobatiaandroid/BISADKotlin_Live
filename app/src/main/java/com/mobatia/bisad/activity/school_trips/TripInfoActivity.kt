@@ -1,6 +1,5 @@
 package com.mobatia.bisad.activity.school_trips
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,82 +11,90 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
-import org.json.JSONException
-import org.json.JSONObject
+import com.mobatia.bisad.R
+import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.activity.payment.adapter.PaymentInfo_adapter
+import com.mobatia.bisad.activity.payment.model.InfoPaymentModel
+import com.mobatia.bisad.constants.CommonFunctions
+import com.mobatia.bisad.constants.InternetCheckClass
+import com.mobatia.bisad.constants.ProgressBarDialog
+import com.mobatia.bisad.manager.HeaderManager
+import com.mobatia.bisad.manager.HeaderManagerNoColorSpace
+import com.mobatia.bisad.manager.PreferenceData
+import com.mobatia.bisad.recyclermanager.DividerItemDecoration
+import com.mobatia.bisad.rest.ApiClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class TripInfoActivity : AppCompatActivity() {
-    private var mContext: Context? = null
-    private val progressDialogP: ProgressBarDialog? = null
+     lateinit var mContext: Context
+    lateinit var  progressDialogP: ProgressBarDialog
     var extras: Bundle? = null
     var tab_type: String? = null
-    var relativeHeader: RelativeLayout? = null
-    var mStudentSpinner: LinearLayout? = null
+    lateinit var relativeHeader: RelativeLayout
+    lateinit var mStudentSpinner: LinearLayout
     var studImg: ImageView? = null
     var studName: TextView? = null
-    var mnewsLetterListView: RecyclerView? = null
-    var studentsModelArrayList: ArrayList<TeamModel>? = null
-    var textViewYear: TextView? = null
+    lateinit var mnewsLetterListView: RecyclerView
+    lateinit var textViewYear: TextView
     var stud_id = ""
     var stud_class = ""
     var stud_name = ""
     var stud_img = ""
     var section = ""
-    private var mListViewArray: ArrayList<CanteenInfoModel>? = null
-    var customStaffDirectoryAdapter: CanteenInfoRecyclerAdapter? = null
-    var headermanager: HeaderManager? = null
+   // private var mListViewArray: ArrayList<CanteenInfoModel>? = null
+    var customStaffDirectoryAdapter: PaymentInfo_adapter? = null
+  //  lateinit var headermanager: HeaderManager
     var back: ImageView? = null
     var home: ImageView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_information)
+        setContentView(R.layout.canteen_information)
         mContext = this
         initUI()
-        if (AppUtils.checkInternet(mContext)) {
+
+        var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
+        if (internetCheck)
+        {
             getList()
-        } else {
-            AppUtils.showDialogAlertDismiss(
-                mContext as Activity?,
-                "Network Error",
-                getString(R.string.no_internet),
-                R.drawable.nonetworkicon,
-                R.drawable.roundred
-            )
         }
+        else{
+            InternetCheckClass.showSuccessInternetAlert(mContext)
+        }
+
+
     }
     private fun initUI() {
         extras = intent.extras
         if (extras != null) {
             tab_type = extras!!.getString("tab_type")
         }
-        TripInfoActivity.progressDialogP = ProgressBarDialog(mContext, R.drawable.spinner)
-        relativeHeader = findViewById<View>(R.id.relativeHeader) as RelativeLayout
-        mStudentSpinner = findViewById<View>(R.id.studentSpinner) as LinearLayout
-        studImg = findViewById<View>(R.id.imagicon) as ImageView
-        studName = findViewById<View>(R.id.studentName) as TextView
-        textViewYear = findViewById<View>(R.id.textViewYear) as TextView
-        mnewsLetterListView = findViewById<View>(R.id.mnewsLetterListView) as RecyclerView
+        progressDialogP = ProgressBarDialog(mContext)
+        home = findViewById(R.id.logoclick)
+        back = findViewById(R.id.back)
+
+        textViewYear = findViewById<View>(R.id.textViewtitle) as TextView
+        mnewsLetterListView = findViewById<View>(R.id.canteen_info_list) as RecyclerView
         mnewsLetterListView!!.setHasFixedSize(true)
-        mnewsLetterListView!!.addItemDecoration(DividerItemDecoration(resources.getDrawable(R.drawable.list_divider_teal)))
-        headermanager = HeaderManager(this@TripInfoActivity, tab_type)
-        headermanager.getHeader(relativeHeader, 0)
-        back = headermanager.getLeftButton()
-        headermanager.setButtonLeftSelector(
+        mnewsLetterListView!!.addItemDecoration(DividerItemDecoration(resources.getDrawable(R.drawable.list_divider)))
+      //  headermanager = HeaderManager(this@TripInfoActivity, "Trip Information")
+      //  headermanager.getHeader(relativeHeader, 0)
+      //  back = headermanager.getLeftButton()
+    /*    headermanager.setButtonLeftSelector(
             R.drawable.back,
             R.drawable.back
-        )
+        )*/
+        textViewYear.setText("Trip Information")
         back!!.setOnClickListener {
-            AppUtils.hideKeyBoard(mContext)
+            CommonFunctions.hideKeyBoard(mContext)
             finish()
         }
-        home = headermanager.getLogoButton()
+      //  home = headermanager.getLogoButton()
         home!!.setOnClickListener {
             val `in` = Intent(
                 mContext,
-                HomeListAppCompatActivity::class.java
+                HomeActivity::class.java
             )
             `in`.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(`in`)
@@ -95,10 +102,10 @@ class TripInfoActivity : AppCompatActivity() {
         val llm = LinearLayoutManager(this)
         llm.orientation = LinearLayoutManager.VERTICAL
         mnewsLetterListView!!.layoutManager = llm
-        mnewsLetterListView!!.addOnItemTouchListener(
+      /*  mnewsLetterListView!!.addOnItemTouchListener(
             RecyclerItemListener(
                 applicationContext, mnewsLetterListView,
-                object : RecyclerTouchListener() {
+                object : RecyclerItemListener.RecyclerTouchListener() {
                     fun onClickItem(v: View?, position: Int) {
 // checking
                         if (mListViewArray!![position].getFile().endsWith(".pdf")) {
@@ -121,15 +128,51 @@ class TripInfoActivity : AppCompatActivity() {
 
                     fun onLongClickItem(v: View?, position: Int) {}
                 })
-        )
+        )*/
     }
 
     fun getList() {
-        TripInfoActivity.progressDialogP.show()
-        mListViewArray = java.util.ArrayList<CanteenInfoModel>()
-        val service: APIInterface = APIClient.getRetrofitInstance().create(APIInterface::class.java)
+        progressDialogP.show()
+      //  mListViewArray = java.util.ArrayList<CanteenInfoModel>()
+
+        val call: Call<InfoPaymentModel> = ApiClient.getClient.tripInformation(
+            "Bearer "+PreferenceData().getaccesstoken(mContext))
+        call.enqueue(object : Callback<InfoPaymentModel> {
+            override fun onFailure(call: Call<InfoPaymentModel>, t: Throwable) {
+                progressDialogP.hide()
+                CommonFunctions.faliurepopup(mContext)
+            }
+            override fun onResponse(call: Call<InfoPaymentModel>, response: Response<InfoPaymentModel>) {
+                val responsedata = response.body()
+                progressDialogP.hide()
+                if (responsedata!!.status==100) {
+
+                    if(response.body()!!.responseArray.information.size>0)
+                    {
+                        mnewsLetterListView.layoutManager = LinearLayoutManager(mContext)
+                        mnewsLetterListView.adapter = PaymentInfo_adapter(response.body()!!.responseArray.information, mContext)
+                    }
+
+
+
+                }else if (response.body()!!.status == 116) {
+
+                } else {
+                    if (response.body()!!.status == 103) {
+
+                        //validation check error
+                    } else {
+                        //check status code checks
+                        InternetCheckClass.checkApiStatusError(response.body()!!.status, mContext)
+                    }
+                }
+            }
+
+        })
+
+        /*val service: APIInterface = APIClient.getRetrofitInstance().create(APIInterface::class.java)
         val call: Call<CanteenInfoResponseModel> = service.tripInfo(
-            "Bearer " + PreferenceManager.getAccessToken(mContext)
+            "Bearer " +
         )
         call.enqueue(object : Callback<CanteenInfoResponseModel> {
             override fun onResponse(
@@ -207,7 +250,7 @@ class TripInfoActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<CanteenInfoResponseModel>, t: Throwable) {
                 TripInfoActivity.progressDialogP.hide()
-                AppUtils.showDialogAlertDismiss(
+                CommonFunctions.showDialogAlertDismiss(
                     mContext as Activity?,
                     "Alert",
                     getString(R.string.common_error),
@@ -215,6 +258,6 @@ class TripInfoActivity : AppCompatActivity() {
                     R.drawable.round
                 )
             }
-        })
+        })*/
     }
 }

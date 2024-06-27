@@ -26,6 +26,10 @@
     <string name="add_to_wallet">Add to Wallet</string>
     <string name="enter_amount">Enter Amount</string>
 
+    <string name="common_error">Cannot continue. Please try again later</string>
+    <string name="student_not_available">No Student Data Available</string>
+
+
     <!--HomeScreen Items-->
 
     <string-array name="navigation_items_guest">

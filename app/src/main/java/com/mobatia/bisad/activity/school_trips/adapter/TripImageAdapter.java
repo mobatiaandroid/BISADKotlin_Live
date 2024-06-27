@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.mobatia.bisad.R;
+import com.mobatia.bisad.constants.CommonFunctions;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -49,7 +52,7 @@ public class TripImageAdapter extends RecyclerView.Adapter<TripImageAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         if (!tripList.get(position).equalsIgnoreCase("")) {
-            Picasso.with(context).load(AppUtils.replace(tripList.get(position))).fit().centerCrop()
+            Picasso.get().load(CommonFunctions.Companion.replace(tripList.get(position))).fit().centerCrop()
                     .into(holder.photoImageView, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
@@ -57,9 +60,11 @@ public class TripImageAdapter extends RecyclerView.Adapter<TripImageAdapter.MyVi
                         }
 
                         @Override
-                        public void onError() {
+                        public void onError(Exception e) {
 
                         }
+
+
                     });
         }
 

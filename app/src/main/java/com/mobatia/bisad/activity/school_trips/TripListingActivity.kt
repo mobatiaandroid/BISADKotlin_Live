@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.Button
@@ -21,80 +20,104 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.gson.JsonObject
+import com.mobatia.bisad.R
+import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.activity.school_trips.adapter.TripListAdapter
+import com.mobatia.bisad.activity.school_trips.model.TripListResponseModel
+import com.mobatia.bisad.constants.CommonFunctions
+import com.mobatia.bisad.constants.InternetCheckClass
+import com.mobatia.bisad.constants.ProgressBarDialog
+
+import com.mobatia.bisad.fragment.student_information.adapter.StudentListAdapter
+import com.mobatia.bisad.fragment.student_information.model.StudentList
+import com.mobatia.bisad.fragment.student_information.model.StudentListModel
+import com.mobatia.bisad.manager.HeaderManager
+import com.mobatia.bisad.manager.HeaderManagerNoColorSpace
+import com.mobatia.bisad.manager.ItemOffsetDecoration
+import com.mobatia.bisad.manager.PreferenceData
+import com.mobatia.bisad.recyclermanager.OnItemClickListener
+import com.mobatia.bisad.recyclermanager.addOnItemClickListener
+import com.mobatia.bisad.recyclermanager.DividerItemDecoration
+
+import com.mobatia.bisad.rest.ApiClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class TripListingActivity : AppCompatActivity() {
-    var context: Context? = null
-    var extras: Bundle? = null
+    lateinit var context: Context
+    lateinit var extras: Bundle
     var tab_type: String? = null
-    private val progressDialogP: ProgressBarDialog? = null
-    var relativeHeader: RelativeLayout? = null
-    var headermanager: HeaderManager? = null
-    var bannerImageView: ImageView? = null
-    var descriptionTextView: TextView? = null
-    var sendEmailImageView: ImageView? = null
-    var tripListRecycler: RecyclerView? = null
-    var recyclerViewLayoutManager: GridLayoutManager? = null
+    private lateinit var progressDialogP: ProgressBarDialog
+    lateinit var relativeHeader: RelativeLayout
+    lateinit var headermanager: HeaderManager
+    lateinit var bannerImageView: ImageView
+    lateinit var descriptionTextView: TextView
+    lateinit var sendEmailImageView: ImageView
+    lateinit var tripListRecycler: RecyclerView
+    lateinit var recyclerViewLayoutManager: GridLayoutManager
     var categoryID = ""
     var categoryName = ""
-    var mStudentSpinner: LinearLayout? = null
+    lateinit var mStudentSpinner: LinearLayout
+    lateinit var studentArrayList :ArrayList<StudentList>
 
 
     var categoriesList: ArrayList<TripListResponseModel.TripItem>? = null
     var tripsCategoryAdapter: TripListAdapter? = null
     var contactEmail = ""
-    var back: ImageView? =
-        null
-    var btn_history:android.widget.ImageView? = null
-    var home:android.widget.ImageView? = null
+    lateinit var back: ImageView
+    lateinit var btn_history:android.widget.ImageView
+    lateinit var home:android.widget.ImageView
 
     //    LinearLayout mStudentSpinner;
-    var studentName: TextView? = null
-    var studImg: ImageView? = null
+    lateinit var studentName: TextView
+    lateinit var studImg: ImageView
     var stud_id: String? = null
     var studClass = ""
     var orderId = ""
     var stud_img = ""
-    var studentsModelArrayList: ArrayList<StudentDataModel.DataItem> =
-        ArrayList<StudentDataModel.DataItem>()
+    lateinit var Student_name : String
     var studentList = ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_trip_details)
         context = this
         initialiseUI()
-        if (AppUtils.checkInternet(context)) {
+
+        var internetCheck = InternetCheckClass.isInternetAvailable(context)
+        if (internetCheck)
+        {
             getStudentsListAPI()
-        } else {
-            AppUtils.showDialogAlertDismiss(
-                context as Activity?,
-                "Network Error",
-                getString(R.string.no_internet),
-                R.drawable.nonetworkicon,
-                R.drawable.roundred
-            )
         }
+        else{
+            InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
+        }
+
     }
 
     private fun initialiseUI() {
-        extras = intent.extras
+        extras = intent.extras!!
         if (extras != null) {
             categoryID = extras!!.getString("trip_category_id")!!
             categoryName = extras!!.getString("trip_category_name")!!
         }
-        TripListingActivity.progressDialogP = ProgressBarDialog(context, R.drawable.spinner)
-        bannerImageView = findViewById<ImageView>(R.id.bannerImage)
-        descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
-        sendEmailImageView = findViewById<ImageView>(R.id.sendEmailImageView)
+        progressDialogP = ProgressBarDialog(context)
+      //  bannerImageView = findViewById<ImageView>(R.id.bannerImage)
+       // descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
+       // sendEmailImageView = findViewById<ImageView>(R.id.sendEmailImageView)
         relativeHeader = findViewById<RelativeLayout>(R.id.relativeHeader)
-        headermanager = HeaderManager(this@TripListingActivity, categoryName)
+        headermanager = HeaderManager(
+            this@TripListingActivity,
+            "Register Trip"
+        )
         headermanager.getHeader(relativeHeader, 6)
         back = headermanager.getLeftButton()
-        btn_history = headermanager.getRightHistoryImage()
-        btn_history!!.visibility = View.INVISIBLE
+      //  btn_history = headermanager.getRightHistoryImage()
+       // btn_history!!.visibility = View.INVISIBLE
         tripListRecycler = findViewById<RecyclerView>(R.id.tripListRecycler)
         tripListRecycler.setHasFixedSize(true)
         val spacing = 5 // 50px
@@ -107,27 +130,28 @@ class TripListingActivity : AppCompatActivity() {
         tripListRecycler.setLayoutManager(recyclerViewLayoutManager)
         headermanager.setButtonLeftSelector(R.drawable.back, R.drawable.back)
         back!!.setOnClickListener {
-            AppUtils.hideKeyBoard(context)
+            CommonFunctions.hideKeyBoard(context)
             finish()
         }
-        home = headermanager.getLogoButton()
+        home = headermanager.getLogoButton()!!
         home!!.setOnClickListener {
             val `in` = Intent(
                 context,
-                HomeListAppCompatActivity::class.java
+                HomeActivity::class.java
             )
             `in`.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(`in`)
         }
         mStudentSpinner = findViewById<LinearLayout>(R.id.studentSpinner)
-        TripListingActivity.studentName = findViewById<TextView>(R.id.studentName)
-        TripListingActivity.studentName = findViewById<TextView>(R.id.studentName)
-        TripListingActivity.studImg = findViewById<ImageView>(R.id.imagicon)
+       // studentName = findViewById<TextView>(R.id.studentName)
+        studentName = findViewById<TextView>(R.id.studentName)
+        studImg = findViewById<ImageView>(R.id.imagicon)
         mStudentSpinner.setOnClickListener(View.OnClickListener {
-            if (TripListingActivity.studentsModelArrayList.size > 0) {
-                showStudentSelection(TripListingActivity.studentsModelArrayList)
+            if (studentArrayList.size > 0) {
+                showStudentList(context,studentArrayList)
+               // showStudentSelection(studentArrayList)
             } else {
-                AppUtils.showDialogAlertDismiss(
+                CommonFunctions.showDialogAlertDismiss(
                     context as Activity?,
                     "Alert",
                     getString(R.string.student_not_available),
@@ -136,117 +160,87 @@ class TripListingActivity : AppCompatActivity() {
                 )
             }
         })
+
+        var internetCheck = InternetCheckClass.isInternetAvailable(context)
+        if (internetCheck)
+        {
+            getStudentsListAPI()
+        }
+        else{
+            InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
+        }
     }
 
     private fun getStudentsListAPI() {
-        TripListingActivity.progressDialogP.show()
-        val service: APIInterface = APIClient.getRetrofitInstance().create(APIInterface::class.java)
-        val paramObject = JsonObject()
-        paramObject.addProperty("portal", "1")
-        val call: Call<StudentDataModel> = service.studentListcanpreorder(
-            "Bearer " + PreferenceManager.getAccessToken(context),
-            paramObject
-        )
-        call.enqueue(object : Callback<StudentDataModel?> {
-            override fun onResponse(
-                call: Call<StudentDataModel?>,
-                response: Response<StudentDataModel?>
-            ) {
-                if (response.body() != null) {
-                    val response_code: String = response.body().getResponsecode()
-                    val statusCode: String = response.body().getResponse().getStatuscode()
-                    if (response_code.equals("200", ignoreCase = true)) {
-                        if (statusCode.equals("303", ignoreCase = true)) {
-                            TripListingActivity.progressDialogP.hide()
-                            TripListingActivity.studentsModelArrayList.clear()
-                            studentList.clear()
-                            if (response.body().getResponse().getData().size() > 0) {
-                                for (dataItem in response.body().getResponse().getData()) {
-                                    val item: StudentDataModel.DataItem = DataItem()
-                                    item.setId(dataItem.getId())
-                                    item.setName(dataItem.getName())
-                                    item.setClassName(dataItem.getClassName())
-                                    item.setPhoto(dataItem.getPhoto())
-                                    item.setSection(dataItem.getSection())
-                                    TripListingActivity.studentsModelArrayList.add(item)
-                                }
-                                TripListingActivity.studentName.setText(
-                                    TripListingActivity.studentsModelArrayList.get(
-                                        0
-                                    ).getName()
-                                )
-                                stud_id = TripListingActivity.studentsModelArrayList.get(0).getId()
-                                //                                  PreferenceManager.setLeaveStudentId(mContext, stud_id);
-//                                  PreferenceManager.setLeaveStudentName(mContext, studentsModelArrayList.get(0).getmName());
-                                studClass =
-                                    TripListingActivity.studentsModelArrayList.get(0).getClassName()
-                                TripListingActivity.stud_img =
-                                    TripListingActivity.studentsModelArrayList.get(0).getPhoto()
-                                PreferenceManager.setStudIdForCCA(
-                                    context,
-                                    TripListingActivity.studentsModelArrayList.get(0).getId()
-                                )
-                                PreferenceManager.setCanteenStudentImage(
-                                    context,
-                                    TripListingActivity.studentsModelArrayList.get(0).getPhoto()
-                                )
-                                PreferenceManager.setCanteenStudentName(
-                                    context,
-                                    TripListingActivity.studentsModelArrayList.get(0).getName()
-                                )
-                                if (TripListingActivity.stud_img != "") {
-                                    Picasso.with(context)
-                                        .load(AppUtils.replace(TripListingActivity.stud_img))
-                                        .placeholder(R.drawable.boy).fit()
-                                        .into(TripListingActivity.studImg)
-                                } else {
-                                    TripListingActivity.studImg.setImageResource(R.drawable.boy)
-                                }
-                                getTripList(categoryID)
-                            } else {
-                                TripListingActivity.progressDialogP.hide()
-                                AppUtils.showDialogAlertDismiss(
-                                    context as Activity?,
-                                    "Alert",
-                                    getString(R.string.student_not_available),
-                                    R.drawable.exclamationicon,
-                                    R.drawable.round
-                                )
-                            }
+
+        progressDialogP.show()
+        studentArrayList=ArrayList<StudentList>()
+        val token = PreferenceData().getaccesstoken(context)
+        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
+        call.enqueue(object : Callback<StudentListModel> {
+            override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
+                CommonFunctions.faliurepopup(context)
+            }
+            override fun onResponse(call: Call<StudentListModel>, response: Response<StudentListModel>) {
+                val arraySize :Int = response.body()!!.responseArray.studentList.size
+                if (response.body()!!.status==100)
+                {
+                    studentArrayList.addAll(response.body()!!.responseArray.studentList)
+
+                    if (PreferenceData().getStudentID(context).equals(""))
+                    {
+                        Student_name=studentArrayList.get(0).name
+                        stud_img=studentArrayList.get(0).photo
+                        stud_id=studentArrayList.get(0).id
+                        studClass=studentArrayList.get(0).section
+                        PreferenceData().setStudentID(context,stud_id)
+                        PreferenceData().setStudentName(context,Student_name)
+                        PreferenceData().setStudentPhoto(context,stud_img)
+                        PreferenceData().setStudentClass(context,studClass)
+                        studentName.text=Student_name
+                        if(!stud_img.equals(""))
+                        {
+                            Glide.with(context) //1
+                                .load(studImg)
+                                .placeholder(R.drawable.student)
+                                .error(R.drawable.student)
+                                .skipMemoryCache(true) //2
+                                .diskCacheStrategy(DiskCacheStrategy.NONE) //3
+                                .transform(CircleCrop()) //4
+                                .into(studImg)
                         }
-                    } else {
-                        TripListingActivity.progressDialogP.hide()
-                        AppUtils.showDialogAlertDismiss(
-                            context as Activity?,
-                            "Alert",
-                            getString(R.string.common_error),
-                            R.drawable.exclamationicon,
-                            R.drawable.round
-                        )
+                        else{
+                            studImg.setImageResource(R.drawable.student)
+                        }
+
                     }
-                } else {
-                    TripListingActivity.progressDialogP.hide()
-                    AppUtils.showDialogAlertDismiss(
-                        context as Activity?,
-                        "Alert",
-                        getString(R.string.common_error),
-                        R.drawable.exclamationicon,
-                        R.drawable.round
-                    )
+                    else{
+                        Student_name= PreferenceData().getStudentName(context)!!
+                        stud_img= PreferenceData().getStudentPhoto(context)!!
+                        stud_id= PreferenceData().getStudentID(context)!!
+                        studClass= PreferenceData().getStudentClass(context)!!
+                        studentName.text=Student_name
+                        if(!stud_img.equals(""))
+                        {
+                            Glide.with(context) //1
+                                .load(stud_img)
+                                .placeholder(R.drawable.student)
+                                .error(R.drawable.student)
+                                .skipMemoryCache(true) //2
+                                .diskCacheStrategy(DiskCacheStrategy.NONE) //3
+                                .transform(CircleCrop()) //4
+                                .into(studImg)
+                        }
+                        else{
+                            studImg.setImageResource(R.drawable.student)
+                        }
+                        getTripList(categoryID)
+
+                    }
                 }
             }
-
-            override fun onFailure(call: Call<StudentDataModel?>, t: Throwable) {
-                TripListingActivity.progressDialogP.hide()
-                AppUtils.showDialogAlertDismiss(
-                    context as Activity?,
-                    "Alert",
-                    getString(R.string.common_error),
-                    R.drawable.exclamationicon,
-                    R.drawable.round
-                )
-            }
         })
+
     }
     override fun onResume() {
         getTripList(categoryID)
@@ -254,8 +248,79 @@ class TripListingActivity : AppCompatActivity() {
     }
 
     private fun getTripList(categoryID: String) {
-        TripListingActivity.progressDialogP.show()
-        val service: APIInterface = APIClient.getRetrofitInstance().create(APIInterface::class.java)
+       progressDialogP.show()
+        val paramObject = JsonObject()
+        categoriesList = java.util.ArrayList<TripListResponseModel.TripItem>()
+        // Log.e("student name",studentName.getText().toString());
+        paramObject.addProperty("student_id", PreferenceData().getStudentID(context))
+        paramObject.addProperty("trip_category_id", categoryID)
+        paramObject.addProperty("limit", "100")
+        paramObject.addProperty("skip", "0")
+
+        val call: Call<TripListResponseModel> =
+            ApiClient.getClient.tripList("Bearer " + PreferenceData().getaccesstoken(context),paramObject)
+        call.enqueue(object : Callback<TripListResponseModel> {
+            override fun onFailure(call: Call<TripListResponseModel>, t: Throwable) {
+                CommonFunctions.faliurepopup(context)
+
+                //progressDialog.visibility = View.GONE
+            }
+
+            override fun onResponse(call: Call<TripListResponseModel>, response: Response<TripListResponseModel>) {
+                val responsedata = response.body()
+                //progressDialog.visibility = View.GONE
+                if (responsedata != null) {
+                    progressDialogP.dismiss()
+                    if (response.body()!!.getResponseCode()==100) {
+                        if (response.body()!!.getResponse()!!.data!!.size > 0) {
+                            categoriesList = response.body()!!.getResponse()!!.data
+                            if (categoriesList!!.size > 0) {
+                                // Log.e("Here","Here");
+                                tripsCategoryAdapter = TripListAdapter(context, categoriesList!!)
+                                tripListRecycler!!.adapter = tripsCategoryAdapter
+                            } else {
+                                //Log.e("Here","not");
+                                categoriesList = ArrayList<TripListResponseModel.TripItem>()
+                                tripsCategoryAdapter =
+                                    TripListAdapter(context, categoriesList!!)
+                                tripListRecycler!!.adapter = tripsCategoryAdapter
+                                Toast.makeText(this@TripListingActivity, "No trips available.", Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            categoriesList = ArrayList<TripListResponseModel.TripItem>()
+                            tripsCategoryAdapter =
+                                TripListAdapter(context, categoriesList!!)
+                            tripListRecycler!!.adapter = tripsCategoryAdapter
+                            Toast.makeText(this@TripListingActivity, "No trips available.", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                    }
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*val service: APIInterface = APIClient.getRetrofitInstance().create(APIInterface::class.java)
         val paramObject = JsonObject()
         categoriesList = java.util.ArrayList<TripListResponseModel.TripItem>()
         // Log.e("student name",studentName.getText().toString());
@@ -275,38 +340,7 @@ class TripListingActivity : AppCompatActivity() {
                 assert(response.body() != null)
                 if (response.body().getResponseCode().equalsIgnoreCase("200")) {
                     if (response.body().getResponse().getStatusCode().equalsIgnoreCase("303")) {
-                        if (response.body().getResponse().getData().size() > 0) {
-                            categoriesList = response.body().getResponse().getData()
-                            if (categoriesList!!.size > 0) {
-                                // Log.e("Here","Here");
-                                tripsCategoryAdapter = TripListAdapter(context, categoriesList)
-                                tripListRecycler!!.adapter = tripsCategoryAdapter
-                            } else {
-                                //Log.e("Here","not");
-                                categoriesList =
-                                    java.util.ArrayList<TripListResponseModel.TripItem>()
-                                tripsCategoryAdapter =
-                                    TripListAdapter(context, java.util.ArrayList<E>())
-                                tripListRecycler!!.adapter = tripsCategoryAdapter
-                                Toast.makeText(
-                                    this@TripListingActivity,
-                                    "No trips available.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        } else {
-                            categoriesList = java.util.ArrayList<TripListResponseModel.TripItem>()
-                            tripsCategoryAdapter =
-                                TripListAdapter(context, java.util.ArrayList<E>())
-                            tripListRecycler!!.adapter = tripsCategoryAdapter
-                            Toast.makeText(
-                                this@TripListingActivity,
-                                "No trips available.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    } else {
-                    }
+
                 } else {
                 }
             }
@@ -321,10 +355,75 @@ class TripListingActivity : AppCompatActivity() {
                     R.drawable.round
                 )
             }
-        })
+        })*/
+
+fun showStudentList(mcontext: Context ,mStudentList : ArrayList<StudentList>)
+{
+    val dialog = Dialog(mcontext)
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog.setCancelable(false)
+    dialog.setContentView(R.layout.dialogue_student_list)
+    var iconImageView = dialog.findViewById(R.id.iconImageView) as ImageView
+    var btn_dismiss = dialog.findViewById(R.id.btn_dismiss) as Button
+    var studentListRecycler = dialog.findViewById(R.id.studentListRecycler) as RecyclerView
+    iconImageView.setImageResource(R.drawable.boy)
+    //if(mSocialMediaArray.get())
+    val sdk = Build.VERSION.SDK_INT
+    if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
+        btn_dismiss.setBackgroundDrawable(
+            mcontext.resources.getDrawable(R.drawable.button_new)
+        )
+    } else {
+        btn_dismiss.background = mcontext.resources.getDrawable(R.drawable.button_new)
     }
 
-    fun showStudentSelection(mStudentArray: java.util.ArrayList<StudentDataModel.DataItem>) {
+    studentListRecycler.setHasFixedSize(true)
+    val llm = LinearLayoutManager(mcontext)
+    llm.orientation = LinearLayoutManager.VERTICAL
+    studentListRecycler.layoutManager = llm
+    if(mStudentList.size>0)
+    {
+        val studentAdapter = StudentListAdapter(mcontext,mStudentList)
+        studentListRecycler.adapter = studentAdapter
+    }
+    btn_dismiss.setOnClickListener()
+    {
+        dialog.dismiss()
+    }
+    studentListRecycler.addOnItemClickListener(object: OnItemClickListener {
+        override fun onItemClicked(position: Int, view: View) {
+            // Your logic
+            Student_name=mStudentList.get(position).name
+            stud_img=mStudentList.get(position).photo
+            stud_id=mStudentList.get(position).id
+            studClass=mStudentList.get(position).section
+            PreferenceData().setStudentID(mcontext,stud_id)
+            PreferenceData().setStudentName(mcontext,Student_name)
+            PreferenceData().setStudentPhoto(mcontext,stud_img)
+            PreferenceData().setStudentClass(mcontext,studClass)
+            studentName.text=Student_name
+            if(!stud_img.equals(""))
+            {
+                Glide.with(mcontext) //1
+                    .load(stud_img)
+                    .placeholder(R.drawable.student)
+                    .error(R.drawable.student)
+                    .skipMemoryCache(true) //2
+                    .diskCacheStrategy(DiskCacheStrategy.NONE) //3
+                    .transform(CircleCrop()) //4
+                    .into(studImg)
+            }
+            else{
+                studImg.setImageResource(R.drawable.student)
+            }
+            getTripList(categoryID)
+            dialog.dismiss()
+        }
+    })
+    dialog.show()
+}
+   /* fun showStudentSelection(mStudentArray: java.util.ArrayList<StudentDataModel.DataItem>) {
         val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_student_media_list)
@@ -354,7 +453,7 @@ class TripListingActivity : AppCompatActivity() {
                 object : RecyclerTouchListener() {
                     fun onClickItem(v: View?, position: Int) {
                         dialog.dismiss()
-                        TripListingActivity.studentName.setText(mStudentArray[position].getName())
+                        studentName.setText(mStudentArray[position].getName())
                         stud_id = mStudentArray[position].getId()
                         studClass = mStudentArray[position].getClassName()
                         TripListingActivity.stud_img = mStudentArray[position].getPhoto()
@@ -375,7 +474,7 @@ class TripListingActivity : AppCompatActivity() {
                             context,
                             TripListingActivity.studentsModelArrayList.get(position).getName()
                         )
-                        getTripList(categoryID)
+
                     }
 
                     fun onLongClickItem(v: View?, position: Int) {
@@ -384,6 +483,6 @@ class TripListingActivity : AppCompatActivity() {
                 })
         )
         dialog.show()
-    }
+    }*/
 
 }

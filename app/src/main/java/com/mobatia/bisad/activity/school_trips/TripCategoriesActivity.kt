@@ -1,6 +1,5 @@
 package com.mobatia.bisad.activity.school_trips
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -21,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.gson.JsonObject
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.home.sharedprefs
@@ -32,6 +30,7 @@ import com.mobatia.bisad.constants.ProgressBarDialog
 import com.mobatia.bisad.fragment.canteen.model.CanteenSendEmailApiModel
 import com.mobatia.bisad.fragment.school_trips.model.TripCategoriesResponseModel
 import com.mobatia.bisad.fragment.staff_directory.model.SendStaffEmailModel
+import com.mobatia.bisad.manager.HeaderManager
 import com.mobatia.bisad.manager.HeaderManagerNoColorSpace
 import com.mobatia.bisad.manager.ItemOffsetDecoration
 import com.mobatia.bisad.manager.PreferenceData
@@ -53,7 +52,7 @@ class TripCategoriesActivity : AppCompatActivity() {
     private lateinit var progressDialogP: ProgressBarDialog
     private val progressDialog: ProgressBar? = null
     lateinit var relativeHeader: RelativeLayout
-    lateinit var headermanager: HeaderManagerNoColorSpace
+    lateinit var headermanager: HeaderManager
     lateinit var bannerImageView: ImageView
     lateinit var descriptionTextView: TextView
     lateinit var sendEmailImageView: ImageView
@@ -64,7 +63,7 @@ class TripCategoriesActivity : AppCompatActivity() {
     var tripsCategoryAdapter: TripsCategoryAdapter? = null
     var contactEmail = ""
     lateinit var back: ImageView
-    lateinit var btn_history:ImageView
+ //   lateinit var btn_history:ImageView
     lateinit var home:ImageView
 
     //    LinearLayout mStudentSpinner;
@@ -100,8 +99,8 @@ class TripCategoriesActivity : AppCompatActivity() {
         descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
         sendEmailImageView = findViewById<ImageView>(R.id.sendEmailImageView)
         relativeHeader = findViewById<RelativeLayout>(R.id.relativeHeader)
-        headermanager = HeaderManagerNoColorSpace()
-        headermanager!!.getHeader(relativeHeader, 6)
+        headermanager = HeaderManager(this@TripCategoriesActivity,"Trip Categories")
+       headermanager!!.getHeader(relativeHeader, 6)
         back = headermanager.getLeftButton()
        // btn_history = headermanager.getRightHistoryImage()
       //  btn_history!!.visibility = View.INVISIBLE
@@ -114,7 +113,7 @@ class TripCategoriesActivity : AppCompatActivity() {
 //                new DividerItemDecoration(context.getResources().getDrawable(R.drawable.list_divider)));
         categoryListRecyclerView.addItemDecoration(itemDecoration)
         categoryListRecyclerView.setLayoutManager(recyclerViewLayoutManager)
-        headermanager.setButtonLeftSelector(R.drawable.back, R.drawable.back)
+       // headermanager.setButtonLeftSelector(R.drawable.back, R.drawable.back)
         back!!.setOnClickListener {
             CommonFunctions.hideKeyBoard(context)
             finish()
@@ -246,10 +245,9 @@ class TripCategoriesActivity : AppCompatActivity() {
                 //progressDialog.visibility = View.GONE
                 if (responsedata != null) {
                     progressDialogP.dismiss()
-                    if (response.body()!!.getResponseCode().equals("200")) {
-                        if (response.body()!!.getResponseData()!!.statusCode.equals("303")) {
+                    if (response.body()!!.status==100) {
                             val bannerImageResponse: String =
-                                response.body()!!.getResponseData()!!.bannerImage!!
+                                response.body()!!.responseData!!.bannerImage!!
                             if (bannerImageResponse != "") {
                                 Glide.with(context!!).load(CommonFunctions.replace(bannerImageResponse))
                                     .centerCrop().placeholder(R.drawable.default_banner)
@@ -257,19 +255,19 @@ class TripCategoriesActivity : AppCompatActivity() {
                             } else {
                                 bannerImageView!!.setBackgroundResource(R.drawable.default_banner)
                             }
-                            if (!response.body()!!.getResponseData()!!.bannerDescription
+                            if (!response.body()!!.responseData!!.bannerDescription
                                     .equals("")
                             ) {
                                 descriptionTextView.setText(
-                                    response.body()!!.getResponseData()!!.bannerDescription
+                                    response.body()!!.responseData!!.bannerDescription
                                 )
                             } else descriptionTextView!!.visibility = View.GONE
-                            if (!response.body()!!.getResponseData()!!.bannerContactEmail
+                            if (!response.body()!!.responseData!!.bannerContactEmail
                                     .equals("")
                             ) {
-                                contactEmail = response.body()!!.getResponseData()!!.bannerContactEmail!!
+                                contactEmail = response.body()!!.responseData!!.bannerContactEmail!!
                             } else sendEmailImageView!!.visibility = View.GONE
-                            categoriesList = response.body()!!.getResponseData()!!.data
+                            categoriesList = response.body()!!.responseData!!.data
                             if (categoriesList!!.size > 0) {
                                 // Log.e("Here","Here");
                                 tripsCategoryAdapter = TripsCategoryAdapter(context,
@@ -284,10 +282,7 @@ class TripCategoriesActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-                        } else {
-                            Toast.makeText(this@TripCategoriesActivity, "Error", Toast.LENGTH_SHORT)
-                                .show()
-                        }
+
                     } else {
                         Toast.makeText(this@TripCategoriesActivity, "Error", Toast.LENGTH_SHORT).show()
                     }
@@ -359,4 +354,12 @@ class TripCategoriesActivity : AppCompatActivity() {
         })
 
     }
+
 }
+
+/* private fun prepareFilePart(partName: String, fileUri: Uri): MultipartBody. Part? {
+        // Log.e("URI", fileUri.getPath());
+        val file = File(getRealPathFromURI(fileUri))
+        val requestFile = RequestBody.create(parse.parse("image/*"), file)
+        return createFormData.createFormData(partName, file.name, requestFile)
+    }*/

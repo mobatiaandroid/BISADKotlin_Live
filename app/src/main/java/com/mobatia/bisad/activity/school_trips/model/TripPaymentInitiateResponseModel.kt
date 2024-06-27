@@ -1,23 +1,23 @@
 package com.mobatia.bisad.activity.school_trips.model
 
 class TripPaymentInitiateResponseModel {
-    private var responsecode: String? = null
-    private var response: ResponseData? = null
+    private var status: Int? = null
+    private var responseArray: ResponseData? = null
 
-    fun getResponsecode(): String? {
-        return responsecode
+    fun getResponsecode(): Int? {
+        return status
     }
 
-    fun setResponsecode(responsecode: String?) {
-        this.responsecode = responsecode
+    fun setResponsecode(responsecode: Int?) {
+        this.status = responsecode
     }
 
     fun getResponse(): ResponseData? {
-        return response
+        return responseArray
     }
 
     fun setResponse(response: ResponseData?) {
-        this.response = response
+        this.responseArray = response
     }
 
 

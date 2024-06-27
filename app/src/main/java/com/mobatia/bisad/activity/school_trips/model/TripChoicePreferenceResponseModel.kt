@@ -3,13 +3,13 @@ package com.mobatia.bisad.activity.school_trips.model
 import com.google.gson.annotations.SerializedName
 
 class TripChoicePreferenceResponseModel {
-    @SerializedName("responsecode")
-    private val responseCode: String? = null
+    @SerializedName("status")
+    private val responseCode: Int? = null
 
-    @SerializedName("response")
+    @SerializedName("responseArray")
     private val response: InnerResponse? = null
 
-    fun getResponseCode(): String? {
+    fun getResponseCode(): Int? {
         return responseCode
     }
 

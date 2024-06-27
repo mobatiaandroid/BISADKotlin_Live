@@ -3,35 +3,18 @@ package com.mobatia.bisad.fragment.school_trips.model
 import com.google.gson.annotations.SerializedName
 
 class TripCategoriesResponseModel {
-    @SerializedName("responsecode")
-     var responseCode: String? = null
+    @SerializedName("status")
+     var status: Int? = null
 
-    @SerializedName("response")
+    @SerializedName("responseArray")
      var responseData: ResponseData? = null
 
-    fun getResponseCode(): String? {
-        return responseCode
-    }
 
-    fun setResponseCode(responseCode: String?) {
-        this.responseCode = responseCode
-    }
 
-    fun getResponseData(): ResponseData? {
-        return responseData
-    }
 
-    fun setResponseData(responseData: ResponseData?) {
-        this.responseData = responseData
-    }
 
 
     class ResponseData {
-        @SerializedName("response")
-        var response: String? = null
-
-        @SerializedName("statuscode")
-        var statusCode: String? = null
 
         @SerializedName("banner_image")
         var bannerImage: String? = null

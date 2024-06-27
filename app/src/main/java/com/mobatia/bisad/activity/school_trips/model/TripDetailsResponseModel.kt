@@ -3,21 +3,21 @@ package com.mobatia.bisad.activity.school_trips.model
 import com.google.gson.annotations.SerializedName
 
 class TripDetailsResponseModel {
-    @SerializedName("responsecode")
-    private var responseCode: String? = null
+    @SerializedName("status")
+    private var status: Int? = null
 
-    @SerializedName("response")
+    @SerializedName("responseArray")
     private var response: ResponseData? = null
 
     // Getters and setters
 
     // Getters and setters
-    fun getResponseCode(): String? {
-        return responseCode
+    fun getResponseCode(): Int? {
+        return status
     }
 
-    fun setResponseCode(responseCode: String?) {
-        this.responseCode = responseCode
+    fun setResponseCode(responseCode: Int?) {
+        this.status = responseCode
     }
 
     fun getResponse(): ResponseData? {
@@ -31,11 +31,7 @@ class TripDetailsResponseModel {
 
     class ResponseData {
         // Getters and setters
-        @SerializedName("response")
-        var response: String? = null
 
-        @SerializedName("statuscode")
-        var statusCode: String? = null
 
         @SerializedName("data")
         var data: TripData? = null
@@ -45,6 +41,8 @@ class TripDetailsResponseModel {
 
         @SerializedName("no_of_trips_exceed")
         var no_of_trips_exceed: String? = null
+
+
     }
 
 
@@ -78,7 +76,7 @@ class TripDetailsResponseModel {
         //            return tripImage;
         //        }
         @SerializedName("trip_image")
-        var tripImage: ArrayList<String>? = null
+        lateinit var tripImage: ArrayList<String>
 
         @SerializedName("coordinator_name")
         var coordinatorName: String? = null

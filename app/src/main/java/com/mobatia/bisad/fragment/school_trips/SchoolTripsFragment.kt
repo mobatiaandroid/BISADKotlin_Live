@@ -52,7 +52,7 @@ class SchoolTripsFragment :Fragment(),AdapterView.OnItemClickListener {
     private var mTitle: String? = null
     private var mTabId: String? = null
     lateinit var mContext: Context
-    private var mRootView: View? = null
+   // private var mRootView: View? = null
     var extras: Bundle? = null
     lateinit var text_content: TextView
     lateinit var text_dialog: TextView
@@ -72,6 +72,7 @@ class SchoolTripsFragment :Fragment(),AdapterView.OnItemClickListener {
     lateinit var registerTripLinear: LinearLayout
     lateinit var informationLinear: LinearLayout
     lateinit var progressDialogP: ProgressBarDialog
+    lateinit var mTitleTextView:TextView
 
 
     var isemoji1Selected = false
@@ -98,24 +99,24 @@ class SchoolTripsFragment :Fragment(),AdapterView.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         mContext = requireActivity()
-        val mTitleTextView = mRootView!!.findViewById<View>(R.id.titleTextView) as TextView
-        mTitleTextView.text = "Trips"
+      mTitleTextView = view!!.findViewById<View>(R.id.titleTextView) as TextView
+       mTitleTextView.text = "Trips"
        progressDialogP =
             ProgressBarDialog(mContext!!)
         registerTripLinear =
-            mRootView!!.findViewById<View>(R.id.registerSchoolTripLinear) as LinearLayout
-        informationLinear = mRootView!!.findViewById<View>(R.id.informationLinear) as LinearLayout
-        paymentLinear = mRootView!!.findViewById<View>(R.id.paymentLinear) as LinearLayout
-        studeLinear = mRootView!!.findViewById<View>(R.id.studeLinear) as ConstraintLayout
-        mtitle = mRootView!!.findViewById<View>(R.id.title) as RelativeLayout
-        bannerImagePager = mRootView!!.findViewById<View>(R.id.bannerImagePager) as ImageView
+            view!!.findViewById<View>(R.id.registerSchoolTripLinear) as LinearLayout
+        informationLinear = view!!.findViewById<View>(R.id.informationLinear) as LinearLayout
+        paymentLinear = view!!.findViewById<View>(R.id.paymentLinear) as LinearLayout
+        studeLinear = view!!.findViewById<View>(R.id.studeLinear) as ConstraintLayout
+        mtitle = view!!.findViewById<View>(R.id.title) as RelativeLayout
+        bannerImagePager = view!!.findViewById<View>(R.id.bannerImagePager) as ImageView
        // signUpModule = mRootView!!.findViewById<View>(R.id.signUpModule) as TextView
-        descriptionTitle = mRootView!!.findViewById<View>(R.id.descriptionTitle) as TextView
-        sendEmail = mRootView!!.findViewById<View>(R.id.sendEmail) as ImageView
+        descriptionTitle = view!!.findViewById<View>(R.id.descriptionTitle) as TextView
+        sendEmail = view!!.findViewById<View>(R.id.sendEmail) as ImageView
         var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
         if (internetCheck)
         {
-            callTripBanner()
+            //callTripBanner()
         }
         else{
             InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
@@ -382,9 +383,8 @@ class SchoolTripsFragment :Fragment(),AdapterView.OnItemClickListener {
 
     private fun callTripBanner() {
        progressDialogP.show()
-        val token = sharedprefs.getaccesstoken(mContext)
         val call: Call<TripBannerResponse> =
-            ApiClient.getClient.tripsBanner( "Bearer " + token)
+            ApiClient.getClient.tripsBanner( "Bearer " + PreferenceData().getaccesstoken(mContext))
         call.enqueue(object : Callback<TripBannerResponse> {
             override fun onFailure(call: Call<TripBannerResponse>, t: Throwable) {
 

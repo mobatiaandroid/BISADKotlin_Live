@@ -8,10 +8,9 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.mobatia.bisad.activity.school_trips.model.ChoicePreferenceModel;
 
-import com.mobatia.naisapp.R;
-import com.mobatia.naisapp.activities.school_trips.model.ChoicePreferenceModel;
-
+import com.mobatia.bisad.R;
 import java.util.ArrayList;
 
 
@@ -24,6 +23,44 @@ public class ChoicePreferenceAdapter extends RecyclerView.Adapter<ChoicePreferen
         this.context = mContext;
         this.choiceList = choiceList;
         this.listener = listener;
+    }
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.adapter_choice_preference_item, parent, false);
+        return new MyViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        ChoicePreferenceModel model = choiceList.get(position);
+        holder.choiceButton.setText(model.getChoiceName());
+        if(choiceList.get(position).getSelected())
+        {
+            holder.choiceButton.setBackgroundResource(R.drawable.rectangle_navy_blue_button);
+            holder.choiceButton.setTextColor(context.getResources().getColor(R.color.white));
+        }
+        else {
+            holder.choiceButton.setBackgroundResource(R.drawable.button_blue_outline);
+            holder.choiceButton.setTextColor(context.getResources().getColor(R.color.split_bg));
+        }
+
+//        holder.choiceButton.setBackgroundResource(R.drawable.rectangle_navy_blue_button);
+//        int backgroundColor = model.getSelected() ? R.drawable.rectangle_navy_blue_button : R.drawable.button_blue_outline;
+//        holder.choiceButton.setBackgroundResource(backgroundColor);
+//        int fontColor = model.getSelected() ? R.color.white : R.color.split_bg;
+//        holder.choiceButton.setTextColor(context.getResources().getColor(fontColor));
+    }
+
+    @Override
+    public int getItemCount() {
+        return choiceList.size();
+    }
+
+    public interface OnItemSelectedListener {
+        void onItemSelected(String choice);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -53,32 +90,5 @@ public class ChoicePreferenceAdapter extends RecyclerView.Adapter<ChoicePreferen
 
             });
         }
-    }
-    public interface OnItemSelectedListener {
-        void onItemSelected(String choice);
-    }
-
-
-    @NonNull
-    @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_choice_preference_item, parent, false);
-        return new MyViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        ChoicePreferenceModel model = choiceList.get(position);
-        holder.choiceButton.setText(model.getChoiceName());
-        int backgroundColor = model.getSelected() ? R.drawable.rectangle_navy_blue_button : R.drawable.button_blue_outline;
-        holder.choiceButton.setBackgroundResource(backgroundColor);
-        int fontColor = model.getSelected() ? R.color.white :  R.color.split_bg;
-        holder.choiceButton.setTextColor( context.getResources().getColor(fontColor));
-    }
-
-    @Override
-    public int getItemCount() {
-        return choiceList.size();
     }
 }

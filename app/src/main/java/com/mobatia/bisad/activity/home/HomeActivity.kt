@@ -60,6 +60,7 @@ import com.mobatia.bisad.fragment.payment.PaymentFragment
 import com.mobatia.bisad.fragment.permission_slip.PermissionSlipFragment
 import com.mobatia.bisad.fragment.report_absence.ReportAbsenceFragment
 import com.mobatia.bisad.fragment.reports.ReportsFragment
+import com.mobatia.bisad.fragment.school_trips.SchoolTripsFragment
 import com.mobatia.bisad.fragment.settings.SettingsFragment
 import com.mobatia.bisad.fragment.settings.adapter.TriggerAdapter
 import com.mobatia.bisad.fragment.settings.model.TriggerDataModel
@@ -386,7 +387,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     mFragment = CalFragment()
                     replaceFragmentsSelected(position)
                 } else if (position == 3) {
-                    mFragment = MessageFragment()
+                    mFragment = SchoolTripsFragment()
                     replaceFragmentsSelected(position)
                 } else if (position == 4) {
                     if (ActivityCompat.checkSelfPermission(

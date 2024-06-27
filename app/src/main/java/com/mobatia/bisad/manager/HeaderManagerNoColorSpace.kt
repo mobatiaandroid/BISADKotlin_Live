@@ -15,9 +15,9 @@ import com.mobatia.bisad.R
 import java.io.Serializable
 
 
-class HeaderManagerNoColorSpace : Serializable{
+class HeaderManagerNoColorSpace(tripCategoriesActivity: Activity, s: String) : Serializable{
 
-    lateinit var context: Activity
+    lateinit var mcontext: Activity
     lateinit var  inflator: LayoutInflater
     lateinit var  headerView: View
     lateinit var  mHeading1: TextView
@@ -30,9 +30,11 @@ class HeaderManagerNoColorSpace : Serializable{
     lateinit var  mRight: ImageView
     lateinit var  mLeft: ImageView
     lateinit var  logoClickImgView: ImageView
+    lateinit var  btn_history:ImageView
+
     fun HeaderManagerNoColorSpace(context:Activity,heading1 :String)
     {
-       this.context=context
+       this.mcontext=context
         inflator= LayoutInflater.from(context)
         this.heading1=heading1
     }
@@ -57,7 +59,7 @@ class HeaderManagerNoColorSpace : Serializable{
     }
     fun initializeUI(type:Int)
     {
-        inflator = LayoutInflater.from(context)
+        inflator = LayoutInflater.from(mcontext)
         headerView = inflator.inflate(R.layout.common_header_single_withviewline, null)
         val logoHeader = headerView.findViewById<View>(R.id.relative_logo_header) as RelativeLayout
         if (type == 0) {
@@ -72,11 +74,13 @@ class HeaderManagerNoColorSpace : Serializable{
         mHeading1.text = heading1
         mRight = headerView.findViewById<View>(R.id.btn_right) as ImageView
         mLeft = headerView.findViewById<View>(R.id.btn_left) as ImageView
+        btn_history = headerView
+            .findViewById<View>(R.id.btn_history) as ImageView
     }
 
     fun initializeUI(getHeading :Boolean,type:Int)
     {
-        inflator = LayoutInflater.from(context)
+        inflator = LayoutInflater.from(mcontext)
         headerView = inflator.inflate(R.layout.common_header_single_withviewline, null)
         val logoHeader = headerView
             .findViewById<View>(R.id.relative_logo_header) as RelativeLayout
@@ -121,9 +125,9 @@ class HeaderManagerNoColorSpace : Serializable{
     fun getButtonDrawableByScreenCathegory(normalStateResID :Int, pressedStateResID:Int) :Drawable
 
     {
-        val state_normal = context.resources
+        val state_normal = mcontext.resources
             .getDrawable(normalStateResID).mutate()
-        val state_pressed = context.resources
+        val state_pressed = mcontext.resources
             .getDrawable(pressedStateResID).mutate()
         val drawable = StateListDrawable()
         drawable.addState(intArrayOf(android.R.attr.state_pressed), state_pressed)
@@ -131,5 +135,21 @@ class HeaderManagerNoColorSpace : Serializable{
         return drawable
     }
 
+    // public void setCancelButton()
+    // {
+    // mRight.setBackgroundResource(R.drawable.close_button_selector);
+    // setVisible(mRight);
+    // }
+    fun setContext(context: Activity?) {
+        this.mcontext = context!!
+    }
 
+    /**
+     * Gets the context.
+     *
+     * @return the context
+     */
+    fun getContext(): Activity? {
+        return mcontext
+    }
 }

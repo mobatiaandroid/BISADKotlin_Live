@@ -55,9 +55,8 @@ public class HeaderManager implements Serializable {
 
 	/** The m left. */
 	private ImageView mLeftImage, mRightImage, mRight, mLeft,logoClickImgView;
-	ImageView btn_info;
+	//ImageView btn_info;
 	ImageView btn_history;
-	LinearLayout linearRight;
 	/**
 	 * Instantiates a new headermanager.
 	 * 
@@ -160,9 +159,9 @@ public class HeaderManager implements Serializable {
 	public ImageView getRightImage() {
 		return mLeftImage;
 	}
-	public ImageView getRightInfoImage() {
+	/*public ImageView getRightInfoImage() {
 		return btn_info;
-	}
+	}*/
 	public ImageView getRightHistoryImage() {
 		return btn_history;
 	}
@@ -247,65 +246,65 @@ public class HeaderManager implements Serializable {
 
 		RelativeLayout logoHeader = ((RelativeLayout) headerView
 				.findViewById(R.id.relative_logo_header));
-		 btn_info = ((ImageView) headerView
-				.findViewById(R.id.btn_info));
+		 /*btn_info = ((ImageView) headerView
+				.findViewById(R.id.btn_info));*/
 		btn_history = ((ImageView) headerView
 				.findViewById(R.id.btn_history));
 		mHeading1 = (TextView) headerView.findViewById(R.id.heading);
 
 		mRight = (ImageView) headerView.findViewById(R.id.btn_right);
 		mLeft = (ImageView) headerView.findViewById(R.id.btn_left);
-		linearRight = headerView.findViewById(R.id.linearRight);
+		//linearRight = headerView.findViewById(R.id.linearRight);
 		logoClickImgView = (ImageView) headerView.findViewById(R.id.logoClickImgView);
 		if (type == 0) {
 			logoHeader.setBackgroundResource(R.drawable.titlebar);// two
-			btn_info.setVisibility(View.GONE);
+			//btn_info.setVisibility(View.GONE);
 			btn_history.setVisibility(View.GONE);
 			// buttons
 		} else if (type == 1) {
 			logoHeader.setBackgroundResource(R.drawable.titlebar);// left
-			btn_info.setVisibility(View.GONE);
+			//btn_info.setVisibility(View.GONE);
 			btn_history.setVisibility(View.GONE);
 			// button
 		}else if (type == 3)
 		{
 			logoHeader.setBackgroundResource(R.drawable.titlebar);// left
-			btn_info.setVisibility(View.VISIBLE);
+			//btn_info.setVisibility(View.VISIBLE);
 			btn_history.setVisibility(View.GONE);
 			// button
 		}else if (type == 4) {
 			logoHeader.setBackgroundResource(R.drawable.titlebar);// left
-			btn_info.setVisibility(View.GONE);
+			//btn_info.setVisibility(View.GONE);
 			btn_history.setVisibility(View.GONE);
-			linearRight.setVisibility(View.VISIBLE);
+			//linearRight.setVisibility(View.VISIBLE);
 			// button
 		}else if (type == 5) {
 			logoHeader.setBackgroundResource(R.drawable.titlebar);// left
-			btn_info.setVisibility(View.VISIBLE);
+			//btn_info.setVisibility(View.VISIBLE);
 			btn_history.setVisibility(View.GONE);
-			linearRight.setVisibility(View.GONE);
+			//linearRight.setVisibility(View.GONE);
 			// button
 		}
 		else if (type == 6) {
 			logoHeader.setBackgroundResource(R.drawable.titlebar);// left
-			btn_info.setVisibility(View.GONE);
+			//btn_info.setVisibility(View.GONE);
 			btn_history.setVisibility(View.VISIBLE);
-			linearRight.setVisibility(View.GONE);
+			//linearRight.setVisibility(View.GONE);
 			btn_history.setImageResource(R.drawable.payment_history);
 			// button
 		} else if (type == 7) {
 			logoHeader.setBackgroundResource(R.drawable.titlebar);// left
-			btn_info.setVisibility(View.GONE);
+			//btn_info.setVisibility(View.GONE);
 			btn_history.setVisibility(View.VISIBLE);
-			linearRight.setVisibility(View.GONE);
+			//linearRight.setVisibility(View.GONE);
 			btn_history.setImageResource(R.drawable.basket);
 			// button
 		} else if (type == 8) {
 			logoHeader.setBackgroundResource(R.drawable.titlebar);// left
-			btn_info.setVisibility(View.GONE);
+			//btn_info.setVisibility(View.GONE);
 			btn_history.setVisibility(View.VISIBLE);
-			linearRight.setVisibility(View.GONE);
-			btn_history.setImageResource(R.drawable.invoice);
+			//linearRight.setVisibility(View.GONE);
+			//btn_history.setImageResource(R.drawable.invoice);
 		}
 		mHeading1.setText(heading1);
 		mHeading1.setBackgroundColor(context.getResources().getColor(R.color.split_bg));
@@ -322,46 +321,46 @@ public class HeaderManager implements Serializable {
 
 		RelativeLayout logoHeader = ((RelativeLayout) headerView
 				.findViewById(R.id.relative_logo_header));
-		btn_info = ((ImageView) headerView
-				.findViewById(R.id.btn_info));
+		/*btn_info = ((ImageView) headerView
+				.findViewById(R.id.btn_info));*/
 		btn_history = ((ImageView) headerView
 				.findViewById(R.id.btn_history));
 		mRight = (ImageView) headerView.findViewById(R.id.btn_right);
-		linearRight =  headerView.findViewById(R.id.linearRight);
+		//linearRight =  headerView.findViewById(R.id.linearRight);
 		mLeft = (ImageView) headerView.findViewById(R.id.btn_left);
 		logoClickImgView = (ImageView) headerView.findViewById(R.id.logoClickImgView);
 		mHeading1 = (TextView) headerView.findViewById(R.id.heading);
 		if (type == 0) {
 			logoHeader.setBackgroundResource(R.drawable.titlebar);
-			btn_info.setVisibility(View.GONE);
+			//btn_info.setVisibility(View.GONE);
 			btn_history.setVisibility(View.GONE);
 
 		} else if (type == 1) {
 			logoHeader.setBackgroundResource(R.drawable.titlebar);
 			mHeading1.setVisibility(View.GONE);
-			btn_info.setVisibility(View.GONE);
+			//btn_info.setVisibility(View.GONE);
 			btn_history.setVisibility(View.GONE);
 
 		}else if (type == 3) {
 			logoHeader.setBackgroundResource(R.drawable.titlebar);// left
-			btn_info.setVisibility(View.VISIBLE);
+			//btn_info.setVisibility(View.VISIBLE);
 			btn_history.setVisibility(View.GONE);
 			// button
 		}else if (type == 4) {
 			logoHeader.setBackgroundResource(R.drawable.titlebar);// left
-			btn_info.setVisibility(View.GONE);
+			//btn_info.setVisibility(View.GONE);
 			btn_history.setVisibility(View.GONE);
-			linearRight.setVisibility(View.VISIBLE);
+			//linearRight.setVisibility(View.VISIBLE);
 			// button
 		}else if (type == 5) {
             logoHeader.setBackgroundResource(R.drawable.titlebar);// left
-            btn_info.setVisibility(View.VISIBLE);
-            linearRight.setVisibility(View.GONE);
+           // btn_info.setVisibility(View.VISIBLE);
+            //linearRight.setVisibility(View.GONE);
 			btn_history.setVisibility(View.GONE);
             // button
         }else if (type == 6) {
 			logoHeader.setBackgroundResource(R.drawable.titlebar);// left
-			btn_info.setVisibility(View.GONE);
+			//btn_info.setVisibility(View.GONE);
 			btn_history.setVisibility(View.VISIBLE);
 			// button
 		}
@@ -400,12 +399,12 @@ public class HeaderManager implements Serializable {
 	public ImageView getLeftButton() {
 		return mLeft;
 	}
-	public LinearLayout getLinearRight() {
+	/*public LinearLayout getLinearRight() {
 		return linearRight;
-	}
-	public ImageView getInfoButton() {
+	}*/
+	/*public ImageView getInfoButton() {
 		return btn_info;
-	}
+	}*/
 	public ImageView getHistoryButton() {
 		return btn_history;
 	}
@@ -458,12 +457,12 @@ public class HeaderManager implements Serializable {
 	public void setRightButton(ImageView right) {
 		this.mRight = right;
 	}
-	public void setLinearRight(LinearLayout linearRight) {
+/*	public void setLinearRight(LinearLayout linearRight) {
 		this.linearRight = linearRight;
-	}
-	public void setInfoButton(ImageView right) {
+	}*/
+	/*public void setInfoButton(ImageView right) {
 		this.btn_info = right;
-	}
+	}*/
 	public void setHistoryButton(ImageView right) {
 		this.btn_history = right;
 	}
@@ -516,9 +515,9 @@ public class HeaderManager implements Serializable {
 	}
 	public void setButtonInfoSelector(int normalStateResID,
 									  int pressedStateResID) {
-		btn_info.setImageDrawable(getButtonDrawableByScreenCathegory(
+		/*btn_info.setImageDrawable(getButtonDrawableByScreenCathegory(
 				normalStateResID, pressedStateResID));
-		setVisible(btn_info);
+		setVisible(btn_info);*/
 	}public void setButtonHistorySelector(int normalStateResID,
 									  int pressedStateResID) {
 		btn_history.setImageDrawable(getButtonDrawableByScreenCathegory(

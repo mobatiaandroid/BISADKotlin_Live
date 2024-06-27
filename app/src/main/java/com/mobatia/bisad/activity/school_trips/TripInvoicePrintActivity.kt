@@ -1,6 +1,5 @@
 package com.mobatia.bisad.activity.school_trips
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -17,20 +16,23 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.barteksc.pdfviewer.PDFView
+import com.mobatia.bisad.R
+import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.manager.HeaderManagerNoColorSpace
 import java.io.File
 
 class TripInvoicePrintActivity : AppCompatActivity() {
-    private var mContext: Context? = null
-    private var mWebView: WebView? = null
-    private var paymentWebDummy: WebView? = null
-    private var mProgressRelLayout: RelativeLayout? = null
+     lateinit var mContext: Context
+    private lateinit var mWebView: WebView
+    private lateinit var paymentWebDummy: WebView
+    private lateinit var mProgressRelLayout: RelativeLayout
     private val mwebSettings: WebSettings? = null
     private val mLoadUrl: String? = null
     var extras: Bundle? = null
-    var relativeHeader: RelativeLayout? = null
-    var headermanager: HeaderManager? = null
-    var back: ImageView? = null
-    var home: ImageView? = null
+    lateinit var relativeHeader: RelativeLayout
+    lateinit var headermanager: HeaderManagerNoColorSpace
+    lateinit var back: ImageView
+    lateinit var home: ImageView
     var addToCalendar: LinearLayout? = null
     var tab_type = ""
     var orderId = ""
@@ -48,11 +50,11 @@ class TripInvoicePrintActivity : AppCompatActivity() {
     //    String billingCode="";
     var tr_no = ""
     var payment_type = ""
-    var emailLinear: LinearLayout? = null
-    var printLinearClick: LinearLayout? = null
-    var downloadLinear: LinearLayout? = null
-    var shareLinear: LinearLayout? = null
-    var anim: RotateAnimation? = null
+    lateinit var emailLinear: LinearLayout
+    lateinit var printLinearClick: LinearLayout
+    lateinit var downloadLinear: LinearLayout
+    lateinit var shareLinear: LinearLayout
+    lateinit var anim: RotateAnimation
     var printJob: PrintJob? = null
     var BackPage = true
 
@@ -74,7 +76,7 @@ class TripInvoicePrintActivity : AppCompatActivity() {
             payment_type = extras!!.getString("payment_type")!!
         }
         initialiseUI()
-        getWebViewSettings()
+       // getWebViewSettings()
     }
     private fun initialiseUI() {
         relativeHeader = findViewById<View>(R.id.relativeHeader) as RelativeLayout
@@ -84,18 +86,18 @@ class TripInvoicePrintActivity : AppCompatActivity() {
         paymentWebDummy.setVisibility(View.GONE)
         mProgressRelLayout = findViewById<View>(R.id.progressDialog) as RelativeLayout
         mProgressRelLayout.setVisibility(View.GONE)
-        headermanager = HeaderManager(this@TripInvoicePrintActivity, "Preview")
+        headermanager = HeaderManagerNoColorSpace(this@TripInvoicePrintActivity, "Trip Categories")
         headermanager.getHeader(relativeHeader, 0)
         back = headermanager.getLeftButton()
         emailLinear = findViewById<LinearLayout>(R.id.emailLinear)
         printLinearClick = findViewById<LinearLayout>(R.id.printLinearClick)
         downloadLinear = findViewById<LinearLayout>(R.id.downloadLinear)
         shareLinear = findViewById<LinearLayout>(R.id.shareLinear)
-        home = headermanager.getLogoButton()
+        home = headermanager.getLogoButton()!!
         home!!.setOnClickListener {
             val `in` = Intent(
                 mContext,
-                HomeListAppCompatActivity::class.java
+                HomeActivity::class.java
             )
             `in`.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(`in`)
@@ -110,9 +112,9 @@ class TripInvoicePrintActivity : AppCompatActivity() {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 //  mWebView.loadUrl("about:blank");
                 paymentWebDummy.loadUrl("about:blank")
-                setWebViewSettingsPrint()
-                loadWebViewWithDataPrint()
-                createWebPrintJob(paymentWebDummy)
+             //   setWebViewSettingsPrint()
+              //  loadWebViewWithDataPrint()
+              //  createWebPrintJob(paymentWebDummy)
             } else {
                 Toast.makeText(
                     mContext,
@@ -124,9 +126,9 @@ class TripInvoicePrintActivity : AppCompatActivity() {
         downloadLinear.setOnClickListener(View.OnClickListener {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 paymentWebDummy.loadUrl("about:blank")
-                setWebViewSettingsPrint()
-                loadWebViewWithDataPrint()
-                createWebPrintJob(paymentWebDummy)
+               // setWebViewSettingsPrint()
+              //  loadWebViewWithDataPrint()
+              //  createWebPrintJob(paymentWebDummy)
             } else {
                 Toast.makeText(
                     mContext,
@@ -138,17 +140,17 @@ class TripInvoicePrintActivity : AppCompatActivity() {
         shareLinear.setOnClickListener(View.OnClickListener {
             if (Build.VERSION.SDK_INT >= 23) {
                 println("share function sharePdfFilePrint permission")
-                TedPermission.with(mContext)
+               /* TedPermission.with(mContext)
                     .setPermissionListener(permissionListenerStorage)
                     .setDeniedMessage("If you reject permission,you cannot use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
                     .setPermissions(
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE
                     )
-                    .check()
+                    .check()*/
             } else {
                 println("share function sharePdfFilePrint")
-                sharePdfFilePrint()
+              //  sharePdfFilePrint()
             }
         })
     }

@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.mobatia.bisad.R
+import com.mobatia.bisad.activity.school_trips.model.TripDetailsResponseModel
+import com.mobatia.bisad.constants.CommonFunctions
 
 
 class TripInvoiceListAdapter(
@@ -49,15 +52,15 @@ class TripInvoiceListAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.pdfTitle.text = "Paid by " + mnNewsLetterModelArrayList[position].getFirstName()
+        holder.pdfTitle.text = "Paid by " + mnNewsLetterModelArrayList[position].firstName
         // holder.imageIcon.setVisibility(View.GONE);
         // Log.e("date",mnNewsLetterModelArrayList.get(position).getPaymentDate());
         holder.tripsDateTxt.setText(
-            AppUtils.dateConversionddmmyyyytoddMMYYYY(
-                mnNewsLetterModelArrayList[position].getPaymentDate()
+            CommonFunctions.dateConversionddmmyyyytoddMMYYYY(
+                mnNewsLetterModelArrayList[position].paymentDate
             )
         )
-        holder.tripsAmountTxt.setText(mnNewsLetterModelArrayList[position].getPaidAmount() + " " + "AED")
+        holder.tripsAmountTxt.setText(mnNewsLetterModelArrayList[position].paidAmount + " " + "AED")
     }
 
     override fun getItemId(position: Int): Long {

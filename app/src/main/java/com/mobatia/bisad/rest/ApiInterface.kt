@@ -1,5 +1,6 @@
 package com.mobatia.bisad.rest
 
+import com.google.gson.JsonObject
 import com.mobatia.bisad.activity.absence.model.*
 import com.mobatia.bisad.activity.canteen.model.TimeExceedModel
 import com.mobatia.bisad.activity.canteen.model.add_orders.CanteenItemsApiModel
@@ -54,10 +55,21 @@ import com.mobatia.bisad.activity.payment.model.payment_token.PaymentTokenApiMod
 import com.mobatia.bisad.activity.payment.model.payment_token.PaymentTokenModel
 import com.mobatia.bisad.activity.permission_slip.model.PermissionResApiModel
 import com.mobatia.bisad.activity.permission_slip.model.PermissionResponseModel
+import com.mobatia.bisad.activity.school_trips.model.PaymentGatewayApiModelTrip
+import com.mobatia.bisad.activity.school_trips.model.TripChoicePreferenceResponseModel
+import com.mobatia.bisad.activity.school_trips.model.TripConsentResponseModel
+import com.mobatia.bisad.activity.school_trips.model.TripCountResponseModel
+import com.mobatia.bisad.activity.school_trips.model.TripDetailsResponseModel
+import com.mobatia.bisad.activity.school_trips.model.TripDocumentSubmitResponseModel
+import com.mobatia.bisad.activity.school_trips.model.TripHistoryResponseModel
+import com.mobatia.bisad.activity.school_trips.model.TripListResponseModel
+import com.mobatia.bisad.activity.school_trips.model.TripPaymentInitiateResponseModel
+import com.mobatia.bisad.activity.school_trips.model.TripPaymentSubmitModel
 import com.mobatia.bisad.activity.settings.re_enrollment.model.EnrollmentStatusModel
 import com.mobatia.bisad.activity.settings.termsofservice.model.TermsOfServiceModel
 import com.mobatia.bisad.activity.term_dates.model.TermDatesDetailApiModel
 import com.mobatia.bisad.activity.term_dates.model.TermDatesDetailModel
+import com.mobatia.bisad.constants.GeneralSubmitResponseModel
 import com.mobatia.bisad.fragment.apps.model.AppsApiModel
 import com.mobatia.bisad.fragment.apps.model.AppsListModel
 import com.mobatia.bisad.fragment.attendance.model.AttendanceApiModel
@@ -105,6 +117,8 @@ import com.mobatia.bisad.fragment.teacher_contact.model.StaffListApiModel
 import com.mobatia.bisad.fragment.teacher_contact.model.StaffListModel
 import com.mobatia.bisad.fragment.time_table.model.apimodel.TimeTableApiDataModel
 import com.mobatia.bisad.fragment.time_table.model.apimodel.TimeTableApiModel
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -745,8 +759,116 @@ interface ApiInterface {
         @Header("Authorization") token:String
     ): Call<TripBannerResponse>
 
-    @GET("Api-V1/trip_categories")
+    @GET("trip_categories")
     @Headers("Content-Type: application/json")
     fun tripCategories(@Header("Authorization") token: String): Call<TripCategoriesResponseModel>
 
+    @POST("trip_items")
+    @Headers("Content-Type: application/json")
+    fun tripList(
+        @Header("Authorization") token: String?,
+        @Body json: JsonObject?
+    ): Call<TripListResponseModel>
+
+    @POST("trip_items_detail")
+    @Headers("Content-Type: application/json")
+    fun tripDetail(
+        @Header("Authorization") token: String?,
+        @Body json: JsonObject?
+    ): Call<TripDetailsResponseModel>
+
+    @POST("trip_intention_submit")
+    @Headers("Content-Type: application/json")
+    fun tripIntentSubmit(
+        @Header("Authorization") token: String?,
+        @Body json: JsonObject?
+    ): Call<GeneralSubmitResponseModel>
+
+    @Multipart
+    @POST("trip_document_submit")
+    fun uploadDocuments(
+        @Header("Authorization") token: String?,
+        @Part("action") action: RequestBody?,
+        @Part("trip_item_id") tripItemId: RequestBody?,
+        @Part("student_id") studentId: RequestBody?,
+        @Part("card_number") cardNumber: RequestBody?,
+        @Part image:MultipartBody.Part?,
+        @Part image2:MultipartBody.Part?
+    ): Call<TripDocumentSubmitResponseModel>
+
+
+
+    @Multipart
+    @POST("trip_document_submit")
+    fun uploadSingleDocument(
+        @Header("Authorization") token: String?,
+        @Part("action") action: RequestBody?,
+        @Part("trip_item_id") tripItemId: RequestBody?,
+        @Part("student_id") studentId: RequestBody?,
+        @Part("card_number") cardNumber: RequestBody?,
+        @Part image: MultipartBody.Part?
+    ): Call<TripDocumentSubmitResponseModel>
+
+    @Multipart
+    @POST("trip_document_submit")
+    fun uploadPermissionSlip(
+        @Header("Authorization") token: String?,
+        @Part("action") action: RequestBody?,
+        @Part("trip_item_id") tripItemId: RequestBody?,
+        @Part("student_id") studentId: RequestBody?,
+        @Part("card_number") cardNumber: RequestBody?,
+        @Part image: MultipartBody.Part?
+    ): Call<TripDocumentSubmitResponseModel>
+
+    @POST("trip_history")
+    @Headers("Content-Type: application/json")
+    fun tripHistory(
+        @Header("Authorization") token: String?,
+        @Body json: JsonObject?
+    ): Call<TripHistoryResponseModel>
+
+    @POST("get_trip_consent")
+    @Headers("Content-Type: application/json")
+    fun tripConsent(
+        @Header("Authorization") token: String?,
+        @Body json: JsonObject?
+    ): Call<TripConsentResponseModel>
+
+    @POST("trip_max_students_count_check")
+    @Headers("Content-Type: application/json")
+    fun tripCountCheck(
+        @Header("Authorization") token: String?,
+        @Body json: JsonObject?
+    ): Call<TripCountResponseModel>
+    @POST("trip_informations")
+    @Headers("Content-Type: application/json")
+    fun tripInformation(
+        @Header("Authorization") token: String
+    ): Call<InfoPaymentModel>
+
+    @POST("network_payment_gateway_access_token")
+    @Headers("Content-Type: application/json")
+    fun payment_token_trip(
+        @Body  paymentCategories: PaymentTokenApiModel,
+        @Header("Authorization") token:String
+    ): Call<PaymentTokenModel>
+
+    //payment gateway
+    @POST("network_payment_gateway_creating_an_order")
+    @Headers("Content-Type: application/json")
+    fun payment_gateway_trip(
+        @Body  paymentGateway: PaymentGatewayApiModelTrip,
+        @Header("Authorization") token:String
+    ): Call<TripPaymentInitiateResponseModel>
+
+    @POST("trip_payment_submit")
+    @Headers("Content-Type: application/json")
+    fun paymentSubmit(
+        @Header("Authorization") token: String?,
+        @Body json: JsonObject?
+    ): Call<TripPaymentSubmitModel>
+
+    @POST("trip_choices_count")
+    @Headers("Content-Type: application/json")
+    fun tripChoicePreference(@Header("Authorization") token: String?): Call<TripChoicePreferenceResponseModel>
 }

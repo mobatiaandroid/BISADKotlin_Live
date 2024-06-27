@@ -10,6 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.mobatia.bisad.R
+import com.mobatia.bisad.activity.school_trips.TripDetailActivity
+import com.mobatia.bisad.activity.school_trips.model.TripListResponseModel
+import com.mobatia.bisad.constants.CommonFunctions
 
 
 class TripListAdapter(
@@ -48,37 +52,37 @@ class TripListAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.tripNameTextView.setText(tripList[position].getTripName())
-        if (tripList[position].getTripImage().size() > 0) {
-            if (!tripList[position].getTripImage().get(0).equalsIgnoreCase("")) {
-                Glide.with(context).load(AppUtils.replace(tripList[position].getTripImage().get(0)))
+        holder.tripNameTextView.setText(tripList[position].tripName)
+        if (tripList[position].tripImage!!.size > 0) {
+            if (!tripList[position].tripImage!!.get(0).equals("")) {
+                Glide.with(context).load(CommonFunctions.replace(tripList[position].tripImage!!.get(0)))
                     .fitCenter().placeholder(R.drawable.default_banner)
                     .into(holder.tripImageView)
             }
         }
-        if (tripList[position].getPreference().equalsIgnoreCase("")) {
+        if (tripList[position].preference.equals("")) {
             holder.tripPreference.visibility = View.INVISIBLE
         } else {
             holder.tripPreference.visibility = View.VISIBLE
-            holder.tripPreference.setText(tripList[position].getPreference())
+            holder.tripPreference.setText(tripList[position].preference)
         }
-        if (tripList[position].getTripStatus() === 0) {
+        if (tripList[position].tripStatus === 0) {
             holder.tripBookButton.text = "Book your Trip"
-        } else if (tripList[position].getTripStatus() === 1) {
+        } else if (tripList[position].tripStatus === 1) {
             holder.tripBookButton.text = "Pending"
-        } else if (tripList[position].getTripStatus() === 2) {
+        } else if (tripList[position].tripStatus === 2) {
             holder.tripBookButton.text = "Rejected"
-        } else if (tripList[position].getTripStatus() === 3) {
+        } else if (tripList[position].tripStatus === 3) {
             holder.tripBookButton.text = "Continue"
-        } else if (tripList[position].getTripStatus() === 4) {
+        } else if (tripList[position].tripStatus === 4) {
             holder.tripBookButton.text = "Cancelled"
-        } else if (tripList[position].getTripStatus() === 5) {
+        } else if (tripList[position].tripStatus === 5) {
             holder.tripBookButton.text = "Pay now"
-        } else if (tripList[position].getTripStatus() === 6) {
+        } else if (tripList[position].tripStatus === 6) {
             holder.tripBookButton.text = "Pay now"
-        } else if (tripList[position].getTripStatus() === 7) {
+        } else if (tripList[position].tripStatus=== 7) {
             holder.tripBookButton.text = "View Invoice"
-        } else if (tripList[position].getTripStatus() === 9) {
+        } else if (tripList[position].tripStatus === 9) {
             holder.tripBookButton.text = "Expired"
         } else {
             holder.tripBookButton.text = "Not Available"
@@ -88,8 +92,8 @@ class TripListAdapter(
                 context,
                 TripDetailActivity::class.java
             )
-            intent.putExtra("tripID", tripList[position].getId())
-            intent.putExtra("tripName", tripList[position].getTripName())
+            intent.putExtra("tripID", tripList[position].id)
+            intent.putExtra("tripName", tripList[position].tripName)
             context.startActivity(intent)
             //                showIntentionPopUp();
         }
@@ -98,18 +102,16 @@ class TripListAdapter(
                 context,
                 TripDetailActivity::class.java
             )
-            intent.putExtra("tripID", tripList[position].getId())
-            intent.putExtra("tripName", tripList[position].getTripName())
+            intent.putExtra("tripID", tripList[position].id)
+            intent.putExtra("tripName", tripList[position].tripName)
             context.startActivity(intent)
             //                showIntentionPopUp();
         }
-        holder.tripPriceTextView.setText(tripList[position].getTotalPrice() + " AED")
+        holder.tripPriceTextView.setText(tripList[position].totalPrice + " AED")
         //        holder.tripDateTextView.setText("Trip Date : " +tripList.get(position).getTripDate());
         holder.tripDateTextView.setText(
-            AppUtils.dateParsingyyyyMMddToDdMmmYyyy(tripList[position].getTripDate()) + " to " + AppUtils.dateParsingyyyyMMddToDdMmmYyyy(
-                tripList[position].getTripEndDate()
-            )
-        )
+            CommonFunctions.dateParsingyyyyMMddToDdMmmYyyy(tripList[position].tripDate + " to " + CommonFunctions.dateParsingyyyyMMddToDdMmmYyyy(
+                tripList[position].tripEndDate)))
     }
 
     override fun getItemCount(): Int {

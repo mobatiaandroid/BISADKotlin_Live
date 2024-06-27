@@ -7,11 +7,14 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import com.mobatia.bisad.R
+import com.mobatia.bisad.activity.school_trips.adapter.TripsImagePagerAdapter
+
 
 class TripImagesViewActivity : AppCompatActivity() {
     var mContext: Context? = null
     var back: ImageView? = null
-    var intent: Intent? = null
+   // var intent: Intent? = null
     var mPhotosModelArrayList: ArrayList<String>? = null
     var extras: Bundle? = null
     var bannerImageViewPager: ViewPager? = null
@@ -29,7 +32,7 @@ class TripImagesViewActivity : AppCompatActivity() {
         extras = getIntent().extras
         if (extras != null) {
             mPhotosModelArrayList =
-                extras!!.getSerializable("photo_array") as java.util.ArrayList<String?>?
+                extras!!.getSerializable("photo_array") as java.util.ArrayList<String>?
             pos = extras!!.getInt("pos")
         }
         back!!.setOnClickListener { v: View? -> finish() }

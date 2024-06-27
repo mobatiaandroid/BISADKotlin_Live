@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.school_trips.adapter;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,9 +14,11 @@ import android.widget.RelativeLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.mobatia.naisapp.R;
-import com.mobatia.naisapp.manager.AppUtils;
-import com.mobatia.naisapp.volleywrappermanager.CustomProgressBar;
+import com.bumptech.glide.Glide;
+import com.mobatia.bisad.constants.CommonFunctions;
+import com.mobatia.bisad.constants.ProgressBarDialog;
+import com.mobatia.bisad.R;
+
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -33,7 +36,7 @@ public class TripsImagePagerAdapter extends PagerAdapter {
     ImageView imageView;
     ImageView downloadimageView;
     ImageView share;
-    CustomProgressBar pDialog;
+    ProgressBarDialog pDialog;
     private LayoutInflater mInflaters;
     private Target mTarget;
 
@@ -55,7 +58,7 @@ public class TripsImagePagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
-        pDialog = new CustomProgressBar(mContext, R.drawable.spinner);
+        pDialog = new ProgressBarDialog(mContext);
         pos = position;
         View pageview = null;
         mInflaters = LayoutInflater.from(mContext);
@@ -69,12 +72,12 @@ public class TripsImagePagerAdapter extends PagerAdapter {
             if (orientation.equals("portrait")) {
                 imageView.setVisibility(View.VISIBLE);
                 back.setVisibility(View.VISIBLE);
-                loadImage(mContext, AppUtils.replace(mImagesArrayListBg.get(position)), imageView);
+                loadImage(mContext, CommonFunctions.Companion.replace(mImagesArrayListBg.get(position)), imageView);
             } else {
                 imageView.setVisibility(View.VISIBLE);
 
                 back.setVisibility(View.GONE);
-                loadImage(mContext, AppUtils.replace(mImagesArrayListBg.get(position)), imageView);
+                loadImage(mContext, CommonFunctions.Companion.replace(mImagesArrayListBg.get(position)), imageView);
 
             }
         }
@@ -108,9 +111,11 @@ public class TripsImagePagerAdapter extends PagerAdapter {
             }
 
             @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
 
             }
+
+
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
@@ -118,7 +123,7 @@ public class TripsImagePagerAdapter extends PagerAdapter {
             }
         };
 
-        Picasso.with(context).load(url).into(mTarget);
+        Picasso.get().load(url).into(mTarget);
         pDialog.dismiss();
     }
 }

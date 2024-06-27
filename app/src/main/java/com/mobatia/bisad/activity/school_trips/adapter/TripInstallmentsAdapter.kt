@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.mobatia.bisad.R
+import com.mobatia.bisad.activity.school_trips.model.TripDetailsResponseModel
+import com.mobatia.bisad.constants.CommonFunctions
 
 
 class TripInstallmentsAdapter(
@@ -46,29 +49,29 @@ class TripInstallmentsAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.pdfTitle.text = String.format("Installment No:%d", position + 1)
-        holder.tripsDateTxt.setText(AppUtils.dateConversionddmmyyyytoddMMYYYY(tripList[position].getDueDate()))
-        holder.tripsAmountTxt.setText(tripList[position].getAmount() + " " + "AED")
-        if (tripList[position].getDueDate().equalsIgnoreCase("0")) {
+        holder.tripsDateTxt.setText(CommonFunctions.dateConversionddmmyyyytoddMMYYYY(tripList[position].dueDate))
+        holder.tripsAmountTxt.setText(tripList[position].amount + " " + "AED")
+        if (tripList[position].dueDate.equals("0")) {
             holder.mainRelative.setBackgroundColor(context.resources.getColor(R.color.list_bg))
         } else {
-            if (tripList[position].getPaidStatus() === 0) {
+            if (tripList[position].paidStatus=== 0) {
                 holder.mainRelative.setBackgroundColor(context.resources.getColor(R.color.rel_nine))
             } else {
                 holder.mainRelative.setBackgroundColor(context.resources.getColor(R.color.list_bg))
             }
         }
-        if (tripList[position].getPaidStatus() === 0) {
+        if (tripList[position].paidStatus=== 0) {
             // holder.imageIcon.setVisibility(View.VISIBLE);
             //holder.imageIcon.setBackgroundResource(R.drawable.shape_circle_red);
             holder.statusLayout.visibility = View.VISIBLE
             holder.status.setBackgroundResource(R.drawable.rectangle_red)
             holder.status.text = "New"
-        } else if (tripList[position].getPaidStatus() === 1 || java.lang.String.valueOf(tripList[position].getPaidStatus())
+        } else if (tripList[position].paidStatus === 1 || java.lang.String.valueOf(tripList[position].paidStatus)
                 .equals("", ignoreCase = true)
         ) {
             //holder.imageIcon.setVisibility(View.GONE);
             holder.statusLayout.visibility = View.GONE
-        } else if (tripList[position].getPaidStatus() === 2) {
+        } else if (tripList[position].paidStatus === 2) {
             // holder.imageIcon.setVisibility(View.VISIBLE);
             // holder.imageIcon.setBackgroundResource(R.drawable.shape_circle_navy);
             holder.statusLayout.visibility = View.VISIBLE

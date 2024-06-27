@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:id="@+id/lineartop"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="16dp"
+        android:weightSum="3">
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+            android:id="@+id/signature_pad_description"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
+            android:text="Trip Payment" />
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:layout_alignParentBottom="true"
+            android:text="" />
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:text="DUE ON"
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:background="@color/orange_circle"
+            />
+    </LinearLayout>
+    <View
+
+        android:id="@+id/viewDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/lineartop"
+        android:layout_marginTop="10dp"
+        android:background="@color/grey">
+
+    </View>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tickimage"
+        android:visibility="gone"
+        android:layout_below="@+id/viewDivider"
+        android:src="@drawable/tickicon">
+    </ImageView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewDivider"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        android:layout_marginBottom="16dp"
+        android:layout_toRightOf="@+id/tickimage"
+        android:orientation="vertical">
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+            android:id="@+id/yesbank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="YES Bank"
+            android:textColor="@android:color/darker_gray" />
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+            android:id="@+id/accontno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="XXXX XXXX XXXX 3942"
+            android:textColor="@android:color/darker_gray" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/payTotalView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/tickimage"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/trip_textview_bg"
+        android:orientation="horizontal">
+
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+            android:id="@+id/totalAmountTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="299999.54 AED"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/arrowimage"
+            app:layout_constraintStart_toEndOf="@+id/pay_total"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+            android:id="@+id/pay_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Pay Total"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/totalAmountTextView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/arrowimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/payInstallmentView"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_height="60dp"
+        android:layout_below="@+id/payTotalView"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/trip_textview_bg"
+        android:orientation="horizontal">
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+            android:id="@+id/paymini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:text="Pay in Installments"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/arrowimage2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/payInstallmentView"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/linearamount"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/trip_textview_bg"
+        android:orientation="horizontal">
+
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+            android:id="@+id/enter_other_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:layout_marginLeft="20dp"
+            android:text="enter other amount"
+            android:textColor="@android:color/darker_gray" />
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+            android:layout_width="0dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            />
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+            android:id="@+id/rupees"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="@android:color/darker_gray" />
+
+        <ImageView
+            android:id="@+id/arrowimage3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viewDivider"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"></ImageView>
+    </LinearLayout>
+    <View
+
+        android:id="@+id/viewDivider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/linearamount"
+        android:layout_marginTop="10dp"
+        android:background="@color/grey">
+
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_margin="20dp"
+        android:layout_below="@+id/viewDivider2">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Image"
+            android:layout_gravity="center"
+            android:layout_below="@+id/viewDivider"
+            android:src="@drawable/baseline_bolt_24">
+        </ImageView>
+        <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:text="100% secure and superfast payments"
+            android:textColor="@color/Grey_600" />
+    </LinearLayout>
+</RelativeLayout>

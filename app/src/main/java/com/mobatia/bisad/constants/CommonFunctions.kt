@@ -12,6 +12,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.mobatia.bisad.R
+import java.text.DateFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class CommonFunctions {
@@ -48,6 +53,38 @@ class CommonFunctions {
                 )
             }
         }
+
+        fun showDialogAlertDismiss(
+            activity: Activity?,
+            msgHead: String?,
+            msg: String?,
+            ico: Int,
+            bgIcon: Int
+        ) {
+            val dialog = Dialog(activity!!)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.setCancelable(false)
+            dialog.setContentView(R.layout.alert_dialogue_ok_layout)
+            val icon = dialog.findViewById<ImageView>(R.id.iconImageView)
+            icon.setBackgroundResource(bgIcon)
+            icon.setImageResource(ico)
+            val text = dialog.findViewById<TextView>(R.id.text_dialog)
+            val textHead = dialog.findViewById<TextView>(R.id.alertHead)
+            text.text = msg
+            textHead.text = msgHead
+            val dialogButton = dialog.findViewById<Button>(R.id.btn_Ok)
+            dialogButton.setOnClickListener { dialog.dismiss() }
+            //		Button dialogButtonCancel = (Button) dialog.findViewById(R.id.btn_Cancel);
+//		dialogButtonCancel.setVisibility(View.GONE);
+//		dialogButtonCancel.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				dialog.dismiss();
+//			}
+//		});
+            dialog.show()
+        }
         fun showSuccessAlert(context: Context, message: String, msgHead: String, mdialog: Dialog) {
             val dialog = Dialog(context)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -67,6 +104,20 @@ class CommonFunctions {
                 mdialog.dismiss()
             }
             dialog.show()
+        }
+
+        fun dateParsingyyyyMMddToDdMmmYyyy(date: String?): String? {
+            var strCurrentDate = ""
+            var format = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+            var newDate: Date? = null
+            try {
+                newDate = format.parse(date)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+            format = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+            strCurrentDate = format.format(newDate)
+            return strCurrentDate
         }
      /*   fun emailvalidation(mContext:Context,text_dialog:TextView,text_content:EditText,surveyEmail:String){
             val EMAIL_PATTERN :String=
@@ -135,6 +186,24 @@ class CommonFunctions {
                 }
             }
         }*/
+
+        fun dateConversionddmmyyyytoddMMYYYY(inputDate: String?): String? {
+            var mDate = ""
+            try {
+                val date: Date
+                val formatter: DateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+                date = formatter.parse(inputDate)
+                //Subtracting 6 hours from selected time
+                val time = date.time
+
+                //SimpleDateFormat formatterFullDate = new SimpleDateFormat("dd MMMM yyyy");
+                val formatterFullDate = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+                mDate = formatterFullDate.format(time)
+            } catch (e: Exception) {
+//			Log.d("Exception", "" + e);
+            }
+            return mDate
+        }
 
     }
 }

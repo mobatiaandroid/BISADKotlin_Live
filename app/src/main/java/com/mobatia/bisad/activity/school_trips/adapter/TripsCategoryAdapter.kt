@@ -9,6 +9,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.mobatia.bisad.R
+import com.mobatia.bisad.activity.school_trips.TripListingActivity
+import com.mobatia.bisad.constants.CommonFunctions
+import com.mobatia.bisad.fragment.school_trips.model.TripCategoriesResponseModel
 
 
 class TripsCategoryAdapter(
@@ -39,9 +43,9 @@ class TripsCategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.categoryNameTextView.setText(categoryList[position].getTripCategory())
-        if (!categoryList[position].getImage().equalsIgnoreCase("")) {
-            Glide.with(context).load(AppUtils.replace(categoryList[position].getImage()))
+        holder.categoryNameTextView.setText(categoryList[position].tripCategory)
+        if (!categoryList[position].image.equals("")) {
+            Glide.with(context).load(CommonFunctions.replace(categoryList[position].image!!))
                 .fitCenter().placeholder(R.drawable.default_banner)
                 .into(holder.categoryItemImageView)
         }
@@ -50,8 +54,8 @@ class TripsCategoryAdapter(
                 context,
                 TripListingActivity::class.java
             )
-            intent.putExtra("trip_category_id", categoryList[position].getId())
-            intent.putExtra("trip_category_name", categoryList[position].getTripCategory())
+            intent.putExtra("trip_category_id", categoryList[position].id)
+            intent.putExtra("trip_category_name", categoryList[position].tripCategory)
             context.startActivity(intent)
             //                showIntentionPopUp();
         }

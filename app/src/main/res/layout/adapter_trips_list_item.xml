@@ -86,7 +86,7 @@
                     android:layout_width="110dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
-
+                    android:gravity="center"
                     android:layout_weight="0.25"
                     android:background="@drawable/rectangle_navy_blue_button"
                     android:textAllCaps="false"

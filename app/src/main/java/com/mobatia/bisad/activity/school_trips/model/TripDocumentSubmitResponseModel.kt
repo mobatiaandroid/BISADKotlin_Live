@@ -3,13 +3,13 @@ package com.mobatia.bisad.activity.school_trips.model
 import com.google.gson.annotations.SerializedName
 
 class TripDocumentSubmitResponseModel {
-    @SerializedName("responsecode")
-    private val responseCode: String? = null
+    @SerializedName("status")
+    private val responseCode: Int? = null
 
     @SerializedName("response")
     private val responseData: ResponseData? = null
 
-    fun getResponseCode(): String? {
+    fun getResponseCode(): Int? {
         return responseCode
     }
 
