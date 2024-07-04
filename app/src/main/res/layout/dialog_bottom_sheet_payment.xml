@@ -138,7 +138,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Pay Total"
+            android:text="Pay Full Amount"
             android:textColor="@android:color/darker_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/totalAmountTextView"

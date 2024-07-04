@@ -63,7 +63,7 @@ class TripCategoriesActivity : AppCompatActivity() {
     var tripsCategoryAdapter: TripsCategoryAdapter? = null
     var contactEmail = ""
     lateinit var back: ImageView
- //   lateinit var btn_history:ImageView
+   lateinit var btn_history:ImageView
     lateinit var home:ImageView
 
     //    LinearLayout mStudentSpinner;
@@ -100,10 +100,10 @@ class TripCategoriesActivity : AppCompatActivity() {
         sendEmailImageView = findViewById<ImageView>(R.id.sendEmailImageView)
         relativeHeader = findViewById<RelativeLayout>(R.id.relativeHeader)
         headermanager = HeaderManager(this@TripCategoriesActivity,"Trip Categories")
-       headermanager!!.getHeader(relativeHeader, 6)
+        headermanager!!.getHeader(relativeHeader, 6)
         back = headermanager.getLeftButton()
-       // btn_history = headermanager.getRightHistoryImage()
-      //  btn_history!!.visibility = View.INVISIBLE
+        btn_history = headermanager.getRightHistoryImage()
+        btn_history!!.visibility = View.INVISIBLE
         categoryListRecyclerView = findViewById<RecyclerView>(R.id.categoryListRecycler)
         categoryListRecyclerView.setHasFixedSize(true)
         val spacing = 5 // 50px
@@ -113,7 +113,7 @@ class TripCategoriesActivity : AppCompatActivity() {
 //                new DividerItemDecoration(context.getResources().getDrawable(R.drawable.list_divider)));
         categoryListRecyclerView.addItemDecoration(itemDecoration)
         categoryListRecyclerView.setLayoutManager(recyclerViewLayoutManager)
-       // headermanager.setButtonLeftSelector(R.drawable.back, R.drawable.back)
+       headermanager.setButtonLeftSelector(R.drawable.back, R.drawable.back)
         back!!.setOnClickListener {
             CommonFunctions.hideKeyBoard(context)
             finish()

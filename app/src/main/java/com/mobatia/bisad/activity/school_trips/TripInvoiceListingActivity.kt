@@ -19,6 +19,7 @@ import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.ProgressBarDialog
 import com.mobatia.bisad.fragment.school_trips.model.TripCategoriesResponseModel
+import com.mobatia.bisad.manager.HeaderManager
 import com.mobatia.bisad.manager.HeaderManagerNoColorSpace
 import com.mobatia.bisad.manager.ItemOffsetDecoration
 import com.mobatia.bisad.manager.PreferenceData
@@ -37,7 +38,7 @@ class TripInvoiceListingActivity : AppCompatActivity() {
 
     lateinit var  progressDialogP: ProgressBarDialog
     lateinit var relativeHeader: RelativeLayout
-    lateinit var headermanager: HeaderManagerNoColorSpace
+    lateinit var headermanager: HeaderManager
     private val pictureImagePath = ""
 
     var bannerImageView: ImageView? = null
@@ -92,13 +93,15 @@ class TripInvoiceListingActivity : AppCompatActivity() {
             tripID = extras!!.getString("tripID")!!
             tripName = extras!!.getString("tripName")!!
         }
-      //  TripInvoiceListingActivity.progressDialogP = ProgressBarDialog(context, R.drawable.spinner)
+        progressDialogP = ProgressBarDialog(context)
+
+        //  TripInvoiceListingActivity.progressDialogP = ProgressBarDialog(context, R.drawable.spinner)
         relativeHeader = findViewById<RelativeLayout>(R.id.relativeHeader)
-        headermanager = HeaderManagerNoColorSpace(this@TripInvoiceListingActivity, "Trip Categories")
+        headermanager = HeaderManager(this@TripInvoiceListingActivity, "Trip Categories")
         headermanager.getHeader(relativeHeader, 6)
         back = headermanager.getLeftButton()
-        //btn_history = headermanager.getRightHistoryImage()
-        //btn_history.setVisibility(View.INVISIBLE)
+        btn_history = headermanager.getRightHistoryImage()
+        btn_history.setVisibility(View.INVISIBLE)
         tripImageRecycler = findViewById<RecyclerView>(R.id.tripListRecycler)
         tripImageRecycler.setHasFixedSize(true)
         val spacing = 5 // 50px

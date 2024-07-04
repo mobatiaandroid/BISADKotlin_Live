@@ -35,7 +35,6 @@ import com.mobatia.bisad.fragment.staff_directory.model.SendStaffEmailModel
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.AccessTokenClass
 import com.mobatia.bisad.rest.ApiClient
-import kotlinx.android.synthetic.main.canteen_payment.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

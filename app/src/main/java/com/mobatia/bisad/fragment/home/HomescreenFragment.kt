@@ -62,6 +62,7 @@ import com.mobatia.bisad.fragment.payment.PaymentFragment
 import com.mobatia.bisad.fragment.permission_slip.PermissionSlipFragment
 import com.mobatia.bisad.fragment.report_absence.ReportAbsenceFragment
 import com.mobatia.bisad.fragment.reports.ReportsFragment
+import com.mobatia.bisad.fragment.school_trips.SchoolTripsFragment
 import com.mobatia.bisad.fragment.settings.adapter.TriggerAdapter
 import com.mobatia.bisad.fragment.settings.model.TriggerDataModel
 import com.mobatia.bisad.fragment.settings.model.TriggerUSer
@@ -910,7 +911,9 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 textdata.equals(classNameConstants.TERM_DATES, ignoreCase = true) -> {
                     TAB_ID = naisTabConstants.TAB_TERM_DATES
                 }
-
+                textdata.equals(classNameConstants.TRIPS, ignoreCase = true) -> {
+                    TAB_ID = naisTabConstants.TAB_TRIP
+                }
                 textdata.equals(classNameConstants.CONTACT_US, ignoreCase = true) -> {
                     TAB_ID = naisTabConstants.TAB_CONTACT_US
 
@@ -1197,6 +1200,13 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         "Alert"
                     )
                 }
+                naisTabConstants.TAB_TRIP -> {
+                    showSuccessAlert(
+                        mContext,
+                        "This feature is only available for registered users.",
+                        "Alert"
+                    )
+                }
 //                naisTabConstants.TAB_ATTENDANCE -> {
 //                    showSuccessAlert(
 //                        mContext,
@@ -1383,6 +1393,14 @@ Log.e("success","Sucess")
                     sharedprefs.setStudentPhoto(mContext, "")
                     sharedprefs.setStudentClass(mContext, "")
                     mFragment = ReportsFragment()
+                    fragmentIntent(mFragment)
+                }
+                naisTabConstants.TAB_TRIP -> {
+                    sharedprefs.setStudentID(mContext, "")
+                    sharedprefs.setStudentName(mContext, "")
+                    sharedprefs.setStudentPhoto(mContext, "")
+                    sharedprefs.setStudentClass(mContext, "")
+                    mFragment = SchoolTripsFragment()
                     fragmentIntent(mFragment)
                 }
 //                naisTabConstants.TAB_CURRICULUM -> {

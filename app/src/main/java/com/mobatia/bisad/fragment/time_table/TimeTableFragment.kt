@@ -55,8 +55,6 @@ import com.mobatia.bisad.recyclermanager.addOnItemClickListener
 import com.mobatia.bisad.rest.AccessTokenClass
 import com.mobatia.bisad.rest.ApiClient
 import com.ryanharter.android.tooltips.ToolTipLayout
-import kotlinx.android.synthetic.main.fragment_time_table.*
-import kotlinx.android.synthetic.main.fragment_timetablenew.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

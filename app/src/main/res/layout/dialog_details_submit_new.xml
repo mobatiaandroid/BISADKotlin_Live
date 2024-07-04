@@ -61,9 +61,11 @@
 
             <ImageView
                 android:id="@+id/studentAdd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/addicon2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/student"
                 app:layout_constraintBottom_toBottomOf="@+id/studtitle"
                 app:layout_constraintEnd_toStartOf="@+id/studtitle"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -79,6 +81,8 @@
                 android:gravity="center|left"
                 android:text="Student information"
                 android:textSize="16sp"
+                android:visibility="visible"
+                android:layout_marginLeft="2dp"
                 app:layout_constraintBottom_toTopOf="@+id/studentDetailsConstraint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -155,11 +159,18 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginRight="16dp"
                             android:hint="Passport Number"
-                            android:textSize="12sp"
+                            android:textSize="15sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/full_name" />
-
+                        <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+                            android:id="@+id/attachfileformatpassport"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Attach Files (.jpg formats)"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="20dp"
+                           />
                     </LinearLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -173,8 +184,9 @@
 
                         <com.mobatia.bisad.manager.CustomFontSansProTextBlack
                             android:id="@+id/textView5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_width="150dp"
+                            android:layout_height="40dp"
+                            android:gravity="center"
                             android:text="(Attach front of Passport)"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/chooseFilePassportFront"
@@ -209,8 +221,9 @@
 
                         <com.mobatia.bisad.manager.CustomFontSansProTextBlack
                             android:id="@+id/textView6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_width="150dp"
+                            android:layout_height="40dp"
+                            android:gravity="center"
                             android:text="(Attach back of Passport)"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/chooseFilePassportBack"
@@ -311,11 +324,18 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginRight="16dp"
                             android:hint="VISA Number"
-                            android:textSize="12sp"
+                            android:textSize="15sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/full_name" />
-
+                        <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+                            android:id="@+id/attachfileformatvisa"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Attach Files (.jpg formats)"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="20dp"
+                            />
                     </LinearLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -328,9 +348,10 @@
 
                         <com.mobatia.bisad.manager.CustomFontSansProTextBlack
                             android:id="@+id/textView7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_width="150dp"
+                            android:layout_height="40dp"
                             android:text="(Attach VISA)"
+                            android:gravity="center"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/chooseFileVisaFront"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -350,7 +371,6 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/textView7"
                             app:layout_constraintTop_toTopOf="parent" />
-
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -467,11 +487,18 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginRight="16dp"
                             android:hint="Emirates ID"
-                            android:textSize="12sp"
+                            android:textSize="15sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/full_name" />
-
+                        <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+                            android:id="@+id/attachfileformatemirates"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Attach Files (.jpg formats)"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="20dp"
+                            />
                     </LinearLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -484,8 +511,9 @@
 
                         <com.mobatia.bisad.manager.CustomFontSansProTextBlack
                             android:id="@+id/textView77"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_width="150dp"
+                            android:layout_height="40dp"
+                            android:gravity="center"
                             android:text="(Attach front of EID)"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/chooseFileEIDFront"
@@ -520,9 +548,10 @@
 
                         <com.mobatia.bisad.manager.CustomFontSansProTextBlack
                             android:id="@+id/textView666"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_width="150dp"
+                            android:layout_height="40dp"
                             android:text="(Attach back of EID)"
+                            android:gravity="center"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/choosefileEIDBack"
                             app:layout_constraintStart_toStartOf="parent"
@@ -542,7 +571,6 @@
                             app:layout_constraintStart_toEndOf="@+id/textView666"
                             app:layout_constraintTop_toTopOf="parent" />
 
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <Button
@@ -559,6 +587,107 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/constraintLayout333" />
 
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/medicalconcentImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/addicon2"
+                    app:layout_constraintBottom_toBottomOf="@+id/medicalIDTV"
+                    app:layout_constraintEnd_toStartOf="@+id/medicalIDTV"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/medicalIDTV">
+
+                </ImageView>
+
+                <com.mobatia.bisad.manager.CustomFontSansProTextBlackBold
+                    android:id="@+id/medicalIDTV"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:gravity="center|left"
+                    android:text="@string/medical_info"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/emiratesAdd"
+                    app:layout_constraintTop_toBottomOf="@id/emirateIDConstraint" />
+
+                <LinearLayout
+                    android:id="@+id/medicalConstraint"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/medicalIDTV">
+
+                    <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                        android:id="@+id/medicalconsentQuestion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+
+                        android:text="Are you willing to join the trip?"
+                        app:layout_constraintBottom_toTopOf="@+id/yesNoRadioGroup"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+                    <RadioGroup
+                        android:id="@+id/yesNoRadioGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toTopOf="@+id/preferenceLayout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tripIntentionQuestion">
+
+                        <RadioButton
+                            android:id="@+id/yesRadio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:text="Yes" />
+
+                        <RadioButton
+                            android:id="@+id/noRadio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:text="No" />
+                    </RadioGroup>
+                    <EditText
+                        android:id="@+id/medicalconsentEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="16dp"
+                        android:visibility="gone"
+                        android:hint="Reason"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/yesNoRadioGroup" />
+                    <Button
+                        android:id="@+id/uploadmedicalDetailsButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_margin="16dp"
+                        android:background="@drawable/button_blue"
+                        android:text="@string/submit"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/yesNoRadioGroup" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -642,6 +771,28 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/rememeberMeImg"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <CheckBox
+                        android:id="@+id/termsconditionImg"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rememeberMeImg" />
+                    <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                        android:id="@+id/agreementtcs"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:text="@string/terms_conditions_permission_trip"
+                        app:layout_constraintStart_toEndOf="@+id/termsconditionImg"
+
+                        app:layout_constraintTop_toBottomOf="@id/agreement"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                         />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout

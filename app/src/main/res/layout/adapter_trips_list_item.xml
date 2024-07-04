@@ -77,7 +77,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.75"
                     android:gravity="center_vertical"
-                    android:text="Choice !"
                     android:visibility="invisible"
                     android:textColor="@color/rel_nine"
                     android:textSize="12sp" />

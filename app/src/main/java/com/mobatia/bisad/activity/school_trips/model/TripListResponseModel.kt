@@ -72,7 +72,8 @@ class TripListResponseModel {
 
         @SerializedName("no_of_trips_exceed")
         var no_of_trips_exceed: String? = null
-
+        @SerializedName("trip_type")
+        val triptype: String? = null
         @SerializedName("trip_image")
         var tripImage: ArrayList<String>? = null
     }

@@ -25,4 +25,5 @@ class NaisClassNameConstants {
     var PARENT_MEETINGS ="Parent Meetings"
     var CANTEEN ="Lunch Box"
     var PAYMENT ="Payment"
+    var TRIPS = "Trips"
 }

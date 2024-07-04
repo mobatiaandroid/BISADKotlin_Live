@@ -42,6 +42,7 @@
         <item>Absence &amp; Early Pickup</item>
         <item>Teacher Contact</item>
         <item>Lunch Box</item>
+        <item>Trips</item>
         <item>Payment</item>
        <!-- <item>Parent Meetings</item>-->
         <item>Social Media</item>
@@ -69,6 +70,8 @@
         <item>@drawable/absence</item>
         <item>@drawable/parentevening</item>
         <item>@drawable/lunchbox_sideicon</item>
+        <item>@drawable/plane</item>
+
         <item>@drawable/payment</item>
 
       <!--  <item>@drawable/parent_association</item>-->
@@ -176,6 +179,39 @@
     <string name="enter_valid_mail">Please enter a valid email</string>
     <string name="mail_success_message">Email sent Successfully</string>
     <string name="mail_alert_success">Success</string>
+    <string name="medical_consent_details">Medical consent Details:</string>
+    <string name="document_success">Document successfully submitted.</string>
+    <string name="medical_consent_prompt">Please provide your Medical Consent!</string>
+    <string name="document_submit_failed">Document submit failed.</string>
+    <string name="submit_intention">Submit Intention</string>
+    <string name="book_now">Book Now</string>
+    <string name="trip_approved">Approved</string>
+
+    <string name="trip_status_0">Book your Trip</string>
+    <string name="trip_status_1">Pending</string>
+    <string name="trip_status_2">Rejected</string>
+    <string name="trip_status_3">Continue</string>
+    <string name="trip_status_4">Cancelled</string>
+    <string name="trip_status_5">Pay now</string>
+    <string name="trip_status_6">Pay now</string>
+    <string name="trip_status_7">View Invoice</string>
+    <string name="trip_status_8">Not Available</string>
+    <string name="paid">Paid</string>
+    <string name="pay">Pay</string>
+    <string name="pay_here">Pay Here</string>
+    <string name="trip_status_9">Expired</string>
+    <string name="trip_cancelled">Trip Cancelled</string>
+    <string name="waiting_for_approval">Waiting for approval</string>
+    <string name="provide_intention_prompt">Please provide your intention!</string>
+    <string name="installment_no">Installment No.</string>
+    <string name="intention_question"> Would you like your child to participate in this trip?</string>
+    <string name="medical_info">Medical Info</string>
+    <string name="tcs">T &amp; Cs</string>
+    <string name="attach">Attach Files (.jpg formats)</string>
+    <string name="terms_conditions_permission_trip">I have read and understood the details in the T &amp; Cs section</string>
+
+
+
 
 
     <string name="demo_string">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,

@@ -538,8 +538,19 @@ class CanteenPaymentActivity:AppCompatActivity() {
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 101) {
+            when (resultCode) {
+                Activity.RESULT_OK -> onCardPaymentResponse(
+                    CardPaymentData.getFromIntent(data!!)
+                )
+                Activity.RESULT_CANCELED ->{
+                    Toast.makeText(nContext, "Transaction Failed", Toast.LENGTH_SHORT).show();
 
-        if (data == null) {
+                }
+            }
+        }
+
+        /*if (data == null) {
             mProgressRelLayout.visibility=View.GONE
             Toast.makeText(nContext, "transaction cancelled", Toast.LENGTH_SHORT).show()
         } else {
@@ -550,28 +561,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
 
                 if (cardPaymentData.code == 2) {
 
-                    /* val tripDetailsAPI = """
-                         {
-                         "details":[
-                         {
-                         "amount":"$totalAmount",
-                         "order_id":"$order_id",
-                         "payment_detail_id":"$id",
-                         "users_id":"${PreferenceData().getUserID(context)}",
-                         "payment_date":"${Calendar.DATE}",
-                         "type":"1",
-                         "student_id":"$studentId"
-                         }
-                         ]
-                         }
-                         """.trimIndent()*/
 
-                 /*   payment_type_print = "Online"
-                    payTotalButton.visibility = View.GONE
-                    totalLinear.visibility = View.VISIBLE
-                    paidImg.visibility = View.VISIBLE
-                    mainLinear.visibility = View.VISIBLE
-                    printLinear.visibility = View.VISIBLE*/
                     paySuccessApi()
 
 
@@ -579,10 +569,35 @@ class CanteenPaymentActivity:AppCompatActivity() {
                     Toast.makeText(nContext, "Transaction failed", Toast.LENGTH_SHORT).show()
                 }
             }
+        }*/
+    }
+    fun onCardPaymentResponse(data: CardPaymentData) {
+        when (data.code) {
+            CardPaymentData.STATUS_PAYMENT_AUTHORIZED,
+            CardPaymentData.STATUS_PAYMENT_CAPTURED -> {
+
+                var internetCheck = InternetCheckClass.isInternetAvailable(nContext)
+                if (internetCheck)
+                {
+                    paySuccessApi()
+                }
+                else{
+                    InternetCheckClass.showSuccessInternetAlert(nContext)
+                }
+
+            }
+            CardPaymentData.STATUS_PAYMENT_FAILED -> {
+                Toast.makeText(nContext, "Transaction Failed", Toast.LENGTH_SHORT).show();
+            }
+            CardPaymentData.STATUS_GENERIC_ERROR -> {
+                Toast.makeText(nContext, data.reason, Toast.LENGTH_SHORT).show();
+            }
+            else -> IllegalArgumentException(
+                "Unknown payment response (${data.reason})")
         }
     }
     private fun paySuccessApi(){
-       // mProgressRelLayout.visibility=View.VISIBLE
+        mProgressRelLayout.visibility=View.VISIBLE
         var devicename:String= (Build.MANUFACTURER
                 + " " + Build.MODEL + " " + Build.VERSION.RELEASE
                 + " " + Build.VERSION_CODES::class.java.fields[Build.VERSION.SDK_INT]
@@ -600,7 +615,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
 
             override fun onResponse(call: Call<WalletAmountModel>, response: Response<WalletAmountModel>) {
                 val responsedata = response.body()
-                //progressDialog.visibility = View.GONE
+                mProgressRelLayout.visibility=View.INVISIBLE
 
                 if (responsedata != null) {
                     try {

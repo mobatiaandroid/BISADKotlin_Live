@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -24,60 +25,41 @@ class TripInstallmentsAdapter(
     }
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var pdfTitle: TextView
-        var tripsDateTxt: TextView
-        var tripsAmountTxt: TextView
-        var mainRelative: RelativeLayout
-        var status: TextView
-        var statusLayout: RelativeLayout
+        var termname: TextView = view.findViewById(R.id.listTxtTitle)
+        var status: TextView = view.findViewById(R.id.status)
+        var statusLayout: RelativeLayout = view.findViewById(R.id.statusLayout)
 
-        init {
-            pdfTitle = view.findViewById<View>(R.id.pdfTitle) as TextView
-            tripsDateTxt = view.findViewById<View>(R.id.tripsDateTxt) as TextView
-            tripsAmountTxt = view.findViewById<View>(R.id.tripsAmountTxt) as TextView
-            mainRelative = view.findViewById<View>(R.id.mainRelative) as RelativeLayout
-            status = view.findViewById<TextView>(R.id.status)
-            statusLayout = view.findViewById<RelativeLayout>(R.id.statusLayout)
-        }
+
+
+        var tripsDateTxt: TextView = view.findViewById(R.id.tripsDateTxt)
+        var arrowImgArab : ImageView = view.findViewById(R.id.arrowImgArab)
+        var arrowImg : ImageView = view.findViewById(R.id.arrowImg)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.adapter_trip_installments, parent, false)
+            .inflate(R.layout.adapter_payment_recycler, parent, false)
         return MyViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.pdfTitle.text = String.format("Installment No:%d", position + 1)
-        holder.tripsDateTxt.setText(CommonFunctions.dateConversionddmmyyyytoddMMYYYY(tripList[position].dueDate))
-        holder.tripsAmountTxt.setText(tripList[position].amount + " " + "AED")
-        if (tripList[position].dueDate.equals("0")) {
-            holder.mainRelative.setBackgroundColor(context.resources.getColor(R.color.list_bg))
-        } else {
-            if (tripList[position].paidStatus=== 0) {
-                holder.mainRelative.setBackgroundColor(context.resources.getColor(R.color.rel_nine))
+
+
+            if (tripList[position].paidStatus == 1) {
+                holder.statusLayout.visibility = View.VISIBLE
+                holder.status.text =  context.getString(R.string.paid)
+                holder.statusLayout.setBackgroundResource(R.drawable.rect_green)
             } else {
-                holder.mainRelative.setBackgroundColor(context.resources.getColor(R.color.list_bg))
+                holder.statusLayout.visibility = View.VISIBLE
+                holder.status.text =  context.getString(R.string.pay)
+                holder.statusLayout.setBackgroundResource(R.drawable.rectangle_blue_update)
             }
-        }
-        if (tripList[position].paidStatus=== 0) {
-            // holder.imageIcon.setVisibility(View.VISIBLE);
-            //holder.imageIcon.setBackgroundResource(R.drawable.shape_circle_red);
-            holder.statusLayout.visibility = View.VISIBLE
-            holder.status.setBackgroundResource(R.drawable.rectangle_red)
-            holder.status.text = "New"
-        } else if (tripList[position].paidStatus === 1 || java.lang.String.valueOf(tripList[position].paidStatus)
-                .equals("", ignoreCase = true)
-        ) {
-            //holder.imageIcon.setVisibility(View.GONE);
-            holder.statusLayout.visibility = View.GONE
-        } else if (tripList[position].paidStatus === 2) {
-            // holder.imageIcon.setVisibility(View.VISIBLE);
-            // holder.imageIcon.setBackgroundResource(R.drawable.shape_circle_navy);
-            holder.statusLayout.visibility = View.VISIBLE
-            holder.status.setBackgroundResource(R.drawable.rectangle_orange)
-            holder.status.text = "Updated"
-        }
+
+        holder.termname.text =
+            context.getString(R.string.installment_no) + (position + 1) + " - " + tripList[position].amount +  context.getString(R.string.aed)
+        holder.tripsDateTxt.text= CommonFunctions.dateConversionddmmyyyytoddMMYYYY(tripList[position].dueDate)
+
+
     }
 
     override fun getItemCount(): Int {

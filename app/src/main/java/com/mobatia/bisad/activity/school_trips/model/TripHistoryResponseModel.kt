@@ -67,7 +67,8 @@ class TripHistoryResponseModel {
 
         @SerializedName("trip_status")
         var tripStatus = 0
-
+        @SerializedName("trip_type")
+        val trip_type: String? = null
         // Getters and setters
         @SerializedName("trip_image")
         var tripImageUrls: ArrayList<String>? = null

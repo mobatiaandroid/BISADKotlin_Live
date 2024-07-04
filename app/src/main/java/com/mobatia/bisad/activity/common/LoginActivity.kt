@@ -27,7 +27,6 @@ import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.ApiClient
-import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
@@ -43,6 +42,14 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
     var tokenM:String=""
     private lateinit var progressDialog: ProgressBar
     lateinit var jsonConstans: JsonConstants
+    lateinit var userEditText :TextView
+    lateinit var passwordEditText:TextView
+    lateinit var loginBtn:Button
+    lateinit var helpButton:Button
+    lateinit var guestButton:Button
+    lateinit var signUpButton:Button
+    lateinit var forgotPasswordButton:Button
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -58,13 +65,13 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
     {
         progressDialog = findViewById(R.id.progressDialog)
 
-        var userEditText = findViewById<EditText>(R.id.userEditText)
-        var passwordEditText = findViewById<EditText>(R.id.passwordEditText)
-        var loginBtn = findViewById<Button>(R.id.loginBtn)
-        var helpButton = findViewById<Button>(R.id.helpButton)
-        var guestButton = findViewById<Button>(R.id.guestButton)
-        var signUpButton = findViewById<Button>(R.id.signUpButton)
-        var forgotPasswordButton = findViewById<Button>(R.id.forgotPasswordButton)
+         userEditText = findViewById<EditText>(R.id.userEditText)
+         passwordEditText = findViewById<EditText>(R.id.passwordEditText)
+         loginBtn = findViewById<Button>(R.id.loginBtn)
+         helpButton = findViewById<Button>(R.id.helpButton)
+         guestButton = findViewById<Button>(R.id.guestButton)
+         signUpButton = findViewById<Button>(R.id.signUpButton)
+         forgotPasswordButton = findViewById<Button>(R.id.forgotPasswordButton)
         userEditText.setOnTouchListener(this)
         passwordEditText.setOnTouchListener(this)
 

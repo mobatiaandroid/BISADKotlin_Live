@@ -6,7 +6,7 @@ class TripDocumentSubmitResponseModel {
     @SerializedName("status")
     private val responseCode: Int? = null
 
-    @SerializedName("response")
+    @SerializedName("responseArray")
     private val responseData: ResponseData? = null
 
     fun getResponseCode(): Int? {
@@ -41,6 +41,8 @@ class TripDocumentSubmitResponseModel {
 
         @SerializedName("consent_status")
         val consentStatus = 0
+        @SerializedName("medical_consent_status")
+        val medicalconsentStatus = 0
 
         @SerializedName("document_completion_status")
         val documentCompletionStatus = 0

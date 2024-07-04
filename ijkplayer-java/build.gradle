@@ -6,13 +6,14 @@ android {
     /* compileSdkVersion rootProject.ext.compileSdkVersion*/
     //noinspection GroovyAssignabilityCheck
     /*  buildToolsVersion rootProject.ext.buildToolsVersion*/
-    compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    compileSdkVersion 34
+   // buildToolsVersion '29.0.3'
     defaultConfig {
 
         minSdkVersion 19
         /*targetSdkVersion rootProject.ext.targetSdkVersion*/
     }
+    namespace 'tv.danmaku.ijk.media.player'
     buildTypes {
         release {
             minifyEnabled false

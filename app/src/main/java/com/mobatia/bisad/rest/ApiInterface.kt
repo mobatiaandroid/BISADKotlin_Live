@@ -56,12 +56,14 @@ import com.mobatia.bisad.activity.payment.model.payment_token.PaymentTokenModel
 import com.mobatia.bisad.activity.permission_slip.model.PermissionResApiModel
 import com.mobatia.bisad.activity.permission_slip.model.PermissionResponseModel
 import com.mobatia.bisad.activity.school_trips.model.PaymentGatewayApiModelTrip
+import com.mobatia.bisad.activity.school_trips.model.SubmitDocResponseModel
 import com.mobatia.bisad.activity.school_trips.model.TripChoicePreferenceResponseModel
 import com.mobatia.bisad.activity.school_trips.model.TripConsentResponseModel
 import com.mobatia.bisad.activity.school_trips.model.TripCountResponseModel
 import com.mobatia.bisad.activity.school_trips.model.TripDetailsResponseModel
 import com.mobatia.bisad.activity.school_trips.model.TripDocumentSubmitResponseModel
 import com.mobatia.bisad.activity.school_trips.model.TripHistoryResponseModel
+import com.mobatia.bisad.activity.school_trips.model.TripInvoiceResponseModel
 import com.mobatia.bisad.activity.school_trips.model.TripListResponseModel
 import com.mobatia.bisad.activity.school_trips.model.TripPaymentInitiateResponseModel
 import com.mobatia.bisad.activity.school_trips.model.TripPaymentSubmitModel
@@ -867,6 +869,17 @@ interface ApiInterface {
         @Header("Authorization") token: String?,
         @Body json: JsonObject?
     ): Call<TripPaymentSubmitModel>
+    @POST("trip_document_submit")
+    fun uploadmedicalDocuments(
+        @Header("Authorization") token: String?,
+        @Body json: JsonObject?
+    ): Call<SubmitDocResponseModel>
+    @POST("generate_trip_receipt")
+    @Headers("Content-Type: application/json")
+    fun tripReciept(
+        @Header("Authorization") token: String?,
+        @Body json: JsonObject?
+    ): Call<TripInvoiceResponseModel>
 
     @POST("trip_choices_count")
     @Headers("Content-Type: application/json")

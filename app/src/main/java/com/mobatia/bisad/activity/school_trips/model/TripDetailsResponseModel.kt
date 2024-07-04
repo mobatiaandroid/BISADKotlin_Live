@@ -92,9 +92,10 @@ class TripDetailsResponseModel {
 
         @SerializedName("description")
         var description: String? = null
-
+        @SerializedName("medical_consent_question")
+        val medicalconsentquestion: String? = null
         @SerializedName("trip_status")
-        var tripStatus: String? = null
+        var tripStatus: Int? = null
 
         @SerializedName("trip_type")
         var trip_type: String? = null
@@ -198,6 +199,8 @@ class TripDetailsResponseModel {
 
         @SerializedName("consent_status")
         var consentStatus = 0
+        @SerializedName("medical_consent_status")
+        val medicalconsentStatus = 0
 
         // Define getters and setters here
         @SerializedName("document_completion_status")
@@ -206,18 +209,23 @@ class TripDetailsResponseModel {
     }
 
 
-    class DocumentsRequired {
+    class DocumentsRequired (
         @SerializedName("passport_doc")
-        var passport_doc: String? = null
+        var passport_doc: Int,
 
         @SerializedName("visa_doc")
-        var visa_doc: String? = null
+        var visa_doc: Int,
 
         @SerializedName("emirates_doc")
-        var emirates_doc: String? = null
+    var emirates_doc: Int,
 
-        @SerializedName("consent_doc")
-        var consent_doc: String? = null
-    }
+    @SerializedName("consent_doc")
+    var consent_doc: Int,
+
+    @SerializedName("medical_consent_doc")
+    var medicalconsentDoc: Int
+    )
+
+
 
 }

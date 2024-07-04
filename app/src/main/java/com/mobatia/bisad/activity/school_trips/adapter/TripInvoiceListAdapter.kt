@@ -22,22 +22,18 @@ class TripInvoiceListAdapter(
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         //  ImageView imageIcon;
-        var pdfTitle: TextView
-        var tripsDateTxt: TextView
-        var tripsAmountTxt: TextView
-        var mainRelative: RelativeLayout
+        var termname: TextView
         var status: TextView
         var statusLayout: RelativeLayout
+        var tripsDateTxt: TextView
 
         init {
 
             //  imageIcon = (ImageView) view.findViewById(R.id.imageIcon);
-            pdfTitle = view.findViewById<View>(R.id.pdfTitle) as TextView
-            tripsDateTxt = view.findViewById<View>(R.id.tripsDateTxt) as TextView
-            tripsAmountTxt = view.findViewById<View>(R.id.tripsAmountTxt) as TextView
-            mainRelative = view.findViewById<View>(R.id.mainRelative) as RelativeLayout
-            status = view.findViewById<TextView>(R.id.status)
-            statusLayout = view.findViewById<RelativeLayout>(R.id.statusLayout)
+             termname = view.findViewById(R.id.listTxtTitle)
+             status= view.findViewById(R.id.status)
+             statusLayout = view.findViewById(R.id.statusLayout)
+             tripsDateTxt = view.findViewById(R.id.tripsDateTxt)
         }
     }
 
@@ -47,12 +43,18 @@ class TripInvoiceListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.payment_wallet_history_recycler_adapter, parent, false)
+            .inflate(R.layout.adapter_payment_recycler, parent, false)
         return MyViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.pdfTitle.text = "Paid by " + mnNewsLetterModelArrayList[position].firstName
+        holder.tripsDateTxt.visibility=View.GONE
+        holder.termname.text = mnNewsLetterModelArrayList[position].invoiceNumber
+
+        holder.statusLayout.visibility = View.VISIBLE
+        holder.status.text =  mContext.getString(R.string.paid)
+        holder.statusLayout.setBackgroundResource(R.drawable.rect_green)
+        /*holder.pdfTitle.text = "Paid by " + mnNewsLetterModelArrayList[position].firstName
         // holder.imageIcon.setVisibility(View.GONE);
         // Log.e("date",mnNewsLetterModelArrayList.get(position).getPaymentDate());
         holder.tripsDateTxt.setText(
@@ -60,7 +62,7 @@ class TripInvoiceListAdapter(
                 mnNewsLetterModelArrayList[position].paymentDate
             )
         )
-        holder.tripsAmountTxt.setText(mnNewsLetterModelArrayList[position].paidAmount + " " + "AED")
+        holder.tripsAmountTxt.setText(mnNewsLetterModelArrayList[position].paidAmount + " " + "AED")*/
     }
 
     override fun getItemId(position: Int): Long {

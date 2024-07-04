@@ -30,7 +30,6 @@ import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.ProgressBarDialog
 import com.mobatia.bisad.fragment.school_trips.model.TripCategoriesResponseModel
 import com.mobatia.bisad.manager.HeaderManager
-import com.mobatia.bisad.manager.HeaderManagerNoColorSpace
 import com.mobatia.bisad.manager.ItemOffsetDecoration
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.recyclermanager.DividerItemDecoration
@@ -69,7 +68,7 @@ class TripInstallmentActivity : AppCompatActivity() {
     var stud_id: String? = null
     var studClass = ""
     var orderId = ""
-    var tripStatus = ""
+    var tripStatus = 0
     var Tokenacesss: String? = null
     var permissionSlip = ""
     var installmentID = ""
@@ -188,7 +187,7 @@ class TripInstallmentActivity : AppCompatActivity() {
 //                            Toast.makeText(context, "Installment already paid.", Toast.LENGTH_SHORT).show();
                             val intent = Intent(
                                 context,
-                                TripInvoicePrintActivity::class.java
+                               TripInvoicePrintActivity::class.java
                             )
                             intent.putExtra("title", "$tripName Receipt")
                             intent.putExtra("tab_type", "Trip Invoice")
@@ -514,26 +513,61 @@ class TripInstallmentActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 101) {
-                val cardPaymentData = CardPaymentData.getFromIntent(data!!)
+                when (resultCode) {
+                    Activity.RESULT_OK -> onCardPaymentResponse(
+                        CardPaymentData.getFromIntent(data!!)
+                    )
+                    Activity.RESULT_CANCELED ->{
+                        Toast.makeText(context, "Transaction Failed", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+                /*val cardPaymentData = CardPaymentData.getFromIntent(data!!)
                 if (cardPaymentData.code == 2) {
                     paymentSubmitAPI()
                 } else {
                     Toast.makeText(context, "Transaction failed", Toast.LENGTH_SHORT).show()
-                }
+                }*/
             } else Toast.makeText(context, "Transaction cancelled.", Toast.LENGTH_SHORT).show()
         } else Toast.makeText(context, "Transaction cancelled.", Toast.LENGTH_SHORT).show()
     }
-
+    fun onCardPaymentResponse(data: CardPaymentData) {
+        when (data.code) {
+            CardPaymentData.STATUS_PAYMENT_AUTHORIZED,
+            CardPaymentData.STATUS_PAYMENT_CAPTURED -> {
+                var internetCheck = InternetCheckClass.isInternetAvailable(context)
+                if (internetCheck)
+                {
+                    paymentSubmitAPI()
+                }
+                else{
+                    InternetCheckClass.showSuccessInternetAlert(context)
+                }
+            }
+            CardPaymentData.STATUS_PAYMENT_FAILED -> {
+                Toast.makeText(context, "Transaction Failed", Toast.LENGTH_SHORT).show();
+            }
+            CardPaymentData.STATUS_GENERIC_ERROR -> {
+                Toast.makeText(context, data.reason, Toast.LENGTH_SHORT).show();
+            }
+            else -> IllegalArgumentException(
+                "Unknown payment response (${data.reason})")
+        }
+    }
     private fun paymentSubmitAPI() {
 
-
+        val tsLong = System.currentTimeMillis() / 1000
+        val ts = tsLong.toString()
+        //   var mechantorderRef=invoice_ref+"-"+ts
+        merchantOrderReference="BISTRIPAND$ts"
         val paramObject = JsonObject()
         paramObject.addProperty("student_id", PreferenceData().getStudentID(context))
         paramObject.addProperty("trip_item_id", tripID)
         paramObject.addProperty("order_reference", OrderRef)
         paramObject.addProperty("invoice_number", merchantOrderReference)
-        paramObject.addProperty("paid_amount", singleInstallmentAmount)
-        paramObject.addProperty("payment_type", "full_payment")
+        paramObject.addProperty("paid_amount", installmentAmount)
+        paramObject.addProperty("payment_type", "installment")
+        paramObject.addProperty("installment_id", installmentID)
         paramObject.addProperty("device_type", "2")
         paramObject.addProperty("device_name", "Android")
         paramObject.addProperty("app_version", "1.0")

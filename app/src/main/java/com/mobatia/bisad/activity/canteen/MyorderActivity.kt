@@ -21,7 +21,6 @@ import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.ApiClient
-import kotlinx.android.synthetic.main.fragment_passport_detail.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

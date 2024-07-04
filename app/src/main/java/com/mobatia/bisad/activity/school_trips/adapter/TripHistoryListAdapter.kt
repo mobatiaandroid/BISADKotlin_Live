@@ -67,26 +67,53 @@ class TripHistoryListAdapter(
             holder.tripPreference.visibility = View.VISIBLE
             holder.tripPreference.setText(tripList[position].preference)
         }
-        if (tripList[position].tripStatus === 0) {
-            holder.tripBookButton.text = "Book your Trip"
-        } else if (tripList[position].tripStatus=== 1) {
-            holder.tripBookButton.text = "Pending"
-        } else if (tripList[position].tripStatus === 2) {
-            holder.tripBookButton.text = "Rejected"
-        } else if (tripList[position].tripStatus === 3) {
-            holder.tripBookButton.text = "Continue"
-        } else if (tripList[position].tripStatus === 4) {
-            holder.tripBookButton.text = "Cancelled"
-        } else if (tripList[position].tripStatus === 5) {
-            holder.tripBookButton.text = "Pay now"
-        } else if (tripList[position].tripStatus === 6) {
-            holder.tripBookButton.text = "Pay now"
-        } else if (tripList[position].tripStatus === 7) {
-            holder.tripBookButton.text = "View Invoice"
-        } else if (tripList[position].tripStatus === 9) {
-            holder.tripBookButton.text = "Expired"
-        } else {
-            holder.tripBookButton.text = "Not Available"
+        if (tripList[position].trip_type.equals("international"))
+        {
+            if (tripList[position].tripStatus === 0) {
+                holder.tripBookButton.text =  context.getString(R.string.book_now)
+            } else if (tripList[position].tripStatus === 1) {
+                holder.tripBookButton.text =  context.getString(R.string.trip_status_1)
+            } else if (tripList[position].tripStatus === 2) {
+                holder.tripBookButton.text =  context.getString(R.string.trip_status_2)
+            } else if (tripList[position].tripStatus === 3) {
+                holder.tripBookButton.text =  context.getString(R.string.trip_approved)
+            } else if (tripList[position].tripStatus === 4) {
+                holder.tripBookButton.text = context.getString(R.string.trip_cancelled)
+            } else if (tripList[position].tripStatus === 5) {
+                holder.tripBookButton.text =  context.getString(R.string.trip_status_5)
+            } else if (tripList[position].tripStatus === 6) {
+                holder.tripBookButton.text =  context.getString(R.string.trip_status_6)
+            } else if (tripList[position].tripStatus === 7) {
+                holder.tripBookButton.text =  context.getString(R.string.paid)
+            } else {
+                holder.tripBookButton.text =  context.getString(R.string.trip_status_8)
+            }
+        }
+        else if (tripList[position].trip_type.equals("domestic"))
+        {
+            if (tripList[position].tripStatus === 0) {
+                holder.tripBookButton.text =  context.getString(R.string.book_now)
+            } else if (tripList[position].tripStatus === 1) {
+                holder.tripBookButton.text =  context.getString(R.string.trip_status_1)
+            } else if (tripList[position].tripStatus === 2) {
+                holder.tripBookButton.text =  context.getString(R.string.trip_status_2)
+            } else if (tripList[position].tripStatus === 3) {
+                holder.tripBookButton.text =  context.getString(R.string.book_now)
+            } else if (tripList[position].tripStatus === 4) {
+                holder.tripBookButton.text =  context.getString(R.string.trip_cancelled)
+            } else if (tripList[position].tripStatus === 5) {
+                holder.tripBookButton.text =  context.getString(R.string.trip_status_5)
+            } else if (tripList[position].tripStatus === 6) {
+                holder.tripBookButton.text =  context.getString(R.string.trip_status_6)
+            } else if (tripList[position].tripStatus === 7) {
+                holder.tripBookButton.text =  context.getString(R.string.paid)
+            } else {
+                holder.tripBookButton.text =  context.getString(R.string.trip_status_8)
+            }
+        }
+        else
+        {
+
         }
         holder.tripBookButton.setOnClickListener {
             val intent = Intent(

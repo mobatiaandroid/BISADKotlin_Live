@@ -39,7 +39,6 @@ import com.mobatia.bisad.recyclermanager.OnItemClickListener
 import com.mobatia.bisad.recyclermanager.addOnItemClickListener
 import com.mobatia.bisad.rest.AccessTokenClass
 import com.mobatia.bisad.rest.ApiClient
-import kotlinx.android.synthetic.main.data_collection_confirm.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -116,8 +116,8 @@ class TripListingActivity : AppCompatActivity() {
         )
         headermanager.getHeader(relativeHeader, 6)
         back = headermanager.getLeftButton()
-      //  btn_history = headermanager.getRightHistoryImage()
-       // btn_history!!.visibility = View.INVISIBLE
+       btn_history = headermanager.getRightHistoryImage()
+        btn_history!!.visibility = View.INVISIBLE
         tripListRecycler = findViewById<RecyclerView>(R.id.tripListRecycler)
         tripListRecycler.setHasFixedSize(true)
         val spacing = 5 // 50px
@@ -185,6 +185,8 @@ class TripListingActivity : AppCompatActivity() {
                 val arraySize :Int = response.body()!!.responseArray.studentList.size
                 if (response.body()!!.status==100)
                 {
+                    studentArrayList=ArrayList<StudentList>()
+
                     studentArrayList.addAll(response.body()!!.responseArray.studentList)
 
                     if (PreferenceData().getStudentID(context).equals(""))

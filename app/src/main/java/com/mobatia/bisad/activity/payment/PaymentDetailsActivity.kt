@@ -396,8 +396,19 @@ getpaymenttoken()
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 101) {
+            when (resultCode) {
+                Activity.RESULT_OK -> onCardPaymentResponse(
+                    CardPaymentData.getFromIntent(data!!)
+                )
+                Activity.RESULT_CANCELED ->{
+                    Toast.makeText(context, "Transaction Failed", Toast.LENGTH_SHORT).show();
 
-        if (data == null) {
+                }
+            }
+        }
+
+        /*if (data == null) {
             mProgressRelLayout.visibility=View.GONE
             Toast.makeText(context, "transaction cancelled", Toast.LENGTH_SHORT).show()
         } else {
@@ -408,23 +419,7 @@ getpaymenttoken()
 
                 if (cardPaymentData.code == 2) {
 
-                   /* val tripDetailsAPI = """
-                        {
-                        "details":[
-                        {
-                        "amount":"$totalAmount",
-                        "order_id":"$order_id",
-                        "payment_detail_id":"$id",
-                        "users_id":"${PreferenceData().getUserID(context)}",
-                        "payment_date":"${Calendar.DATE}",
-                        "type":"1",
-                        "student_id":"$studentId"
-                        }
-                        ]
-                        }
-                        """.trimIndent()*/
 
-                //    payment_type_print = "Mobile App"
 
                     paySuccessApi()
 
@@ -433,6 +428,29 @@ getpaymenttoken()
                     Toast.makeText(context, "Transaction failed", Toast.LENGTH_SHORT).show()
                 }
             }
+        }*/
+    }
+    fun onCardPaymentResponse(data: CardPaymentData) {
+        when (data.code) {
+            CardPaymentData.STATUS_PAYMENT_AUTHORIZED,
+            CardPaymentData.STATUS_PAYMENT_CAPTURED -> {
+                var internetCheck = InternetCheckClass.isInternetAvailable(context)
+                if (internetCheck)
+                {
+                    paySuccessApi()
+                }
+                else{
+                    InternetCheckClass.showSuccessInternetAlert(context)
+                }
+            }
+            CardPaymentData.STATUS_PAYMENT_FAILED -> {
+                Toast.makeText(context, "Transaction Failed", Toast.LENGTH_SHORT).show();
+            }
+            CardPaymentData.STATUS_GENERIC_ERROR -> {
+                Toast.makeText(context, data.reason, Toast.LENGTH_SHORT).show();
+            }
+            else -> IllegalArgumentException(
+                "Unknown payment response (${data.reason})")
         }
     }
     private fun paySuccessApi(){

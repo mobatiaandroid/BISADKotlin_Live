@@ -1,6 +1,7 @@
 package com.mobatia.bisad.activity.school_trips
 
 import android.Manifest
+import android.R.attr.path
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -18,6 +19,7 @@ import android.os.Handler
 import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +38,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,6 +57,7 @@ import com.mobatia.bisad.activity.school_trips.adapter.TripImageAdapter
 import com.mobatia.bisad.activity.school_trips.adapter.TripsCategoryAdapter
 import com.mobatia.bisad.activity.school_trips.model.ChoicePreferenceModel
 import com.mobatia.bisad.activity.school_trips.model.PaymentGatewayApiModelTrip
+import com.mobatia.bisad.activity.school_trips.model.SubmitDocResponseModel
 import com.mobatia.bisad.activity.school_trips.model.TripChoicePreferenceResponseModel
 import com.mobatia.bisad.activity.school_trips.model.TripConsentResponseModel
 import com.mobatia.bisad.activity.school_trips.model.TripCountResponseModel
@@ -91,6 +95,8 @@ import java.io.IOException
 import java.util.Arrays
 import java.util.Timer
 import java.util.TimerTask
+import kotlin.properties.Delegates
+
 
 class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSelectedListener{
     val REQUEST_ID_MULTIPLE_PERMISSIONS = 101
@@ -133,7 +139,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
     var selectedChoice = ""
     var studClass = ""
     var orderId = ""
-    var tripStatus = ""
+    var tripStatus =0
     var acessToken: String? = null
     var permissionSlip = ""
     var studentList = ArrayList<String>()
@@ -151,7 +157,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
     lateinit var submitDetailsButton: Button
     lateinit var viewInvoice: Button
     lateinit var paymentButton: Button
-    var tripStatusTextView: TextView? = null
+    lateinit var tripStatusTextView: TextView
     var tripID = ""
     var tripName = ""
     var currentPage = 0
@@ -162,6 +168,8 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
     var coodPhone:kotlin.String? = null
     var coodEmail:kotlin.String? = null
     var coodWhatsapp:kotlin.String? = null
+    lateinit var medicalquestion : String
+
     var passportFrontURI: Uri? = null
     var passportBackURI: Uri? = null
     var visaFrontURI: Uri? = null
@@ -186,6 +194,9 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
     var visaStatus = 0
     var eIDStatus = 0
     var permissionStatus = 0
+    var medicalconsentstatus = 0
+
+
     var tripImageAdapter: TripImageAdapter? = null
     var tripQuestion: String? = null
     var tripType = ""
@@ -209,15 +220,29 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
     private var passportDetailsFLag = true
     private var visaDetailFlag = true
     private var eIDDetailFLag = true
+    private var medicalconsentFlag = true
     private var externalStorageToSettings = false
     private val calendarPermissionStatus: SharedPreferences? = null
     private var externalStoragePermissionStatus: SharedPreferences? = null
     private val locationPermissionStatus: SharedPreferences? = null
 
-    var passportRequired = ""
-    var visaRequired = ""
-    var eIDRequired = ""
-    var consentRequired = ""
+    var passportRequired by Delegates.notNull<Int>()
+    var visaRequired by Delegates.notNull<Int>()
+    var eIDRequired by Delegates.notNull<Int>()
+    var consentRequired by Delegates.notNull<Int>()
+    var medicalconsentRequired by Delegates.notNull<Int>()
+    lateinit var chooseFilenameVisa:TextView
+    lateinit var chooseFilenameEIDBack:TextView
+    lateinit var chooseFilenameEIDFront:TextView
+    lateinit var chooseFilenamePassportBack:TextView
+    lateinit var chooseFilenamePassportFront:TextView
+    var permissions = arrayOf(
+        Manifest.permission.READ_MEDIA_VIDEO,
+        Manifest.permission.READ_MEDIA_IMAGES,
+        Manifest.permission.CAMERA
+    )
+    val MULTIPLE_PERMISSIONS = 10
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -225,6 +250,20 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         context = this
         externalStoragePermissionStatus =
             context.getSharedPreferences("externalStoragePermissionStatus", MODE_PRIVATE)
+        Log.e("version", Build.VERSION.SDK_INT.toString())
+        if (Build.VERSION.SDK_INT >= 33) {
+
+            /*  if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                  != PackageManager.PERMISSION_GRANTED
+              ) {
+                  // Permission is not granted, request it
+                  requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+              } else {
+                  // Permission is granted, load your WebView content here
+                 // loadWebViewContent()
+              }*/
+            CheckPermission()
+        }
         initialiseUI()
     }
     private fun getTripDetails(tripID: String) {
@@ -269,13 +308,15 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
 //                            }
                         }
                         passportRequired =
-                            response.body()!!.getResponse()!!.data!!.documents_required!!.passport_doc!!
+                            response.body()!!.getResponse()!!.data!!.documents_required!!.passport_doc
                         visaRequired =
-                            response.body()!!.getResponse()!!.data!!.documents_required!!.visa_doc!!
+                            response.body()!!.getResponse()!!.data!!.documents_required!!.visa_doc
                         eIDRequired =
-                            response.body()!!.getResponse()!!.data!!.documents_required!!.emirates_doc!!
+                            response.body()!!.getResponse()!!.data!!.documents_required!!.emirates_doc
                         consentRequired =
-                            response.body()!!.getResponse()!!.data!!.documents_required!!.consent_doc!!
+                            response.body()!!.getResponse()!!.data!!.documents_required!!.consent_doc
+                        medicalconsentRequired =
+                            response.body()!!.getResponse()!!.data!!.documents_required!!.consent_doc
                       //  tripType = response.body()!!.getResponse()!!.data!!.trip_type!!
                         tripChoiceExceed = response.body()!!.getResponse()!!.trip_exceed!!
                         tripPaymentExceed = response.body()!!.getResponse()!!.no_of_trips_exceed!!
@@ -325,6 +366,8 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                         coodEmail = response.body()!!.getResponse()!!.data!!.coordinatorEmail
                         coodWhatsapp =
                             response.body()!!.getResponse()!!.data!!.coordinatorWhatsApp
+                        medicalquestion = response.body()!!.getResponse()!!.data!!.medicalconsentquestion!!
+
                         passportStatus =
                             response.body()!!.getResponse()!!.data!!.documentUploadStatus!!.passportStatus
                         visaStatus =
@@ -333,9 +376,13 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                             response.body()!!.getResponse()!!.data!!.documentUploadStatus!!.emiratesStatus
                         permissionStatus =
                             response.body()!!.getResponse()!!.data!!.documentUploadStatus!!.consentStatus
+                        medicalconsentstatus =
+                            response.body()!!.getResponse()!!.data!!.documentUploadStatus!!.medicalconsentStatus
                         //                        coordinatorDetails.setText(response.body().getResponse().getData().getCoordinatorEmail());
 //                        coordinatorPhoneTextView.setText(response.body().getResponse().getData().getCoordinatorPhone());
 //                        tripDescriptionTextView.setText(response.body().getResponse().getData().getDescription());
+                        tripDescriptionTextView.setClickable(true);
+                        tripDescriptionTextView.setMovementMethod(LinkMovementMethod.getInstance());
                         tripDescriptionTextView!!.text =
                             Html.fromHtml(response.body()!!.getResponse()!!.data!!.description)
                         headermanager = HeaderManager(
@@ -352,54 +399,113 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                             invoiceArrayList = response.body()!!.getResponse()!!.data!!.invoices
                         }
                         tripStatus = response.body()!!.getResponse()!!.data!!.tripStatus!!
-                        if (tripStatus.equals("0", ignoreCase = true)) {
-                            submitIntentionButton!!.visibility = View.VISIBLE
-                            submitDetailsButton!!.visibility = View.GONE
-                            paymentButton!!.visibility = View.GONE
-                            tripStatusTextView!!.visibility = View.GONE
-                        } else if (tripStatus.equals("1", ignoreCase = true)) {
-                            submitIntentionButton!!.visibility = View.GONE
-                            submitDetailsButton!!.visibility = View.GONE
-                            paymentButton!!.visibility = View.GONE
-                            tripStatusTextView!!.visibility = View.VISIBLE
-                            tripStatusTextView!!.text = "Waiting for approval"
-                        } else if (tripStatus.equals("2", ignoreCase = true)) {
-                            submitIntentionButton!!.visibility = View.GONE
-                            submitDetailsButton!!.visibility = View.GONE
-                            paymentButton!!.visibility = View.GONE
-                            tripStatusTextView!!.visibility = View.GONE
-                        } else if (tripStatus.equals("3", ignoreCase = true)) {
-                            submitIntentionButton!!.visibility = View.GONE
-                            submitDetailsButton!!.visibility = View.VISIBLE
-                            paymentButton!!.visibility = View.GONE
-                            tripStatusTextView!!.visibility = View.GONE
-                        } else if (tripStatus.equals("4", ignoreCase = true)) {
-                            submitIntentionButton!!.visibility = View.GONE
-                            submitDetailsButton!!.visibility = View.GONE
-                            paymentButton!!.visibility = View.GONE
-                            tripStatusTextView!!.visibility = View.VISIBLE
-                            tripStatusTextView!!.text = "Trip Canceled"
-                        } else if (tripStatus.equals("5", ignoreCase = true)) {
-                            submitIntentionButton!!.visibility = View.GONE
-                            submitDetailsButton!!.visibility = View.GONE
-                            paymentButton!!.visibility = View.VISIBLE
-                            tripStatusTextView!!.visibility = View.GONE
-                        } else if (tripStatus.equals("6", ignoreCase = true)) {
-                            submitIntentionButton!!.visibility = View.GONE
-                            submitDetailsButton!!.visibility = View.GONE
-                            paymentButton!!.visibility = View.VISIBLE
-                            tripStatusTextView!!.visibility = View.GONE
-                        } else if (tripStatus.equals("7", ignoreCase = true)) {
-                            submitIntentionButton!!.visibility = View.GONE
-                            submitDetailsButton!!.visibility = View.GONE
-                            paymentButton!!.visibility = View.GONE
-                            viewInvoice!!.visibility = View.VISIBLE
-                            tripStatusTextView!!.visibility = View.GONE
-                        } else {
-                            submitIntentionButton!!.visibility = View.GONE
-                            submitDetailsButton!!.visibility = View.GONE
-                            paymentButton!!.visibility = View.GONE
-                            tripStatusTextView!!.visibility = View.GONE
+                        if (response.body()!!.getResponse()!!.data!!.trip_type.equals("international"))
+                        {
+                            if (tripStatus == 0) {
+                                submitIntentionButton.visibility = View.VISIBLE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.GONE
+                                tripStatusTextView.visibility = View.GONE
+                            } else if (tripStatus == 1) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.GONE
+                                tripStatusTextView.visibility = View.VISIBLE
+                                tripStatusTextView.text = getString(R.string.waiting_for_approval)
+                            } else if (tripStatus == 2) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.GONE
+                                tripStatusTextView.visibility = View.GONE
+                            } else if (tripStatus == 3) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.VISIBLE
+                                submitDetailsButton.setText(getString(R.string.trip_status_5))
+                                paymentButton.visibility = View.GONE
+                                tripStatusTextView.visibility = View.GONE
+                            } else if (tripStatus == 4) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.GONE
+                                tripStatusTextView.visibility = View.VISIBLE
+                                tripStatusTextView.text = getString(R.string.trip_cancelled)
+                            } else if (tripStatus == 5) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.VISIBLE
+                                tripStatusTextView.visibility = View.GONE
+                            } else if (tripStatus == 6) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.VISIBLE
+                                tripStatusTextView.visibility = View.GONE
+                            } else if (tripStatus == 7) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.GONE
+                                viewInvoice.visibility = View.VISIBLE
+                                tripStatusTextView.visibility = View.GONE
+                            } else {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.GONE
+                                tripStatusTextView.visibility = View.GONE
+                            }
+                        }else if (response.body()!!.getResponse()!!.data!!.trip_type.equals("domestic"))
+                        {
+                            if (tripStatus == 0) {
+                                submitIntentionButton.visibility = View.VISIBLE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.GONE
+                                tripStatusTextView.visibility = View.GONE
+                            } else if (tripStatus == 1) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.GONE
+                                tripStatusTextView.visibility = View.VISIBLE
+                                tripStatusTextView.text = getString(R.string.waiting_for_approval)
+                            } else if (tripStatus == 2) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.GONE
+                                tripStatusTextView.visibility = View.GONE
+                            } else if (tripStatus == 3) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.VISIBLE
+                                submitDetailsButton.setText(getString(R.string.trip_status_0))
+                                paymentButton.visibility = View.GONE
+                                tripStatusTextView.visibility = View.GONE
+                            } else if (tripStatus == 4) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.GONE
+                                tripStatusTextView.visibility = View.VISIBLE
+                                tripStatusTextView.text = getString(R.string.trip_cancelled)
+                            } else if (tripStatus == 5) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.VISIBLE
+                                tripStatusTextView.visibility = View.GONE
+                            } else if (tripStatus == 6) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.VISIBLE
+                                tripStatusTextView.visibility = View.GONE
+                            } else if (tripStatus == 7) {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.GONE
+                                viewInvoice.visibility = View.VISIBLE
+                                tripStatusTextView.visibility = View.GONE
+                            } else {
+                                submitIntentionButton.visibility = View.GONE
+                                submitDetailsButton.visibility = View.GONE
+                                paymentButton.visibility = View.GONE
+                                tripStatusTextView.visibility = View.GONE
+                            }
+                        }
+                        else{
+
                         }
                     } else {
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
@@ -431,6 +537,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         for (i in 0 until fixedLength) {
             eIDURIArray.add(Uri.EMPTY)
         }
+
         progressDialogP = ProgressBarDialog(context)
         tripImageRecycler = findViewById<RecyclerView>(R.id.tripImageRecycler)
         tripMainBanner = findViewById<ViewPager>(R.id.tripMainImage)
@@ -775,19 +882,44 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
 //                    AppUtils.showDialogAlertDismiss((Activity) context, "Alert", "You can no longer apply for this trip, as all the slots have been filled.", R.drawable.exclamationicon, R.drawable.round);
         })
         paymentButton.setOnClickListener(View.OnClickListener {
-            if (tripPaymentExceed.equals("", ignoreCase = true)) {
-                showPaymentsPopUp(context)
-            } else {
-                if (tripStatus.equals("6", ignoreCase = true)) {
-                    showPaymentsPopUp(context)
-                } else CommonFunctions.showDialogAlertDismiss(
-                    context as Activity?,
-                    "Alert",
-                    "You cannot submit any more payments, as you have already reached your trip limit.",
-                    R.drawable.exclamationicon,
-                    R.drawable.round
-                )
-            }
+            checkTripCount(tripID,object :TripCountCheckCallback{
+                override fun onTripCountChecked(isTripCountEmpty: Boolean) {
+                    if (isTripCountEmpty) {
+                        if (tripPaymentExceed.equals("", ignoreCase = true)) {
+                            showPaymentsPopUp(context)
+                        } else {
+                            if (tripStatus==6) {
+                                showPaymentsPopUp(context)
+                            } else CommonFunctions.showDialogAlertDismiss(
+                                context as Activity?,
+                                "Alert",
+                                "You cannot submit any more payments, as you have already reached your trip limit.",
+                                R.drawable.exclamationicon,
+                                R.drawable.round
+                            )
+                        }
+                    }
+                    else
+                    {
+                        if (tripStatus==6) {
+                            showPaymentsPopUp(context)
+                        }
+                        else
+                        {
+                            CommonFunctions.showDialogAlertDismiss(
+                                context as Activity?,
+                                "Alert",
+                                "You can no longer pay for this trip, as all the slots have been filled.",
+                                R.drawable.exclamationicon,
+                                R.drawable.round
+                            )
+                        }
+
+                    }
+                }
+                })
+
+
         })
         coordinatorDetails.setOnClickListener(View.OnClickListener { showCoordinatorDetailsPopUp() })
         viewInvoice.setOnClickListener(View.OnClickListener {
@@ -933,12 +1065,46 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         val submitConsentButton = dial.findViewById<Button>(R.id.submitConsentButton)
         val payNowButtonText = dial.findViewById<TextView>(R.id.payNowButton)
         payNowButtonText.text = "PAY $singleInstallmentAmount AED"
+        studtitle.text=PreferenceData().getStudentName(context)
         val close_btn = dial.findViewById<ImageView>(R.id.close_btn)
         val studentAdd = dial.findViewById<ImageView>(R.id.studentAdd)
         val passportAdd = dial.findViewById<ImageView>(R.id.passportAdd)
         val visaAdd = dial.findViewById<ImageView>(R.id.visaAdd)
         val emiratesAdd = dial.findViewById<ImageView>(R.id.emiratesAdd)
         val permissionAdd = dial.findViewById<ImageView>(R.id.permissionAdd)
+
+        val medicalConstraint = dial.findViewById<LinearLayout>(R.id.medicalConstraint)
+        val medicalconsentAdd = dial.findViewById<ImageView>(R.id.medicalconcentImg)
+        val medicalconsentQuestion = dial.findViewById<TextView>(R.id.medicalconsentQuestion)
+       // val medicalconsentEditText = dial.findViewById<EditText>(R.id.medicalconsentEditText)
+        val uploadmedicalDetailsButton = dial.findViewById<Button>(R.id.uploadmedicalDetailsButton)
+        val medicalIDTV = dial.findViewById<TextView>(R.id.medicalIDTV)
+
+
+        val yesNoRadioGroup = dial.findViewById<RadioGroup>(R.id.yesNoRadioGroup)
+        val yesButton = dial.findViewById<RadioButton>(R.id.yesRadio)
+        val noButton = dial.findViewById<RadioButton>(R.id.noRadio)
+        yesNoRadioGroup.orientation = LinearLayout.HORIZONTAL
+        medicalconsentQuestion.setText(medicalquestion)
+       chooseFilenameVisa =dial.findViewById<TextView>(R.id.textView7)
+        chooseFilenameEIDBack =dial.findViewById<TextView>(R.id.textView666)
+        chooseFilenameEIDFront =dial.findViewById<TextView>(R.id.textView77)
+        chooseFilenamePassportBack =dial.findViewById<TextView>(R.id.textView6)
+        chooseFilenamePassportFront =dial.findViewById<TextView>(R.id.textView5)
+
+
+        yesButton.setOnCheckedChangeListener { compoundButton, b ->
+            if (b) {
+               // medicalconsentEditText.visibility = View.VISIBLE
+                //                    submitIntentionButton.setVisibility(View.GONE);
+            }
+        }
+        noButton.setOnCheckedChangeListener { compoundButton, b ->
+            if (b) {
+               // medicalconsentEditText.visibility = View.GONE
+                uploadmedicalDetailsButton.visibility = View.VISIBLE
+            }
+        }
         //        if (tripType.equalsIgnoreCase("1")) {
 //            studentAdd.setVisibility(View.GONE);
 //            studtitle.setVisibility(View.GONE);
@@ -953,7 +1119,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
 //            emiratesAdd.setVisibility(View.GONE);
 //            permissiontitle.setVisibility(View.GONE);
 //        }
-        if (passportRequired.equals("0", ignoreCase = true)) {
+        if (passportRequired==0) {
             passportTitleTV.visibility = View.GONE
             passportAdd.visibility = View.GONE
             passportLinear.visibility = View.GONE
@@ -962,7 +1128,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             passportAdd.visibility = View.VISIBLE
             passportLinear.visibility = View.VISIBLE
         }
-        if (visaRequired.equals("0", ignoreCase = true)) {
+        if (visaRequired==0) {
             visaTitleTV.visibility = View.GONE
             visaAdd.visibility = View.GONE
             visaDetailsLinear.visibility = View.GONE
@@ -971,7 +1137,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             visaAdd.visibility = View.VISIBLE
             visaDetailsLinear.visibility = View.VISIBLE
         }
-        if (eIDRequired.equals("0", ignoreCase = true)) {
+        if (eIDRequired==0) {
             emiratedIDTV.visibility = View.GONE
             emiratesAdd.visibility = View.GONE
             eIDDetailsLinear.visibility = View.GONE
@@ -980,7 +1146,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             emiratesAdd.visibility = View.VISIBLE
             eIDDetailsLinear.visibility = View.VISIBLE
         }
-        if (consentRequired.equals("0", ignoreCase = true)) {
+        if (consentRequired==0) {
             permissiontitle.visibility = View.GONE
             permissionAdd.visibility = View.GONE
             permissionLinear.visibility = View.GONE
@@ -989,10 +1155,21 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             permissionAdd.visibility = View.VISIBLE
             permissionLinear.visibility = View.VISIBLE
         }
+        if (medicalconsentRequired ==0) {
+            medicalIDTV.visibility = View.GONE
+            medicalconsentAdd.visibility = View.GONE
+            medicalConstraint.visibility = View.GONE
+        } else {
+            medicalIDTV.visibility = View.VISIBLE
+            medicalconsentAdd.visibility = View.VISIBLE
+            medicalConstraint.visibility = View.VISIBLE
+        }
         val rememeberMeImg = dial.findViewById<CheckBox>(R.id.rememeberMeImg)
         val signature_pad: SignaturePad = dial.findViewById(R.id.signature_pad)
+        val termsconditionImg = dial.findViewById<CheckBox>(R.id.termsconditionImg)
+
         if (passportStatus == 1) {
-            if (passportRequired === "1") {
+            if (passportRequired === 1) {
                 passportLinear.visibility = View.GONE
                 passportAdd.setImageResource(R.drawable.participatingsmallicon_new)
             } else {
@@ -1002,7 +1179,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             }
         }
         if (visaStatus == 1) {
-            if (visaRequired === "1") {
+            if (visaRequired === 1) {
                 visaDetailsLinear.visibility = View.GONE
                 visaAdd.setImageResource(R.drawable.participatingsmallicon_new)
             } else {
@@ -1012,7 +1189,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             }
         }
         if (eIDStatus == 1) {
-            if (eIDRequired === "1") {
+            if (eIDRequired === 1) {
                 eIDDetailsLinear.visibility = View.GONE
                 emiratesAdd.setImageResource(R.drawable.participatingsmallicon_new)
             } else {
@@ -1022,7 +1199,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             }
         }
         if (permissionStatus == 1) {
-            if (consentRequired === "1") {
+            if (consentRequired === 1) {
                 permissionLinear.visibility = View.GONE
                 permissionAdd.setImageResource(R.drawable.participatingsmallicon_new)
             } else {
@@ -1031,8 +1208,18 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                 permissiontitle.visibility = View.GONE
             }
         }
+        if (medicalconsentstatus == 1) {
+            if (medicalconsentRequired == 1) {
+                medicalConstraint.visibility = View.GONE
+                medicalconsentAdd.setImageResource(R.drawable.participatingsmallicon_new)
+            } else {
+                medicalConstraint.visibility = View.GONE
+                medicalconsentAdd.visibility = View.GONE
+                medicalIDTV.visibility = View.GONE
+            }
+        }
         payButtonConstraint.setOnClickListener {
-            if (passportStatus == 1 && visaStatus == 1 && eIDStatus == 1 && permissionStatus == 1) {
+            if (passportStatus == 1 && visaStatus == 1 && eIDStatus == 1 && permissionStatus == 1&& medicalconsentstatus == 1) {
                 showPaymentsPopUp(context)
             } else Toast.makeText(
                 context,
@@ -1082,6 +1269,15 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             }
             eIDDetailFLag = !eIDDetailFLag
         }
+
+        medicalconsentAdd.setOnClickListener {
+            if (medicalconsentFlag) {
+                medicalConstraint.visibility = View.GONE
+            } else {
+                medicalConstraint.visibility = View.VISIBLE
+            }
+            medicalconsentFlag = !medicalconsentFlag
+        }
         permissionAdd.setOnClickListener {
             if (permissionFlag) {
                 permissionLinear.visibility = View.GONE
@@ -1104,7 +1300,14 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                     "Please agree to terms and conditions",
                     Toast.LENGTH_SHORT
                 ).show()
-            } else {
+            }
+            else if (!termsconditionImg.isChecked) {
+                Toast.makeText(
+                    context,
+                    "Please agree to terms and conditions",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else {
                 val signatureBitmap: Bitmap = signature_pad.getSignatureBitmap()
                 val signatureFile: File = bitmapToFile(signatureBitmap)!!
                 uploadConsentAPICall(dial, signatureFile)
@@ -1119,6 +1322,25 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             if (b) {
                 signature_pad.setVisibility(View.VISIBLE)
             } else signature_pad.setVisibility(View.GONE)
+        }
+        termsconditionImg.setOnCheckedChangeListener { compoundButton, b ->
+            if (b) {
+                signature_pad.setVisibility(View.VISIBLE)
+            } else signature_pad.setVisibility(View.GONE)
+        }
+        uploadmedicalDetailsButton.setOnClickListener {
+
+            if (yesButton.isChecked) {
+
+                uploadmedicalConsentApi(
+                    dial,"1","")
+            } else if (noButton.isChecked)  {
+
+                uploadmedicalConsentApi(
+                    dial, "2" ,"")
+            } else Toast.makeText(context, getString(R.string.medical_consent_prompt), Toast.LENGTH_SHORT)
+                .show()
+
         }
         chooseFilePassportBack.setOnClickListener {
             currentPosition = 1
@@ -1157,6 +1379,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             currentPosition = 0
             openGallery(PICK_IMAGE_FRONT_VISA)
         }
+
         chooseFileVisaBack.setOnClickListener {
             currentPosition = 1
             openGallery(PICK_IMAGE_BACK_VISA)
@@ -1436,6 +1659,8 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                         response.body()!!.getResponseData()!!.documentStatus!!.visaStatus
                     eIDStatus = response.body()!!.getResponseData()!!.documentStatus!!.emiratesStatus
                     permissionStatus = response.body()!!.getResponseData()!!.documentStatus!!.consentStatus
+                  //  medicalconsentstatus = response.body()!!.getResponseData()!!.documentStatus!!.medicalconsentStatus
+
                     if (response.body()!!.getResponseData()!!.documentStatus!!.documentCompletionStatus=== 1
                     ) {
                         getTripDetails(tripID)
@@ -1506,6 +1731,64 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                 // Log.e("Response", t.getLocalizedMessage());
             }
         })*/
+    }
+    private fun uploadmedicalConsentApi(dial: Dialog, preference: String, reason: String)
+    {
+
+        var paramObject = JsonObject()
+        // android.util.Log.e("student name", studentNameTxt.getText().toString())
+        paramObject.addProperty("action", "medical_consent")
+        paramObject.addProperty("trip_item_id", tripID)
+        paramObject.addProperty("student_id",PreferenceData().getStudentID(context))
+        paramObject.addProperty("medical_concern",preference)
+        paramObject.addProperty("medical_concern_reason", reason)
+
+
+        progressDialogP.show()
+        val call: Call<SubmitDocResponseModel> = ApiClient.getClient.uploadmedicalDocuments(
+            "Bearer " + PreferenceData().getaccesstoken(context),
+            paramObject
+        )
+        call.enqueue(object : Callback<SubmitDocResponseModel> {
+            override fun onResponse(
+                call: Call<SubmitDocResponseModel>,
+                response: Response<SubmitDocResponseModel>
+            ) {
+                progressDialogP.dismiss()
+                if (response.body()!!.status == 100) {
+                    dial.dismiss()
+                    Toast.makeText(
+                        this@TripDetailActivity,
+                        getString(R.string.document_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    passportStatus = response.body()!!.data.documentStatus.passportStatus
+                    visaStatus = response.body()!!.data.documentStatus.visaStatus
+                    eIDStatus = response.body()!!.data.documentStatus.emiratesStatus
+                    permissionStatus = response.body()!!.data.documentStatus.consentStatus
+                    medicalconsentstatus = response.body()!!.data.documentStatus.medicalconsentStatus
+                    dial.dismiss()
+                    if (response.body()!!.data.documentStatus.documentCompletionStatus == 1
+                    ) {
+                        getTripDetails(tripID)
+                    } else {
+                        showDocumentSubmissionPopUp()
+                    }
+                } else {
+                    Toast.makeText(
+                        this@TripDetailActivity,
+                        getString(R.string.document_submit_failed),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<SubmitDocResponseModel>, t: Throwable) {
+                progressDialogP.dismiss()
+
+            }
+        })
+
     }
     private fun uploadDocumentsAPICall(
         dial: Dialog,
@@ -1686,6 +1969,8 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             cursor.close()
             passportURIArray[currentPosition] = Uri.parse(imagePath)
             // Log.e("uri", passportURIArray.get(currentPosition).getPath());
+            val filename: String = passportURIArray.get(currentPosition).getPath()!!.substring(passportURIArray.get(currentPosition).getPath()!!.lastIndexOf("/") + 1)
+            chooseFilenamePassportFront.setText(filename)
         } else if (requestCode == PICK_IMAGE_BACK_PASSPORT && resultCode == RESULT_OK && data != null) {
             val selectedImage = data.data
             val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
@@ -1694,8 +1979,10 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             val columnIndex = cursor.getColumnIndex(filePathColumn[0])
             val imagePath = cursor.getString(columnIndex)
             cursor.close()
+
             passportURIArray[currentPosition] = Uri.parse(imagePath)
-            // Log.e("uri", passportURIArray.get(currentPosition).getPath());
+            val filename: String = passportURIArray.get(currentPosition).getPath()!!.substring(passportURIArray.get(currentPosition).getPath()!!.lastIndexOf("/") + 1)
+            chooseFilenamePassportBack.setText(filename)
         } else if (requestCode == PICK_IMAGE_FRONT_VISA && resultCode == RESULT_OK && data != null) {
             val selectedImage = data.data
             val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
@@ -1705,7 +1992,9 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             val imagePath = cursor.getString(columnIndex)
             cursor.close()
             visaURIArray[currentPosition] = Uri.parse(imagePath)
-            // Log.e("uri", visaURIArray.get(currentPosition).getPath());
+            val filename: String = visaURIArray.get(currentPosition).getPath()!!.substring(visaURIArray.get(currentPosition).getPath()!!.lastIndexOf("/") + 1)
+            chooseFilenameVisa.setText(filename)
+            Log.e("urifront", visaURIArray.get(currentPosition).getPath()!!);
         } else if (requestCode == PICK_IMAGE_BACK_VISA && resultCode == RESULT_OK && data != null) {
             val selectedImage = data.data
             val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
@@ -1715,7 +2004,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             val imagePath = cursor.getString(columnIndex)
             cursor.close()
             visaURIArray[currentPosition] = Uri.parse(imagePath)
-            // Log.e("uri", visaURIArray.get(currentPosition).getPath());
+             Log.e("uriback", visaURIArray.get(currentPosition).getPath()!!);
         } else if (requestCode == PICK_IMAGE_FRONT_EID && resultCode == RESULT_OK && data != null) {
             val selectedImage = data.data
             val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
@@ -1727,6 +2016,9 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             eIDURIArray[currentPosition] = Uri.parse(imagePath)
             // Log.e("uri", visaURIArray.get(currentPosition).getPath());
             //  Log.e("ursai", String.valueOf(Uri.parse(imagePath)));
+            val filename: String =  eIDURIArray.get(currentPosition).getPath()!!.substring( eIDURIArray.get(currentPosition).getPath()!!.lastIndexOf("/") + 1)
+
+            chooseFilenameEIDFront.setText(filename )
         } else if (requestCode == PICK_IMAGE_BACK_EID && resultCode == RESULT_OK && data != null) {
             val selectedImage = data.data
             val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
@@ -1738,16 +2030,44 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             eIDURIArray[currentPosition] = Uri.parse(imagePath)
             // Log.e("uri", visaURIArray.get(currentPosition).getPath());
             // Log.e("ursai", String.valueOf(Uri.parse(imagePath)));
+            val filename: String =  eIDURIArray.get(currentPosition).getPath()!! .substring(  eIDURIArray.get(currentPosition).getPath()!! .lastIndexOf("/") + 1)
+            chooseFilenameEIDBack.setText( filename )
+
         } else if (requestCode == 101) {
-            val cardPaymentData = CardPaymentData.getFromIntent(data!!)
-            if (cardPaymentData.code == 2) {
-                paymentSubmitAPI()
-            } else {
-                Toast.makeText(context, "Transaction failed", Toast.LENGTH_SHORT).show()
+            when (resultCode) {
+                Activity.RESULT_OK -> onCardPaymentResponse(
+                    CardPaymentData.getFromIntent(data!!)
+                )
+                Activity.RESULT_CANCELED ->{
+                    Toast.makeText(context, "Transaction Failed", Toast.LENGTH_SHORT).show();
+
+                }
             }
         } else Toast.makeText(context, "Transaction failed", Toast.LENGTH_SHORT).show()
     }
-
+    fun onCardPaymentResponse(data: CardPaymentData) {
+        when (data.code) {
+            CardPaymentData.STATUS_PAYMENT_AUTHORIZED,
+            CardPaymentData.STATUS_PAYMENT_CAPTURED -> {
+                var internetCheck = InternetCheckClass.isInternetAvailable(context)
+                if (internetCheck)
+                {
+                    paymentSubmitAPI()
+                }
+                else{
+                    InternetCheckClass.showSuccessInternetAlert(context)
+                }
+            }
+            CardPaymentData.STATUS_PAYMENT_FAILED -> {
+                Toast.makeText(context, "Transaction Failed", Toast.LENGTH_SHORT).show();
+            }
+            CardPaymentData.STATUS_GENERIC_ERROR -> {
+                Toast.makeText(context, data.reason, Toast.LENGTH_SHORT).show();
+            }
+            else -> IllegalArgumentException(
+                "Unknown payment response (${data.reason})")
+        }
+    }
     private fun paymentSubmitAPI() {
 
         val paramObject = JsonObject()
@@ -1908,7 +2228,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         } else {
             payInstallmentView!!.visibility = View.GONE
         }
-        if (tripStatus.equals("6", ignoreCase = true)) {
+        if (tripStatus==6) {
             payInstallmentView.visibility = View.VISIBLE
             payTotalView!!.visibility = View.GONE
         }
@@ -2059,7 +2379,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
 
                             val paymentClient = PaymentClient(mActivity, "fdhasfd")
                             paymentClient.launchCardPayment(request, 101)
-                            if (responsedata.getResponse()!!.trip_max_students.equals("")) {
+                            /*if (responsedata.getResponse()!!.trip_max_students.equals("")) {
                                 paymentClient.launchCardPayment(request, 101)
                             } else CommonFunctions.showDialogAlertDismiss(
                                 context as Activity?,
@@ -2067,7 +2387,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                                 "You can no longer pay for this trip, as all the slots have been filled.",
                                 R.drawable.exclamationicon,
                                 R.drawable.round
-                            )
+                            )*/
                         } else {
                             if (response.body()!!.getResponsecode() == 116) {
                                 //call Token Expired
@@ -2289,25 +2609,20 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                 })
         )
         submitIntentionButton.setOnClickListener {
-            if (yesButton.isChecked && selectedChoice == "") {
-                Toast.makeText(
-                    context,
-                    "Please select your choice!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else if (yesButton.isChecked && selectedChoice != "") {
-                submitIntent("1", dialog, selectedChoice)
+            if (yesButton.isChecked ) {
+
+                submitIntent("1", dialog)
             } else if (noButton.isChecked) {
-                submitIntent("2", dialog, "")
-            } else Toast.makeText(
-                context,
-                "Please provide your intention!",
-                Toast.LENGTH_SHORT
-            ).show()
+
+                submitIntent("2", dialog)
+            } else Toast.makeText(context, getString(R.string.provide_intention_prompt), Toast.LENGTH_SHORT)
+                .show()
+
+
         }
         yesButton.setOnCheckedChangeListener { compoundButton, b ->
             if (b) {
-                preferenceLayout.visibility = View.VISIBLE
+                preferenceLayout.visibility = View.GONE
                 //                    submitIntentionButton.setVisibility(View.GONE);
             }
         }
@@ -2322,14 +2637,13 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         closeImageView.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
-    private fun submitIntent(intent: String, dialog: Dialog, preference: String) {
+    private fun submitIntent(intent: String, dialog: Dialog) {
        progressDialogP.show()
         val paramObject = JsonObject()
         // Log.e("tripID name", tripID);
         paramObject.addProperty("student_id", PreferenceData().getStudentID(context))
         paramObject.addProperty("trip_item_id", tripID)
         paramObject.addProperty("status", intent)
-        paramObject.addProperty("preference", preference)
         val call: Call<GeneralSubmitResponseModel> = ApiClient.getClient.tripIntentSubmit(
             "Bearer " + PreferenceData().getaccesstoken(context),paramObject
 
@@ -2382,5 +2696,23 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         })
 
 
+    }
+    private fun CheckPermission(): Boolean {
+        var result: Int
+        val listPermissionsNeeded: MutableList<String> = java.util.ArrayList()
+        for (p in permissions) {
+            result = ContextCompat.checkSelfPermission(context, p)
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p)
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(
+                this@TripDetailActivity,
+                listPermissionsNeeded.toTypedArray<String>(), MULTIPLE_PERMISSIONS
+            )
+            return false
+        }
+        return true
     }
 }
