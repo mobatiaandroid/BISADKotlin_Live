@@ -26,6 +26,7 @@ import com.mobatia.bisad.activity.message.AudioPlayerDetail
 import com.mobatia.bisad.activity.message.ImageMessageActivity
 import com.mobatia.bisad.activity.message.TextMessageActivity
 import com.mobatia.bisad.activity.message.VideoMessageActivity
+import com.mobatia.bisad.activity.message.VideoMessageActivityNew
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.home.mContext
@@ -125,7 +126,7 @@ class MessageFragment : Fragment(){
                 }
                 else if (messageShowArrayList.get(position).alert_type.equals("Video"))
                 {
-                    val intent = Intent(activity, VideoMessageActivity::class.java)
+                    val intent = Intent(activity, VideoMessageActivityNew::class.java)
                     intent.putExtra("id",messageShowArrayList.get(position).id)
                     intent.putExtra("title",messageShowArrayList.get(position).title)
                     activity?.startActivity(intent)

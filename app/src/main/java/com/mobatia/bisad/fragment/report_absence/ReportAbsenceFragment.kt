@@ -27,6 +27,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.absence.AbsenceDetailActivity
 import com.mobatia.bisad.activity.absence.EarlyPickupDetailActivity
+import com.mobatia.bisad.activity.absence.RequestPlannedLeavesActivity
 import com.mobatia.bisad.activity.absence.RequestabsenceActivity
 import com.mobatia.bisad.activity.absence.RequestearlypickupActivity
 import com.mobatia.bisad.activity.absence.model.EarlyPickupListModel
@@ -57,9 +58,12 @@ class ReportAbsenceFragment : Fragment(){
     lateinit var studImg: ImageView
     lateinit var studentNameTxt: TextView
     lateinit var newRequestAbsence: TextView
+    lateinit var newRequestPlanned: TextView
     lateinit var newRequestPickup: TextView
+    lateinit var plannedLeaves: TextView
     lateinit var mAbsenceListView: RecyclerView
     lateinit var mPickupListView: RecyclerView
+    lateinit var mPlannedListView: RecyclerView
     lateinit var pickup_list:ArrayList<EarlyPickupListModel>
     lateinit var pickupListSort:ArrayList<EarlyPickupListModel>
     lateinit var studentName: String
@@ -96,8 +100,9 @@ class ReportAbsenceFragment : Fragment(){
         {
             callStudentListApi()
         }
-        else{
-            InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
+        else
+        {
+            InternetCheckClass.showSuccessInternetAlert(mContext)
         }
 
     }
@@ -108,15 +113,18 @@ class ReportAbsenceFragment : Fragment(){
         studImg = requireView().findViewById(R.id.studImg) as ImageView
         studentNameTxt = requireView().findViewById(R.id.studentName) as TextView
         newRequestAbsence = requireView().findViewById(R.id.newRequestAbsence)
+        newRequestPlanned = requireView().findViewById(R.id.newRequestPlanned)
         newRequestPickup = requireView().findViewById(R.id.newRequestEarly)
         heading=requireView().findViewById(R.id.appregisteredHint)
         heading.text = "App Registered Absences"
         mAbsenceListView = requireView().findViewById(R.id.mAbsenceListView) as RecyclerView
+        mPlannedListView = requireView().findViewById(R.id.mPlannedListView) as RecyclerView
         mPickupListView=requireView().findViewById(R.id.mPickupListView)
         pickup_list= ArrayList()
         pickupListSort=ArrayList()
         progressDialog = requireView().findViewById(R.id.progressDialog)
         absence_btn=requireView().findViewById(R.id.absenc_btn)
+        plannedLeaves=requireView().findViewById(R.id.plannedLeaves)
         absence_btn.setBackgroundResource(R.color.colorAccent)
         pickup_btn=requireView().findViewById(R.id.earlypickup_btn)
         linearLayoutManager = LinearLayoutManager(mContext)
@@ -133,6 +141,18 @@ class ReportAbsenceFragment : Fragment(){
             AnimationUtils.loadAnimation(mContext, R.anim.linear_interpolator)
         progressDialog.startAnimation(aniRotate)
         mAbsenceListView.addOnItemClickListener(object: OnItemClickListener {
+            override fun onItemClicked(position: Int, view: View) {
+                // Your logic
+                val intent =Intent(activity,AbsenceDetailActivity::class.java)
+                intent.putExtra("studentName",sharedprefs.getStudentName(mContext))
+                intent.putExtra("studentClass",sharedprefs.getStudentClass(mContext))
+                intent.putExtra("fromDate",studentInfoArrayList.get(position).from_date)
+                intent.putExtra("toDate",studentInfoArrayList.get(position).to_date)
+                intent.putExtra("reason",studentInfoArrayList.get(position).reason)
+                activity?.startActivity(intent)
+            }
+        })
+        mPlannedListView.addOnItemClickListener(object: OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 // Your logic
                 val intent =Intent(activity,AbsenceDetailActivity::class.java)
@@ -172,6 +192,11 @@ class ReportAbsenceFragment : Fragment(){
                 "For planned absences please email your head of school","Alert")
 
 
+        })
+
+        newRequestPlanned.setOnClickListener(View.OnClickListener {
+            val intent =Intent(activity, RequestPlannedLeavesActivity::class.java)
+            activity?.startActivity(intent)
         })
     }
 
@@ -335,6 +360,10 @@ class ReportAbsenceFragment : Fragment(){
                else if (select_val==1) {
                     callpickuplist_api()
                 }
+                else if (select_val==2)
+                {
+                    callPlannedLeaves()
+                }
               //  Toast.makeText(activity, mStudentList.get(position).name, Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
@@ -347,6 +376,7 @@ class ReportAbsenceFragment : Fragment(){
         studentInfoCopy=ArrayList<AbsenceRequestListDetailModel>()
         studentInfoArrayList.clear()
         mAbsenceListView.visibility=View.GONE
+        mPlannedListView.visibility=View.GONE
         val studentInfoAdapter = RequestAbsenceRecyclerAdapter(studentInfoArrayList)
         mAbsenceListView.adapter = studentInfoAdapter
         val token = sharedprefs.getaccesstoken(mContext)
@@ -413,10 +443,13 @@ class ReportAbsenceFragment : Fragment(){
             absence_btn.setTextColor(Color.BLACK)
             pickup_btn.setBackgroundResource(R.drawable.event_greyfill)
             pickup_btn.setTextColor(Color.BLACK)
+            plannedLeaves.setBackgroundResource(R.drawable.event_greyfill)
+            plannedLeaves.setTextColor(Color.BLACK)
             heading.text = "App Registered Absences"
             mAbsenceListView.visibility = VISIBLE
             newRequestAbsence.visibility = VISIBLE
             mPickupListView.visibility = GONE
+            newRequestPlanned.visibility = GONE
             newRequestPickup.visibility = GONE
 
         }
@@ -425,17 +458,42 @@ class ReportAbsenceFragment : Fragment(){
             callpickuplist_api()
             absence_btn.setBackgroundResource(R.drawable.event_greyfill)
             absence_btn.setTextColor(Color.BLACK)
+            plannedLeaves.setBackgroundResource(R.drawable.event_greyfill)
+            plannedLeaves.setTextColor(Color.BLACK)
             pickup_btn.setBackgroundResource(R.drawable.event_spinnerfill)
             pickup_btn.setTextColor(Color.BLACK)
             heading.text = "App Registered Early Pickup"
-            mAbsenceListView.visibility = GONE
             newRequestAbsence.visibility = GONE
+            newRequestPlanned.visibility = GONE
             mPickupListView.visibility = VISIBLE
+            mPlannedListView.visibility = GONE
+            mAbsenceListView.visibility = GONE
             newRequestPickup.visibility = VISIBLE
             mPickupListView.layoutManager=LinearLayoutManager(mContext)
             var pickuplistAdapter= PickuplistAdapter(mContext,pickup_list)
             mPickupListView.adapter=pickuplistAdapter
         }
+
+        plannedLeaves.setOnClickListener(View.OnClickListener {
+            select_val=2
+            callPlannedLeaves()
+            absence_btn.setBackgroundResource(R.drawable.event_greyfill)
+            absence_btn.setTextColor(Color.BLACK)
+            pickup_btn.setBackgroundResource(R.drawable.event_greyfill)
+            pickup_btn.setTextColor(Color.BLACK)
+            plannedLeaves.setBackgroundResource(R.drawable.event_spinnerfill)
+            plannedLeaves.setTextColor(Color.BLACK)
+            heading.text = "App Registered Planned Leaves"
+            mPickupListView.visibility = GONE
+            mPlannedListView.visibility = VISIBLE
+            mAbsenceListView.visibility = GONE
+            newRequestAbsence.visibility = GONE
+            newRequestPickup.visibility = GONE
+            newRequestPlanned.visibility = VISIBLE
+            mPlannedListView.layoutManager=LinearLayoutManager(mContext)
+            val studentInfoAdapter = RequestAbsenceRecyclerAdapter(studentInfoArrayList)
+            mPlannedListView.adapter = studentInfoAdapter
+        })
         newRequestPickup.setOnClickListener {
             val intent =Intent(activity, RequestearlypickupActivity::class.java)
             activity?.startActivity(intent)
@@ -508,6 +566,72 @@ if (pickupListSort.size>0){
         })
 
     }
+
+    fun callPlannedLeaves()
+    {
+        progressDialog.visibility = View.VISIBLE
+        studentInfoCopy=ArrayList()
+        studentInfoArrayList=ArrayList()
+       // studentInfoArrayList.clear()
+        mAbsenceListView.visibility=View.GONE
+        mPickupListView.visibility=View.GONE
+        mPlannedListView.visibility=View.VISIBLE
+
+        val token = sharedprefs.getaccesstoken(mContext)
+        val studentbody= AbsenceLeaveApiModel(sharedprefs.getStudentID(mContext)!!,0,20)
+        val call: Call<AbsenceListModel> = ApiClient.getClient.plannedList(studentbody,"Bearer "+token)
+        call.enqueue(object : Callback<AbsenceListModel>{
+            override fun onFailure(call: Call<AbsenceListModel>, t: Throwable) {
+                progressDialog.visibility = View.GONE
+                CommonFunctions.faliurepopup(mContext)
+
+            }
+            override fun onResponse(call: Call<AbsenceListModel>, response: Response<AbsenceListModel>) {
+                progressDialog.visibility = View.GONE
+                if (response.body()!!.status==100)
+                {
+                    studentInfoCopy.addAll(response.body()!!.responseArray.requestList)
+                    studentInfoArrayList=studentInfoCopy
+                    Log.e("ArraySize",studentInfoArrayList.size.toString())
+                    if (studentInfoArrayList.size>0)
+                    {
+                        mPlannedListView.visibility=View.VISIBLE
+                        val studentInfoAdapter = RequestAbsenceRecyclerAdapter(studentInfoArrayList)
+                        mPlannedListView.adapter = studentInfoAdapter
+                    }
+                    else{
+                        Toast.makeText(mContext, mContext.resources.getString(R.string.no_reg_planned_leaves), Toast.LENGTH_SHORT).show()
+                        mPlannedListView.visibility=View.GONE
+                    }
+
+
+
+                }else {
+                    if (response.body()!!.status == 116) {
+                        //call Token Expired
+                        AccessTokenClass.getAccessToken(mContext)
+                        callStudentLeaveInfo()
+                    } else {
+                        if (response.body()!!.status == 132) {
+                            studentInfoCopy=ArrayList<AbsenceRequestListDetailModel>()
+                            studentInfoArrayList.clear()
+                            val studentInfoAdapter = RequestAbsenceRecyclerAdapter(studentInfoArrayList)
+                            mPlannedListView.adapter = studentInfoAdapter
+                            Toast.makeText(mContext,  mContext.resources.getString(R.string.no_reg_planned_leaves), Toast.LENGTH_SHORT).show()
+                            //validation check error
+                        } /*else {
+                            //check status code checks
+                            InternetCheckClass.checkApiStatusError(response.body()!!.status, mContext)
+                        }*/
+                    }
+
+                }
+
+
+            }
+
+        })
+    }
     override fun onResume() {
         super.onResume()
         studentNameTxt.text = sharedprefs.getStudentName(mContext)
@@ -533,6 +657,10 @@ if (pickupListSort.size>0){
         }
         else if (select_val==1){
             callpickuplist_api()
+        }
+        else if (select_val==2)
+        {
+            callPlannedLeaves()
         }
     }
     fun showSuccessmailAlert(context: Context, message: String, msgHead: String) {

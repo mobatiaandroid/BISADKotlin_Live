@@ -235,7 +235,13 @@ interface ApiInterface {
         @Body  studentInfoModel: AbsenceLeaveApiModel,
         @Header("Authorization") token:String
     ): Call<AbsenceListModel>
-
+    /*************PLANNED List****************/
+    @POST("planned_leave/request")
+    @Headers("Content-Type: application/json")
+    fun plannedList(
+        @Body  studentInfoModel: AbsenceLeaveApiModel,
+        @Header("Authorization") token:String
+    ): Call<AbsenceListModel>
     @POST("social_media")
     @Headers("Content-Type: application/x-www-form-urlencode","Accept: application/json")
     fun socialMedia(
@@ -246,6 +252,12 @@ interface ApiInterface {
    @POST("request/leave")
    @Headers("Content-Type: application/json")
     fun leaveRequest(
+    @Body requestLeave: RequestAbsenceApiModel,
+    @Header("Authorization") token:String
+    ): Call<ResponseBody>
+ @POST("request/planned_leave")
+   @Headers("Content-Type: application/json")
+    fun plannedLeaveRequest(
     @Body requestLeave: RequestAbsenceApiModel,
     @Header("Authorization") token:String
     ): Call<ResponseBody>

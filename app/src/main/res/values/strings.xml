@@ -95,7 +95,7 @@
     <string name="appregisteredHint">App Registered Absences</string>
     <string name="regNewAbsence">Register New Absence</string>
     <string name="regEarlypickup">Register Early Pickup</string>
-    <string name="requestHint">If you need to cancel a registered absence/early pickup please contact reception (phone or email).</string>
+    <string name="requestHint">If you need to cancel a registered absence/early pickup/planned Absence please contact reception (phone or email).</string>
     <string name="null_value"></string>
     <string name="submit">SUBMIT</string>
     <string name="no_family_data_content">There are currently no other contacts associated with students(s).Please add at least one emergency contact for the family as required.</string>
@@ -209,12 +209,13 @@
     <string name="tcs">T &amp; Cs</string>
     <string name="attach">Attach Files (.jpg formats)</string>
     <string name="terms_conditions_permission_trip">I have read and understood the details in the T &amp; Cs section</string>
-
-
-
-
-
     <string name="demo_string">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
                     and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
                     and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+
+    <string name="no_reg_planned_leaves">No Registered Planned Absence Found</string>
+    <string name="planned_leaves">Planned Absence</string>
+    <string name="planned_leaves_head">Planned\nAbsence</string>
+    <string name="reg_planned_leaves">Register Planned Absence</string>
+    <string name="success_planned_leave">Successfully submitted your planned Absence.</string>
 </resources>

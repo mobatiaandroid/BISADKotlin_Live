@@ -97,8 +97,9 @@
             android:layout_below="@+id/studentSpinner"
           android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:weightSum="3"
             android:background="@drawable/event_greyfill"
             android:orientation="horizontal">
 
@@ -106,7 +107,7 @@
                 android:id="@+id/absenc_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight=".5"
+                android:layout_weight="1"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
@@ -119,11 +120,22 @@
                 android:id="@+id/earlypickup_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight=".5"
+                android:layout_weight="1"
                 android:layout_marginRight="4dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
                 android:text="Early Pickup"
+                android:gravity="center"
+                android:textColor="@color/black" />
+            <com.mobatia.bisad.manager.CustomFontSansProTextBlack
+                android:id="@+id/plannedLeaves"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/planned_leaves_head"
                 android:gravity="center"
                 android:textColor="@color/black" />
 
@@ -192,6 +204,14 @@
                 android:layout_above="@+id/newRequestAbsence"
                 android:layout_below="@+id/viewDivider"
                 android:visibility="gone" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mPlannedListView"
+                style="@style/ListStyleBlackTextTransparentSelector"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/newRequestAbsence"
+                android:layout_below="@+id/viewDivider"
+                android:visibility="gone" />
         </LinearLayout>
         <com.mobatia.bisad.manager.CustomFontSansProTextNoColorSemiBold
             android:id="@+id/newRequestAbsence"
@@ -223,6 +243,22 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/regEarlypickup"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:visibility="gone" />
+        <com.mobatia.bisad.manager.CustomFontSansProTextNoColorSemiBold
+            android:id="@+id/newRequestPlanned"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/requestHint"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/buttonred_new"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/reg_planned_leaves"
             android:textColor="@color/white"
             android:textSize="18dp"
             android:visibility="gone" />
