@@ -159,6 +159,18 @@ class TripInvoiceListingActivity : AppCompatActivity() {
                             "payment_type",
                             invoiceArrayList!![position].paymentType
                         )
+                        intent.putExtra(
+                            "received_amount",
+                            invoiceArrayList!![position].received_amount
+                        )
+                        intent.putExtra(
+                            "trip_amount",
+                            invoiceArrayList!![position].trip_amount
+                        )
+                        intent.putExtra(
+                            "outstanding_amount",
+                            invoiceArrayList!![position].outstanding_amount
+                        )
                         startActivity(intent)
                     }
 

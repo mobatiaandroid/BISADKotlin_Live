@@ -139,6 +139,15 @@ class TripDetailsResponseModel {
 
             @SerializedName("payment_type")
             var paymentType: String? = null
+
+            @SerializedName("trip_amount")
+            var trip_amount: String? = null
+
+            @SerializedName("received_amount")
+            var received_amount: String? = null
+
+            @SerializedName("outstanding_amount")
+            var outstanding_amount = 0
         }
 
     }
@@ -184,6 +193,15 @@ class TripDetailsResponseModel {
 
         @SerializedName("paid_status")
         var paidStatus = 0
+
+        @SerializedName("trip_amount")
+        var trip_amount: String? = null
+
+        @SerializedName("received_amount")
+        var received_amount: String? = null
+
+        @SerializedName("outstanding_amount")
+        var outstanding_amount = 0
     }
 
 

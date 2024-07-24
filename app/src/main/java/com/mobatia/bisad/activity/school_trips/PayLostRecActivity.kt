@@ -11,12 +11,24 @@ class PayLostRecActivity :AppCompatActivity() {
     var student_name: String? = null
     fun main() {}
     fun loadWebViewWithDataPrint(
-        paymentWeb: WebView, br: BufferedReader,
-        parent_name: String?, email: String?, titile: String?,
-        student_id: String?, user_id: String?, amount: String?, bill_no: String?,
-        order_reference: String?, created_on: String?,
-        invoice_note: String?, payment_type: String?,
-        student_name: String?, trn_no: String?
+        paymentWeb: WebView,
+        br: BufferedReader,
+        parent_name: String?,
+        email: String?,
+        titile: String?,
+        student_id: String?,
+        user_id: String?,
+        amount: String?,
+        bill_no: String?,
+        order_reference: String?,
+        created_on: String?,
+        invoice_note: String?,
+        payment_type: String?,
+        student_name: String?,
+        trn_no: String?,
+        triptotal: String,
+        received: String,
+        outsatnding: Int
     ) {
         var student_name = student_name
         context = context
@@ -44,6 +56,11 @@ class PayLostRecActivity :AppCompatActivity() {
             fullHtml = fullHtml.replace("###billing_code###", bill_no!!)
             fullHtml = fullHtml.replace("###trn_no###", trn_no!!)
             fullHtml = fullHtml.replace("###payment_type###", payment_type!!)
+
+            fullHtml = fullHtml.replace("###triptotal###", triptotal!!)
+            fullHtml = fullHtml.replace("###totalreceived###", received!!)
+           // fullHtml = fullHtml.replace("###outsatndingtotal###", outsatnding!!)
+
             // fullHtml = fullHtml.replace("###paidBy###", "Done");
             fullHtml = fullHtml.replace("###title###", titile!!)
             paymentWeb.loadDataWithBaseURL(

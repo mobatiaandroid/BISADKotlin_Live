@@ -220,6 +220,18 @@ class TripInstallmentActivity : AppCompatActivity() {
                                 "payment_type",
                                 multipleInstallmentsArray[position].payment_type
                             )
+                            intent.putExtra(
+                                "received_amount",
+                                multipleInstallmentsArray!![position].received_amount
+                            )
+                            intent.putExtra(
+                                "trip_amount",
+                                multipleInstallmentsArray!![position].trip_amount
+                            )
+                            intent.putExtra(
+                                "outstanding_amount",
+                                multipleInstallmentsArray!![position].outstanding_amount
+                            )
                             startActivity(intent)
                         } else {
                             initialisePayment(position)

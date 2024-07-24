@@ -1,6 +1,5 @@
 package com.mobatia.bisad.activity.school_trips
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -28,17 +27,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.github.barteksc.pdfviewer.PDFView
 import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
 import com.mobatia.bisad.R
-import com.mobatia.bisad.activity.canteen.PaymentprintActivity
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.payment.PdfPrint
-import com.mobatia.bisad.constants.ProgressBarDialog
 import com.mobatia.bisad.manager.HeaderManager
 import com.mobatia.bisad.manager.PreferenceData
 import java.io.BufferedReader
 import java.io.File
-import java.io.IOException
 import java.io.InputStreamReader
 
 class TripInvoicePrintActivity : AppCompatActivity() {
@@ -66,6 +61,10 @@ class TripInvoicePrintActivity : AppCompatActivity() {
     var invoice = ""
     var paidby = ""
     var paidDate = ""
+
+    var received = ""
+    var triptotal = ""
+    var outsatnding = 0
     lateinit var mProgressRelLayout:RelativeLayout
 
     //    String billingCode="";
@@ -95,6 +94,9 @@ class TripInvoicePrintActivity : AppCompatActivity() {
             //            billingCode = extras.getString("billingCode");
             tr_no = extras!!.getString("tr_no")!!
             payment_type = extras!!.getString("payment_type")!!
+            received = extras!!.getString("received_amount")!!
+            triptotal = extras!!.getString("trip_amount")!!
+            outsatnding = extras!!.getInt("outstanding_amount")!!
         }
         initialiseUI()
         getWebViewSettings()
@@ -233,7 +235,7 @@ class TripInvoicePrintActivity : AppCompatActivity() {
             PreferenceData().getUserCode(mContext),PreferenceData().getUserEmail(mContext),title,
             PreferenceData().getStudentID(mContext),PreferenceData().getUserID(mContext),amount,
             "bill_no",orderId,paidDate,invoice,payment_type,
-            PreferenceData().getStudentName(mContext),trn_no)
+            PreferenceData().getStudentName(mContext),trn_no,triptotal,received,outsatnding)
        /* var sb = StringBuffer()
         var eachLine = ""
         try {
