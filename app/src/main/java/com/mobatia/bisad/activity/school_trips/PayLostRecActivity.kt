@@ -28,7 +28,7 @@ class PayLostRecActivity :AppCompatActivity() {
         trn_no: String?,
         triptotal: String,
         received: String,
-        outsatnding: Int
+        outsatnding: String
     ) {
         var student_name = student_name
         context = context
@@ -59,7 +59,7 @@ class PayLostRecActivity :AppCompatActivity() {
 
             fullHtml = fullHtml.replace("###triptotal###", triptotal!!)
             fullHtml = fullHtml.replace("###totalreceived###", received!!)
-           // fullHtml = fullHtml.replace("###outsatndingtotal###", outsatnding!!)
+            fullHtml = fullHtml.replace("###outsatndingtotal###", outsatnding!!)
 
             // fullHtml = fullHtml.replace("###paidBy###", "Done");
             fullHtml = fullHtml.replace("###title###", titile!!)

@@ -794,7 +794,19 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                          />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <com.mobatia.bisad.manager.CustomFontSansProTextNoColorSemiBold
+                    android:id="@+id/signhere"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Sign Here"
+                    android:layout_marginLeft="16dp"
+                    android:visibility="gone"
+                    android:textColor="@color/red"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearagree"
+                    />
                 <LinearLayout
                     android:id="@+id/linearLayout5"
                     android:layout_width="match_parent"
@@ -805,7 +817,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/submitConsentButton"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearagree">
+                    app:layout_constraintTop_toBottomOf="@+id/signhere">
 
                     <com.github.gcacace.signaturepad.views.SignaturePad
                         android:id="@+id/signature_pad"

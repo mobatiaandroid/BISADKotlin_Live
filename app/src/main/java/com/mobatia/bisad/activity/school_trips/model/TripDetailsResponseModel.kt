@@ -147,7 +147,7 @@ class TripDetailsResponseModel {
             var received_amount: String? = null
 
             @SerializedName("outstanding_amount")
-            var outstanding_amount = 0
+            var outstanding_amount : String? = null
         }
 
     }
@@ -201,7 +201,7 @@ class TripDetailsResponseModel {
         var received_amount: String? = null
 
         @SerializedName("outstanding_amount")
-        var outstanding_amount = 0
+        var outstanding_amount : String? = null
     }
 
 

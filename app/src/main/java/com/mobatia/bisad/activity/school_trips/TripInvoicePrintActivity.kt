@@ -64,7 +64,7 @@ class TripInvoicePrintActivity : AppCompatActivity() {
 
     var received = ""
     var triptotal = ""
-    var outsatnding = 0
+    var outsatnding = ""
     lateinit var mProgressRelLayout:RelativeLayout
 
     //    String billingCode="";
@@ -96,7 +96,7 @@ class TripInvoicePrintActivity : AppCompatActivity() {
             payment_type = extras!!.getString("payment_type")!!
             received = extras!!.getString("received_amount")!!
             triptotal = extras!!.getString("trip_amount")!!
-            outsatnding = extras!!.getInt("outstanding_amount")!!
+            outsatnding = extras!!.getString("outstanding_amount")!!
         }
         initialiseUI()
         getWebViewSettings()

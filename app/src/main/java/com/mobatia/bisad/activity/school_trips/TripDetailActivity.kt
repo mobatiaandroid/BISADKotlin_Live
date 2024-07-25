@@ -1091,6 +1091,8 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         chooseFilenameEIDFront =dial.findViewById<TextView>(R.id.textView77)
         chooseFilenamePassportBack =dial.findViewById<TextView>(R.id.textView6)
         chooseFilenamePassportFront =dial.findViewById<TextView>(R.id.textView5)
+        val signhere = dial.findViewById<TextView>(R.id.signhere)
+
 
 
         yesButton.setOnCheckedChangeListener { compoundButton, b ->
@@ -1321,7 +1323,13 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         rememeberMeImg.setOnCheckedChangeListener { compoundButton, b ->
             if (b) {
                 signature_pad.setVisibility(View.VISIBLE)
-            } else signature_pad.setVisibility(View.GONE)
+                signhere.visibility=View.VISIBLE
+
+            } else {
+                signature_pad.setVisibility(View.GONE)
+                signhere.visibility=View.GONE
+
+            }
         }
         termsconditionImg.setOnCheckedChangeListener { compoundButton, b ->
             if (b) {
