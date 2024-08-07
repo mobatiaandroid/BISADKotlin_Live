@@ -254,6 +254,7 @@
             android:layout_height="1dp"
             android:layout_below="@+id/et_amount"
             android:background="@color/light_grey" />
+
         <ProgressBar
             android:id="@+id/progressDialog"
             android:layout_width="40dp"

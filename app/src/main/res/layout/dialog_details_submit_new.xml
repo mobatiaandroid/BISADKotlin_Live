@@ -752,7 +752,7 @@
 
 
                     <CheckBox
-                        android:id="@+id/rememeberMeImg"
+                        android:id="@+id/termsconditionImg"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
@@ -760,25 +760,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.mobatia.bisad.manager.CustomFontSansProTextBlack
-                        android:id="@+id/agreement"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_margin="8dp"
-                        android:text="I agree"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/rememeberMeImg"
-                        app:layout_constraintTop_toTopOf="parent" />
-                    <CheckBox
-                        android:id="@+id/termsconditionImg"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/rememeberMeImg" />
+                     />
                     <com.mobatia.bisad.manager.CustomFontSansProTextBlack
                         android:id="@+id/agreementtcs"
                         android:layout_width="0dp"
@@ -789,8 +771,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:text="@string/terms_conditions_permission_trip"
                         app:layout_constraintStart_toEndOf="@+id/termsconditionImg"
-
-                        app:layout_constraintTop_toBottomOf="@id/agreement"
                         app:layout_constraintBottom_toBottomOf="parent"
                          />
                 </androidx.constraintlayout.widget.ConstraintLayout>

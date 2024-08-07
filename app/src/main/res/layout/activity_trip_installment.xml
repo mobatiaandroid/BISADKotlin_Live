@@ -76,7 +76,13 @@
             android:visibility="visible" />
 
     </LinearLayout>
-
+    <ProgressBar
+        android:id="@+id/progressDialog"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:indeterminateDrawable="@anim/customspinner"
+        android:visibility="gone" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

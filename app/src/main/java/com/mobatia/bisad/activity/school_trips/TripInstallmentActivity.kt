@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -37,6 +38,7 @@ import com.mobatia.bisad.recyclermanager.RecyclerItemListener
 import com.mobatia.bisad.rest.AccessTokenClass
 import com.mobatia.bisad.rest.ApiClient
 import payment.sdk.android.PaymentClient
+import payment.sdk.android.SDKConfig
 import payment.sdk.android.cardpayment.CardPaymentData
 import payment.sdk.android.cardpayment.CardPaymentRequest
 import retrofit2.Call
@@ -122,6 +124,8 @@ class TripInstallmentActivity : AppCompatActivity() {
     //    LinearLayout mStudentSpinner;
     var studentName: TextView? = null
     var studImg: ImageView? = null
+    lateinit var mProgressRelLayout: ProgressBar
+
     var stud_img = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,6 +140,8 @@ class TripInstallmentActivity : AppCompatActivity() {
             tripID = extras!!.getString("tripID")!!
         }
         progressDialogP = ProgressBarDialog(context)
+        mProgressRelLayout=findViewById(R.id.progressDialog)
+
 
         relativeHeader = findViewById<RelativeLayout>(R.id.relativeHeader)
         headermanager = HeaderManager(this@TripInstallmentActivity, "Trip Categories")
@@ -263,7 +269,7 @@ class TripInstallmentActivity : AppCompatActivity() {
                     if (response.body()!!.status==100) {
 
                         Tokenacesss = response.body()!!.responseArray.access_token
-                        val amountDouble = singleInstallmentAmount.toDouble() * 100
+                        val amountDouble = installmentAmount.toDouble() * 100
                         val amuntInt = amountDouble.toInt()
                         val strDouble = amuntInt.toString()
                         var arrayLength = 0
@@ -372,7 +378,7 @@ class TripInstallmentActivity : AppCompatActivity() {
     }
 
     private fun callForPayment(strDouble: String, position: Int) {
-       progressDialogP.show()
+        mProgressRelLayout.visibility=View.VISIBLE
 
         val tsLong = System.currentTimeMillis() / 1000
         val ts = tsLong.toString()
@@ -388,12 +394,13 @@ class TripInstallmentActivity : AppCompatActivity() {
         call.enqueue(object : Callback<TripPaymentInitiateResponseModel> {
             override fun onFailure(call: Call<TripPaymentInitiateResponseModel>, t: Throwable) {
 
-
+                mProgressRelLayout.visibility=View.GONE
                 CommonFunctions.faliurepopup(context)
             }
 
             override fun onResponse(call: Call<TripPaymentInitiateResponseModel>, response: Response<TripPaymentInitiateResponseModel>) {
                 val responsedata = response.body()
+                mProgressRelLayout.visibility=View.GONE
                 //progressDialog.visibility = View.GONE
                 if (responsedata != null) {
                     try {
@@ -405,6 +412,8 @@ class TripInstallmentActivity : AppCompatActivity() {
                             var auth = responsedata.getResponse()!!.authorization
                             val Code: String = orderPageUrl!!.split("=").toTypedArray().get(1)
 
+                            SDKConfig.shouldShowOrderAmount(true)
+                            SDKConfig.shouldShowCancelAlert(true)
                             val request: CardPaymentRequest =
                                 CardPaymentRequest.Builder().gatewayUrl(auth!!).code(Code).build()
 
@@ -567,6 +576,7 @@ class TripInstallmentActivity : AppCompatActivity() {
         }
     }
     private fun paymentSubmitAPI() {
+        progressDialogP.show()
 
         val tsLong = System.currentTimeMillis() / 1000
         val ts = tsLong.toString()

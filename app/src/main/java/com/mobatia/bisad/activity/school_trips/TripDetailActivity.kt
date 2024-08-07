@@ -29,6 +29,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RelativeLayout
@@ -83,6 +84,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import payment.sdk.android.PaymentClient
+import payment.sdk.android.SDKConfig
 import payment.sdk.android.cardpayment.CardPaymentData
 import payment.sdk.android.cardpayment.CardPaymentRequest
 import retrofit2.Call
@@ -242,6 +244,8 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         Manifest.permission.CAMERA
     )
     val MULTIPLE_PERMISSIONS = 10
+    lateinit var mProgressRelLayout: ProgressBar
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -519,6 +523,8 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
 
     }
     private fun initialiseUI() {
+        mProgressRelLayout=findViewById(R.id.progressDialog)
+
         extras = intent.extras
         if (extras != null) {
             tripID = extras!!.getString("tripID")!!
@@ -1166,7 +1172,6 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             medicalconsentAdd.visibility = View.VISIBLE
             medicalConstraint.visibility = View.VISIBLE
         }
-        val rememeberMeImg = dial.findViewById<CheckBox>(R.id.rememeberMeImg)
         val signature_pad: SignaturePad = dial.findViewById(R.id.signature_pad)
         val termsconditionImg = dial.findViewById<CheckBox>(R.id.termsconditionImg)
 
@@ -1296,12 +1301,6 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                     "Please enter your signature",
                     Toast.LENGTH_SHORT
                 ).show()
-            } else if (!rememeberMeImg.isChecked) {
-                Toast.makeText(
-                    context,
-                    "Please agree to terms and conditions",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
             else if (!termsconditionImg.isChecked) {
                 Toast.makeText(
@@ -1320,21 +1319,17 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             currentPosition = 0
             openGallery(PICK_IMAGE_FRONT_PASSPORT)
         }
-        rememeberMeImg.setOnCheckedChangeListener { compoundButton, b ->
+
+        termsconditionImg.setOnCheckedChangeListener { compoundButton, b ->
             if (b) {
                 signature_pad.setVisibility(View.VISIBLE)
                 signhere.visibility=View.VISIBLE
-
-            } else {
+            } else
+            {
                 signature_pad.setVisibility(View.GONE)
                 signhere.visibility=View.GONE
 
             }
-        }
-        termsconditionImg.setOnCheckedChangeListener { compoundButton, b ->
-            if (b) {
-                signature_pad.setVisibility(View.VISIBLE)
-            } else signature_pad.setVisibility(View.GONE)
         }
         uploadmedicalDetailsButton.setOnClickListener {
 
@@ -2348,7 +2343,8 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         })*/
     }
     private fun callForPayment(strDouble: String) {
-        progressDialogP.show()
+       // progressDialogP.show()
+        mProgressRelLayout.visibility=View.VISIBLE
 
 
         val tsLong = System.currentTimeMillis() / 1000
@@ -2365,12 +2361,13 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         call.enqueue(object : Callback<TripPaymentInitiateResponseModel> {
             override fun onFailure(call: Call<TripPaymentInitiateResponseModel>, t: Throwable) {
 
-
+                mProgressRelLayout.visibility=View.GONE
                 CommonFunctions.faliurepopup(context)
             }
 
             override fun onResponse(call: Call<TripPaymentInitiateResponseModel>, response: Response<TripPaymentInitiateResponseModel>) {
                 val responsedata = response.body()
+                mProgressRelLayout.visibility=View.GONE
                 //progressDialog.visibility = View.GONE
                 if (responsedata != null) {
                     try {
@@ -2381,7 +2378,8 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                             var orderPageUrl = responsedata.getResponse()!!.order_paypage_url
                             var auth = responsedata.getResponse()!!.authorization
                             val Code: String = orderPageUrl!!.split("=").toTypedArray().get(1)
-
+                            SDKConfig.shouldShowOrderAmount(true)
+                            SDKConfig.shouldShowCancelAlert(true)
                             val request: CardPaymentRequest =
                                 CardPaymentRequest.Builder().gatewayUrl(auth!!).code(Code).build()
 
