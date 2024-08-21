@@ -40,10 +40,10 @@
         <item>Messages</item>
         <item>Communications</item>
         <item>Absence &amp; Early Pickup</item>
-        <item>Teacher Contact</item>
-        <item>Lunch Box</item>
-        <item>Trips</item>
         <item>Payment</item>
+        <item>Lunch Box</item>
+        <item>Teacher Contact</item>
+       <!-- <item>Trips</item>-->
        <!-- <item>Parent Meetings</item>-->
         <item>Social Media</item>
         <item>Reports</item>
@@ -68,11 +68,11 @@
         <item>@drawable/notif</item>
         <item>@drawable/communication</item>
         <item>@drawable/absence</item>
-        <item>@drawable/parentevening</item>
-        <item>@drawable/lunchbox_sideicon</item>
-        <item>@drawable/plane</item>
-
         <item>@drawable/payment</item>
+        <item>@drawable/lunchbox_sideicon</item>
+        <item>@drawable/parentevening</item>
+       <!-- <item>@drawable/plane</item>-->
+
 
       <!--  <item>@drawable/parent_association</item>-->
         <item>@drawable/social</item>

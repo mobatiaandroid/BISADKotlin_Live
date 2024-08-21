@@ -116,7 +116,7 @@ class SchoolTripsFragment :Fragment(),AdapterView.OnItemClickListener {
         var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
         if (internetCheck)
         {
-            //callTripBanner()
+            callTripBanner()
         }
         else{
             InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)

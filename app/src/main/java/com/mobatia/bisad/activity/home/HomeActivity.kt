@@ -13,6 +13,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
@@ -34,7 +35,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.messaging.FirebaseMessaging
+import com.mobatia.bisad.BuildConfig
 import com.mobatia.bisad.R
+import com.mobatia.bisad.activity.common.model.DeviceRegModel
 import com.mobatia.bisad.activity.home.adapter.HomeListAdapter
 import com.mobatia.bisad.activity.home.model.HealthInsuranceDetailAPIModel
 import com.mobatia.bisad.constants.CommonFunctions
@@ -108,6 +112,8 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
     var sPosition: Int = 0
     var previousTriggerTypeNew: Int = 0
     lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+    var tokenM:String=""
+    var firebaseid:String=""
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,6 +125,15 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
         setContentView(R.layout.activity_main)
         Intent.FLAG_ACTIVITY_CLEAR_TASK
         initializeUI()
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isComplete) {
+                val token: String = task.getResult().toString()
+                tokenM = token
+                //callLoginApi(emailTxt,passwordTxt,deviceId)
+                //callChangePasswordStaffAPI(URL_STAFF_CHANGE_PASSWORD, token)
+            }
+        }
+        firebaseid = tokenM
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission(),
             ActivityResultCallback<Boolean> { result ->
@@ -417,7 +432,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
                     sharedprefs.setStudentClass(context, "")
-                    mFragment = TeacherContactFragment()
+                    mFragment = PaymentFragment()
                     replaceFragmentsSelected(position)
                 }
                 else if (position == 7) {
@@ -428,24 +443,30 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     mFragment = CanteenFragment()
                     replaceFragmentsSelected(position)
                 } else if (position == 8) {
-                    sharedprefs.setStudentID(context, "")
+                  /*  sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
                     sharedprefs.setStudentClass(context, "")
                     mFragment = SchoolTripsFragment()
-                    replaceFragmentsSelected(position)
-                }
-
-                else if (position == 9) {
+                    replaceFragmentsSelected(position)*/
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
                     sharedprefs.setStudentClass(context, "")
-                    mFragment = PaymentFragment()
+                    mFragment = TeacherContactFragment()
+                    replaceFragmentsSelected(position)
+                }
+
+                else if (position == 9) {
+                    mFragment = SocialMediaFragment()
                     replaceFragmentsSelected(position)
                 }
                 else if (position ==10) {
-                    mFragment = SocialMediaFragment()
+                    sharedprefs.setStudentID(context, "")
+                    sharedprefs.setStudentName(context, "")
+                    sharedprefs.setStudentPhoto(context, "")
+                    sharedprefs.setStudentClass(context, "")
+                    mFragment = ReportsFragment()
                     replaceFragmentsSelected(position)
                    /* sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
@@ -463,7 +484,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
                     sharedprefs.setStudentClass(context, "")
-                    mFragment = ReportsFragment()
+                    mFragment = TimeTableFragment()
                     replaceFragmentsSelected(position)
                 }
                 else if (position == 12)
@@ -472,7 +493,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
                     sharedprefs.setStudentClass(context, "")
-                    mFragment = TimeTableFragment()
+                    mFragment = FormsFragment()
                     replaceFragmentsSelected(position)
                 }
 
@@ -489,22 +510,14 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
                     sharedprefs.setStudentClass(context, "")
-                    mFragment = FormsFragment()
-                    replaceFragmentsSelected(position)
-                }
-                else if (position == 14) {
-                    sharedprefs.setStudentID(context, "")
-                    sharedprefs.setStudentName(context, "")
-                    sharedprefs.setStudentPhoto(context, "")
-                    sharedprefs.setStudentClass(context, "")
                     mFragment = PermissionSlipFragment()
                     replaceFragmentsSelected(position)
                 }
-                else if(position==15){
+                else if (position == 14) {
                     mFragment = TermDatesFragment()
                     replaceFragmentsSelected(position)
                 }
-                else if (position == 16) {
+                else if(position==15){
                     if (ActivityCompat.checkSelfPermission(
                             context,
                             Manifest.permission.ACCESS_FINE_LOCATION
@@ -523,6 +536,14 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                         mFragment = ContactUsFragment()
                         replaceFragmentsSelected(position)
                     }
+                }
+                else if (position == 16) {
+                    sharedprefs.setStudentID(context, "")
+                    sharedprefs.setStudentName(context, "")
+                    sharedprefs.setStudentPhoto(context, "")
+                    sharedprefs.setStudentClass(context, "")
+                    mFragment = AppsFragment()
+                    replaceFragmentsSelected(position)
                 }
 
 
@@ -553,15 +574,10 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     replaceFragmentsSelected(position)
                 }*/
 
-                else if (position == 17) {
-                    sharedprefs.setStudentID(context, "")
-                    sharedprefs.setStudentName(context, "")
-                    sharedprefs.setStudentPhoto(context, "")
-                    sharedprefs.setStudentClass(context, "")
-                    mFragment = AppsFragment()
-                    replaceFragmentsSelected(position)
+               /* else if (position == 17) {
 
-                }
+
+                }*/
 
 
 
@@ -1223,5 +1239,40 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
             imm.hideSoftInputFromWindow((mContext as Activity).currentFocus!!.windowToken,0)
         }
     }
+    fun callDeviceRegistrationApi()
+    {
+        var devicename:String= (Build.MANUFACTURER
+                + " " + Build.MODEL + " " + Build.VERSION.RELEASE
+                + " " + Build.VERSION_CODES::class.java.fields[Build.VERSION.SDK_INT]
+            .name)
+        val version: String = BuildConfig.VERSION_NAME
+        val token = sharedprefs.getaccesstoken(mContext)
+        var androidID = Settings.Secure.getString(this.contentResolver,
+            Settings.Secure.ANDROID_ID)
+        var deviceReg= DeviceRegModel(2, tokenM,androidID,devicename,version)
+        val call: Call<ResponseBody> = ApiClient.getClient.deviceregistration(deviceReg,"Bearer "+token)
 
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+
+                CommonFunctions.faliurepopup(mContext)
+
+            }
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                val responsedata = response.body()
+
+
+                if (responsedata != null) {
+                    try {
+
+                    }
+                    catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+        })
+    }
 }
+

@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
+import com.mobatia.bisad.BuildConfig
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.common.LoginActivity
 import com.mobatia.bisad.activity.home.model.HealthInsuranceDetailAPIModel
@@ -78,6 +79,7 @@ class SettingsFragment : Fragment(){
 
     var start:Int=0
     var limit:Int=15
+    lateinit var versionText:TextView
     lateinit var ownContactArrayList: ArrayList<OwnDetailsModel>
     lateinit var kinDetailArrayList: ArrayList<KinDetailsModel>
     lateinit var passportArrayList: ArrayList<PassportDetailModel>
@@ -158,8 +160,10 @@ class SettingsFragment : Fragment(){
         titleTextView = requireView().findViewById(R.id.titleTextView) as TextView
         progress = requireView().findViewById(R.id.progress) as ProgressBar
         progressBarDialog = ProgressBarDialog(mContext!!)
+        versionText =requireView().findViewById(R.id.versionText)
 
         titleTextView.text = "Settings"
+        versionText.setText(BuildConfig.VERSION_NAME)
         linearLayoutManager = LinearLayoutManager(mContext)
         mSettingsListView.layoutManager = linearLayoutManager
         mSettingsListView.itemAnimator = DefaultItemAnimator()

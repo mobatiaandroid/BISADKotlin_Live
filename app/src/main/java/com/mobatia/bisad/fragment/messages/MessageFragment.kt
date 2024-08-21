@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.message.AudioPlayerDetail
+import com.mobatia.bisad.activity.message.AudioPlayerDetailNew
 import com.mobatia.bisad.activity.message.ImageMessageActivity
 import com.mobatia.bisad.activity.message.TextMessageActivity
 import com.mobatia.bisad.activity.message.VideoMessageActivity
@@ -140,7 +141,7 @@ class MessageFragment : Fragment(){
                 }
                 else if (messageShowArrayList.get(position).alert_type.equals("Voice"))
                 {
-                    val intent = Intent(activity, AudioPlayerDetail::class.java)
+                    val intent = Intent(activity, AudioPlayerDetailNew::class.java)
                     intent.putExtra("audio_title", messageShowArrayList[position].title)
                     intent.putExtra("audio_id", messageShowArrayList[position].id)
                     intent.putExtra("audio_updated", messageShowArrayList[position].updated_at)

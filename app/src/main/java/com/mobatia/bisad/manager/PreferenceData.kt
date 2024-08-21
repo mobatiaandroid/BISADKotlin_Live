@@ -210,7 +210,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_seventabid", "6")
+        return prefs.getString("button_seventabid", "8")
     }
 
     fun setbuttoneighttabid(context: Context, id: String?) {
@@ -231,7 +231,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_eighttabid", "8")
+        return prefs.getString("button_eighttabid", "6")
     }
 
     fun setbuttonninetabid(context: Context, id: String?) {
@@ -404,7 +404,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_seventextimage", "6")
+        return prefs.getString("button_seventextimage", "8")
     }
 
     fun setbuttoneighttextimage(context: Context, id: String?) {
@@ -425,7 +425,7 @@ class PreferenceData {
             PREFSNAME,
             Context.MODE_PRIVATE
         )
-        return prefs.getString("button_eighttextimage", "8")
+        return prefs.getString("button_eighttextimage", "6")
     }
 
     fun setbuttonninetextimage(context: Context, id: String?) {

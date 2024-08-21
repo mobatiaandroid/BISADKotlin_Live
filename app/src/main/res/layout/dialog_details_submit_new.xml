@@ -760,7 +760,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                     />
+
                     <com.mobatia.bisad.manager.CustomFontSansProTextBlack
                         android:id="@+id/agreementtcs"
                         android:layout_width="0dp"
