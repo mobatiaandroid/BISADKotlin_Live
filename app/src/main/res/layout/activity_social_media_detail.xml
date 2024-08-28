@@ -85,7 +85,7 @@
         android:layout_height="match_parent"
         android:focusable="false"
         android:layout_below="@+id/relativeHeader"
-        android:focusableInTouchMode="false"
+        android:focusableInTouchMode="true"
         android:overScrollMode="never"
         android:scrollbars="none" />
 
