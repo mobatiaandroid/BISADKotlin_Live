@@ -46,7 +46,7 @@ class Myorderbasket_Activity : AppCompatActivity() {
     var apiCall: Int = 0
     var cartTotalItem = 0
     lateinit var mDateArrayList: ArrayList<DateModel>
-    lateinit var cart_list: ArrayList<CanteenCartResModel>
+    //lateinit var cart_list: ArrayList<CanteenCartResModel>
     lateinit var cart_items_list: ArrayList<CartItemsListModel>
     lateinit var dateRecyclerView: RecyclerView
     lateinit var noItemTxt: ImageView
@@ -62,6 +62,8 @@ class Myorderbasket_Activity : AppCompatActivity() {
     var BalanceWalletAmount = 0
     var BalanceConfirmWalletAmount = 0
     var TotalOrderedAmount = 0
+    var cart_totoal = 0
+
 
     private lateinit var logoClickImg: ImageView
     lateinit var back: ImageView
@@ -97,7 +99,7 @@ class Myorderbasket_Activity : AppCompatActivity() {
         /*progressDialogAdd =
             findViewById(R.id.progressDialogAdd)*/
         mDateArrayList=ArrayList()
-        cart_list=ArrayList()
+       CommonFunctions. cart_list=ArrayList()
         cart_items_list=ArrayList()
         itemArray=ArrayList()
         orderArray=ArrayList()
@@ -121,49 +123,68 @@ class Myorderbasket_Activity : AppCompatActivity() {
 
         dateRecyclerView.layoutManager = LinearLayoutManager(nContext)
         dateRecyclerView.adapter =
-            DatesBasketAdapter(cart_list, nContext,ordered_user_type,student_id,parent_id,staff_id,
-                itemTxt,amountTxt,itemLinear,noItemTxt,dateRecyclerView,progress)
+            DatesBasketAdapter(CommonFunctions.cart_list, nContext,ordered_user_type,student_id,parent_id,staff_id,
+                itemTxt,amountTxt,itemLinear,noItemTxt,dateRecyclerView,progress,TotalOrderedAmount,cart_totoal)
         itemLinear.setOnClickListener(
             View.OnClickListener {
-                //var isNoItemAvailableFound = false
-                //var basketPos = 0
-                //var basketDetailPos = 0
+
+                BalanceWalletAmount =
+                    WalletAmount - TotalOrderedAmount
+              //  BalanceWalletAmountFloat = WalletAmountFloat - TotalOrderedAmountFloat
+
+                if (BalanceWalletAmount > 0) {
+                    BalanceConfirmWalletAmount =
+                        BalanceWalletAmount - PreferenceData().getcartamounttotal(nContext)
+
+                    //  Log.e("BalanceConfirmWalletAmountActivity", BalanceConfirmWalletAmount.toString())
 
 
-                    if (WalletAmount >= cartTotalAmount) {
+                    if (BalanceConfirmWalletAmount >= 0) {
 
 
-                            itemArray = ArrayList()
-                            for (i in cart_list.indices) {
-                                val mModel = ItemsModel()
-                                mModel.delivery_date=cart_list[i].delivery_date
+                        itemArray = ArrayList()
+                        for (i in CommonFunctions.cart_list.indices) {
+                            val mModel = ItemsModel()
+                            mModel.delivery_date = CommonFunctions.cart_list[i].delivery_date
 
-                                orderArray = ArrayList()
-                                for (j in 0 until cart_list.get(
-                                    i
-                                ).items.size) {
-                                    val nModel = OrdersModel()
-                                    nModel.id=cart_list[i].items[j].id.toString()
-                                    nModel.item_id=cart_list[i].items[j].item_id.toString()
-                                    nModel.quantity=cart_list[i].items[j].quantity.toString()
-                                    nModel.price=cart_list[i].items[j].price.toString()
+                            orderArray = ArrayList()
+                            for (j in 0 until CommonFunctions. cart_list.get(
+                                i
+                            ).items.size) {
+                                val nModel = OrdersModel()
+                                nModel.id = CommonFunctions. cart_list[i].items[j].id.toString()
+                                nModel.item_id =CommonFunctions. cart_list[i].items[j].item_id.toString()
+                                nModel.quantity = CommonFunctions.cart_list[i].items[j].quantity.toString()
+                                nModel.price =CommonFunctions. cart_list[i].items[j].price.toString()
 
-                                    orderArray.add(nModel)
-                                }
-                                mModel.items=orderArray
-                               // mModel.setItems(orderArray)
-                                itemArray.add(mModel)
+                                orderArray.add(nModel)
                             }
-                            val gson = Gson()
-                            val Data = gson.toJson(itemArray)
-                            val JSON =
-                                "{\"student_id\":\"" + PreferenceData().getStudentID(nContext) + "\"," +
-                                        "\"orders\":" + Data + "}"
+                            mModel.items = orderArray
+                            // mModel.setItems(orderArray)
+                            itemArray.add(mModel)
+                        }
+                        val gson = Gson()
+                        val Data = gson.toJson(itemArray)
+                        val JSON =
+                            "{\"student_id\":\"" + PreferenceData().getStudentID(nContext) + "\"," +
+                                    "\"orders\":" + Data + "}"
 
-                            //get pre order
+                        //get pre order
                         //progressDialogAdd.visibility=View.VISIBLE
                         progress.show()
-                        getPreOrder( JSON,itemArray)
+                        getPreOrder(JSON, itemArray)
+                    }
+                    else {
+                        showInsufficientBal(
+                            nContext,
+                            "Alert",
+                            "Insufficient balance please top up wallet",
+                            R.drawable.exclamationicon,
+                            R.drawable.round
+                        )
+
+                        // AppUtils.showDialogAlertDismiss((Activity) mContext, "Alert","You don't have enough balance in your wallet, Please topup your wallet.", R.drawable.exclamationicon, R.drawable.round);
+                    }
                     } else {
                         showInsufficientBal(
                             nContext,
@@ -192,6 +213,8 @@ class Myorderbasket_Activity : AppCompatActivity() {
 
                 if (responsedata!!.status==100) {
                     WalletAmount=response!!.body()!!.responseArray.wallet_balance
+                    PreferenceData().setwalletAmout(nContext,WalletAmount)
+
 
                 }else if (response.body()!!.status == 116) {
                     if (apiCall != 4) {
@@ -221,7 +244,7 @@ class Myorderbasket_Activity : AppCompatActivity() {
         })
     }
     fun getcanteen_cart(){
-        cart_list= java.util.ArrayList()
+        CommonFunctions.cart_list= java.util.ArrayList()
         cartTotalAmount=0
         cartTotalItem=0
         //progressDialogAdd.visibility=View.VISIBLE
@@ -241,10 +264,17 @@ class Myorderbasket_Activity : AppCompatActivity() {
 
                 if (responsedata!!.status==100) {
                     //progress.visibility = View.GONE
-                    cart_list=response!!.body()!!.responseArray.data
-                    for (i in cart_list.indices){
+                    cart_totoal =
+                        response!!.body()!!.responseArray.cart_totoal
+                    PreferenceData().setcartamounttotal(nContext,cart_totoal)
+                    TotalOrderedAmount =
+                        response!!.body()!!.responseArray.previous_orders_total
 
-                        cartTotalAmount=cartTotalAmount + cart_list[i].total_amount
+
+                   CommonFunctions. cart_list=response!!.body()!!.responseArray.data
+                    for (i in CommonFunctions.cart_list.indices){
+
+                        cartTotalAmount=cartTotalAmount +CommonFunctions. cart_list[i].total_amount
                     }
                     if (cartTotalAmount==0){
                         //bottomview.visibility=View.GONE
@@ -259,10 +289,10 @@ class Myorderbasket_Activity : AppCompatActivity() {
                             View.GONE
                         )
                         //bottomview.visibility=View.VISIBLE
-                        for (i in cart_list.indices){
+                        for (i in CommonFunctions.cart_list.indices){
 
-                            for (j in cart_list[i].items.indices){
-                                cartTotalItem=cartTotalItem + cart_list[i].items[j].quantity
+                            for (j in CommonFunctions.cart_list[i].items.indices){
+                                cartTotalItem=cartTotalItem + CommonFunctions.cart_list[i].items[j].quantity
                             }
                         }
                         itemTxt.setText(cartTotalItem.toString() + "Items")
@@ -270,8 +300,8 @@ class Myorderbasket_Activity : AppCompatActivity() {
                     }
                     dateRecyclerView.layoutManager = LinearLayoutManager(nContext)
                     dateRecyclerView.adapter =
-                        DatesBasketAdapter(cart_list, nContext,ordered_user_type,student_id,parent_id,staff_id,
-                        itemTxt,amountTxt,itemLinear,noItemTxt,dateRecyclerView,progress)
+                        DatesBasketAdapter(CommonFunctions.cart_list, nContext,ordered_user_type,student_id,parent_id,staff_id,
+                        itemTxt,amountTxt,itemLinear,noItemTxt,dateRecyclerView,progress,TotalOrderedAmount,cart_totoal)
 
                 }else if (response.body()!!.status == 116) {
                     if (apiCall != 4) {

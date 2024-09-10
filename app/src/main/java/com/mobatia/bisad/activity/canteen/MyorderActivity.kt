@@ -130,7 +130,7 @@ class MyorderActivity:AppCompatActivity() {
 
                     dateRecyclerView.adapter = MyorderDatesAdapter(response.body()!!.responseArray.data,
                         nContext,studentID,dateRecyclerView,
-                        bottomLinear,itemLinear,noItemTxt,progressDialogAdd)
+                        bottomLinear,itemLinear,noItemTxt,progressDialogAdd,response.body()!!.responseArray.whole_total,amountTxt)
                     bottomLinear.visibility= View.VISIBLE
                     itemLinear.visibility= View.VISIBLE
                     amountTxt.text=response.body()!!.responseArray.whole_total.toString()+" AED"

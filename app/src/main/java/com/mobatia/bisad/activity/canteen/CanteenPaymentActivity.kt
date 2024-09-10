@@ -386,6 +386,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
                 if (responsedata!!.status==100) {
                     mProgressRelLayout.visibility=View.GONE
                     WalletAmount=response!!.body()!!.responseArray.wallet_balance
+                    PreferenceData().setwalletAmout(nContext,WalletAmount)
                     walletbalance.setText(WalletAmount.toString())
                     mProgressRelLayout.visibility=View.GONE
                 }else if (response.body()!!.status == 116) {

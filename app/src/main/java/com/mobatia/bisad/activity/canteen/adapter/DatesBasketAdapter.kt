@@ -24,7 +24,8 @@ class DatesBasketAdapter (var cartdate_list:ArrayList<CanteenCartResModel>, var 
                           , var ordered_user_type:String, var student_id:String, var parent_id:String,
                           var staff_id:String,var itemtxt:TextView,var amnttxt:TextView,
                           var itemLinear:LinearLayout,var noItemTxt:ImageView,
-                          var dateRec:RecyclerView,var progress:ProgressBarDialog) :
+                          var dateRec:RecyclerView,var progress:ProgressBarDialog,  var  TotalOrderedAmount: Int,
+                          var cart_totoal: Int) :
     RecyclerView.Adapter<DatesBasketAdapter.ViewHolder>() {
     lateinit var itemslist:ArrayList<CartItemsListModel>
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -56,7 +57,7 @@ class DatesBasketAdapter (var cartdate_list:ArrayList<CanteenCartResModel>, var 
             student_id,
             parent_id,
             staff_id,
-            cartdate_list[position].delivery_date,itemtxt,amnttxt,itemLinear,noItemTxt,dateRec,progress)
+            cartdate_list[position].delivery_date,itemtxt,amnttxt,itemLinear,noItemTxt,dateRec,progress,TotalOrderedAmount,cart_totoal)
         holder.cartItemRecycler.adapter=adptr
 
 

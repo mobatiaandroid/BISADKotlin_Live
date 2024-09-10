@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.mobatia.bisad.R
+import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartResModel
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -21,6 +22,9 @@ import java.util.Locale
 
 class CommonFunctions {
     companion object{
+
+        lateinit var cart_list: ArrayList<CanteenCartResModel>
+
         fun faliurepopup(context: Context) {
             val dialog = Dialog(context)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

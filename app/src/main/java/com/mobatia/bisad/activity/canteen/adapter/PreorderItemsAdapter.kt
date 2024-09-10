@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,8 +66,7 @@ class PreorderItemsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //onBottomReachedListener.onBottomReached(position)
         //bottomView.visibility=View.GONE
-
-        if (allergycontentlist.size>0){
+        if (itemlist.get(position).isAllergic === true){
             holder.allergy_info.visibility=View.VISIBLE
             holder.allergy_rec.visibility=View.VISIBLE
             var llm = (LinearLayoutManager(mcontext))
@@ -113,7 +113,8 @@ class PreorderItemsAdapter(
         }
         holder.addLinear.setOnClickListener {
             if (itemlist.get(position).isAllergic === true) {
-                allergypresentpopup( itemlist[position].id,itemlist[position].price,position, "1")
+                Toast.makeText(mcontext, "This item may contain common food allergens.Proceed with order?", Toast.LENGTH_SHORT).show()
+                //allergypresentpopup( itemlist[position].id,itemlist[position].price,position, "1")
             } else {
                 addToCart(itemlist[position].id,itemlist[position].price,position)
             }

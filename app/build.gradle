@@ -10,8 +10,8 @@ android {
         applicationId "com.mobatia.bisad"
         minSdkVersion 27
         targetSdkVersion 34
-        versionCode 40
-        versionName "3.2.1"
+        versionCode 41
+        versionName "3.2.2"
         multiDexEnabled true
         generatedDensities = []
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

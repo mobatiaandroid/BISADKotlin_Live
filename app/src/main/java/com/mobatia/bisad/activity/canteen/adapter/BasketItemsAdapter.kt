@@ -2,9 +2,11 @@ package com.mobatia.bisad.activity.canteen.adapter
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,7 @@ import androidx.viewpager.widget.ViewPager
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.ProgressBarDialog
+import com.mobatia.bisad.activity.canteen.CanteenPaymentActivity
 import com.mobatia.bisad.activity.canteen.model.AllergyContentModel
 import com.mobatia.bisad.activity.canteen.model.add_to_cart.CanteenCartRemoveApiModel
 import com.mobatia.bisad.activity.canteen.model.add_to_cart.CanteenCartRemoveModel
@@ -43,10 +46,11 @@ class BasketItemsAdapter (
     var staff_id:String,
     var delivery_date:String,
 var itemtxt:TextView,var amnttxt:TextView,var itemLinear:LinearLayout,var noItemTxt:ImageView,
-var dateRec:RecyclerView,var progress:ProgressBarDialog) :
+var dateRec:RecyclerView,var progress:ProgressBarDialog,var TotalOrderedAmount: Int,
+    var cart_totoal: Int) :
 
     RecyclerView.Adapter<BasketItemsAdapter.ViewHolder>() {
-    lateinit var cart_list: ArrayList<CanteenCartResModel>
+    //lateinit var cart_list: ArrayList<CanteenCartResModel>
     var cartTotalAmount:Int=0
     var cartTotalItems:Int=0
     var quantity = ""
@@ -55,6 +59,8 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
     var homeBannerUrlImageArray: java.util.ArrayList<String>? = null
     var currentPage = 0
     lateinit var allergycontentlist: ArrayList<AllergyContentModel>
+    var CartTotalAmount = 0f
+    var carttotalfull = 0
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(viewGroup.context)
@@ -84,10 +90,50 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
 
             if (InternetCheckClass.isInternetAvailable(mcontext)) {
                 if (newValue != 0) {
-                    //progressDialogAdd.visibility=View.VISIBLE
-                    progress.show()
-                    updateCart(items_list[position].id.toString(),position,quantity)
-                    notifyDataSetChanged()
+                    if (newValue > oldValue) {
+                        //progressDialogAdd.visibility=View.VISIBLE
+                        progress.show()
+                        CartTotalAmount =
+                            cart_totoal + items_list.get(position).price.toFloat()
+                        carttotalfull = TotalOrderedAmount + CartTotalAmount.toInt()
+                         Log.e("carttotalfull", carttotalfull.toString())
+
+
+                        if (PreferenceData().getWalletAmount(mcontext) > carttotalfull) {
+                            // Log.e("BalanceWalletAmount", BalanceWalletAmount.toString())
+                            // Log.e("BalanceConfirmWalletAmount", BalanceConfirmWalletAmount.toString())
+                             Log.e("CartAmount", CartTotalAmount.toString())
+                            //  Log.e("wallet", PreferenceManager().getWalletAmount(mcontext).toString())
+
+
+                            if (PreferenceData().getWalletAmount(mcontext) > CartTotalAmount) {
+                                updateCart(items_list[position].id.toString(), position, quantity)
+                                notifyDataSetChanged()
+                            } else {
+                                holder.cartitemcount.number = oldValue.toString()
+                                showInsufficientBal(
+                                    mcontext,
+                                    "Alert",
+                                    "Insufficient balance please top up wallet",
+                                    R.drawable.exclamationicon,
+                                    R.drawable.round
+                                )
+                            }
+                        } else {
+                            holder.cartitemcount.number = oldValue.toString()
+                            showInsufficientBal(
+                                mcontext,
+                                "Alert",
+                                "Insufficient balance please top up wallet",
+                                R.drawable.exclamationicon,
+                                R.drawable.round
+                            )
+                        }
+                    }
+                    else {
+                        updateCart(items_list[position].id.toString(), position, quantity)
+                        notifyDataSetChanged()
+                    }
                 } else {
                     //progressDialogAdd.visibility=View.VISIBLE
                     progress.show()
@@ -257,7 +303,7 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
         dialog.show()
     }
     private fun getcanteen_cart(){
-        cart_list= ArrayList()
+       CommonFunctions. cart_list= ArrayList()
         cartTotalAmount=0
         cartTotalItems=0
         //progressDialogAdd.visibility=View.VISIBLE
@@ -276,19 +322,19 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
                 progress.hide()
                 if (responsedata!!.status==100) {
                     //progress.visibility = View.GONE
-                    cart_list=response!!.body()!!.responseArray.data
-                    for (i in cart_list.indices){
+                   CommonFunctions. cart_list=response!!.body()!!.responseArray.data
+                    for (i in CommonFunctions. cart_list.indices){
 
-                        cartTotalAmount=cartTotalAmount + cart_list[i].total_amount
+                        cartTotalAmount=cartTotalAmount + CommonFunctions. cart_list[i].total_amount
                     }
                     if (cartTotalAmount==0){
                         //bottomView.visibility=View.GONE
                     }else{
                         //bottomView.visibility=View.VISIBLE
-                        for (i in cart_list.indices){
+                        for (i in CommonFunctions. cart_list.indices){
 
-                            for (j in cart_list[i].items.indices){
-                                cartTotalItems=cartTotalItems + cart_list[i].items[j].quantity
+                            for (j in CommonFunctions.cart_list[i].items.indices){
+                                cartTotalItems=cartTotalItems + CommonFunctions.cart_list[i].items[j].quantity
                             }
                         }
 
@@ -297,8 +343,8 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
                     }
                     dateRec.layoutManager = LinearLayoutManager(mcontext)
                     dateRec.adapter =
-                        DatesBasketAdapter(cart_list, mcontext,ordered_user_type,student_id,parent_id,staff_id,
-                            itemtxt,amnttxt,itemLinear,noItemTxt,dateRec,progress)
+                        DatesBasketAdapter(CommonFunctions.cart_list, mcontext,ordered_user_type,student_id,parent_id,staff_id,
+                            itemtxt,amnttxt,itemLinear,noItemTxt,dateRec,progress,TotalOrderedAmount,cart_totoal)
                     notifyDataSetChanged()
                 }else if (response.body()!!.status == 116) {
                     if (apiCall != 4) {
@@ -458,6 +504,42 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog) :
         btn_Ok.setOnClickListener()
         {
             dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    fun showInsufficientBal(
+        activity: Context?,
+        msgHead: String?,
+        msg: String?,
+        ico: Int,
+        bgIcon: Int
+    ) {
+        val dialog = Dialog(activity!!)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.alert_dialogue_layout)
+        val icon = dialog.findViewById<View>(R.id.iconImageView) as ImageView
+        icon.setBackgroundResource(bgIcon)
+        icon.setImageResource(ico)
+        val text = dialog.findViewById<View>(R.id.text_dialog) as TextView
+        val textHead = dialog.findViewById<View>(R.id.alertHead) as TextView
+        text.text = msg
+        textHead.text = msgHead
+        val dialogButton = dialog.findViewById<View>(R.id.btn_Ok) as Button
+        dialogButton.setOnClickListener {
+            val intent = Intent(
+                mcontext,
+                CanteenPaymentActivity::class.java
+            )
+            dialog.dismiss()
+            mcontext.startActivity(intent)
+
+        }
+        val dialogButtonCancel = dialog.findViewById<View>(R.id.btn_Cancel) as Button
+        dialogButtonCancel.setOnClickListener { dialog.dismiss()
+            progress.hide()
         }
         dialog.show()
     }
