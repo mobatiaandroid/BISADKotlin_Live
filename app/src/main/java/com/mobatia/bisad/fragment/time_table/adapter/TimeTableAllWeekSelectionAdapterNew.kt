@@ -76,30 +76,30 @@ class TimeTableAllWeekSelectionAdapterNew(
             holder.relSub.visibility = View.VISIBLE
 
 
-            if (mPeriodModel[position].timeTableListS.size > 1) {
-                holder.tutor1.text = mPeriodModel.get(position).timeTableListS.get(0).subject_name
-            } else {
-                holder.tutor1.text = mPeriodModel.get(position).sunday
-            }
             if (mPeriodModel.get(position).timeTableListM.size > 1) {
-                holder.tutor2.text = mPeriodModel.get(position).timeTableListM.get(0).subject_name
+                holder.tutor1.text = mPeriodModel.get(position).timeTableListM.get(0).subject_name
             } else {
-                holder.tutor2.text = mPeriodModel.get(position).monday
+                holder.tutor1.text = mPeriodModel.get(position).monday
             }
             if (mPeriodModel.get(position).timeTableListTu.size > 1) {
-                holder.tutor3.text = mPeriodModel.get(position).timeTableListTu.get(0).subject_name
+                holder.tutor2.text = mPeriodModel.get(position).timeTableListTu.get(0).subject_name
             } else {
-                holder.tutor3.text = mPeriodModel.get(position).tuesday
+                holder.tutor2.text = mPeriodModel.get(position).tuesday
             }
             if (mPeriodModel.get(position).timeTableListW.size > 1) {
-                holder.tutor4.text = mPeriodModel.get(position).timeTableListW.get(0).subject_name
+                holder.tutor3.text = mPeriodModel.get(position).timeTableListW.get(0).subject_name
             } else {
-                holder.tutor4.text = mPeriodModel.get(position).wednesday
+                holder.tutor3.text = mPeriodModel.get(position).wednesday
             }
             if (mPeriodModel.get(position).timeTableListTh.size > 1) {
-                holder.tutor5.text = mPeriodModel.get(position).timeTableListTh.get(0).subject_name
+                holder.tutor4.text = mPeriodModel.get(position).timeTableListTh.get(0).subject_name
             } else {
-                holder.tutor5.text = mPeriodModel.get(position).thursday
+                holder.tutor4.text = mPeriodModel.get(position).thursday
+            }
+            if (mPeriodModel[position].timeTableListS.size > 1) {
+                holder.tutor5.text = mPeriodModel.get(position).timeTableListS.get(0).subject_name
+            } else {
+                holder.tutor5.text = mPeriodModel.get(position).sunday
             }
 
             if (mPeriodModel.get(position).countS > 1) {
@@ -203,7 +203,7 @@ class TimeTableAllWeekSelectionAdapterNew(
                 val mTimeTablePopUpRecyclerAdapter =
                     TimeTablePopUpRecyclerAdapter(
                         mContext,
-                        mPeriodModel.get(position).timeTableListS
+                        mPeriodModel.get(position).timeTableListM
                     )
                 mTimeTablePopUpRecyclerAdapter.notifyDataSetChanged()
                 recycler_view_timetable.adapter = mTimeTablePopUpRecyclerAdapter
@@ -257,7 +257,7 @@ class TimeTableAllWeekSelectionAdapterNew(
                 val mTimeTablePopUpRecyclerAdapter =
                     TimeTablePopUpRecyclerAdapter(
                         mContext,
-                        mPeriodModel.get(position).timeTableListM
+                        mPeriodModel.get(position).timeTableListTu
                     )
                 mTimeTablePopUpRecyclerAdapter.notifyDataSetChanged()
                 recycler_view_timetable.adapter = mTimeTablePopUpRecyclerAdapter
@@ -312,7 +312,7 @@ class TimeTableAllWeekSelectionAdapterNew(
                 llmAtime.orientation = LinearLayoutManager.VERTICAL
                 recycler_view_timetable.layoutManager = llmAtime
                 val mTimeTablePopUpRecyclerAdapter = TimeTablePopUpRecyclerAdapter(mContext,
-                        mPeriodModel[position].timeTableListTu)
+                        mPeriodModel[position].timeTableListW)
                 mTimeTablePopUpRecyclerAdapter.notifyDataSetChanged()
                 recycler_view_timetable.adapter = mTimeTablePopUpRecyclerAdapter
                 var t: ToolTip? = null
@@ -363,7 +363,7 @@ class TimeTableAllWeekSelectionAdapterNew(
                 val mTimeTablePopUpRecyclerAdapter =
                     TimeTablePopUpRecyclerAdapter(
                         mContext,
-                        mPeriodModel.get(position).timeTableListW
+                        mPeriodModel.get(position).timeTableListTh
                     )
                 mTimeTablePopUpRecyclerAdapter.notifyDataSetChanged()
                 recycler_view_timetable.adapter = mTimeTablePopUpRecyclerAdapter
@@ -413,7 +413,7 @@ class TimeTableAllWeekSelectionAdapterNew(
                 val mTimeTablePopUpRecyclerAdapter =
                     TimeTablePopUpRecyclerAdapter(
                         mContext,
-                        mPeriodModel.get(position).timeTableListTh
+                        mPeriodModel.get(position).timeTableListS
                     )
                 mTimeTablePopUpRecyclerAdapter.notifyDataSetChanged()
                 recycler_view_timetable.adapter = mTimeTablePopUpRecyclerAdapter

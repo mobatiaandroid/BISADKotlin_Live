@@ -13,4 +13,7 @@ class PrimaryModel
     @SerializedName("color") var color:String=""
     @SerializedName("startTime") var startTime:String=""
     @SerializedName("endTime") var endTime:String=""
+    override fun toString(): String {
+        return "PrimaryModel(DTSTART=$DTSTART, DTEND=$DTEND, SUMMARY=$SUMMARY, DESCRIPTION=$DESCRIPTION, LOCATION=$LOCATION, type=$type, color=$color, startTime=$startTime, endTime=$endTime)"
+    }
 }

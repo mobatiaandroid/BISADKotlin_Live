@@ -55,6 +55,7 @@ class CalendarDetailAdapter(private var mContext:Context,private var calendarArr
 
 
         holder.title.text = summary.SUMMARY
+       // Log.e("DTSTARTtext",summary.DTSTART)
         if (summary.DTSTART.length!=0)
         {
             if (summary.DTEND.length!=0)
@@ -75,6 +76,26 @@ class CalendarDetailAdapter(private var mContext:Context,private var calendarArr
                         holder.timeTxt.text = outputDateStrstart+" - "+outputDateEND
                     }
                     else if (summary.DTEND.length==11)
+                    {
+                        holder.timeTxt.text = outputDateStrstart
+                    }
+                }
+                else if (summary.DTSTART.length==21)
+                {
+                    val inputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy hh:mm a")
+
+                    val outputFormat: DateFormat = SimpleDateFormat("HH:mm")
+                    val startdate: Date = inputFormat.parse(summary.DTSTART)
+                    var outputDateStrstart:String= outputFormat.format(startdate)
+                    if (summary.DTEND.length==21)
+                    {
+                        val inputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy hh:mm a")
+                        val outputFormat: DateFormat = SimpleDateFormat("HH:mm")
+                        val endDate: Date = inputFormat.parse(summary.DTEND)
+                        var outputDateEND:String= outputFormat.format(endDate)
+                        holder.timeTxt.text = outputDateStrstart+" - "+outputDateEND
+                    }
+                    else if (summary.DTEND.length==12)
                     {
                         holder.timeTxt.text = outputDateStrstart
                     }
@@ -153,8 +174,27 @@ class CalendarDetailAdapter(private var mContext:Context,private var calendarArr
                 startcalendar.text = calendarArrayList[position].DTSTART
                 endcalendar.text = calendarArrayList[position].DTEND
             }
+            if (StartCalendar.length == 21) {
+
+                startcalendar.text = calendarArrayList[position].DTSTART
+                endcalendar.text = calendarArrayList[position].DTEND
+            }
 
             if (StartCalendar.length == 11)
+            {
+                val inputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
+                val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
+
+                val startdate: Date = inputFormat.parse(calendarArrayList[position].DTSTART)
+                val enddate: Date = inputFormat.parse(calendarArrayList[position].DTEND)
+
+                outputDateStrstart = outputFormat.format(startdate)
+                outputDateStrend = outputFormat.format(enddate)
+
+                startcalendar.text = calendarArrayList[position].DTSTART
+                endcalendar.text = calendarArrayList[position].DTEND
+            }
+            if (StartCalendar.length == 12)
             {
                 val inputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
                 val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
@@ -198,8 +238,56 @@ class CalendarDetailAdapter(private var mContext:Context,private var calendarArr
                     mContext.startActivity(intent)
                     dialogcalendar.dismiss()
                 }
+                if (StartCalendar.length == 21) {
+                    try {
+                        val startdatehelper =
+                            SimpleDateFormat("MMM dd,yyyy hh:mm a").parse(calendarArrayList[position].DTSTART)
+                        val stopdatehelper =
+                            SimpleDateFormat("MMM dd,yyyy hh:mm a").parse(calendarArrayList[position].DTEND)
+
+                        startTime16format = startdatehelper.time
+                        endTime16format = stopdatehelper.time
+
+
+
+                    } catch (e: Exception) {
+                    }
+
+                    val intent = Intent(Intent.ACTION_EDIT)
+                    intent.type = "vnd.android.cursor.item/event"
+                    intent.putExtra("beginTime", startTime16format)
+                    intent.putExtra("allDay", false)
+                    intent.putExtra("rule", "FREQ=YEARLY")
+                    intent.putExtra("endTime", endTime16format)
+                    intent.putExtra("title", SummaryCalendar)
+                    mContext.startActivity(intent)
+                    dialogcalendar.dismiss()
+                }
 
                 if (StartCalendar.length == 11) {
+                    try {
+                        val startdatehelper =
+                            SimpleDateFormat("MMM dd,yyyy").parse(outputDateStrstart)
+                        val stopdatehelper =
+                            SimpleDateFormat("MMM dd,yyyy").parse(outputDateStrend)
+
+                        startTime8format = startdatehelper.time
+                        endTime8format = stopdatehelper.time
+                    } catch (e: Exception) {
+                    }
+
+                    val intent = Intent(Intent.ACTION_EDIT)
+                    intent.type = "vnd.android.cursor.item/event"
+                    intent.putExtra("beginTime", startTime8format)
+                    intent.putExtra("allDay", false)
+                    intent.putExtra("rule", "FREQ=YEARLY")
+                    intent.putExtra("endTime", endTime8format)
+                    intent.putExtra("title", SummaryCalendar)
+                    mContext.startActivity(intent)
+                    dialogcalendar.dismiss()
+                }
+
+                if (StartCalendar.length == 12) {
                     try {
                         val startdatehelper =
                             SimpleDateFormat("MMM dd,yyyy").parse(outputDateStrstart)

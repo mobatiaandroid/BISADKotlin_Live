@@ -113,7 +113,7 @@ class PreorderItemsAdapter(
         }
         holder.addLinear.setOnClickListener {
             if (itemlist.get(position).isAllergic === true) {
-                Toast.makeText(mcontext, "This item may contain common food allergens.Proceed with order?", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mcontext, "This item contains ingredients your child is allergic to and cannot be ordered.", Toast.LENGTH_SHORT).show()
                 //allergypresentpopup( itemlist[position].id,itemlist[position].price,position, "1")
             } else {
                 addToCart(itemlist[position].id,itemlist[position].price,position)
@@ -208,7 +208,7 @@ class PreorderItemsAdapter(
         icon.setImageResource(R.drawable.questionmark_icon)
         val text = dialog.findViewById<View>(R.id.text_dialog) as TextView
         val textHead = dialog.findViewById<View>(R.id.alertHead) as TextView
-        text.text = "This item may contain common food allergens. Proceed with order?"
+        text.text = "This item contains ingredients your child is allergic to and cannot be ordered."
         textHead.text = "Confirm"
         val dialogButton = dialog.findViewById<View>(R.id.btn_Ok) as Button
         dialogButton.setOnClickListener {

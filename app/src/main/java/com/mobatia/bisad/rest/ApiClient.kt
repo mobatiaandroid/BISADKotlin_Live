@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
     //dev
-  //var BASE_URL = "http://gama.mobatia.in:8080/bisadv10/public/api/v1/"
+ // var BASE_URL = "http://gama.mobatia.in:8080/bisadv10/public/api/v1/"
 
     //Live
  var BASE_URL = "https://mobile.bisad.ae/api/v1/"

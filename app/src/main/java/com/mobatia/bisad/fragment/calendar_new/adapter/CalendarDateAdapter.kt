@@ -3,6 +3,7 @@ package com.mobatia.bisad.fragment.calendar_new.adapter
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,6 +64,7 @@ class CalendarDateAdapter(
 
 
 
+
         if (summary.startDate.length != 0) {
 
 
@@ -85,6 +87,33 @@ class CalendarDateAdapter(
                 var outputDateStrstart: String = outputFormat.format(startdate)
 
                 holder.dateTxt.text = outputDateStrstart
+
+            }
+            else if (summary.startDate.length == 12)
+            {
+                //Log.e("startDate12","12")
+                val inputFormat: DateFormat = SimpleDateFormat("MMM d,yyyy")
+                val outputFormat: DateFormat = SimpleDateFormat("EEEE d MMMM")
+                val startdate: Date? = inputFormat.parse(summary.startDate)
+                //   val enddate: Date = inputFormat.parse(summary.endDate)
+                var outputDateStrstart: String = outputFormat.format(startdate)
+               // Log.e("outputDateStrstart",outputDateStrstart)
+
+                holder.dateTxt.text = outputDateStrstart
+
+            }
+            else if (summary.startDate.length == 21) {
+
+               // Log.e("startDate21","21")
+
+                val inputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy hh:mm a")
+                val outputFormat: DateFormat = SimpleDateFormat("EEEE dd MMMM")
+                val startdate: Date = inputFormat.parse(summary.startDate)
+                var outputDateStrstart: String = outputFormat.format(startdate)
+               // Log.e("outputDateStrstart21",outputDateStrstart)
+
+                holder.dateTxt.text = outputDateStrstart
+
 
             }
             else if (summary.startDate.length==10)

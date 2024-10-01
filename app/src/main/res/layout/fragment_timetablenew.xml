@@ -234,17 +234,7 @@
                         android:layout_marginLeft="1dp"
                         android:layout_marginRight="1dp">
 
-                        <com.mobatia.bisad.manager.CustomFontSansProTextWhiteWithoutColor
-                            style="@style/textstyletimetablesingle"
-                            android:layout_width="0dp"
-                            android:layout_weight="20"
-                            android:layout_height="match_parent"
-                            android:layout_toLeftOf="@+id/llread"
-                            android:textSize="16dp"
-                            android:text="Sun"
-                            android:background="@color/present"
-                            android:gravity="center"
-                            android:textColor="@color/black" />
+
                         <com.mobatia.bisad.manager.CustomFontSansProTextWhiteWithoutColor
                             style="@style/textstyletimetablesingle"
                             android:layout_width="0dp"
@@ -298,6 +288,17 @@
                             android:background="@color/present"
 
                             android:text="Thu"
+                            android:textColor="@color/black" />
+                        <com.mobatia.bisad.manager.CustomFontSansProTextWhiteWithoutColor
+                            style="@style/textstyletimetablesingle"
+                            android:layout_width="0dp"
+                            android:layout_weight="20"
+                            android:layout_height="match_parent"
+                            android:layout_toLeftOf="@+id/llread"
+                            android:textSize="16dp"
+                            android:text="Fri"
+                            android:background="@color/present"
+                            android:gravity="center"
                             android:textColor="@color/black" />
 
                     </LinearLayout>

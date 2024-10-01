@@ -382,10 +382,11 @@ class CalFragment : Fragment() {
 
                 } else if (primaryArrayList[i].DTSTART.length == 15) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
-                    val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
+                    val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy hh:mm a")
                     val startdate: Date = inputFormat.parse(primaryArrayList.get(i).DTSTART)
                     var outputDateStrstart: String = outputFormat.format(startdate)
                     pModel.DTSTART = outputDateStrstart
+
                 }
                 if (primaryArrayList.get(i).DTEND.toString().length == 16) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
@@ -406,7 +407,7 @@ class CalFragment : Fragment() {
 
                 } else if (primaryArrayList.get(i).DTEND.toString().length == 15) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
-                    val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
+                    val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy hh:mm a")
                     val startdate: Date = inputFormat.parse(primaryArrayList.get(i).DTEND)
                     var outputDateStrstart: String = outputFormat.format(startdate)
                     pModel.DTEND = outputDateStrstart
@@ -424,7 +425,7 @@ class CalFragment : Fragment() {
         if (secondaryArrayList.size > 0) {
             for (i in 0..secondaryArrayList.size - 1) {
                 var sModel = PrimaryModel()
-                if (secondaryArrayList.get(i).DTSTART.toString().length == 16) {
+                if (secondaryArrayList.get(i).DTSTART.length == 16) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
                     val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy hh:mm a")
                     val startdate: Date = inputFormat.parse(secondaryArrayList.get(i).DTSTART)
@@ -443,7 +444,7 @@ class CalFragment : Fragment() {
 
                 } else if (secondaryArrayList.get(i).DTSTART.toString().length == 15) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
-                    val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
+                    val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy hh:mm a")
                     val startdate: Date = inputFormat.parse(secondaryArrayList.get(i).DTSTART)
                     var outputDateStrstart: String = outputFormat.format(startdate)
                     sModel.DTSTART = outputDateStrstart
@@ -470,7 +471,7 @@ class CalFragment : Fragment() {
 
                 } else if (secondaryArrayList.get(i).DTEND.toString().length == 15) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
-                    val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
+                    val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy hh:mm a")
                     val startdate: Date = inputFormat.parse(secondaryArrayList.get(i).DTEND)
                     var outputDateStrstart: String = outputFormat.format(startdate)
                     sModel.DTEND = outputDateStrstart
@@ -506,7 +507,7 @@ class CalFragment : Fragment() {
 
                 } else if (wholeSchoolArrayList.get(i).DTSTART.toString().length == 15) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
-                    val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
+                    val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy hh:mm a")
                     val startdate: Date = inputFormat.parse(wholeSchoolArrayList.get(i).DTSTART)
                     var outputDateStrstart: String = outputFormat.format(startdate)
                     wModel.DTSTART = outputDateStrstart
@@ -531,7 +532,7 @@ class CalFragment : Fragment() {
 
                 } else if (wholeSchoolArrayList.get(i).DTEND.toString().length == 15) {
                     val inputFormat: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss")
-                    val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
+                    val outputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy hh:mm a")
                     val startdate: Date = inputFormat.parse(wholeSchoolArrayList.get(i).DTEND)
                     var outputDateStrstart: String = outputFormat.format(startdate)
                     wModel.DTEND = outputDateStrstart
@@ -621,7 +622,20 @@ class CalFragment : Fragment() {
                 var listMonth: String = ""
                 var listYear: String = ""
                 for (i in 0..FILTERCALENDARlIST.size - 1) {
+
                     if (FILTERCALENDARlIST.get(i).DTSTART.length == 20) {
+                        val inputFormat: DateFormat =
+                            SimpleDateFormat("MMM dd,yyyy hh:mm a")
+                        val outputFormatYear: DateFormat = SimpleDateFormat("yyyy")
+                        val outputFormatMonth: DateFormat = SimpleDateFormat("MMMM")
+                        val startdate: Date =
+                            inputFormat.parse(FILTERCALENDARlIST.get(i).DTSTART)
+                        var outputDateMonth: String =
+                            outputFormatMonth.format(startdate)
+                        var outputDateYear: String = outputFormatYear.format(startdate)
+                        listMonth = outputDateMonth
+                        listYear = outputDateYear
+                    } else if (FILTERCALENDARlIST.get(i).DTSTART.length == 21) {
                         val inputFormat: DateFormat =
                             SimpleDateFormat("MMM dd,yyyy hh:mm a")
                         val outputFormatYear: DateFormat = SimpleDateFormat("yyyy")
@@ -644,6 +658,18 @@ class CalFragment : Fragment() {
                         var outputDateYear: String = outputFormatYear.format(startdate)
                         listMonth = outputDateMonth
                         listYear = outputDateYear
+
+                    } else if (FILTERCALENDARlIST.get(i).DTSTART.length == 12) {
+                        val inputFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
+                        val outputFormatYear: DateFormat = SimpleDateFormat("yyyy")
+                        val outputFormatMonth: DateFormat = SimpleDateFormat("MMMM")
+                        val startdate: Date =
+                            inputFormat.parse(FILTERCALENDARlIST.get(i).DTSTART)
+                        var outputDateMonth: String =
+                            outputFormatMonth.format(startdate)
+                        var outputDateYear: String = outputFormatYear.format(startdate)
+                        listMonth = outputDateMonth
+                        listYear = outputDateYear
                     } else if (FILTERCALENDARlIST.get(i).DTSTART.length == 10) {
                         val inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
                         val outputFormatYear: DateFormat = SimpleDateFormat("yyyy")
@@ -656,13 +682,21 @@ class CalFragment : Fragment() {
                         listMonth = outputDateMonth
                         listYear = outputDateYear
                     }
+
                     monthLinear.visibility = View.VISIBLE
                     filterLinear.visibility = View.VISIBLE
                     hidePast.visibility = View.VISIBLE
+
                     if (listYear.equals(year.toString())) {
+//                        Log.d("monthTxt", monthTxt + listMonth)
 
                         if (monthTxt.equals(listMonth, ignoreCase = true)) {
+
                             var model = PrimaryModel()
+//                            Log.e(
+//                                "filterlength",
+//                                FILTERCALENDARlIST.get(i).DTSTART
+//                            )
                             if (FILTERCALENDARlIST.get(i).DTSTART.length == 10) {
                                 val inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
                                 val outPutFormat: DateFormat = SimpleDateFormat("MMM dd,yyyy")
@@ -671,8 +705,11 @@ class CalFragment : Fragment() {
                                 var outputStart: String = outPutFormat.format(startdate)
                                 model.DTSTART = outputStart
                             } else {
+
                                 model.DTSTART = FILTERCALENDARlIST.get(i).DTSTART
                             }
+
+
                             model.DTEND = FILTERCALENDARlIST.get(i).DTEND
                             model.SUMMARY = FILTERCALENDARlIST.get(i).SUMMARY
                             model.DESCRIPTION = FILTERCALENDARlIST.get(i).DESCRIPTION
@@ -680,18 +717,17 @@ class CalFragment : Fragment() {
                             model.color = FILTERCALENDARlIST.get(i).color
                             model.type = FILTERCALENDARlIST.get(i).type
                             calendarFilterArrayList.add(model)
+
                         } else {
                         }
                     }
 
                 }
-
                 if (calendarFilterArrayList.size > 0) {
                     calendarRecycler.visibility = View.VISIBLE
                     calendarFilterArrayList.sortByDescending { calendarFilterArrayList -> calendarFilterArrayList.DTSTART }
                     calendarFilterArrayList.reverse()
                     mCalendarFinalArrayList = ArrayList()
-
                     for (n in 0 until calendarFilterArrayList.size) {
 
                         if (mCalendarFinalArrayList.size == 0) {
@@ -765,10 +801,40 @@ class CalFragment : Fragment() {
 
                             for (s in 0 until mCalendarFinalArrayList.size) {
 
+
                                 if (mCalendarFinalArrayList.get(s).startDate.length == 20) {
                                     var sdf = SimpleDateFormat("MMM dd,yyyy hh:mm a")
                                     var strDate =
                                         sdf.parse(mCalendarFinalArrayList.get(s).startDate)
+                                    if (System.currentTimeMillis() < strDate.time) {
+
+                                        var model = CalendarDateModel()
+                                        model.startDate = mCalendarFinalArrayList.get(s).startDate
+                                        model.endDate = mCalendarFinalArrayList.get(s).endDate
+                                        model.detailList = mCalendarFinalArrayList.get(s).detailList
+                                        calendar.add(model)
+
+                                    }
+                                } else if (mCalendarFinalArrayList.get(s).startDate.length == 21) {
+                                    var sdf = SimpleDateFormat("MMM dd,yyyy hh:mm a")
+                                    var strDate =
+                                        sdf.parse(mCalendarFinalArrayList.get(s).startDate)
+
+
+                                    if (System.currentTimeMillis() < strDate.time) {
+
+                                        var model = CalendarDateModel()
+                                        model.startDate = mCalendarFinalArrayList.get(s).startDate
+                                        model.endDate = mCalendarFinalArrayList.get(s).endDate
+                                        model.detailList = mCalendarFinalArrayList.get(s).detailList
+                                        calendar.add(model)
+
+                                    }
+                                } else if (mCalendarFinalArrayList.get(s).startDate.length == 12) {
+                                    var sdf = SimpleDateFormat("MMM dd,yyyy")
+                                    var strDate =
+                                        sdf.parse(mCalendarFinalArrayList.get(s).startDate)
+
                                     if (System.currentTimeMillis() < strDate.time) {
 
                                         var model = CalendarDateModel()
@@ -829,6 +895,7 @@ class CalFragment : Fragment() {
                                 CalendarDateAdapter(mContext, mCalendarFinalArrayList)
                             calendarRecycler.adapter = calendarListAdapter
                         } else {
+
                             noEventImage.visibility = View.VISIBLE
                             noEventTxt.visibility = View.VISIBLE
                             calendarRecycler.visibility = View.GONE
@@ -837,16 +904,19 @@ class CalFragment : Fragment() {
 
 
                 } else {
+
                     noEventImage.visibility = View.VISIBLE
                     noEventTxt.visibility = View.VISIBLE
                     calendarRecycler.visibility = View.GONE
                 }
             } else {
+
                 noEventImage.visibility = View.VISIBLE
                 noEventTxt.visibility = View.VISIBLE
                 calendarRecycler.visibility = View.GONE
             }
         } else {
+
             noEventImage.visibility = View.VISIBLE
             noEventTxt.visibility = View.VISIBLE
             calendarRecycler.visibility = View.GONE
@@ -1277,6 +1347,7 @@ class CalFragment : Fragment() {
         })
         dialog.show()
     }
+
 }
 
 

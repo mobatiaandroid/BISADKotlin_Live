@@ -208,20 +208,18 @@ class TimeTableFragment : Fragment() {
         var d = Date()
         dayOfTheWeek = sdf.format(d)
         when (dayOfTheWeek) {
-            "Sunday" -> {
+
+            "Monday" -> {
                 weekPosition = 1
             }
-            "Monday" -> {
+            "Tuesday" -> {
                 weekPosition = 2
             }
-            "Tuesday" -> {
+            "Wednesday" -> {
                 weekPosition = 3
             }
-            "Wednesday" -> {
-                weekPosition = 4
-            }
             "Thursday" -> {
-                weekPosition = 5
+                weekPosition = 4
             }
 
             else -> {
@@ -510,7 +508,7 @@ class TimeTableFragment : Fragment() {
                                 mTimetableApiArrayList.addAll(response.body()!!.responseArray.timeTableList)
                                 mPeriodModel = ArrayList()
                                 var mDataModelArrayList = ArrayList<DayModel>()
-                                var s = 0
+                                var fr = 0
                                 var m = 0
                                 var tu = 0
                                 var w = 0
@@ -545,28 +543,7 @@ class TimeTableFragment : Fragment() {
                                                 mTimetableApiArrayList.get(t).student_id
                                             //    mDayModel.staff=mTimetableApiArrayList.get(t).staff
 
-                                            if (mTimetableApiArrayList.get(t).day.equals("Sunday")) {
-                                                s = s + 1
-                                                var dayModel = DayModel()
-                                                dayModel.id = mTimetableApiArrayList.get(t).id
-                                                dayModel.period_id =
-                                                    mTimetableApiArrayList.get(t).period_id
-                                                dayModel.day = mTimetableApiArrayList.get(t).day
-                                                dayModel.sortname =
-                                                    mTimetableApiArrayList.get(t).sortname
-                                                dayModel.starttime =
-                                                    mTimetableApiArrayList.get(t).starttime
-                                                dayModel.endtime =
-                                                    mTimetableApiArrayList.get(t).endtime
-                                                dayModel.subject_name =
-                                                    mTimetableApiArrayList.get(t).subject_name
-                                                dayModel.student_id =
-                                                    mTimetableApiArrayList.get(t).student_id
-                                                dayModel.staff = mTimetableApiArrayList.get(t).staff
-                                                timeTableListS.add(dayModel)
-                                                mPeriod.sunday =
-                                                    mTimetableApiArrayList.get(t).subject_name
-                                            } else if (mTimetableApiArrayList.get(t).day.equals("Monday")) {
+                                             if (mTimetableApiArrayList.get(t).day.equals("Monday")) {
                                                 m = m + 1
                                                 var dayModel = DayModel()
                                                 dayModel.id = mTimetableApiArrayList.get(t).id
@@ -650,14 +627,36 @@ class TimeTableFragment : Fragment() {
                                                 timeTableListTh.add(dayModel)
                                                 mPeriod.thursday =
                                                     mTimetableApiArrayList.get(t).subject_name
-                                            } else {
+                                            }
+                                           else if (mTimetableApiArrayList.get(t).day.equals("Friday")) {
+                                                fr = fr + 1
+                                                var dayModel = DayModel()
+                                                dayModel.id = mTimetableApiArrayList.get(t).id
+                                                dayModel.period_id =
+                                                    mTimetableApiArrayList.get(t).period_id
+                                                dayModel.day = mTimetableApiArrayList.get(t).day
+                                                dayModel.sortname =
+                                                    mTimetableApiArrayList.get(t).sortname
+                                                dayModel.starttime =
+                                                    mTimetableApiArrayList.get(t).starttime
+                                                dayModel.endtime =
+                                                    mTimetableApiArrayList.get(t).endtime
+                                                dayModel.subject_name =
+                                                    mTimetableApiArrayList.get(t).subject_name
+                                                dayModel.student_id =
+                                                    mTimetableApiArrayList.get(t).student_id
+                                                dayModel.staff = mTimetableApiArrayList.get(t).staff
+                                                timeTableListS.add(dayModel)
+                                                mPeriod.sunday =
+                                                    mTimetableApiArrayList.get(t).subject_name
+                                            }else {
                                                 mPeriod.sunday = ""
                                                 mPeriod.monday = ""
                                                 mPeriod.tuesday = ""
                                                 mPeriod.wednesday = ""
                                                 mPeriod.thursday = ""
                                             }
-                                            mPeriod.countS = s
+                                            mPeriod.countS = fr
                                             mPeriod.countM = m
                                             mPeriod.countT = tu
                                             mPeriod.countW = w
