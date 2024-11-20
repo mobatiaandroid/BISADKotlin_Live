@@ -53,7 +53,7 @@ class TripInvoiceListAdapter(
 
         holder.statusLayout.visibility = View.VISIBLE
         holder.status.text =  mContext.getString(R.string.paid)
-        holder.statusLayout.setBackgroundResource(R.drawable.rect_green)
+        holder.statusLayout.setBackgroundResource(R.drawable.rect_trip_paid_blue)
         /*holder.pdfTitle.text = "Paid by " + mnNewsLetterModelArrayList[position].firstName
         // holder.imageIcon.setVisibility(View.GONE);
         // Log.e("date",mnNewsLetterModelArrayList.get(position).getPaymentDate());

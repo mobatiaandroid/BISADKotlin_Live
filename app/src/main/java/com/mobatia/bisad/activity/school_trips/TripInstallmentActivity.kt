@@ -30,6 +30,7 @@ import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.ProgressBarDialog
 import com.mobatia.bisad.fragment.school_trips.model.TripCategoriesResponseModel
+import com.mobatia.bisad.manager.AppController
 import com.mobatia.bisad.manager.HeaderManager
 import com.mobatia.bisad.manager.ItemOffsetDecoration
 import com.mobatia.bisad.manager.PreferenceData
@@ -138,13 +139,14 @@ class TripInstallmentActivity : AppCompatActivity() {
         extras = intent.extras
         if (extras != null) {
             tripID = extras!!.getString("tripID")!!
+            tripName = extras!!.getString("tripName")!!
         }
         progressDialogP = ProgressBarDialog(context)
         mProgressRelLayout=findViewById(R.id.progressDialog)
 
 
         relativeHeader = findViewById<RelativeLayout>(R.id.relativeHeader)
-        headermanager = HeaderManager(this@TripInstallmentActivity, "Trip Categories")
+        headermanager = HeaderManager(this@TripInstallmentActivity, "Pay in Instalments")
         headermanager.getHeader(relativeHeader, 6)
         back = headermanager.getLeftButton()
         btn_history = headermanager.getRightHistoryImage()

@@ -100,7 +100,7 @@
                             <com.mobatia.bisad.manager.CustomFontSansProTextWhite
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Register Trip" />
+                                android:text="Register" />
                         </LinearLayout>
 
                         <LinearLayout

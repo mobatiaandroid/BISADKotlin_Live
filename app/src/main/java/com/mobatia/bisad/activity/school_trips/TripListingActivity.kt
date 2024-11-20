@@ -110,10 +110,13 @@ class TripListingActivity : AppCompatActivity() {
        // descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
        // sendEmailImageView = findViewById<ImageView>(R.id.sendEmailImageView)
         relativeHeader = findViewById<RelativeLayout>(R.id.relativeHeader)
-        headermanager = HeaderManager(
-            this@TripListingActivity,
-            "Register Trip"
-        )
+
+            headermanager = HeaderManager(
+                this@TripListingActivity,
+                categoryName
+            )
+
+
         headermanager.getHeader(relativeHeader, 6)
         back = headermanager.getLeftButton()
        btn_history = headermanager.getRightHistoryImage()

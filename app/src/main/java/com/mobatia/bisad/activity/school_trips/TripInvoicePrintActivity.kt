@@ -111,7 +111,7 @@ class TripInvoicePrintActivity : AppCompatActivity() {
 
         //mProgressRelLayout = findViewById<View>(R.id.progressDialog) as RelativeLayout
       //  mProgressRelLayout.setVisibility(View.GONE)
-        headermanager = HeaderManager(this@TripInvoicePrintActivity, "Trip Preview")
+        headermanager = HeaderManager(this@TripInvoicePrintActivity, "Payments History")
         headermanager.getHeader(relativeHeader, 0)
         back = headermanager.getLeftButton()
         emailLinear = findViewById<LinearLayout>(R.id.emailLinear)

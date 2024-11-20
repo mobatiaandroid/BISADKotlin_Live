@@ -97,7 +97,7 @@ class TripInvoiceListingActivity : AppCompatActivity() {
 
         //  TripInvoiceListingActivity.progressDialogP = ProgressBarDialog(context, R.drawable.spinner)
         relativeHeader = findViewById<RelativeLayout>(R.id.relativeHeader)
-        headermanager = HeaderManager(this@TripInvoiceListingActivity, "Trip Categories")
+        headermanager = HeaderManager(this@TripInvoiceListingActivity, "Trip Invoice")
         headermanager.getHeader(relativeHeader, 6)
         back = headermanager.getLeftButton()
         btn_history = headermanager.getRightHistoryImage()

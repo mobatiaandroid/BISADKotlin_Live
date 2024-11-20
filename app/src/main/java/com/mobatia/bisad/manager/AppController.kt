@@ -7,5 +7,5 @@ class AppController : MultiDexApplication() {
     var listitemArrays: ArrayList<String> = ArrayList()
     var mListImgArrays: TypedArray? = null
     var mTitles: String? = null
-
+    var trip_name: String? = null
 }

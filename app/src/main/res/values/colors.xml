@@ -68,4 +68,5 @@
     <color name="orange_circle">#ff7d00</color>
     <color name="Grey_600">#757575</color>
     <color name="dark_blue">#1E7DDB</color>
+    <color name="trip_paid">#41B7C4</color>
 </resources>

@@ -48,7 +48,7 @@ class TripInstallmentsAdapter(
             if (tripList[position].paidStatus == 1) {
                 holder.statusLayout.visibility = View.VISIBLE
                 holder.status.text =  context.getString(R.string.paid)
-                holder.statusLayout.setBackgroundResource(R.drawable.rect_green)
+                holder.statusLayout.setBackgroundResource(R.drawable.rect_trip_paid_blue)
             } else {
                 holder.statusLayout.visibility = View.VISIBLE
                 holder.status.text =  context.getString(R.string.pay)

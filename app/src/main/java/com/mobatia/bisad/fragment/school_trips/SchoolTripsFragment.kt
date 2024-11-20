@@ -388,7 +388,7 @@ class SchoolTripsFragment :Fragment(),AdapterView.OnItemClickListener {
         call.enqueue(object : Callback<TripBannerResponse> {
             override fun onFailure(call: Call<TripBannerResponse>, t: Throwable) {
 
-
+                progressDialogP.hide()
                 CommonFunctions.faliurepopup(mContext)
 
             }

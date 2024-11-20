@@ -45,6 +45,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.github.gcacace.signaturepad.views.SignaturePad
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.JsonObject
@@ -561,7 +564,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         //        descriptionTextView = findViewById(R.id.tripDescriptionTextView);
         paymentButton = findViewById<Button>(R.id.paymentButton)
         relativeHeader = findViewById<RelativeLayout>(R.id.relativeHeader)
-        headermanager = HeaderManager(this@TripDetailActivity, "Trip Categories")
+        headermanager = HeaderManager(this@TripDetailActivity, tripName)
         headermanager.getHeader(relativeHeader, 6)
         back = headermanager.getLeftButton()
         btn_history = headermanager.getRightHistoryImage()
@@ -1085,7 +1088,22 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
        // val medicalconsentEditText = dial.findViewById<EditText>(R.id.medicalconsentEditText)
         val uploadmedicalDetailsButton = dial.findViewById<Button>(R.id.uploadmedicalDetailsButton)
         val medicalIDTV = dial.findViewById<TextView>(R.id.medicalIDTV)
+        if((PreferenceData().getStudentPhoto(context)!!).equals(""))
+        {
+            studentAdd.setImageResource(R.drawable.student)
+        }
+        else{
 
+            Glide.with(context) //1
+                .load(PreferenceData().getStudentPhoto(context)!!)
+                .placeholder(R.drawable.student)
+                .error(R.drawable.student)
+                .skipMemoryCache(true) //2
+                .diskCacheStrategy(DiskCacheStrategy.NONE) //3
+                .transform(CircleCrop()) //4
+                .into(studentAdd)
+
+        }
 
         val yesNoRadioGroup = dial.findViewById<RadioGroup>(R.id.yesNoRadioGroup)
         val yesButton = dial.findViewById<RadioButton>(R.id.yesRadio)
@@ -1235,7 +1253,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
             ).show()
         }
         studentAdd.setOnClickListener {
-            if (studentDetailsFLag) {
+            /*if (studentDetailsFLag) {
                 passportLinear.visibility = View.GONE
                 visaDetailsLinear.visibility = View.GONE
                 eIDDetailsLinear.visibility = View.GONE
@@ -1250,7 +1268,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                     eIDDetailsLinear.visibility = View.VISIBLE
                 }
             }
-            studentDetailsFLag = !studentDetailsFLag
+            studentDetailsFLag = !studentDetailsFLag*/
         }
         passportAdd.setOnClickListener {
             if (passportDetailsFLag) {

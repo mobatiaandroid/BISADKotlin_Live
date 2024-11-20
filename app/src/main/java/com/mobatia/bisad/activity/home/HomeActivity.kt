@@ -449,6 +449,21 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     sharedprefs.setStudentClass(context, "")
                     mFragment = SchoolTripsFragment()
                     replaceFragmentsSelected(position)*/
+
+                    sharedprefs.setStudentID(context, "")
+                    sharedprefs.setStudentName(context, "")
+                    sharedprefs.setStudentPhoto(context, "")
+                    sharedprefs.setStudentClass(context, "")
+                    mFragment = SchoolTripsFragment()
+                    replaceFragmentsSelected(position)
+
+                }else if (position == 9) {
+                  /*  sharedprefs.setStudentID(context, "")
+                    sharedprefs.setStudentName(context, "")
+                    sharedprefs.setStudentPhoto(context, "")
+                    sharedprefs.setStudentClass(context, "")
+                    mFragment = SchoolTripsFragment()
+                    replaceFragmentsSelected(position)*/
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
@@ -457,11 +472,11 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     replaceFragmentsSelected(position)
                 }
 
-                else if (position == 9) {
+                else if (position == 10) {
                     mFragment = SocialMediaFragment()
                     replaceFragmentsSelected(position)
                 }
-                else if (position ==10) {
+                else if (position ==11) {
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
@@ -478,7 +493,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
 
 
 
-                else if (position == 11)
+                else if (position == 12)
                 {
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
@@ -487,7 +502,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     mFragment = TimeTableFragment()
                     replaceFragmentsSelected(position)
                 }
-                else if (position == 12)
+                else if (position == 13)
                 {
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
@@ -505,7 +520,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
 //                    mFragment = AttendanceFragment()
 //                    replaceFragmentsSelected(position)
 //                }
-                else if (position == 13) {
+                else if (position == 14) {
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
@@ -513,11 +528,11 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     mFragment = PermissionSlipFragment()
                     replaceFragmentsSelected(position)
                 }
-                else if (position == 14) {
+                else if (position == 15) {
                     mFragment = TermDatesFragment()
                     replaceFragmentsSelected(position)
                 }
-                else if(position==15){
+                else if(position==16){
                     if (ActivityCompat.checkSelfPermission(
                             context,
                             Manifest.permission.ACCESS_FINE_LOCATION
@@ -537,7 +552,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                         replaceFragmentsSelected(position)
                     }
                 }
-                else if (position == 16) {
+                else if (position == 17) {
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")

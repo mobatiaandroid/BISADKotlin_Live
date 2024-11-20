@@ -16,6 +16,7 @@ import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.school_trips.TripDetailActivity
 import com.mobatia.bisad.activity.school_trips.model.TripListResponseModel
 import com.mobatia.bisad.constants.CommonFunctions
+import com.mobatia.bisad.manager.AppController
 
 
 class TripListAdapter(
@@ -122,6 +123,7 @@ class TripListAdapter(
             )
             intent.putExtra("tripID", tripList[position].id)
             intent.putExtra("tripName", tripList[position].tripName)
+            AppController().trip_name=tripList[position].tripName
             context.startActivity(intent)
             //                showIntentionPopUp();
         }
@@ -132,6 +134,7 @@ class TripListAdapter(
             )
             intent.putExtra("tripID", tripList[position].id)
             intent.putExtra("tripName", tripList[position].tripName)
+            AppController().trip_name=tripList[position].tripName
             context.startActivity(intent)
             //                showIntentionPopUp();
         }
