@@ -59,9 +59,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/notAvailableTxt"
-                        android:text="iten name"
+                        android:text="Black Bean Burger  (Sesame, G,D) Carrot Sticks with Hummus (Sesame) Banana Bread (D,G,E) with Mini Medeterrenean Vegetable Panini (G,D)"
                         android:textColor="@color/black"
                         android:textSize="14sp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/info_allergy"
                         app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +89,7 @@
                     android:layout_marginRight="5dp"
                     android:textSize="12sp"
                     android:layout_marginTop="2dp"
-                    android:text="@string/item_sample_description"
+                    android:text="Burger bun with sesame, black beans, onion, salt, pepper, olive oil.(D,G,S)"
                     android:maxLines="3"
                     />
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,9 +113,12 @@
                         <LinearLayout
 
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_weight="20"
+                            android:layout_gravity="bottom"
+                            android:id="@+id/linearamount"
+                            android:layout_marginBottom="12dp"
                             android:orientation="horizontal"
                             android:weightSum="10">
 
@@ -149,12 +155,13 @@
                             android:layout_width="0dp"
                             android:layout_height="35dp"
                             android:layout_margin="8dp"
-                            android:layout_marginBottom="5dp"
+                            android:layout_gravity="bottom"
+
                             android:layout_weight="10"
                             android:background="@drawable/cart_add_bg"
                             android:gravity="center"
                             android:orientation="horizontal"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <com.mobatia.bisad.manager.CustomFontSansProTextBlack
                                 android:layout_width="wrap_content"
@@ -180,6 +187,7 @@
                             android:layout_height="35dp"
                             android:layout_margin="8dp"
                             android:layout_weight="10"
+                            android:layout_gravity="bottom"
                             android:background="@drawable/cart_add_bg"
                             android:gravity="center"
                             android:orientation="horizontal"
