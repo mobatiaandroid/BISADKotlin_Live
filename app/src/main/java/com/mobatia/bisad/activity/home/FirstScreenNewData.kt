@@ -1,6 +1,7 @@
 package com.mobatia.bisad.activity.home
 
 
+import android.app.Activity
 import `in`.galaxyofandroid.spinerdialog.OnSpinerItemClick
 import `in`.galaxyofandroid.spinerdialog.SpinnerDialog
 import android.app.Dialog
@@ -27,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.adapter.FamilyContactRecyclerAdapter
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.home.model.CountryiesDetailModel
@@ -1971,6 +1973,7 @@ class FirstScreenNewData:Fragment() {
 
         dialog.show()
     }
+
 }
 
 

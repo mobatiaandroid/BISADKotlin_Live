@@ -216,11 +216,11 @@ public class IjkMediaCodecInfo {
                 }
             }
 
-            Log.i(TAG,
+          /*  Log.i(TAG,
                     String.format(Locale.US, "%s",
-                            getProfileLevelName(maxProfile, maxLevel)));
+                            getProfileLevelName(maxProfile, maxLevel)));*/
         } catch (Throwable e) {
-            Log.i(TAG, "profile-level: exception");
+            //Log.i(TAG, "profile-level: exception");
         }
     }
 

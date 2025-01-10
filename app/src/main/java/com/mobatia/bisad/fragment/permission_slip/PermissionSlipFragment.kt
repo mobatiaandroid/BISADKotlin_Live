@@ -107,7 +107,7 @@ class PermissionSlipFragment : Fragment(){
     {
         progressDialog.visibility = View.VISIBLE
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
+        val call: Call<StudentListModel> = ApiClient(mContext).getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel>{
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -258,7 +258,7 @@ class PermissionSlipFragment : Fragment(){
         formslist=ArrayList()
         val token = sharedprefs.getaccesstoken(mContext)
         val list_permissionSlip= PermissionSlipListApiModel("0","20",sharedprefs.getStudentID(mContext).toString())
-        val call: Call<PermissionSlipModel> = ApiClient.getClient.permissnslipList(list_permissionSlip,"Bearer "+token)
+        val call: Call<PermissionSlipModel> = ApiClient(mContext).getClient.permissnslipList(list_permissionSlip,"Bearer "+token)
         call.enqueue(object : Callback<PermissionSlipModel>{
             override fun onFailure(call: Call<PermissionSlipModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE

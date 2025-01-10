@@ -96,14 +96,10 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog,var TotalOrderedAmount: 
                         CartTotalAmount =
                             cart_totoal + items_list.get(position).price.toFloat()
                         carttotalfull = TotalOrderedAmount + CartTotalAmount.toInt()
-                         Log.e("carttotalfull", carttotalfull.toString())
 
 
                         if (PreferenceData().getWalletAmount(mcontext) > carttotalfull) {
-                            // Log.e("BalanceWalletAmount", BalanceWalletAmount.toString())
-                            // Log.e("BalanceConfirmWalletAmount", BalanceConfirmWalletAmount.toString())
-                             Log.e("CartAmount", CartTotalAmount.toString())
-                            //  Log.e("wallet", PreferenceManager().getWalletAmount(mcontext).toString())
+
 
 
                             if (PreferenceData().getWalletAmount(mcontext) > CartTotalAmount) {
@@ -310,7 +306,7 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog,var TotalOrderedAmount: 
         progress.show()
         val token = PreferenceData().getaccesstoken(mcontext)
         var canteenCart= CanteenCartApiModel(PreferenceData().getStudentID(mcontext).toString())
-        val call: Call<CanteenCartModel> = ApiClient.getClient.get_canteen_cart(canteenCart,"Bearer "+token)
+        val call: Call<CanteenCartModel> = ApiClient(mcontext).getClient.get_canteen_cart(canteenCart,"Bearer "+token)
         call.enqueue(object : Callback<CanteenCartModel> {
             override fun onFailure(call: Call<CanteenCartModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mcontext)
@@ -382,7 +378,7 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog,var TotalOrderedAmount: 
         var canteenadd= CanteenCartUpdateApiModel(
             PreferenceData().getStudentID(mcontext).toString(),delivery_date,quant,
             items_list[position].item_id.toString(),items_list[position].id.toString())
-        val call: Call<CanteenCartUpdateModel> = ApiClient.getClient.update_canteen_cart(canteenadd,"Bearer "+token)
+        val call: Call<CanteenCartUpdateModel> = ApiClient(mcontext).getClient.update_canteen_cart(canteenadd,"Bearer "+token)
         call.enqueue(object : Callback<CanteenCartUpdateModel> {
             override fun onFailure(call: Call<CanteenCartUpdateModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mcontext)
@@ -437,7 +433,7 @@ var dateRec:RecyclerView,var progress:ProgressBarDialog,var TotalOrderedAmount: 
         val token = PreferenceData().getaccesstoken(mcontext)
         var canteenadd= CanteenCartRemoveApiModel(
             PreferenceData().getStudentID(mcontext).toString(),items_list[position].id.toString())
-        val call: Call<CanteenCartRemoveModel> = ApiClient.getClient.remove_canteen_cart(canteenadd,"Bearer "+token)
+        val call: Call<CanteenCartRemoveModel> = ApiClient(mcontext).getClient.remove_canteen_cart(canteenadd,"Bearer "+token)
         call.enqueue(object : Callback<CanteenCartRemoveModel> {
             override fun onFailure(call: Call<CanteenCartRemoveModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mcontext)

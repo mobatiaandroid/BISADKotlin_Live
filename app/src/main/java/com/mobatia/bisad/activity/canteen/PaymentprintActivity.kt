@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.canteen
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -28,6 +29,7 @@ import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.home.studentName
 import com.mobatia.bisad.activity.payment.PaymentReceiptActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.manager.PreferenceData
 import java.io.BufferedReader
 import java.io.File
@@ -68,6 +70,8 @@ class PaymentprintActivity:AppCompatActivity() {
    var invoice_note:String=""
    var payment_type:String=""
    var from_time:String=""
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +83,7 @@ class PaymentprintActivity:AppCompatActivity() {
     }
     private fun initfn(){
         nContext = this
+        activity=this
         parent_name=intent.getStringExtra("parent_name").toString()
         email=intent.getStringExtra("email").toString()
         id=intent.getStringExtra("id").toString()
@@ -352,6 +357,14 @@ class PaymentprintActivity:AppCompatActivity() {
                 "Print is not supported below Android KITKAT Version",
                 Toast.LENGTH_SHORT
             ).show()
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(nContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
         }
     }
 }

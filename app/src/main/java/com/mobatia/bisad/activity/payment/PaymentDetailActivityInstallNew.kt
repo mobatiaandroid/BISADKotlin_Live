@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.payment
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import okhttp3.MediaType
 import java.io.File
@@ -105,6 +107,8 @@ class PaymentDetailActivityInstallNew:AppCompatActivity() {
     var isShareInstall = false
     var isDoenloadInstall = false
     var isPartiallyPaid = false
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_paymentlistinstallnew)
@@ -112,6 +116,7 @@ class PaymentDetailActivityInstallNew:AppCompatActivity() {
     }
     private fun init(){
         context=this
+        activity=this
         titletext=findViewById(R.id.heading)
         back=findViewById(R.id.backRelative)
         home_icon=findViewById(R.id.logoClickImgView)
@@ -169,6 +174,13 @@ class PaymentDetailActivityInstallNew:AppCompatActivity() {
             InternetCheckClass.showSuccessInternetAlert(context)
         }
     }
-
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
+    }
 
 }

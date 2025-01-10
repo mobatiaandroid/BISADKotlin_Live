@@ -216,7 +216,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
     {
        // progressDialog.visibility = View.VISIBLE
         val token = PreferenceData().getaccesstoken(nContext)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
+        val call: Call<StudentListModel> = ApiClient(nContext).getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(nContext)
@@ -374,7 +374,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
 //mProgressRelLayout.visibility=View.VISIBLE
         val token = PreferenceData().getaccesstoken(nContext)
         var canteenCart= WalletBalanceApiModel(PreferenceData().getStudentID(nContext).toString())
-        val call: Call<WalletBalanceModel> = ApiClient.getClient.get_wallet_balance(canteenCart,"Bearer "+token)
+        val call: Call<WalletBalanceModel> = ApiClient(nContext).getClient.get_wallet_balance(canteenCart,"Bearer "+token)
         call.enqueue(object : Callback<WalletBalanceModel> {
             override fun onFailure(call: Call<WalletBalanceModel>, t: Throwable) {
                 mProgressRelLayout.visibility=View.GONE
@@ -421,7 +421,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
         val token = PreferenceData().getaccesstoken(nContext)
         val paymentTokenBody = PaymentTokenApiModel( PreferenceData().getStudentID(nContext).toString())
         val call: Call<PaymentTokenModel> =
-            ApiClient.getClient.payment_token(paymentTokenBody, "Bearer " + token)
+            ApiClient(nContext).getClient.payment_token(paymentTokenBody, "Bearer " + token)
         call.enqueue(object : Callback<PaymentTokenModel> {
             override fun onFailure(call: Call<PaymentTokenModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(nContext)
@@ -486,7 +486,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
             mechantorderRef,studentName,"","BISAD","","Abu Dhabi",
             payment_token)
         val call: Call<PaymentGatewayModel> =
-            ApiClient.getClient.payment_gateway(paymentGatewayBody, "Bearer " + token)
+            ApiClient(nContext).getClient.payment_gateway(paymentGatewayBody, "Bearer " + token)
         call.enqueue(object : Callback<PaymentGatewayModel> {
             override fun onFailure(call: Call<PaymentGatewayModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(nContext)
@@ -607,7 +607,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
         val paymentSuccessBody = WalletAmountApiModel(PreferenceData().getStudentID(nContext).toString(),orderRef,
         payAmount,"2",devicename,"1.0")
         val call: Call<WalletAmountModel> =
-            ApiClient.getClient.wallet_topup(paymentSuccessBody, "Bearer " + token)
+            ApiClient(nContext).getClient.wallet_topup(paymentSuccessBody, "Bearer " + token)
         call.enqueue(object : Callback<WalletAmountModel> {
             override fun onFailure(call: Call<WalletAmountModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(nContext)
@@ -672,5 +672,13 @@ class CanteenPaymentActivity:AppCompatActivity() {
             dialog.dismiss()
         }
         dialog.show()
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(nContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }

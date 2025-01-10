@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.parent_meetings
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -57,6 +58,8 @@ lateinit var title:TextView
     var count_year:Int?=null
     val dateTextView = arrayOfNulls<TextView>(42)
     lateinit var datesToPlot:ArrayList<String>
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parentmeeting_calendar)
@@ -68,6 +71,7 @@ lateinit var title:TextView
     }
     private fun init(){
         mContext=this
+        activity=this
         sharedprefs = PreferenceData()
         progressDialog =findViewById(R.id.progressDialog)
         studentId=intent.getStringExtra("studId").toString()
@@ -325,7 +329,7 @@ lateinit var title:TextView
         progressDialog.visibility = View.VISIBLE
         val token = sharedprefs.getaccesstoken(mContext)
         val listAllotedDates= PtaAllottedDatesApiModel(studentId,staffId)
-        val call: Call<PtaAllottedDatesModel> = ApiClient.getClient.pta_allotted_dates(listAllotedDates,"Bearer "+token)
+        val call: Call<PtaAllottedDatesModel> = ApiClient(mContext).getClient.pta_allotted_dates(listAllotedDates,"Bearer "+token)
         call.enqueue(object : Callback<PtaAllottedDatesModel> {
             override fun onFailure(call: Call<PtaAllottedDatesModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -424,4 +428,12 @@ lateinit var title:TextView
             }
         }
     }*/
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
+    }
 }

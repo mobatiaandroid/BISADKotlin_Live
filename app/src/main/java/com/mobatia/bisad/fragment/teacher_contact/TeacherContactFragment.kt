@@ -223,7 +223,7 @@ class TeacherContactFragment : Fragment() {
     fun callStudentListApi() {
 
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer " + token)
+        val call: Call<StudentListModel> = ApiClient(mContext).getClient.studentList("Bearer " + token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -268,7 +268,7 @@ class TeacherContactFragment : Fragment() {
         staffListArray = ArrayList<StaffInfoDetail>()
         val token = sharedprefs.getaccesstoken(mContext)
         var staffBody = StaffListApiModel(studentID)
-        val call: Call<StaffListModel> = ApiClient.getClient.staffList(staffBody, "Bearer " + token)
+        val call: Call<StaffListModel> = ApiClient(mContext).getClient.staffList(staffBody, "Bearer " + token)
         call.enqueue(object : Callback<StaffListModel> {
             override fun onFailure(call: Call<StaffListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -532,7 +532,7 @@ if (title.toString().length>=500){
         val token = sharedprefs.getaccesstoken(mContext)
         val sendMailBody = SendStaffMailApiModel(studentID, staffEmail, title, message)
         val call: Call<ResponseBody> =
-            ApiClient.getClient.sendStaffMail(sendMailBody, "Bearer " + token)
+            ApiClient(mContext).getClient.sendStaffMail(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
 

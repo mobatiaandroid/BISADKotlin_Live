@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.permission_slip
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -61,6 +62,8 @@ class FormDetailActivity : AppCompatActivity() {
     var student_class:String=""
     var declrtn_txt:String=""
     var status_slip:String=""
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +73,7 @@ class FormDetailActivity : AppCompatActivity() {
     }
     private fun init() {
         mContext = this
+        activity=this
         titletext=findViewById(R.id.heading)
         logoClickImgView = findViewById(R.id.logoClickImgView)
         descriptn=findViewById(R.id.descrtn_txt)
@@ -233,7 +237,7 @@ class FormDetailActivity : AppCompatActivity() {
             "1.0"
         )
         val call: Call<PermissionResponseModel> =
-            ApiClient.getClient.permsnlistResponse(permsnresBody, "Bearer " + token)
+            ApiClient(mContext).getClient.permsnlistResponse(permsnresBody, "Bearer " + token)
         call.enqueue(object : Callback<PermissionResponseModel> {
             override fun onFailure(call: Call<PermissionResponseModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -308,6 +312,14 @@ class FormDetailActivity : AppCompatActivity() {
 
         }
         dialog.show()
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }
 

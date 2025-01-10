@@ -4,20 +4,19 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.ListView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.manager.PreferenceData
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 class AbsenceDetailActivity : AppCompatActivity(){
     lateinit var mContext: Context
@@ -39,11 +38,14 @@ class AbsenceDetailActivity : AppCompatActivity(){
     private lateinit var logoClickImgView: ImageView
     private lateinit var btn_left: ImageView
     private lateinit var heading: TextView
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_absence_detail)
         mContext=this
+        activity=this
          reason=intent.getStringExtra("reason")
         studentName=intent.getStringExtra("studentName")
         studentClass=intent.getStringExtra("studentClass")
@@ -116,6 +118,14 @@ class AbsenceDetailActivity : AppCompatActivity(){
 
 
 
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 
 }

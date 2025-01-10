@@ -6,11 +6,15 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.provider.Settings
+import android.provider.Settings.SettingNotFoundException
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.canteen.model.canteen_cart.CanteenCartResModel
 import java.text.DateFormat
@@ -24,6 +28,8 @@ class CommonFunctions {
     companion object{
 
         lateinit var cart_list: ArrayList<CanteenCartResModel>
+        var runMethod: String = "Client"
+
 
         fun faliurepopup(context: Context) {
             val dialog = Dialog(context)
@@ -207,6 +213,59 @@ class CommonFunctions {
 //			Log.d("Exception", "" + e);
             }
             return mDate
+        }
+        fun isDeveloperModeEnabled(context: Context): Boolean {
+            try {
+                val devMode = Settings.Global.getInt(
+                    context.contentResolver,
+                    Settings.Global.DEVELOPMENT_SETTINGS_ENABLED
+                )
+                return devMode == 1 // 1 indicates Developer Mode is ON
+            } catch (e: SettingNotFoundException) {
+                e.printStackTrace()
+                return false // Developer Mode setting not found, assume it's off
+            }
+        }
+        fun showDeviceIsDeveloperPopUp(activity: Activity) {
+            val dialog = Dialog(activity)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.setCancelable(false)
+            dialog.setContentView(R.layout.alert_dialogue_ok_layout)
+            val icon = dialog.findViewById<ImageView>(R.id.iconImageView)
+            icon.setBackgroundResource(R.drawable.round)
+            icon.setImageResource(R.drawable.alert)
+            val text = dialog.findViewById<TextView>(R.id.text_dialog)
+            val textHead = dialog.findViewById<TextView>(R.id.alertHead)
+            text.text =
+                "You have enabled Developer options/USB debugging on your phone. Please disable both to use the app for security reasons."
+            textHead.text = "Disable Developer Option"
+
+            val dialogButton = dialog.findViewById<Button>(R.id.btn_Ok)
+            dialogButton.setOnClickListener {
+                dialog.dismiss()
+                activity.finish()
+            }
+
+            dialog.show()
+        }
+        fun validateEditText(editText: EditText): Boolean {
+            val originalContent = editText.text.toString().trim { it <= ' ' }
+            val cleanedContent = cleanHtmlContent(originalContent) // Removes HTML content
+
+            return if (originalContent == cleanedContent) {
+                // No HTML content found
+                true
+            } else {
+                // HTML content was found
+                false
+            }
+        }
+        fun cleanHtmlContent(input: String?): String {
+            // Convert HTML to Spanned
+            val spanned = HtmlCompat.fromHtml(input!!, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            // Convert Spanned back to plain text and trim it
+            return spanned.toString().trim { it <= ' ' }
         }
 
     }

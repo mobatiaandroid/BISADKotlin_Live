@@ -82,10 +82,13 @@ class TripListingActivity : AppCompatActivity() {
     var stud_img = ""
     lateinit var Student_name : String
     var studentList = ArrayList<String>()
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_trip_details)
         context = this
+        activity=this
         initialiseUI()
 
         var internetCheck = InternetCheckClass.isInternetAvailable(context)
@@ -179,7 +182,7 @@ class TripListingActivity : AppCompatActivity() {
         progressDialogP.show()
         studentArrayList=ArrayList<StudentList>()
         val token = PreferenceData().getaccesstoken(context)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
+        val call: Call<StudentListModel> = ApiClient(context).getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -249,6 +252,11 @@ class TripListingActivity : AppCompatActivity() {
     }
     override fun onResume() {
         getTripList(categoryID)
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
         super.onResume()
     }
 
@@ -263,7 +271,7 @@ class TripListingActivity : AppCompatActivity() {
         paramObject.addProperty("skip", "0")
 
         val call: Call<TripListResponseModel> =
-            ApiClient.getClient.tripList("Bearer " + PreferenceData().getaccesstoken(context),paramObject)
+            ApiClient(context).getClient.tripList("Bearer " + PreferenceData().getaccesstoken(context),paramObject)
         call.enqueue(object : Callback<TripListResponseModel> {
             override fun onFailure(call: Call<TripListResponseModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -489,5 +497,6 @@ fun showStudentList(mcontext: Context ,mStudentList : ArrayList<StudentList>)
         )
         dialog.show()
     }*/
+
 
 }

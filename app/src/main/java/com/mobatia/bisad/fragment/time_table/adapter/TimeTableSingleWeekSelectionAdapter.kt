@@ -56,8 +56,6 @@ internal class TimeTableSingleWeekSelectionAdapter (private var mContetx:Context
         try {
             val sdf = SimpleDateFormat("HH:mm")
             val dateObj: Date = sdf.parse(time)
-            println(dateObj)
-            println(SimpleDateFormat("hh:mm a").format(dateObj))
             holder.timeTxt.text = SimpleDateFormat("hh:mm a").format(dateObj)
         } catch (e: ParseException) {
             e.printStackTrace()

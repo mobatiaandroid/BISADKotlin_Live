@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.canteen
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -76,6 +77,8 @@ class PaymentHistory_Activity : AppCompatActivity() {
     var stud_id: String=""
     var studClass = ""
     var orderId = ""
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +92,7 @@ class PaymentHistory_Activity : AppCompatActivity() {
 
     private fun initfn() {
         nContext = this
+        activity=this
         logoClickImg = findViewById(R.id.logoclick)
         back = findViewById(R.id.back)
         //addToWallet = findViewById(R.id.addToWallet)
@@ -204,7 +208,7 @@ class PaymentHistory_Activity : AppCompatActivity() {
     {
         progress.visibility=View.VISIBLE
         val token = sharedprefs.getaccesstoken(nContext)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
+        val call: Call<StudentListModel> = ApiClient(nContext).getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 progress.visibility=View.GONE
@@ -288,7 +292,7 @@ class PaymentHistory_Activity : AppCompatActivity() {
         val token = PreferenceData().getaccesstoken(nContext)
         val paymentSuccessBody = WalletHistoryApiModel(PreferenceData().getStudentID(nContext).toString(),"0","50")
         val call: Call<WalletHistoryModel> =
-            ApiClient.getClient.get_wallet_history(paymentSuccessBody, "Bearer " + token)
+            ApiClient(nContext).getClient.get_wallet_history(paymentSuccessBody, "Bearer " + token)
         call.enqueue(object : Callback<WalletHistoryModel> {
             override fun onFailure(call: Call<WalletHistoryModel>, t: Throwable) {
                // progress.visibility=View.GONE
@@ -364,5 +368,13 @@ class PaymentHistory_Activity : AppCompatActivity() {
             dialog.dismiss()
         }
         dialog.show()
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(nContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }

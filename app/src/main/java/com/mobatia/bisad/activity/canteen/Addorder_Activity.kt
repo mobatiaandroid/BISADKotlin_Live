@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.canteen
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -77,6 +78,8 @@ class Addorder_Activity : AppCompatActivity() {
     lateinit var total_price: TextView
     var firstVisit: Boolean? = null
     lateinit var allergycontentlist: java.util.ArrayList<AllergyContentModel>
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,6 +95,7 @@ class Addorder_Activity : AppCompatActivity() {
 
     private fun initfn() {
         nContext = this
+        activity=this
         back = findViewById(R.id.back)
         logoClickImg=findViewById(R.id.logoclick)
         title = findViewById(R.id.titleTextView)
@@ -226,7 +230,7 @@ logoClickImg.setOnClickListener {
         //progressDialogM.visibility=View.VISIBLE
         progressDialogM.show()
         val token = PreferenceData().getaccesstoken(nContext)
-        val call: Call<CatListModel> = ApiClient.getClient.get_canteen_categories("Bearer "+token)
+        val call: Call<CatListModel> = ApiClient(nContext).getClient.get_canteen_categories("Bearer "+token)
         call.enqueue(object : Callback<CatListModel> {
             override fun onFailure(call: Call<CatListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(nContext)
@@ -334,7 +338,7 @@ logoClickImg.setOnClickListener {
         val token = PreferenceData().getaccesstoken(nContext)
         var canteenItems= CanteenItemsApiModel(PreferenceData().getStudentID(nContext).toString(),def_cat_id,
             date_selected,"0","50")
-        val call: Call<ItemsListModel> = ApiClient.getClient.get_canteen_items(canteenItems,"Bearer "+token)
+        val call: Call<ItemsListModel> = ApiClient(nContext).getClient.get_canteen_items(canteenItems,"Bearer "+token)
         call.enqueue(object : Callback<ItemsListModel> {
             override fun onFailure(call: Call<ItemsListModel>, t: Throwable) {
                // progressDialogM.visibility=View.GONE
@@ -461,7 +465,7 @@ logoClickImg.setOnClickListener {
         val token = PreferenceData().getaccesstoken(nContext)
         var canteenItems= CanteenItemsApiModel(PreferenceData().getStudentID(nContext).toString(),cat_selected,
             date_selected,"0","200")
-        val call: Call<ItemsListModel> = ApiClient.getClient.get_canteen_items(canteenItems,"Bearer "+token)
+        val call: Call<ItemsListModel> = ApiClient(nContext).getClient.get_canteen_items(canteenItems,"Bearer "+token)
         call.enqueue(object : Callback<ItemsListModel> {
             override fun onFailure(call: Call<ItemsListModel>, t: Throwable) {
 
@@ -596,7 +600,7 @@ logoClickImg.setOnClickListener {
         cartTotalItem=0
         val token = PreferenceData().getaccesstoken(nContext)
         var canteenCart= CanteenCartApiModel(PreferenceData().getStudentID(nContext).toString())
-        val call: Call<CanteenCartModel> = ApiClient.getClient.get_canteen_cart(canteenCart,"Bearer "+token)
+        val call: Call<CanteenCartModel> = ApiClient(nContext).getClient.get_canteen_cart(canteenCart,"Bearer "+token)
         call.enqueue(object : Callback<CanteenCartModel> {
             override fun onFailure(call: Call<CanteenCartModel>, t: Throwable) {
 
@@ -687,6 +691,12 @@ logoClickImg.setOnClickListener {
     override fun onResume() {
         item_categories()
         getcanteen_cart()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(nContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
         super.onResume()
     }
+
     }

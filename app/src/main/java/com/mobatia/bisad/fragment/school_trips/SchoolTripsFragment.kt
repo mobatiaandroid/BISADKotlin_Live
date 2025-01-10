@@ -302,7 +302,7 @@ class SchoolTripsFragment :Fragment(),AdapterView.OnItemClickListener {
         val token = com.mobatia.bisad.fragment.home.sharedprefs.getaccesstoken(mContext)
         val sendMailBody = CanteenSendEmailApiModel( staffEmail, title, message)
         val call: Call<SendStaffEmailModel> =
-            ApiClient.getClient.sendEmailCanteen(sendMailBody, "Bearer " + token)
+            ApiClient(mContext).getClient.sendEmailCanteen(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<SendStaffEmailModel> {
             override fun onFailure(call: Call<SendStaffEmailModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -384,7 +384,7 @@ class SchoolTripsFragment :Fragment(),AdapterView.OnItemClickListener {
     private fun callTripBanner() {
        progressDialogP.show()
         val call: Call<TripBannerResponse> =
-            ApiClient.getClient.tripsBanner( "Bearer " + PreferenceData().getaccesstoken(mContext))
+            ApiClient(mContext).getClient.tripsBanner( "Bearer " + PreferenceData().getaccesstoken(mContext))
         call.enqueue(object : Callback<TripBannerResponse> {
             override fun onFailure(call: Call<TripBannerResponse>, t: Throwable) {
 

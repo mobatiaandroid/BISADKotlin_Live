@@ -302,7 +302,7 @@ class MyorderItemsAdapter(
         progress.show()
         val token = PreferenceData().getaccesstoken(mcontext)
         var model= CancelCanteenPreorderItemId(student_id,order_id.toString())
-        val call: Call<CanteenPreorderModel> = ApiClient.getClient.cancelCanteenPreOrderItem(model,"Bearer "+token)
+        val call: Call<CanteenPreorderModel> = ApiClient(mcontext).getClient.cancelCanteenPreOrderItem(model,"Bearer "+token)
         call.enqueue(object : Callback<CanteenPreorderModel> {
             override fun onFailure(call: Call<CanteenPreorderModel>, t: Throwable) {
                 progress.hide()
@@ -341,7 +341,7 @@ class MyorderItemsAdapter(
         progress.show()
         val token = PreferenceData().getaccesstoken(mcontext)
         var model= UpdateCanteenPreorderItemApiModel(student_id,quantity,orderID)
-        val call: Call<CanteenPreorderModel> = ApiClient.getClient.updateCanteenPreOrderItem(model,"Bearer "+token)
+        val call: Call<CanteenPreorderModel> = ApiClient(mcontext).getClient.updateCanteenPreOrderItem(model,"Bearer "+token)
         call.enqueue(object : Callback<CanteenPreorderModel> {
             override fun onFailure(call: Call<CanteenPreorderModel>, t: Throwable) {
 
@@ -379,7 +379,7 @@ class MyorderItemsAdapter(
         progress.show()
         val token = PreferenceData().getaccesstoken(mcontext)
         var model= OrderHistoryApiModel(student_id,"0","100")
-        val call: Call<PreOrdersModel> = ApiClient.getClient.canteen_myorder_history(model,"Bearer "+token)
+        val call: Call<PreOrdersModel> = ApiClient(mcontext).getClient.canteen_myorder_history(model,"Bearer "+token)
         call.enqueue(object : Callback<PreOrdersModel> {
             override fun onFailure(call: Call<PreOrdersModel>, t: Throwable) {
 

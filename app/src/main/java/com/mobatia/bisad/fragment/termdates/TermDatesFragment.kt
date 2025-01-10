@@ -107,7 +107,7 @@ class TermDatesFragment : Fragment(){
     {
         progressDialog.visibility = View.VISIBLE
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<TermDatesDetailModel> = ApiClient.getClient.termdates("Bearer "+token)
+        val call: Call<TermDatesDetailModel> = ApiClient(mContext).getClient.termdates("Bearer "+token)
         call.enqueue(object : Callback<TermDatesDetailModel>{
             override fun onFailure(call: Call<TermDatesDetailModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -239,10 +239,8 @@ class TermDatesFragment : Fragment(){
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 progressDialog.visibility = View.VISIBLE
-                println("testing2")
                 if (newProgress == 100)
                 {
-                    println("testing1")
                     progressDialog.visibility = View.GONE
 
                 }

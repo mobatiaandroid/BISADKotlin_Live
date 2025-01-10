@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.settings.tutorial.adapter.TutorialViewPagerAdapter
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.home.mContext
 import com.mobatia.bisad.manager.PreferenceData
@@ -26,10 +27,13 @@ class TutorialActivity : AppCompatActivity() {
     //   lateinit var  mImgCircle[]: ImageView
     var bannerarray = ArrayList<Int>()
     var dataType: Int = 0
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tutorial)
         mContext = this
+        activity=this
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
         bannerarray.add(R.drawable.tut1)
@@ -98,6 +102,14 @@ class TutorialActivity : AppCompatActivity() {
                 mImgCircle.get(i)!!.setBackgroundResource(R.drawable.blackround)
             }
             mLinearLayout.addView(mImgCircle.get(i))
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
         }
     }
 }

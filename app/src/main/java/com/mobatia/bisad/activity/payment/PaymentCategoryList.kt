@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.payment
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -61,6 +62,8 @@ class PaymentCategoryList: AppCompatActivity() {
     lateinit var studentNameTxt: TextView
     lateinit var catListRec:RecyclerView
     lateinit var catList:ArrayList<PayCatDataList>
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_paymentcategory)
@@ -71,6 +74,7 @@ class PaymentCategoryList: AppCompatActivity() {
 
     private fun init(){
         mContext=this
+        activity=this
         catList= ArrayList()
         titletext=findViewById(R.id.heading)
         back=findViewById(R.id.backRelative)
@@ -105,7 +109,7 @@ class PaymentCategoryList: AppCompatActivity() {
         progressDialog.visibility = View.VISIBLE
         val token = sharedprefs.getaccesstoken(mContext)
         studentListArrayList= ArrayList()
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
+        val call: Call<StudentListModel> = ApiClient(mContext).getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -257,7 +261,7 @@ class PaymentCategoryList: AppCompatActivity() {
         val token =sharedprefs.getaccesstoken(mContext)
         val paymentCategoriesBody = PaymentCategoriesApiModel( studentId)
         val call: Call<PayCategoryModel> =
-            ApiClient.getClient.payment_categories(paymentCategoriesBody, "Bearer " + token)
+            ApiClient(mContext).getClient.payment_categories(paymentCategoriesBody, "Bearer " + token)
         call.enqueue(object : Callback<PayCategoryModel> {
             override fun onFailure(call: Call<PayCategoryModel>, t: Throwable) {
 
@@ -312,6 +316,11 @@ class PaymentCategoryList: AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         callStudentListApi()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
     fun showSuccessAlertnew(context: Context, message: String, msgHead: String) {
         val dialog = Dialog(context)
@@ -332,4 +341,5 @@ class PaymentCategoryList: AppCompatActivity() {
         }
         dialog.show()
     }
+
 }

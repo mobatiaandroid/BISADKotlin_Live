@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.staff_directory
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.staff_directory.model.StaffDetailsModel
+import com.mobatia.bisad.constants.CommonFunctions
 
 class StaffDirectoryActivity:AppCompatActivity() {
     lateinit var context:Context
@@ -25,6 +27,8 @@ class StaffDirectoryActivity:AppCompatActivity() {
     lateinit var staffdetails:ArrayList<StaffDetailsModel>
     lateinit var back: RelativeLayout
     lateinit var home_icon:ImageView
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +38,7 @@ class StaffDirectoryActivity:AppCompatActivity() {
 
     private fun init(){
         context=this
+        activity=this
         staffdetails= ArrayList()
         cat_id=intent.getStringExtra("cat_id").toString()
         cat_name=intent.getStringExtra("cat_name").toString()
@@ -65,6 +70,14 @@ staffdetails.add(1,model2)
       /*  cat_title_rec.layoutManager=LinearLayoutManager(context)
         var categorytitle_adapter= CategoryListAdapter(context,staffdetails,searchbtn,searchtxt,dept_name)
         cat_title_rec.adapter=categorytitle_adapter*/
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package com.mobatia.bisad.activity.common
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -49,12 +50,15 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
     lateinit var guestButton:Button
     lateinit var signUpButton:Button
     lateinit var forgotPasswordButton:Button
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         mContext=this
+        activity=this
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
         initUI()
@@ -220,7 +224,7 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
         val version: String = BuildConfig.VERSION_NAME
         var androidID = Settings.Secure.getString(this.contentResolver,
             Settings.Secure.ANDROID_ID)
-        val call: Call<ResponseBody> = ApiClient.getClient.login(
+        val call: Call<ResponseBody> = ApiClient(mContext).getClient.login(
             email,password,2,androidID, tokenM,devicename,version
         )
 
@@ -399,7 +403,7 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
     fun callSignUpApi(email: String, dialog: Dialog, progress: ProgressBar)
     {
         progress.visibility=View.VISIBLE
-        val call: Call<ResponseBody> = ApiClient.getClient.signup(
+        val call: Call<ResponseBody> = ApiClient(mContext).getClient.signup(
            email,2, sharedprefs.getFcmID(mContext)
         )
         progress.visibility=View.GONE
@@ -559,7 +563,7 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
     fun callForgetPassword(email: String, dialog: Dialog, progressd: ProgressBar)
     {
         progressd.visibility=View.VISIBLE
-        val call: Call<ResponseBody> = ApiClient.getClient.forgetPassword(
+        val call: Call<ResponseBody> = ApiClient(mContext).getClient.forgetPassword(
             email
         )
         call.enqueue(object : Callback<ResponseBody> {
@@ -695,5 +699,13 @@ class LoginActivity : AppCompatActivity(),View.OnTouchListener{
 
         }
         dialog.show()
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }

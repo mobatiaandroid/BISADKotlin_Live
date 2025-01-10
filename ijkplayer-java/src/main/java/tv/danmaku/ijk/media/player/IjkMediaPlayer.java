@@ -279,8 +279,8 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
     @Override
     public void setSurface(Surface surface) {
         if (mScreenOnWhilePlaying && surface != null) {
-            DebugLog.w(TAG,
-                    "setScreenOnWhilePlaying(true) is ineffective for Surface");
+           /* DebugLog.w(TAG,
+                    "setScreenOnWhilePlaying(true) is ineffective for Surface");*/
         }
         mSurfaceHolder = null;
         _setVideoSurface(surface);
@@ -354,7 +354,7 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
             }
         }
 
-        Log.d(TAG, "Couldn't open file on client side, trying server side");
+       // Log.d(TAG, "Couldn't open file on client side, trying server side");
 
         setDataSource(uri.toString(), headers);
     }
@@ -533,8 +533,8 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
     public void setScreenOnWhilePlaying(boolean screenOn) {
         if (mScreenOnWhilePlaying != screenOn) {
             if (screenOn && mSurfaceHolder == null) {
-                DebugLog.w(TAG,
-                        "setScreenOnWhilePlaying(true) is ineffective without a SurfaceHolder");
+                /*DebugLog.w(TAG,
+                        "setScreenOnWhilePlaying(true) is ineffective without a SurfaceHolder");*/
             }
             mScreenOnWhilePlaying = screenOn;
             updateSurfaceScreenOn();
@@ -874,8 +874,8 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
         public void handleMessage(Message msg) {
             IjkMediaPlayer player = mWeakPlayer.get();
             if (player == null || player.mNativeMediaPlayer == 0) {
-                DebugLog.w(TAG,
-                        "IjkMediaPlayer went away with unhandled events");
+                /*DebugLog.w(TAG,
+                        "IjkMediaPlayer went away with unhandled events");*/
                 return;
             }
 
@@ -920,7 +920,7 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
                 return;
 
             case MEDIA_ERROR:
-                DebugLog.e(TAG, "Error (" + msg.arg1 + "," + msg.arg2 + ")");
+               // DebugLog.e(TAG, "Error (" + msg.arg1 + "," + msg.arg2 + ")");
                 if (!player.notifyOnError(msg.arg1, msg.arg2)) {
                     player.notifyOnCompletion();
                 }
@@ -930,7 +930,7 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
             case MEDIA_INFO:
                 switch (msg.arg1) {
                     case MEDIA_INFO_VIDEO_RENDERING_START:
-                        DebugLog.i(TAG, "Info: MEDIA_INFO_VIDEO_RENDERING_START\n");
+                       // DebugLog.i(TAG, "Info: MEDIA_INFO_VIDEO_RENDERING_START\n");
                         break;
                 }
                 player.notifyOnInfo(msg.arg1, msg.arg2);
@@ -951,7 +951,7 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
                 break;
 
             default:
-                DebugLog.e(TAG, "Unknown message type " + msg.what);
+               // DebugLog.e(TAG, "Unknown message type " + msg.what);
             }
         }
     }
@@ -1028,7 +1028,7 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
 
     @CalledByNative
     private static boolean onNativeInvoke(Object weakThiz, int what, Bundle args) {
-        DebugLog.ifmt(TAG, "onNativeInvoke %d", what);
+       // DebugLog.ifmt(TAG, "onNativeInvoke %d", what);
         if (weakThiz == null || !(weakThiz instanceof WeakReference<?>))
             throw new IllegalStateException("<null weakThiz>.onNativeInvoke()");
 
@@ -1111,12 +1111,12 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
             if (TextUtils.isEmpty(mimeType))
                 return null;
 
-            Log.i(TAG, String.format(Locale.US, "onSelectCodec: mime=%s, profile=%d, level=%d", mimeType, profile, level));
+           // Log.i(TAG, String.format(Locale.US, "onSelectCodec: mime=%s, profile=%d, level=%d", mimeType, profile, level));
             ArrayList<IjkMediaCodecInfo> candidateCodecList = new ArrayList<IjkMediaCodecInfo>();
             int numCodecs = MediaCodecList.getCodecCount();
             for (int i = 0; i < numCodecs; i++) {
                 MediaCodecInfo codecInfo = MediaCodecList.getCodecInfoAt(i);
-                Log.d(TAG, String.format(Locale.US, "  found codec: %s", codecInfo.getName()));
+               // Log.d(TAG, String.format(Locale.US, "  found codec: %s", codecInfo.getName()));
                 if (codecInfo.isEncoder())
                     continue;
 
@@ -1128,7 +1128,7 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
                     if (TextUtils.isEmpty(type))
                         continue;
 
-                    Log.d(TAG, String.format(Locale.US, "    mime: %s", type));
+                   // Log.d(TAG, String.format(Locale.US, "    mime: %s", type));
                     if (!type.equalsIgnoreCase(mimeType))
                         continue;
 
@@ -1137,7 +1137,7 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
                         continue;
 
                     candidateCodecList.add(candidate);
-                    Log.i(TAG, String.format(Locale.US, "candidate codec: %s rank=%d", codecInfo.getName(), candidate.mRank));
+                   // Log.i(TAG, String.format(Locale.US, "candidate codec: %s rank=%d", codecInfo.getName(), candidate.mRank));
                     candidate.dumpProfileLevels(mimeType);
                 }
             }
@@ -1155,11 +1155,11 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
             }
 
             if (bestCodec.mRank < IjkMediaCodecInfo.RANK_LAST_CHANCE) {
-                Log.w(TAG, String.format(Locale.US, "unaccetable codec: %s", bestCodec.mCodecInfo.getName()));
+               // Log.w(TAG, String.format(Locale.US, "unaccetable codec: %s", bestCodec.mCodecInfo.getName()));
                 return null;
             }
 
-            Log.i(TAG, String.format(Locale.US, "selected codec: %s rank=%d", bestCodec.mCodecInfo.getName(), bestCodec.mRank));
+            //Log.i(TAG, String.format(Locale.US, "selected codec: %s rank=%d", bestCodec.mCodecInfo.getName(), bestCodec.mRank));
             return bestCodec.mCodecInfo.getName();
         }
     }

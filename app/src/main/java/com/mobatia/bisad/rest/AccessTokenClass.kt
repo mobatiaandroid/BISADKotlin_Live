@@ -25,7 +25,7 @@ class AccessTokenClass {
         fun getAccessToken(mContext : Context): String? {
             jsonConstans = JsonConstants()
             sharedprefs = PreferenceData()
-            val call: Call<ResponseBody> = ApiClient.getClient.access_token(
+            val call: Call<ResponseBody> = ApiClient(mContext).getClient.access_token(
                sharedprefs.getUserCode(mContext)
             )
             call.enqueue(object : Callback<ResponseBody> {

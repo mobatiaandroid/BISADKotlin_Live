@@ -25,6 +25,7 @@ import com.github.barteksc.pdfviewer.PDFView
 import com.google.gson.JsonObject
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.school_trips.model.TripInvoiceResponseModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.ProgressBarDialog
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.ApiClient
@@ -45,10 +46,13 @@ class TripInvoiceViewActivity : AppCompatActivity() {
     lateinit var progressDialogP: ProgressBarDialog
     lateinit var pdfprogress: ProgressBar
     var invoiceNumber = ""
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_trip_invoice_view)
         context = this
+        activity=this
         val builder = StrictMode.VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
         invoiceNumber = intent.getStringExtra("invoice_number").toString()
@@ -173,7 +177,7 @@ class TripInvoiceViewActivity : AppCompatActivity() {
         progressDialogP.show()
         val paramObject = JsonObject()
         paramObject.addProperty("invoice_no", invoiceNumber)
-        val call: Call<TripInvoiceResponseModel> = ApiClient.getClient.tripReciept(
+        val call: Call<TripInvoiceResponseModel> = ApiClient(context).getClient.tripReciept(
             "Bearer " + PreferenceData().getaccesstoken(context), paramObject
         )
         call.enqueue(object : Callback<TripInvoiceResponseModel> {
@@ -206,6 +210,13 @@ class TripInvoiceViewActivity : AppCompatActivity() {
         })
 
     }
-
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
+    }
 
 }

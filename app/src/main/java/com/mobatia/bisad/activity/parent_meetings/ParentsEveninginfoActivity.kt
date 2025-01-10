@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.parent_meetings
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +12,7 @@ import androidx.viewpager.widget.ViewPager
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.common.LoginActivity
 import com.mobatia.bisad.activity.settings.tutorial.adapter.TutorialViewPagerAdapter
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.manager.IntentPassValueConstants
 import com.mobatia.bisad.manager.IntentPassValueConstants.TYPE
 import java.util.*
@@ -19,7 +21,7 @@ class ParentsEveninginfoActivity :AppCompatActivity(),IntentPassValueConstants {
     lateinit  var mImgCircle: Array<ImageView?>
     lateinit var mLinearLayout: LinearLayout
     var mTutorialViewPager: ViewPager? = null
-    var mContext: Context? = null
+    lateinit var mContext: Context
     var mTutorialViewPagerAdapter: TutorialViewPagerAdapter? = null
     var mPhotoList = ArrayList(Arrays.asList<Int>(R.drawable.t_1, R.drawable.t_2, R.drawable.t_3,
         R.drawable.t_5, R.drawable.t_6, R.drawable.t_7, R.drawable.t_9))
@@ -31,11 +33,14 @@ class ParentsEveninginfoActivity :AppCompatActivity(),IntentPassValueConstants {
     var mStaffName: String? = null
     var mClass: String? = null
     var selectedDate: String? = null
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tutorial)
         mContext=this
+        activity=this
         val bundle = intent.extras
         if (bundle != null) {
             dataType = bundle.getInt(TYPE, 0)
@@ -161,5 +166,12 @@ class ParentsEveninginfoActivity :AppCompatActivity(),IntentPassValueConstants {
             mLinearLayout.addView(mImgCircle[i])
         }
     }
-
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
+    }
 }

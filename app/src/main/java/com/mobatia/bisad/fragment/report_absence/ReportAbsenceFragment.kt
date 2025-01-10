@@ -205,7 +205,7 @@ class ReportAbsenceFragment : Fragment(){
     {
         progressDialog.visibility = View.VISIBLE
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
+        val call: Call<StudentListModel> = ApiClient(mContext).getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel>{
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
 
@@ -381,7 +381,7 @@ class ReportAbsenceFragment : Fragment(){
         mAbsenceListView.adapter = studentInfoAdapter
         val token = sharedprefs.getaccesstoken(mContext)
         val studentbody= AbsenceLeaveApiModel(sharedprefs.getStudentID(mContext)!!,0,20)
-        val call: Call<AbsenceListModel> = ApiClient.getClient.absenceList(studentbody,"Bearer "+token)
+        val call: Call<AbsenceListModel> = ApiClient(mContext).getClient.absenceList(studentbody,"Bearer "+token)
         call.enqueue(object : Callback<AbsenceListModel>{
             override fun onFailure(call: Call<AbsenceListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -508,7 +508,7 @@ class ReportAbsenceFragment : Fragment(){
         pickupListSort= ArrayList()
         val token = sharedprefs.getaccesstoken(mContext)
         val list_pickup= PickupListApiModel(sharedprefs.getStudentID(mContext)!!,"0","100")
-        val call: Call<PickupModel> = ApiClient.getClient.pickupList(list_pickup,"Bearer "+token)
+        val call: Call<PickupModel> = ApiClient(mContext).getClient.pickupList(list_pickup,"Bearer "+token)
         call.enqueue(object : Callback<PickupModel>{
             override fun onFailure(call: Call<PickupModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -579,7 +579,7 @@ if (pickupListSort.size>0){
 
         val token = sharedprefs.getaccesstoken(mContext)
         val studentbody= AbsenceLeaveApiModel(sharedprefs.getStudentID(mContext)!!,0,20)
-        val call: Call<AbsenceListModel> = ApiClient.getClient.plannedList(studentbody,"Bearer "+token)
+        val call: Call<AbsenceListModel> = ApiClient(mContext).getClient.plannedList(studentbody,"Bearer "+token)
         call.enqueue(object : Callback<AbsenceListModel>{
             override fun onFailure(call: Call<AbsenceListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -592,7 +592,6 @@ if (pickupListSort.size>0){
                 {
                     studentInfoCopy.addAll(response.body()!!.responseArray.requestList)
                     studentInfoArrayList=studentInfoCopy
-                    Log.e("ArraySize",studentInfoArrayList.size.toString())
                     if (studentInfoArrayList.size>0)
                     {
                         mPlannedListView.visibility=View.VISIBLE

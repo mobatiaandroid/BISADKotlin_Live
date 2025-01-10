@@ -114,6 +114,8 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
     lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     var tokenM:String=""
     var firebaseid:String=""
+    lateinit var activity: Activity
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -208,6 +210,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
         context = this
+        activity = this
         previousTriggerTypeNew = sharedprefs.getTriggerType(context)
         homelist = findViewById<ListView>(R.id.homelistview)
         drawer_layout = findViewById(R.id.drawer_layout)
@@ -789,13 +792,19 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
     override fun onResume() {
         super.onResume()
         Intent.FLAG_ACTIVITY_CLEAR_TASK
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
 
     }
+
     fun callSettingsUserDetail() {
         val bannerModel = BannerModel("1.0.0", 2)
         val token = sharedprefs.getaccesstoken(context)
         val call: Call<ResponseBody> =
-            ApiClient.getClient.settingsUserDetail(bannerModel, "Bearer " + token)
+            ApiClient(context).getClient.settingsUserDetail(bannerModel, "Bearer " + token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -969,7 +978,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
     {
         val token = sharedprefs.getaccesstoken(context)
         val requestLeaveBody= TriggerUSer(value)
-        val call: Call<ResponseBody> = ApiClient.getClient.triggerUser(requestLeaveBody,"Bearer "+token)
+        val call: Call<ResponseBody> = ApiClient(context).getClient.triggerUser(requestLeaveBody,"Bearer "+token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
 
@@ -1028,7 +1037,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
         kinDetailSaveArrayList = ArrayList()
         val token = sharedprefs.getaccesstoken(context)
         val call: Call<DataCollectionModel> =
-            ApiClient.getClient.dataCollectionDetail("Bearer " + token)
+            ApiClient(context).getClient.dataCollectionDetail("Bearer " + token)
         call.enqueue(object : Callback<DataCollectionModel> {
             override fun onFailure(call: Call<DataCollectionModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -1265,7 +1274,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
         var androidID = Settings.Secure.getString(this.contentResolver,
             Settings.Secure.ANDROID_ID)
         var deviceReg= DeviceRegModel(2, tokenM,androidID,devicename,version)
-        val call: Call<ResponseBody> = ApiClient.getClient.deviceregistration(deviceReg,"Bearer "+token)
+        val call: Call<ResponseBody> = ApiClient(context).getClient.deviceregistration(deviceReg,"Bearer "+token)
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -1289,5 +1298,6 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
 
         })
     }
+
 }
 

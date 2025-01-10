@@ -191,7 +191,7 @@ class PaymentFragment: Fragment() {
     {
         progressDialog.show()
         val token = PreferenceData().getaccesstoken(mContext)
-        val call: Call<PaymentBannerResponseModel> = ApiClient.getClient.get_payment_banner("Bearer "+token)
+        val call: Call<PaymentBannerResponseModel> = ApiClient(mContext).getClient.get_payment_banner("Bearer "+token)
         call.enqueue(object : Callback<PaymentBannerResponseModel>
         {
             override fun onFailure(call: Call<PaymentBannerResponseModel>, t: Throwable) {
@@ -393,7 +393,7 @@ class PaymentFragment: Fragment() {
         val token = com.mobatia.bisad.fragment.home.sharedprefs.getaccesstoken(mContext)
         val sendMailBody = CanteenSendEmailApiModel( staffEmail, title, message)
         val call: Call<SendStaffEmailModel> =
-            ApiClient.getClient.sendEmailCanteen(sendMailBody, "Bearer " + token)
+            ApiClient(mContext).getClient.sendEmailCanteen(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<SendStaffEmailModel> {
             override fun onFailure(call: Call<SendStaffEmailModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)

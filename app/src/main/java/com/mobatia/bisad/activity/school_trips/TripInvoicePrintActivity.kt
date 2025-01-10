@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.school_trips
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -30,6 +31,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.payment.PdfPrint
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.manager.HeaderManager
 import com.mobatia.bisad.manager.PreferenceData
 import java.io.BufferedReader
@@ -77,11 +79,14 @@ class TripInvoicePrintActivity : AppCompatActivity() {
     lateinit var anim: RotateAnimation
     var printJob: PrintJob? = null
     var BackPage = true
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.preview_activity)
         mContext = this
+        activity=this
         extras = intent.extras
         if (extras != null) {
             tab_type = extras!!.getString("tab_type")!!
@@ -349,18 +354,15 @@ class TripInvoicePrintActivity : AppCompatActivity() {
                 Environment.getExternalStorageDirectory()
                     .absolutePath + "/" + "NAS_DUBAI_CANTEEN/Payments" + "_" + "NASDUBAI" + "/"
             )
-            println("Path file 5$pathFile")
             pathFile!!.mkdirs()
             //            if(!pathFile.exists())
 //                pathFile.mkdirs();
             pdfUri = if (Build.VERSION.SDK_INT >= 23) {
-                println("web view data$fullHtml")
                 FileProvider.getUriForFile(
                     mContext,
                     "$packageName.provider", createWebPrintJobShare(paymentWebDummy, pathFile)!!
                 )
             } else {
-                println("Path file 6$pathFile")
                 Uri.fromFile(createWebPrintJobShare(paymentWebDummy, pathFile))
             }
            /* val intent = Intent(mContext, SharePdfHtmlViewActivity::class.java)
@@ -414,6 +416,14 @@ class TripInvoicePrintActivity : AppCompatActivity() {
                 fullHtml!!, "text/html; charset=utf-8", "utf-8", "about:blank"
             )
             BackPage = true
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
         }
     }
 }

@@ -284,7 +284,7 @@ getpaymenttoken()
         val token = PreferenceData().getaccesstoken(context)
         val paymentTokenBody = PaymentTokenApiModel( PreferenceData().getStudentID(context).toString())
         val call: Call<PaymentTokenModel> =
-            ApiClient.getClient.payment_token(paymentTokenBody, "Bearer " + token)
+            ApiClient(context).getClient.payment_token(paymentTokenBody, "Bearer " + token)
         call.enqueue(object : Callback<PaymentTokenModel> {
             override fun onFailure(call: Call<PaymentTokenModel>, t: Throwable) {
                 mProgressRelLayout.visibility = View.GONE
@@ -343,7 +343,7 @@ getpaymenttoken()
             mechantorderRef,student_name,"","BISAD","","Abu Dhabi",
         payment_token)
         val call: Call<PaymentGatewayModel> =
-            ApiClient.getClient.payment_gateway(paymentGatewayBody, "Bearer " + token)
+            ApiClient(context).getClient.payment_gateway(paymentGatewayBody, "Bearer " + token)
         call.enqueue(object : Callback<PaymentGatewayModel> {
             override fun onFailure(call: Call<PaymentGatewayModel>, t: Throwable) {
 
@@ -459,7 +459,7 @@ getpaymenttoken()
         val paymentSuccessBody = PaymentSubmitApiModel(PreferenceData().getStudentID(context).toString(),
             id,orderRef)
         val call: Call<PaymentSubmitModel> =
-            ApiClient.getClient.submit_payment(paymentSuccessBody, "Bearer " + token)
+            ApiClient(context).getClient.submit_payment(paymentSuccessBody, "Bearer " + token)
         call.enqueue(object : Callback<PaymentSubmitModel> {
             override fun onFailure(call: Call<PaymentSubmitModel>, t: Throwable) {
                 mProgressRelLayout.visibility=View.GONE
@@ -749,5 +749,12 @@ var trn_pay=PreferenceData().getTrnPayment(context)
     }*/
 
 
-
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
+    }
 }

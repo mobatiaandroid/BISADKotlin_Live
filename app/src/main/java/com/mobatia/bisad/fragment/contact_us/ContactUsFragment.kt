@@ -171,7 +171,7 @@ class ContactUsFragment : Fragment(), LocationListener,
 
     private fun getcontactdetails() {
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<ContactusModel> = ApiClient.getClient.contactus("Bearer $token")
+        val call: Call<ContactusModel> = ApiClient(mContext).getClient.contactus("Bearer $token")
         call.enqueue(object : Callback<ContactusModel> {
             override fun onFailure(call: Call<ContactusModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE

@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.manager.HeaderManagerNoColorSpace
 import com.mobatia.bisad.manager.PreferenceData
 lateinit var progressDialog: RelativeLayout
@@ -34,10 +35,13 @@ class SocialMediaDetailActivity : AppCompatActivity() {
 
     var url:String?=""
     var title:String?=""
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_social_media_detail)
         mContext=this
+        activity=this
         url=intent.getStringExtra("url")
         title=intent.getStringExtra("title")
         initializeUI()
@@ -102,6 +106,14 @@ class SocialMediaDetailActivity : AppCompatActivity() {
         override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
           //  progressDialog.visibility = View.GONE
             Toast.makeText(activity, "Got Error! $error", Toast.LENGTH_SHORT).show()
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
         }
     }
 }

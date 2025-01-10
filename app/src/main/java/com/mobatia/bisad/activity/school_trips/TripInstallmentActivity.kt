@@ -128,10 +128,13 @@ class TripInstallmentActivity : AppCompatActivity() {
     lateinit var mProgressRelLayout: ProgressBar
 
     var stud_img = ""
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_trip_installment)
         context = this
+        activity=this
         initialiseUI()
     }
 
@@ -255,7 +258,7 @@ class TripInstallmentActivity : AppCompatActivity() {
         progressDialogP.show()
         val paymentTokenBody = PaymentTokenApiModel( PreferenceData().getStudentID(context).toString())
         val call: Call<PaymentTokenModel> =
-            ApiClient.getClient.payment_token_trip(paymentTokenBody,"Bearer " + PreferenceData().getaccesstoken(context))
+            ApiClient(context).getClient.payment_token_trip(paymentTokenBody,"Bearer " + PreferenceData().getaccesstoken(context))
         call.enqueue(object : Callback<PaymentTokenModel> {
             override fun onFailure(call: Call<PaymentTokenModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -392,7 +395,7 @@ class TripInstallmentActivity : AppCompatActivity() {
             mechantorderRef,PreferenceData().getStudentName(context)!!,"","BISAD","","Abu Dhabi",
             Tokenacesss!!,tripID)
         val call: Call<TripPaymentInitiateResponseModel> =
-            ApiClient.getClient.payment_gateway_trip(paymentGatewayBody, "Bearer " + token)
+            ApiClient(context).getClient.payment_gateway_trip(paymentGatewayBody, "Bearer " + token)
         call.enqueue(object : Callback<TripPaymentInitiateResponseModel> {
             override fun onFailure(call: Call<TripPaymentInitiateResponseModel>, t: Throwable) {
 
@@ -595,7 +598,7 @@ class TripInstallmentActivity : AppCompatActivity() {
         paramObject.addProperty("device_type", "2")
         paramObject.addProperty("device_name", "Android")
         paramObject.addProperty("app_version", "1.0")
-        val call: Call<TripPaymentSubmitModel> = ApiClient.getClient.paymentSubmit(
+        val call: Call<TripPaymentSubmitModel> = ApiClient(context).getClient.paymentSubmit(
             "Bearer " + PreferenceData().getaccesstoken(context),paramObject)
         call.enqueue(object : Callback<TripPaymentSubmitModel> {
             override fun onResponse(
@@ -624,7 +627,6 @@ class TripInstallmentActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<TripPaymentSubmitModel>, t: Throwable) {
                 progressDialogP.dismiss()
-                Log.e("failed", "Failed")
             }
 
         })
@@ -696,11 +698,10 @@ class TripInstallmentActivity : AppCompatActivity() {
         progressDialogP.show()
 
         val paramObject = JsonObject()
-        // Log.e("tripID name", tripID);
         paramObject.addProperty("student_id", PreferenceData().getStudentID(context))
         paramObject.addProperty("trip_id", tripID)
         val call: Call<TripDetailsResponseModel> =
-            ApiClient.getClient.tripDetail("Bearer " + PreferenceData().getaccesstoken(context),paramObject)
+            ApiClient(context).getClient.tripDetail("Bearer " + PreferenceData().getaccesstoken(context),paramObject)
         call.enqueue(object : Callback<TripDetailsResponseModel> {
             override fun onFailure(call: Call<TripDetailsResponseModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -781,5 +782,13 @@ class TripInstallmentActivity : AppCompatActivity() {
         private const val PICK_IMAGE_BACK_VISA = 4
         private const val PICK_IMAGE_FRONT_EID = 5
         private const val PICK_IMAGE_BACK_EID = 6
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }

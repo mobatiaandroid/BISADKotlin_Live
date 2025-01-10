@@ -52,6 +52,8 @@ class AudioPlayerDetail : AppCompatActivity() {
     var updated_at: String = ""
     var url: String = ""
     private lateinit var progressDialog: RelativeLayout
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +64,7 @@ class AudioPlayerDetail : AppCompatActivity() {
         audio_updated = extras.getString("audio_updated")!!
         sharedprefs=PreferenceData()
         mContext = this
+        activity = this
         player = GiraffePlayer(this)
         progressDialog = findViewById(R.id.progressDialog)
         val aniRotate: Animation =
@@ -105,7 +108,7 @@ class AudioPlayerDetail : AppCompatActivity() {
         val token = sharedprefs.getaccesstoken(mContext)
         val studentbody= MessageDetailApiModel(audio_id)
         progressDialog.visibility = View.VISIBLE
-        val call: Call<MessageDetailModel> = ApiClient.getClient.notifictaionDetail(studentbody,"Bearer "+token)
+        val call: Call<MessageDetailModel> = ApiClient(mContext).getClient.notifictaionDetail(studentbody,"Bearer "+token)
         call.enqueue(object : Callback<MessageDetailModel> {
             override fun onFailure(call: Call<MessageDetailModel>, t: Throwable) {
 
@@ -149,6 +152,11 @@ class AudioPlayerDetail : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         player.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
 
     }
 
@@ -167,5 +175,6 @@ class AudioPlayerDetail : AppCompatActivity() {
         return
         super.onBackPressed()
     }
+
 
 }

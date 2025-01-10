@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.school_trips
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -77,6 +78,8 @@ class TripInvoiceListingActivity : AppCompatActivity() {
 
     var tripID = ""
     var tripName = ""
+    lateinit var activity: Activity
+
 
 
 
@@ -85,6 +88,7 @@ class TripInvoiceListingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_trip_invoice_listing)
         context = this
+        activity=this
         initialiseUI()
     }
     private fun initialiseUI() {
@@ -186,7 +190,7 @@ class TripInvoiceListingActivity : AppCompatActivity() {
         paramObject.addProperty("student_id", PreferenceData().getStudentID(context))
         paramObject.addProperty("trip_id", tripID)
         val call: Call<TripDetailsResponseModel> =
-            ApiClient.getClient.tripDetail("Bearer " + PreferenceData().getaccesstoken(context),paramObject)
+            ApiClient(context).getClient.tripDetail("Bearer " + PreferenceData().getaccesstoken(context),paramObject)
         call.enqueue(object : Callback<TripDetailsResponseModel> {
             override fun onFailure(call: Call<TripDetailsResponseModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -212,5 +216,13 @@ class TripInvoiceListingActivity : AppCompatActivity() {
 
         })
 
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }

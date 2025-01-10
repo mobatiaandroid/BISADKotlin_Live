@@ -47,11 +47,14 @@ class NewsLetterDetailActivity : AppCompatActivity(){
     private lateinit var heading: TextView
     private lateinit var webView: WebView
     private lateinit var progressDialog: RelativeLayout
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_newsletter_detail)
         mContext=this
+        activity=this
         id=intent.getStringExtra("id").toString()
         title=intent.getStringExtra("title").toString()
         sharedprefs = PreferenceData()
@@ -93,7 +96,7 @@ class NewsLetterDetailActivity : AppCompatActivity(){
     {
         val token = sharedprefs.getaccesstoken(mContext)
         val studentbody= NewsLetterDetailApiModel(id)
-        val call: Call<NewsLetterDetailModel> = ApiClient.getClient.newsletterdetail(studentbody,"Bearer "+token)
+        val call: Call<NewsLetterDetailModel> = ApiClient(mContext).getClient.newsletterdetail(studentbody,"Bearer "+token)
         call.enqueue(object : Callback<NewsLetterDetailModel> {
             override fun onFailure(call: Call<NewsLetterDetailModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -148,6 +151,14 @@ class NewsLetterDetailActivity : AppCompatActivity(){
                     progressDialog.visibility = View.GONE
 
                 }
+            }
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
             }
         }
     }

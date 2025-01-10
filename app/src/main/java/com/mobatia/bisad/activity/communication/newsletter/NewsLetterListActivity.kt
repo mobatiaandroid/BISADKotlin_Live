@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.communication.newsletter
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -25,6 +26,7 @@ import com.mobatia.bisad.activity.communication.newsletter.adapter.NewsLetterRec
 import com.mobatia.bisad.activity.communication.newsletter.model.NewLetterListDetailModel
 import com.mobatia.bisad.activity.communication.newsletter.model.NewsLetterListModel
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.manager.PreferenceData
@@ -51,6 +53,8 @@ class NewsLetterListActivity : AppCompatActivity() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     lateinit var newsLetterRecycler: RecyclerView
     var apiCall:Int=0
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_newsletter)
@@ -69,6 +73,7 @@ class NewsLetterListActivity : AppCompatActivity() {
 
     private fun initializeUI() {
         mContext=this
+        activity=this
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
         btn_left = findViewById(R.id.btn_left)
@@ -110,7 +115,7 @@ class NewsLetterListActivity : AppCompatActivity() {
         progressDialog.visibility = View.VISIBLE
         newsLetterShowArrayList= ArrayList()
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<NewsLetterListModel> = ApiClient.getClient.newsletters("Bearer "+token)
+        val call: Call<NewsLetterListModel> = ApiClient(mContext).getClient.newsletters("Bearer "+token)
         call.enqueue(object : Callback<NewsLetterListModel> {
             override fun onFailure(call: Call<NewsLetterListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -183,6 +188,14 @@ class NewsLetterListActivity : AppCompatActivity() {
 
         }
         dialog.show()
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 
 }

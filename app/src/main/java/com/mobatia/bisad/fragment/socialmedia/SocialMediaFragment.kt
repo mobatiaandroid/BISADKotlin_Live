@@ -148,7 +148,7 @@ class SocialMediaFragment : Fragment(){
         socialMediaArrayList=ArrayList()
         bannerarray = ArrayList()
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<SocialMediaListModel> = ApiClient.getClient.socialMedia("Bearer "+token)
+        val call: Call<SocialMediaListModel> = ApiClient(mContext).getClient.socialMedia("Bearer "+token)
         call.enqueue(object : Callback<SocialMediaListModel> {
             override fun onFailure(call: Call<SocialMediaListModel>, t: Throwable) {
                // loader.visibility = View.GONE

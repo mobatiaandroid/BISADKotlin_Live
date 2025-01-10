@@ -163,7 +163,7 @@ class MyorderDatesAdapter(
     {
         val token = PreferenceData().getaccesstoken(mcontext)
         var model= CancelCanteenPreOrderApiModel(studentID,order_id.toString())
-        val call: Call<CanteenPreorderModel> = ApiClient.getClient.cancelCanteenPreOrder(model,"Bearer "+token)
+        val call: Call<CanteenPreorderModel> = ApiClient(mcontext).getClient.cancelCanteenPreOrder(model,"Bearer "+token)
         call.enqueue(object : Callback<CanteenPreorderModel> {
             override fun onFailure(call: Call<CanteenPreorderModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mcontext)
@@ -199,7 +199,7 @@ class MyorderDatesAdapter(
 
         val token = PreferenceData().getaccesstoken(mcontext)
         var model= OrderHistoryApiModel(studentID,"0","100")
-        val call: Call<PreOrdersModel> = ApiClient.getClient.canteen_myorder_history(model,"Bearer "+token)
+        val call: Call<PreOrdersModel> = ApiClient(mcontext).getClient.canteen_myorder_history(model,"Bearer "+token)
         call.enqueue(object : Callback<PreOrdersModel> {
             override fun onFailure(call: Call<PreOrdersModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mcontext)

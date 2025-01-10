@@ -269,9 +269,7 @@ class SettingsFragment : Fragment(){
                              val activityList = pm.queryIntentActivities(
                                  emailIntent, 0
                              )
-                             println("packge size" + activityList.size)
                              for (app in activityList) {
-                                 println("packge name" + app.activityInfo.name)
                                  if (app.activityInfo.name.contains("com.google.android.gm")) {
                                      val activity = app.activityInfo
                                      val name = ComponentName(
@@ -545,7 +543,7 @@ class SettingsFragment : Fragment(){
         progress.visibility = View.VISIBLE
 
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<DeleteAccountModel> = ApiClient.getClient.delete_account("Bearer "+token)
+        val call: Call<DeleteAccountModel> = ApiClient(mContext).getClient.delete_account("Bearer "+token)
         call.enqueue(object : Callback<DeleteAccountModel> {
             override fun onFailure(call: Call<DeleteAccountModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -598,7 +596,7 @@ class SettingsFragment : Fragment(){
         progress.visibility = View.VISIBLE
 
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<ResponseBody> = ApiClient.getClient.logout("Bearer "+token)
+        val call: Call<ResponseBody> = ApiClient(mContext).getClient.logout("Bearer "+token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -757,7 +755,7 @@ class SettingsFragment : Fragment(){
         val changePasswordBody =
             ChangePasswordApiModel(newPassword, confirmPassword, currentPassword)
         val call: Call<ResponseBody> =
-            ApiClient.getClient.changePassword(changePasswordBody, "Bearer " + token)
+            ApiClient(mContext).getClient.changePassword(changePasswordBody, "Bearer " + token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 progressBarDialog!!.hide()

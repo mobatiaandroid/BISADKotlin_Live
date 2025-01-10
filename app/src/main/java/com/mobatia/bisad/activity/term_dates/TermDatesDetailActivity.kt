@@ -52,11 +52,14 @@ class TermDatesDetailActivity : AppCompatActivity(){
     private lateinit var webView: WebView
     var myFormatCalende:String="yyyy-MM-dd HH:mm:ss"
     private lateinit var progressDialog: RelativeLayout
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_text_message_detail)
         mContext=this
+        activity=this
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
         id=intent.getStringExtra("id").toString()
@@ -94,7 +97,7 @@ class TermDatesDetailActivity : AppCompatActivity(){
     {
         val token = sharedprefs.getaccesstoken(mContext)
         val termsDatesBody= TermDatesDetailApiModel(id)
-        val call: Call<TermDatesDetailModel> = ApiClient.getClient.termDatesDetails(termsDatesBody,"Bearer "+token)
+        val call: Call<TermDatesDetailModel> = ApiClient(mContext).getClient.termDatesDetails(termsDatesBody,"Bearer "+token)
         call.enqueue(object : Callback<TermDatesDetailModel> {
             override fun onFailure(call: Call<TermDatesDetailModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -199,13 +202,19 @@ class TermDatesDetailActivity : AppCompatActivity(){
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 progressDialog.visibility = View.VISIBLE
-                println("testing2")
                 if (newProgress == 100)
                 {
-                    println("testing1")
                     progressDialog.visibility = View.GONE
 
                 }
+            }
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
             }
         }
     }

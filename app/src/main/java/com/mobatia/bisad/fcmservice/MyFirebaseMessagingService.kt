@@ -49,7 +49,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
             if (remoteMessage.notification != null) {
                 sendNotification(remoteMessage.notification!!.body)
-                println("Message Notification Body:"+ remoteMessage.notification!!.body)
 
 
             }
@@ -64,7 +63,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //            val data = json.getJSONObject("body")
 //            val badge = data.getString("badge")
 //            val message = data.getString("message")
-            Log.e("MESSAGE DATA","CHECKING")
             val data = json.getJSONObject("message")
             val notify=data.getJSONObject("notification")
             val badge = notify.getString("badge")

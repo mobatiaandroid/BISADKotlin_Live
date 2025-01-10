@@ -57,12 +57,15 @@ class VideoMessageActivity : AppCompatActivity(){
     var message:String=""
     var url:String=""
     var date:String=""
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_message)
         mContext=this
+        activity=this
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
         id=intent.getStringExtra("id").toString()
@@ -109,7 +112,7 @@ class VideoMessageActivity : AppCompatActivity(){
     {
         val token = sharedprefs.getaccesstoken(mContext)
         val studentbody= MessageDetailApiModel(id)
-        val call: Call<MessageDetailModel> = ApiClient.getClient.notifictaionDetail(studentbody,"Bearer "+token)
+        val call: Call<MessageDetailModel> = ApiClient(mContext).getClient.notifictaionDetail(studentbody,"Bearer "+token)
         call.enqueue(object : Callback<MessageDetailModel> {
             override fun onFailure(call: Call<MessageDetailModel>, t: Throwable) {
 //                progressDialog.visibility = View.GONE
@@ -244,6 +247,14 @@ class VideoMessageActivity : AppCompatActivity(){
             super.onPageFinished(view, url)
             proWebView.visibility = View.GONE
             textcontent.visibility = View.VISIBLE
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
         }
     }
 }

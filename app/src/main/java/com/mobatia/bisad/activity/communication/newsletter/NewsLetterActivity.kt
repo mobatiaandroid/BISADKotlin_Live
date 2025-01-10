@@ -68,6 +68,8 @@ class NewsLetterActivity : AppCompatActivity() {
     lateinit var newsLetterArrayList :ArrayList<NewLetterListDetailModel>
     lateinit var newsLetterShowArrayList :ArrayList<NewLetterListDetailModel>
     private lateinit var linearLayoutManager: LinearLayoutManager
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_newsletter)
@@ -79,6 +81,7 @@ class NewsLetterActivity : AppCompatActivity() {
 
     private fun initializeUI() {
         mContext=this
+        activity=this
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
         btn_left = findViewById(R.id.btn_left)
@@ -141,7 +144,7 @@ class NewsLetterActivity : AppCompatActivity() {
         progressDialog.visibility = View.VISIBLE
         newsLetterShowArrayList= ArrayList()
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<NewsLetterListModel> = ApiClient.getClient.newsletters("Bearer "+token)
+        val call: Call<NewsLetterListModel> = ApiClient(mContext).getClient.newsletters("Bearer "+token)
         call.enqueue(object : Callback<NewsLetterListModel> {
             override fun onFailure(call: Call<NewsLetterListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -220,5 +223,13 @@ class NewsLetterActivity : AppCompatActivity() {
 
         }
         dialog.show()
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }

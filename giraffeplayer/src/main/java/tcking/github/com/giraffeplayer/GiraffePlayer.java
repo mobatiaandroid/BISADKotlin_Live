@@ -289,7 +289,6 @@ public class GiraffePlayer {
             IjkMediaPlayer.native_profileBegin("libijkplayer.so");
             playerSupport=true;
         } catch (Throwable e) {
-            Log.e("GiraffePlayer", "loadLibraries error", e);
         }
         this.activity=activity;
         screenWidthPixels = activity.getResources().getDisplayMetrics().widthPixels;
@@ -689,7 +688,7 @@ public class GiraffePlayer {
                 brightness = 0.01f;
             }
         }
-        Log.d(this.getClass().getSimpleName(),"brightness:"+brightness+",percent:"+ percent);
+       // Log.d(this.getClass().getSimpleName(),"brightness:"+brightness+",percent:"+ percent);
         $.id(R.id.app_video_brightness_box).visible();
         WindowManager.LayoutParams lpa = activity.getWindow().getAttributes();
         lpa.screenBrightness = brightness + percent;

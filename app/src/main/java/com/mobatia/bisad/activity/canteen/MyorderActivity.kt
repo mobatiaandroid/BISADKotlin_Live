@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.canteen
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -58,6 +59,8 @@ class MyorderActivity:AppCompatActivity() {
     lateinit var basket:ImageView
     lateinit var progressDialogAdd:ProgressBarDialog
     lateinit var allergycontentlist:ArrayList<AllergyContentModel>
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +72,7 @@ class MyorderActivity:AppCompatActivity() {
     }
     private fun initfn(){
         nContext=this
+        activity=this
         studentID=intent.getStringExtra("StudentId").toString()
         logoClickImg=findViewById(R.id.logoclick)
         back=findViewById(R.id.back)
@@ -110,7 +114,7 @@ class MyorderActivity:AppCompatActivity() {
         progressDialogAdd.show()
         val token = PreferenceData().getaccesstoken(nContext)
         var model= OrderHistoryApiModel(studentID,"0","100")
-        val call: Call<PreOrdersModel> = ApiClient.getClient.canteen_myorder_history(model,"Bearer "+token)
+        val call: Call<PreOrdersModel> = ApiClient(nContext).getClient.canteen_myorder_history(model,"Bearer "+token)
         call.enqueue(object : Callback<PreOrdersModel> {
             override fun onFailure(call: Call<PreOrdersModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(nContext)
@@ -173,4 +177,12 @@ class MyorderActivity:AppCompatActivity() {
 
     })
 }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(nContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
+    }
 }

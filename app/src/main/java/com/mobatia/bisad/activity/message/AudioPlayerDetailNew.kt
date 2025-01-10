@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.message
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -72,6 +73,8 @@ class AudioPlayerDetailNew : AppCompatActivity(), Player.EventListener{
 
     var updated_at: String = ""
     var flag: Boolean = true
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -79,6 +82,7 @@ class AudioPlayerDetailNew : AppCompatActivity(), Player.EventListener{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audio_player_detail)
         mContext=this
+        activity=this
         extras = intent.extras!!
         audio_id = extras.getString("audio_id")!!
         audio_title = extras.getString("audio_title")!!
@@ -137,7 +141,7 @@ class AudioPlayerDetailNew : AppCompatActivity(), Player.EventListener{
         val token = sharedprefs.getaccesstoken(mContext)
         val studentbody= MessageDetailApiModel(audio_id)
        // progressDialog.visibility = View.VISIBLE
-        val call: Call<MessageDetailModel> = ApiClient.getClient.notifictaionDetail(studentbody,"Bearer "+token)
+        val call: Call<MessageDetailModel> = ApiClient(mContext).getClient.notifictaionDetail(studentbody,"Bearer "+token)
         call.enqueue(object : Callback<MessageDetailModel> {
             override fun onFailure(call: Call<MessageDetailModel>, t: Throwable) {
 
@@ -256,7 +260,6 @@ class AudioPlayerDetailNew : AppCompatActivity(), Player.EventListener{
              }*/
         } catch (exception: Exception) {
             //Toast.makeText(this, "failed to load audio" + exception.getMessage(), Toast.LENGTH_SHORT).show();
-            println("failed for load" + exception.message)
         }
 
 
@@ -325,6 +328,14 @@ class AudioPlayerDetailNew : AppCompatActivity(), Player.EventListener{
 
         finish()
 
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }
 

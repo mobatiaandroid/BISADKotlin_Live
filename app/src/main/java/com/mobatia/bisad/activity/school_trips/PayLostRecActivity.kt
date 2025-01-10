@@ -1,14 +1,18 @@
 package com.mobatia.bisad.activity.school_trips
 
+import android.app.Activity
 import android.content.Context
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import java.io.BufferedReader
 import java.io.IOException
 
 class PayLostRecActivity :AppCompatActivity() {
-    var context: Context? = null
+    lateinit var context: Context
     var student_name: String? = null
+    lateinit var activity: Activity
+
     fun main() {}
     fun loadWebViewWithDataPrint(
         paymentWeb: WebView,
@@ -32,6 +36,7 @@ class PayLostRecActivity :AppCompatActivity() {
     ) {
         var student_name = student_name
         context = context
+        activity=this
         student_name = student_name
         var sb = StringBuffer()
         var eachLine: String? = ""
@@ -70,6 +75,14 @@ class PayLostRecActivity :AppCompatActivity() {
                 "utf-8",
                 "about:blank"
             )
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
         }
     }
 }

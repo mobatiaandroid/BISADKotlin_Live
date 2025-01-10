@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.common
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -9,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
@@ -36,11 +36,14 @@ class SplashActivity : AppCompatActivity() {
     lateinit var sharedprefs: PreferenceData
     var tokenM:String=""
     var firebaseid:String=""
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
         mContext = this
+        activity=this
         sharedprefs = PreferenceData()
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isComplete) {
@@ -60,7 +63,29 @@ class SplashActivity : AppCompatActivity() {
         val rootBeer = RootBeer(mContext)
         if (rootBeer.isRooted()) {
             showDeviceIsRootedPopUp(mContext)
-        } else {
+        }
+        else if (!CommonFunctions.runMethod.equals("Dev"))
+        {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+            else{
+                Handler().postDelayed({
+                    if (sharedprefs.getUserCode(mContext).equals("")) {
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
+                    } else {
+                        var accessTokenValue = AccessTokenClass.getAccessToken(mContext)
+
+                        callDeviceRegistrationApi()
+                        sharedprefs.setSuspendTrigger(mContext, "0")
+                        startActivity(Intent(this, HomeActivity::class.java))
+                        finish()
+                    }
+                }, SPLASH_TIME_OUT)
+            }
+        }
+        else{
             Handler().postDelayed({
                 if (sharedprefs.getUserCode(mContext).equals("")) {
                     startActivity(Intent(this, LoginActivity::class.java))
@@ -114,7 +139,7 @@ class SplashActivity : AppCompatActivity() {
         var androidID = Settings.Secure.getString(this.contentResolver,
             Settings.Secure.ANDROID_ID)
         var deviceReg= DeviceRegModel(2, tokenM,androidID,devicename,version)
-        val call: Call<ResponseBody> = ApiClient.getClient.deviceregistration(deviceReg,"Bearer "+token)
+        val call: Call<ResponseBody> = ApiClient(mContext).getClient.deviceregistration(deviceReg,"Bearer "+token)
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -137,5 +162,13 @@ class SplashActivity : AppCompatActivity() {
             }
 
         })
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }

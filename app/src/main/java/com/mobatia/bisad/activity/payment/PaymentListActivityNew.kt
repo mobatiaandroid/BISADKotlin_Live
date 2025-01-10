@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.payment
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +15,7 @@ import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.canteen.model.payment_history.PayListModel
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.payment.adapter.PaymentListAdapter
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.recyclermanager.OnItemClickListener
 import com.mobatia.bisad.recyclermanager.addOnItemClickListener
@@ -37,6 +39,8 @@ class PaymentListActivityNew:AppCompatActivity() {
     var adapterSize = 0
     lateinit var mRecycleView: RecyclerView
     lateinit var payList:ArrayList<PayListModel>
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +49,7 @@ class PaymentListActivityNew:AppCompatActivity() {
     }
     private fun init(){
         context=this
+        activity=this
         titletext=findViewById(R.id.heading)
         back=findViewById(R.id.backRelative)
         home_icon=findViewById(R.id.logoClickImgView)
@@ -117,4 +122,12 @@ var pos=payList[position].toString()
             }
             })
             }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
+    }
     }

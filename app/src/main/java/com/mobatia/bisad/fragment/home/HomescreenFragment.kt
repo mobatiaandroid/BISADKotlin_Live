@@ -168,6 +168,7 @@ lateinit var mContext: Context
 lateinit var current_date:String
 
 
+
 @Suppress(
     "NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "CAST_NEVER_SUCCEEDS",
     "ControlFlowWithEmptyBody"
@@ -671,7 +672,6 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 
         private fun getButtonDrawablesAndText(touchedView: View, sPosition: Int) {
             if (sPosition != 0) {
-                Log.e("touchview", touchedView.toString())
                 if (touchedView == relone) {
                     relImgone.setImageDrawable(mListImgArrays.getDrawable(sPosition))
                     val relstring: String
@@ -714,8 +714,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         relstring = listitems[sPosition].uppercase(Locale.getDefault())
                     }
                     relTxtthree.text = relstring
-                    Log.e("position",listitems[sPosition])
-                    Log.e("TAB_ID",TAB_ID)
+
 
                     getTabId(listitems[sPosition])
                     sharedprefs.setbuttonthreetabid(mContext, TAB_ID)
@@ -792,8 +791,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         relstring = listitems[sPosition].uppercase(Locale.getDefault())
                     }
                     relTxteight.text = relstring
-                    Log.e("position",listitems[sPosition])
-                    Log.e("TAB_ID",TAB_ID)
+
                     getTabId(listitems[sPosition])
                     sharedprefs.setbuttoneighttabid(mContext, TAB_ID)
                     setBackgroundColorForView(listitems[sPosition], releight)
@@ -873,8 +871,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         }
 
         private fun getTabId(textdata: String) {
-            Log.e("TA_Id",TAB_ID)
-            Log.e("textdata",textdata)
+
 
             when {
                 textdata.equals(classNameConstants.STUDENT_INFORMATION) -> {
@@ -1138,7 +1135,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 
     private fun CHECKINTENTVALUE(intentTabId: String) {
         TAB_ID = intentTabId
-        Log.e("tabid",intentTabId)
+
         var mFragment: Fragment? = null
         if (sharedprefs.getUserCode(mContext).equals("")) {
             when (intentTabId) {
@@ -1304,7 +1301,6 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 
             }
         } else {
-            Log.e("tabid",intentTabId)
             when (intentTabId) {
 
 
@@ -1330,7 +1326,6 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     fragmentIntent(mFragment)
                 }
                 naisTabConstants.TAB_COMMUNICATION -> {
-Log.e("success","Sucess")
                     if (ActivityCompat.checkSelfPermission(
                             mContext,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -1522,7 +1517,7 @@ Log.e("success","Sucess")
         val bannerModel = BannerModel(version, 2)
         val token = sharedprefs.getaccesstoken(mContext)
         val call: Call<ResponseBody> =
-            ApiClient.getClient.bannerimages(bannerModel, "Bearer " + token)
+            ApiClient(mContext).getClient.bannerimages(bannerModel, "Bearer " + token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -1693,7 +1688,7 @@ Log.e("success","Sucess")
         val bannerModel = BannerModel("1.0.0", 2)
         val token = sharedprefs.getaccesstoken(mContext)
         val call: Call<ResponseBody> =
-            ApiClient.getClient.settingsUserDetail(bannerModel, "Bearer " + token)
+            ApiClient(mContext).getClient.settingsUserDetail(bannerModel, "Bearer " + token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -1808,7 +1803,7 @@ Log.e("success","Sucess")
         studentListArrayList = ArrayList()
         var studentSaveArrayList = ArrayList<StudentListDataCollection>()
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer " + token)
+        val call: Call<StudentListModel> = ApiClient(mContext).getClient.studentList("Bearer " + token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                // CommonFunctions.faliurepopup(mContext)
@@ -1899,7 +1894,7 @@ Log.e("success","Sucess")
     fun callTilesListApi() {
         titlesListArrayList = ArrayList()
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<TilesListModel> = ApiClient.getClient.titlesList("Bearer " + token)
+        val call: Call<TilesListModel> = ApiClient(mContext).getClient.titlesList("Bearer " + token)
         call.enqueue(object : Callback<TilesListModel> {
             override fun onFailure(call: Call<TilesListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -1945,7 +1940,7 @@ Log.e("success","Sucess")
     fun callCountryListApi() {
         countryistArrayList = ArrayList()
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<CountryListModel> = ApiClient.getClient.countryList("Bearer " + token)
+        val call: Call<CountryListModel> = ApiClient(mContext).getClient.countryList("Bearer " + token)
         call.enqueue(object : Callback<CountryListModel> {
             override fun onFailure(call: Call<CountryListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -1991,7 +1986,7 @@ Log.e("success","Sucess")
         relationshipArrayList = ArrayList()
         val token = sharedprefs.getaccesstoken(mContext)
         val call: Call<RelationShipListModel> =
-            ApiClient.getClient.relationshipList("Bearer " + token)
+            ApiClient(mContext).getClient.relationshipList("Bearer " + token)
         call.enqueue(object : Callback<RelationShipListModel> {
             override fun onFailure(call: Call<RelationShipListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -2047,7 +2042,7 @@ Log.e("success","Sucess")
         kinDetailSaveArrayList = ArrayList()
         val token = sharedprefs.getaccesstoken(mContext)
         val call: Call<DataCollectionModel> =
-            ApiClient.getClient.dataCollectionDetail("Bearer " + token)
+            ApiClient(mContext).getClient.dataCollectionDetail("Bearer " + token)
         call.enqueue(object : Callback<DataCollectionModel> {
             override fun onFailure(call: Call<DataCollectionModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -2391,7 +2386,7 @@ Log.e("success","Sucess")
     {
         val token = sharedprefs.getaccesstoken(mContext)
         val requestLeaveBody= TriggerUSer(value)
-        val call: Call<ResponseBody> = ApiClient.getClient.triggerUser(requestLeaveBody,"Bearer "+token)
+        val call: Call<ResponseBody> = ApiClient(mContext).getClient.triggerUser(requestLeaveBody,"Bearer "+token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
 
@@ -2444,7 +2439,7 @@ Log.e("success","Sucess")
         val token = sharedprefs.getaccesstoken(mContext)
         var descrptn_reenroll:String=""
         val form_reenroll= GetreenrollmentApiModel(sharedprefs.getUserID(mContext)!!)
-        val call: Call<GetreenrollmentModel> = ApiClient.getClient.getreenrollmentForm(form_reenroll,"Bearer "+token)
+        val call: Call<GetreenrollmentModel> = ApiClient(mContext).getClient.getreenrollmentForm(form_reenroll,"Bearer "+token)
         call.enqueue(object : Callback<GetreenrollmentModel>{
             override fun onFailure(call: Call<GetreenrollmentModel>, t: Throwable) {
                 //progressDialog.visibility = View.GONE
@@ -3152,7 +3147,7 @@ var byte_array=bitmapToBytes(bitmap)
         val token = sharedprefs.getaccesstoken(mContext)
         val save_reenroll: SaveReenrollmentApiModel? = SaveReenrollmentApiModel(reEnrollsubmit)
 
-        val call: Call<SavereenrollmentModel> = ApiClient.getClient.savereenrollmentForm(save_reenroll!!,"Bearer "+token)
+        val call: Call<SavereenrollmentModel> = ApiClient(mContext).getClient.savereenrollmentForm(save_reenroll!!,"Bearer "+token)
         call.enqueue(object : Callback<SavereenrollmentModel>{
             override fun onFailure(call: Call<SavereenrollmentModel>, t: Throwable) {
                 //progressDialog.visibility = View.GONE
@@ -3308,7 +3303,7 @@ var byte_array=bitmapToBytes(bitmap)
         val token = sharedprefs.getaccesstoken(mContext)
         val sendMailBody = ReEnrollEmailApiModel( title, message)
         val call: Call<ReEnrollEmailModel> =
-            ApiClient.getClient.re_enrollment_mailhelp(sendMailBody, "Bearer " + token)
+            ApiClient(mContext).getClient.re_enrollment_mailhelp(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<ReEnrollEmailModel> {
             override fun onFailure(call: Call<ReEnrollEmailModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)

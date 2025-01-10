@@ -135,7 +135,7 @@ class FormsFragment : Fragment(){
         progressDialog.visibility = View.VISIBLE
         val token = sharedprefs.getaccesstoken(mContext)
         val notificationBody= MessageListApiModel(start,limit)
-        val call: Call<FormsResponseModel> = ApiClient.getClient.formslist(notificationBody,"Bearer "+token)
+        val call: Call<FormsResponseModel> = ApiClient(mContext).getClient.formslist(notificationBody,"Bearer "+token)
         call.enqueue(object : Callback<FormsResponseModel> {
             override fun onFailure(call: Call<FormsResponseModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE

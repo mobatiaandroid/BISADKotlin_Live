@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.parent_meetings
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -69,6 +70,8 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
     var alreadyslotBookedByUser:Boolean=false
     var confirmedslotBookedByUser:Boolean=false
     var confirmed_link:String=""
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +83,7 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
 
     private fun init(){
         mContext=this
+        activity=this
         progressDialog = findViewById<RelativeLayout>(R.id.progressDialog)
         title=findViewById(R.id.heading)
         title.text = "Parent Meetings"
@@ -179,7 +183,7 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
         val outputDateStr: String = outputFormat.format(date)
         val timeslotBody = PtaListingApiModel(studId, staff_id, outputDateStr)
         val call: Call<PtaListingModel> =
-            ApiClient.getClient.listing_pta(timeslotBody, "Bearer " + token)
+            ApiClient(mContext).getClient.listing_pta(timeslotBody, "Bearer " + token)
         call.enqueue(object : Callback<PtaListingModel> {
             override fun onFailure(call: Call<PtaListingModel>, t: Throwable) {
 
@@ -373,7 +377,7 @@ lateinit var timeSlotListPost: ArrayList<PtaTimeSlotList>
             timeSlotListPost[0].vpml,timeSlotListPost[0].room)
 
         val call: Call<PtaInsertModel> =
-            ApiClient.getClient.insert_pta(insertPta, "Bearer " + token)
+            ApiClient(mContext).getClient.insert_pta(insertPta, "Bearer " + token)
         call.enqueue(object : Callback<PtaInsertModel> {
             override fun onFailure(call: Call<PtaInsertModel>, t: Throwable) {
 
@@ -432,7 +436,13 @@ if (responsedata!!.response.statuscode.equals("303")){
             timeslotList()
 
         }
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
+
    /* override fun onResume() {
         super.onResume()
         timeSlotList= ArrayList()

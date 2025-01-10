@@ -205,7 +205,6 @@ var date_sel=review_list[position].date
                         .toString() + " " + review_list[position].end_time
                 )
                 endTime = dateEnd.time
-                println("Start time$startTime:::::::::: endTime$endTime")
                 vpmlURL = if (review_list[position].vpml.equals("")) {
                     ""
                 } else {
@@ -239,7 +238,7 @@ var date_sel=review_list[position].date
         var idString:String=id_sel.toString()
         var ptaConfirm= PtaConfirmationApiModel(idString)
         val call: Call<PtaConfirmationModel> =
-            ApiClient.getClient.pta_confirmation(ptaConfirm,"Bearer " + token)
+            ApiClient(context).getClient.pta_confirmation(ptaConfirm,"Bearer " + token)
         call.enqueue(object : Callback<PtaConfirmationModel> {
             override fun onFailure(call: Call<PtaConfirmationModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -284,7 +283,7 @@ else
         var idString:String=id_sel.toString()
         var ptaCancel= PtaCancelApiModel(idString)
         val call: Call<PtaCancelModel> =
-            ApiClient.getClient.pta_cancel(ptaCancel,"Bearer " + token)
+            ApiClient(context).getClient.pta_cancel(ptaCancel,"Bearer " + token)
         call.enqueue(object : Callback<PtaCancelModel> {
             override fun onFailure(call: Call<PtaCancelModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -435,7 +434,7 @@ else
         review_rec.adapter=review_adapter
         val token = sharedprefs.getaccesstoken(context)
         val call: Call<PtaReviewListModel> =
-            ApiClient.getClient.pta_review_list("Bearer " + token)
+            ApiClient(context).getClient.pta_review_list("Bearer " + token)
         call.enqueue(object : Callback<PtaReviewListModel> {
             override fun onFailure(call: Call<PtaReviewListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)

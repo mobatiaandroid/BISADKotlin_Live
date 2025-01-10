@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.message
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -19,6 +20,7 @@ import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.message.model.MessageDetailApiModel
 import com.mobatia.bisad.activity.message.model.MessageDetailModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.manager.PreferenceData
@@ -50,11 +52,14 @@ class VideoMessageActivityNew : AppCompatActivity() {
     private lateinit var contentWebView: WebView
     private lateinit var youtubeWebView: WebView
     private lateinit var progressDialog: ProgressBar
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_message_new)
         mContext = this
+        activity=this
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
         id=intent.getStringExtra("id").toString()
@@ -89,9 +94,7 @@ class VideoMessageActivityNew : AppCompatActivity() {
         youtubeWebView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 progressDialog.visibility = View.VISIBLE
-                println("testing2")
                 if (newProgress == 100) {
-                    println("testing1")
                     progressDialog.visibility = View.GONE
 
                 }
@@ -109,7 +112,7 @@ class VideoMessageActivityNew : AppCompatActivity() {
     private fun callMessageDetailAPI() {
         val token = sharedprefs.getaccesstoken(mContext)
         val studentBody = MessageDetailApiModel(id)
-        val call: Call<MessageDetailModel> = ApiClient.getClient.notifictaionDetail(studentBody, "Bearer $token")
+        val call: Call<MessageDetailModel> = ApiClient(mContext).getClient.notifictaionDetail(studentBody, "Bearer $token")
 
         call.enqueue(object : Callback<MessageDetailModel> {
             override fun onFailure(call: Call<MessageDetailModel>, t: Throwable) {
@@ -231,12 +234,18 @@ class VideoMessageActivityNew : AppCompatActivity() {
         youtubeWebView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 progressDialog.visibility = View.VISIBLE
-                println("testing2")
                 if (newProgress == 100) {
-                    println("testing1")
                     progressDialog.visibility = View.GONE
 
                 }
+            }
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
             }
         }
     }

@@ -277,7 +277,7 @@ internal class CategoryListAdapter (var context:Context, var detailList:ArrayLis
         val token = sharedprefs.getaccesstoken(context)
         val sendMailBody = SendStaffEmailApiModel( staffEmail, title, message)
         val call: Call<SendStaffEmailModel> =
-            ApiClient.getClient.send_email_to_staff(sendMailBody, "Bearer " + token)
+            ApiClient(context).getClient.send_email_to_staff(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<SendStaffEmailModel> {
             override fun onFailure(call: Call<SendStaffEmailModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)

@@ -163,7 +163,7 @@ class CanteenFragment  : Fragment() {
     {
         progress.show()
         val token = PreferenceData().getaccesstoken(mContext)
-        val call: Call<CanteenBannerResponseModel> = ApiClient.getClient.get_canteen_banner("Bearer "+token)
+        val call: Call<CanteenBannerResponseModel> = ApiClient(mContext).getClient.get_canteen_banner("Bearer "+token)
         call.enqueue(object : Callback<CanteenBannerResponseModel>
         {
             override fun onFailure(call: Call<CanteenBannerResponseModel>, t: Throwable) {
@@ -313,7 +313,7 @@ class CanteenFragment  : Fragment() {
         val token = sharedprefs.getaccesstoken(mContext)
         val sendMailBody = CanteenSendEmailApiModel( staffEmail, title, message)
         val call: Call<SendStaffEmailModel> =
-            ApiClient.getClient.sendEmailCanteen(sendMailBody, "Bearer " + token)
+            ApiClient(mContext).getClient.sendEmailCanteen(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<SendStaffEmailModel> {
             override fun onFailure(call: Call<SendStaffEmailModel>, t: Throwable) {
 

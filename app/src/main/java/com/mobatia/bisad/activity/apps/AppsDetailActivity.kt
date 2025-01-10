@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 
 private lateinit var progressDialog: RelativeLayout
 class AppsDetailActivity : AppCompatActivity() {
@@ -53,6 +54,8 @@ class AppsDetailActivity : AppCompatActivity() {
     private var mUploadMessage: ValueCallback<Uri>? = null
     val REQUEST_SELECT_FILE = 100
     private val FILECHOOSER_RESULTCODE = 123
+    lateinit var activity: Activity
+
 
 
 
@@ -74,6 +77,7 @@ class AppsDetailActivity : AppCompatActivity() {
     private fun initializeUI() {
         // headermanager=HeaderManagerNoColorSpace(SocialMediaDetailActivity.this, "FACEBOOK");
         mContext=this
+        activity=this
         webView = findViewById(R.id.webView)
         btn_left = findViewById(R.id.btn_left)
         logoClickImgView = findViewById(R.id.logoClickImgView)
@@ -112,7 +116,7 @@ class AppsDetailActivity : AppCompatActivity() {
                 message: String,
                 result: JsResult
             ): Boolean {
-                Log.d("alert", message)
+               // Log.d("alert", message)
                 val dialogBuilder = AlertDialog.Builder(this@AppsDetailActivity)
 
                 dialogBuilder.setMessage(message)
@@ -252,6 +256,14 @@ class AppsDetailActivity : AppCompatActivity() {
         override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
             progressDialog.visibility=View.GONE
             Toast.makeText(activity, "Got Error! $error", Toast.LENGTH_SHORT).show()
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
         }
     }
 }

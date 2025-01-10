@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.canteen
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -75,6 +76,8 @@ class PreOrderActivity : AppCompatActivity(){
     var datetime: String = ""
     var apiCall:Int=0
     var mDateArrayList = ArrayList<DateModel>()
+    lateinit var activity: Activity
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +98,7 @@ class PreOrderActivity : AppCompatActivity(){
     }
     private fun initfn() {
         nContext = this
+        activity=this
         logoClickImg=findViewById(R.id.logoclick)
         back = findViewById(R.id.back)
         studImg = findViewById<ImageView>(R.id.imagicon)
@@ -229,7 +233,7 @@ class PreOrderActivity : AppCompatActivity(){
     {
         progressDialog.visibility = View.VISIBLE
         val token = sharedprefs.getaccesstoken(nContext)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
+        val call: Call<StudentListModel> = ApiClient(nContext).getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(nContext)
@@ -449,7 +453,7 @@ class PreOrderActivity : AppCompatActivity(){
     private fun time_exeed() {
         val token = PreferenceData().getaccesstoken(nContext)
         progressDialogAdd.visibility=View.VISIBLE
-        val call: Call<TimeExceedModel> = ApiClient.getClient.time_exceed_status("Bearer "+token)
+        val call: Call<TimeExceedModel> = ApiClient(nContext).getClient.time_exceed_status("Bearer "+token)
         call.enqueue(object : Callback<TimeExceedModel> {
             override fun onFailure(call: Call<TimeExceedModel>, t: Throwable) {
 
@@ -530,5 +534,13 @@ class PreOrderActivity : AppCompatActivity(){
         dialog.show()
 
 
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(nContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }

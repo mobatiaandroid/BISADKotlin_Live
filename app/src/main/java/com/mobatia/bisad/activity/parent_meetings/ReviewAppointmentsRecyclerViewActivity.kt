@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.parent_meetings
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -46,6 +47,8 @@ class ReviewAppointmentsRecyclerViewActivity : AppCompatActivity() {
     lateinit var home_icon: ImageView
     lateinit var confirm_tv:TextView
     var confimVisibility:Boolean=false
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parentmeeting_review)
@@ -55,6 +58,7 @@ class ReviewAppointmentsRecyclerViewActivity : AppCompatActivity() {
 
      fun init() {
         mContext = this
+         activity=this
         progressDialog = findViewById<RelativeLayout>(R.id.progressDialog)
         title = findViewById(R.id.heading)
          title.text = "Review Appointments"
@@ -90,7 +94,7 @@ confirm_tv.setOnClickListener {
         progressDialog.visibility = View.VISIBLE
         val token = sharedprefs.getaccesstoken(mContext)
         val call: Call<PtaReviewListModel> =
-            ApiClient.getClient.pta_review_list("Bearer " + token)
+            ApiClient(mContext).getClient.pta_review_list("Bearer " + token)
         call.enqueue(object : Callback<PtaReviewListModel> {
             override fun onFailure(call: Call<PtaReviewListModel>, t: Throwable) {
 
@@ -163,7 +167,7 @@ confirm_tv.setOnClickListener {
         var idString:String=idList.toString()
         var ptaConfirm= PtaConfirmationApiModel(idString)
         val call: Call<PtaConfirmationModel> =
-            ApiClient.getClient.pta_confirmation(ptaConfirm,"Bearer " + token)
+            ApiClient(mContext).getClient.pta_confirmation(ptaConfirm,"Bearer " + token)
         call.enqueue(object : Callback<PtaConfirmationModel> {
             override fun onFailure(call: Call<PtaConfirmationModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -271,6 +275,14 @@ else
             dialog.dismiss()
         }
         dialog.show()
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 
 }

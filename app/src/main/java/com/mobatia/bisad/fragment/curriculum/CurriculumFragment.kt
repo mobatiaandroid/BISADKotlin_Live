@@ -90,7 +90,7 @@ class CurriculumFragment : Fragment() {
 
     fun callStudentListApi() {
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer " + token)
+        val call: Call<StudentListModel> = ApiClient(mContext).getClient.studentList("Bearer " + token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -273,7 +273,7 @@ class CurriculumFragment : Fragment() {
         val token = sharedprefs.getaccesstoken(mContext)
         val studentid = CurriculumStudentApiModel(sharedprefs.getStudentID(mContext)!!)
         val call: Call<CuriculumListModel> =
-            ApiClient.getClient.curriculumList(studentid, "Bearer " + token)
+            ApiClient(mContext).getClient.curriculumList(studentid, "Bearer " + token)
         call.enqueue(object : Callback<CuriculumListModel> {
             override fun onFailure(call: Call<CuriculumListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE

@@ -255,7 +255,7 @@ class CalFragment : Fragment() {
         wholeSchoolArrayList = ArrayList()
         progressDialog.visibility = View.VISIBLE
         val call: Call<CalendarModel> =
-            ApiClient.getClient.calendarList()
+            ApiClient(mContext).getClient.calendarList()
         call.enqueue(object : Callback<CalendarModel> {
             override fun onFailure(call: Call<CalendarModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE

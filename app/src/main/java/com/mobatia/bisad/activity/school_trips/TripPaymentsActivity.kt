@@ -67,12 +67,15 @@ class TripPaymentsActivity : AppCompatActivity() {
     lateinit var mNewsLetterListView: RecyclerView
     var tripHistoryList: ArrayList<TripHistoryResponseModel.Trip> =
         ArrayList<TripHistoryResponseModel.Trip>()
+    lateinit var activity: Activity
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_trip_payments)
         mContext=this
+        activity=this
         initUI()
 
         var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
@@ -91,7 +94,7 @@ class TripPaymentsActivity : AppCompatActivity() {
         progressDialogP.show()
         studentsModelArrayList=ArrayList<StudentList>()
         val token = PreferenceData().getaccesstoken(mContext)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
+        val call: Call<StudentListModel> = ApiClient(mContext).getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -303,7 +306,7 @@ class TripPaymentsActivity : AppCompatActivity() {
         paramObject.addProperty("student_id", stud_id)
 
         val call: Call<TripHistoryResponseModel> =
-            ApiClient.getClient.tripHistory("Bearer " + PreferenceData().getaccesstoken(mContext),paramObject)
+            ApiClient(mContext).getClient.tripHistory("Bearer " + PreferenceData().getaccesstoken(mContext),paramObject)
         call.enqueue(object : Callback<TripHistoryResponseModel> {
             override fun onFailure(call: Call<TripHistoryResponseModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -501,10 +504,17 @@ class TripPaymentsActivity : AppCompatActivity() {
                     }
 
                     override fun onLongClickItem(v: View?, position: Int) {
-                        println("On Long Click Item interface")
                     }
                 })
         )
         dialog.show()
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }

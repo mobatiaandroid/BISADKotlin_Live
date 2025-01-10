@@ -17,6 +17,7 @@
         tools:node="remove" />
 
     <application
+        android:name=".manager.AppController"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"

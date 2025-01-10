@@ -138,7 +138,7 @@ class StaffDirectoryFragment: Fragment() {
 
         val token = sharedprefs.getaccesstoken(mContext)
         val list_teachers= TeachingStaffListApiModel()
-        val call: Call<TeachingStaffListModel> = ApiClient.getClient.teaching_staff_list(list_teachers,"Bearer "+token)
+        val call: Call<TeachingStaffListModel> = ApiClient(mContext).getClient.teaching_staff_list(list_teachers,"Bearer "+token)
         call.enqueue(object : Callback<TeachingStaffListModel> {
             override fun onFailure(call: Call<TeachingStaffListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE

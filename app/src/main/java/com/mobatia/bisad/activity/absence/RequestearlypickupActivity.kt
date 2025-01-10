@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.absence
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
@@ -52,7 +53,7 @@ class RequestearlypickupActivity : AppCompatActivity(){
     lateinit var studentNameTxt: TextView
     lateinit var enterStratDate: TextView
     lateinit var enterTime: TextView
-    lateinit var pickupName:TextView
+    lateinit var pickupName:EditText
     lateinit var submitBtn: Button
     lateinit var enterMessage: EditText
     lateinit var studImg: ImageView
@@ -80,11 +81,14 @@ class RequestearlypickupActivity : AppCompatActivity(){
     private lateinit var heading: TextView
     lateinit var progressDialog: RelativeLayout
     lateinit var backRelative: RelativeLayout
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?)
     { super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_earlypickup)
         mContext=this
+        activity=this
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
 
@@ -152,12 +156,22 @@ class RequestearlypickupActivity : AppCompatActivity(){
                         if (pickupName.text.isEmpty()){
 
                             showerror(mContext,"Please enter pickup person name","Alert")
+                        }
+                        else if (!CommonFunctions.validateEditText(pickupName))
+                        {
+                            showErrorAlert(mContext,"Please remove html content.","Alert")
+
                         }else{
 
                             if (enterMessage.text.isEmpty()){
 
                                 showerror(mContext,"Please enter reason for early pickup","Alert")
-                            } else{
+                            }
+                            else if (!CommonFunctions.validateEditText(enterMessage))
+                            {
+                                showErrorAlert(mContext,"Please remove html content.","Alert")
+
+                            }else{
                                 var date_entered=enterStratDate.text
                                 var date=toDate
                                 var time_entered=enterTime.text
@@ -328,7 +342,7 @@ if (enterStratDate.text.equals("")){
     {
         studentArrayList=ArrayList<StudentList>()
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
+        val call: Call<StudentListModel> = ApiClient(mContext).getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -507,7 +521,7 @@ private fun cal() {
             .name)
         val token = sharedprefs.getaccesstoken(mContext)
         val requestPickupBody= RequestPickupApiModel(sharedprefs.getStudentID(mContext)!!,date,time,reason,pickupby,"2",devicename,"1.0")
-        val call: Call<EarlyPickupModel> = ApiClient.getClient.pickupRequest(requestPickupBody,"Bearer "+token)
+        val call: Call<EarlyPickupModel> = ApiClient(mContext).getClient.pickupRequest(requestPickupBody,"Bearer "+token)
         call.enqueue(object : Callback<EarlyPickupModel> {
             override fun onFailure(call: Call<EarlyPickupModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -583,6 +597,14 @@ private fun cal() {
 
         }
         dialog.show()
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }
 

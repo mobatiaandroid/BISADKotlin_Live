@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.payment
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -32,6 +33,8 @@ class PaymentInformationActivity : AppCompatActivity() {
     lateinit var recyclerview: RecyclerView
     lateinit var back: ImageView
     lateinit var informationlist: ArrayList<InfoPayListModel>
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.canteen_information)
@@ -42,6 +45,7 @@ class PaymentInformationActivity : AppCompatActivity() {
 
     private fun initfn() {
         mContext = this
+        activity = this
         logoClickImg=findViewById(R.id.logoclick)
         informationlist = ArrayList()
         recyclerview = findViewById(R.id.canteen_info_list)
@@ -63,7 +67,7 @@ class PaymentInformationActivity : AppCompatActivity() {
 
         val token = PreferenceData().getaccesstoken(mContext)
 
-        val call: Call<InfoPaymentModel> = ApiClient.getClient.getPaymentInfo("Bearer "+token)
+        val call: Call<InfoPaymentModel> = ApiClient(mContext).getClient.getPaymentInfo("Bearer "+token)
         call.enqueue(object : Callback<InfoPaymentModel> {
             override fun onFailure(call: Call<InfoPaymentModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -96,5 +100,13 @@ class PaymentInformationActivity : AppCompatActivity() {
         })
 
 
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }

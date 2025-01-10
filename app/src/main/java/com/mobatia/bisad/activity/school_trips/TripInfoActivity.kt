@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.school_trips
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -49,10 +50,13 @@ class TripInfoActivity : AppCompatActivity() {
   //  lateinit var headermanager: HeaderManager
     var back: ImageView? = null
     var home: ImageView? = null
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.canteen_information)
         mContext = this
+        activity=this
         initUI()
 
         var internetCheck = InternetCheckClass.isInternetAvailable(mContext)
@@ -136,7 +140,7 @@ class TripInfoActivity : AppCompatActivity() {
         progressDialogP.show()
       //  mListViewArray = java.util.ArrayList<CanteenInfoModel>()
 
-        val call: Call<InfoPaymentModel> = ApiClient.getClient.tripInformation(
+        val call: Call<InfoPaymentModel> = ApiClient(mContext).getClient.tripInformation(
             "Bearer "+PreferenceData().getaccesstoken(mContext))
         call.enqueue(object : Callback<InfoPaymentModel> {
             override fun onFailure(call: Call<InfoPaymentModel>, t: Throwable) {
@@ -264,5 +268,13 @@ class TripInfoActivity : AppCompatActivity() {
                 )
             }
         })*/
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }

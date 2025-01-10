@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.calendar.adapter.CalendarDetailAdapter
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.calendar.model.CalendarApiModel
@@ -73,12 +74,15 @@ class CalendarActivity : AppCompatActivity(){
     lateinit var dialogcalendar: Dialog
     private lateinit var linearLayoutManager: LinearLayoutManager
     lateinit  var calendarArrayList : ArrayList<VEVENT>
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar_detail)
         mContext=this
+        activity=this
         id=intent.getStringExtra("id").toString()
         title=intent.getStringExtra("title").toString()
         sharedprefs = PreferenceData()
@@ -252,7 +256,7 @@ class CalendarActivity : AppCompatActivity(){
         progressDialog.visibility = View.VISIBLE
         val token = sharedprefs.getaccesstoken(mContext)
         val calendarBody = CalendarApiModel(id)
-        val call: Call<CalendarListModel> = ApiClient.getClient.calendarDetail(calendarBody, "Bearer " + token)
+        val call: Call<CalendarListModel> = ApiClient(mContext).getClient.calendarDetail(calendarBody, "Bearer " + token)
         call.enqueue(object : Callback<CalendarListModel> {
             override fun onFailure(call: Call<CalendarListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -311,6 +315,14 @@ class CalendarActivity : AppCompatActivity(){
 
         }
         dialog.show()
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
     }
 

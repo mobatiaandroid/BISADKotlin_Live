@@ -95,7 +95,7 @@ class AttendanceFragment : Fragment() ,View.OnClickListener{
 
     fun callStudentListApi() {
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer " + token)
+        val call: Call<StudentListModel> = ApiClient(mContext).getClient.studentList("Bearer " + token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -289,7 +289,7 @@ class AttendanceFragment : Fragment() ,View.OnClickListener{
         val attendancerBody = AttendanceApiModel(sharedprefs.getStudentID(mContext)!!)
 
         val call: Call<AttendanceListModel> =
-            ApiClient.getClient.attendanceList(attendancerBody, "Bearer " + token)
+            ApiClient(mContext).getClient.attendanceList(attendancerBody, "Bearer " + token)
         call.enqueue(object : Callback<AttendanceListModel> {
             override fun onFailure(call: Call<AttendanceListModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -313,7 +313,6 @@ class AttendanceFragment : Fragment() ,View.OnClickListener{
                         for (i in array.indices) {
                             dateList.add(array[i].date)
 
-                            println("DATES: ${dateList[i]}")
                         }
 
                         calendarView.selectedDates = getSelectedDays()

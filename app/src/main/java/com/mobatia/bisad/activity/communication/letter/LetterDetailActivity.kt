@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.communication.letter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.settings.termsofservice.model.TermsOfServiceModel
+import com.mobatia.bisad.constants.CommonFunctions
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.ApiClient
@@ -42,11 +44,14 @@ class LetterDetailActivity : AppCompatActivity(){
     private lateinit var webView: WebView
     var myFormatCalende:String="yyyy-MM-dd HH:mm:ss"
     private lateinit var progressDialog: RelativeLayout
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_letter_detail)
         mContext=this
+        activity=this
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
         initUI()
@@ -141,6 +146,14 @@ class LetterDetailActivity : AppCompatActivity(){
                     progressDialog.visibility = View.GONE
 
                 }
+            }
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
             }
         }
     }

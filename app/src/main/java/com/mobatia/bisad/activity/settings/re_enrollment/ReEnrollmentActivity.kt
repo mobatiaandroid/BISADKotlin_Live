@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.settings.re_enrollment
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -60,11 +61,14 @@ class ReEnrollmentActivity: AppCompatActivity() {
     lateinit var reEnrollOptionList:ArrayList<String>
     lateinit var stud_enroll_list:ArrayList<StudentsEnrollList>
     var apiCall: Int = 0
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_re_enrollment)
         context = this
+        activity=this
         sharedprefs = PreferenceData()
 
         initializeUI()
@@ -161,7 +165,7 @@ class ReEnrollmentActivity: AppCompatActivity() {
             com.mobatia.bisad.fragment.home.sharedprefs.getUserID(
                 com.mobatia.bisad.fragment.home.mContext
             )!!)
-        val call: Call<GetreenrollmentModel> = ApiClient.getClient.getreenrollmentForm(form_reenroll,"Bearer "+token)
+        val call: Call<GetreenrollmentModel> = ApiClient(mContext).getClient.getreenrollmentForm(form_reenroll,"Bearer "+token)
         call.enqueue(object : Callback<GetreenrollmentModel> {
             override fun onFailure(call: Call<GetreenrollmentModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -519,7 +523,7 @@ private fun setting_re_api(){
     progress.visibility = View.VISIBLE
 
     val token = sharedprefs.getaccesstoken(context)
-    val call: Call<EnrollmentStatusModel> = ApiClient.getClient.get_enrollment_status("Bearer "+token)
+    val call: Call<EnrollmentStatusModel> = ApiClient(context).getClient.get_enrollment_status("Bearer "+token)
     call.enqueue(object : Callback<EnrollmentStatusModel> {
         override fun onFailure(call: Call<EnrollmentStatusModel>, t: Throwable) {
 CommonFunctions.faliurepopup(context)
@@ -631,7 +635,7 @@ CommonFunctions.faliurepopup(context)
         val token = com.mobatia.bisad.fragment.home.sharedprefs.getaccesstoken(mContext)
         val sendMailBody = ReEnrollEmailApiModel( title, message)
         val call: Call<ReEnrollEmailModel> =
-            ApiClient.getClient.re_enrollment_mailhelp(sendMailBody, "Bearer " + token)
+            ApiClient(context).getClient.re_enrollment_mailhelp(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<ReEnrollEmailModel> {
             override fun onFailure(call: Call<ReEnrollEmailModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -800,7 +804,7 @@ CommonFunctions.faliurepopup(context)
         val token = com.mobatia.bisad.fragment.home.sharedprefs.getaccesstoken(mContext)
         val save_reenroll: SaveReenrollmentApiModel? = SaveReenrollmentApiModel(reEnrollsubmit)
 
-        val call: Call<SavereenrollmentModel> = ApiClient.getClient.savereenrollmentForm(
+        val call: Call<SavereenrollmentModel> = ApiClient(mContext).getClient.savereenrollmentForm(
             save_reenroll!!,"Bearer "+token)
         call.enqueue(object : Callback<SavereenrollmentModel>{
             override fun onFailure(call: Call<SavereenrollmentModel>, t: Throwable) {
@@ -862,5 +866,13 @@ CommonFunctions.faliurepopup(context)
 
         }
         dialog.show()
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }

@@ -40,7 +40,6 @@ public class ImagePagerDrawableAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-Log.e("size", String.valueOf(mImagesArrayListUrlBg.size()));
         return mImagesArrayListUrlBg.size();
     }
 

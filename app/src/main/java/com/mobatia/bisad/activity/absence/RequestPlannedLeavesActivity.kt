@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.absence
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Dialog
@@ -80,10 +81,13 @@ class RequestPlannedLeavesActivity : AppCompatActivity(){
     private lateinit var heading: TextView
     lateinit var progressDialog: RelativeLayout
     lateinit var backRelative: RelativeLayout
+    lateinit var activity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?)
     { super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_planned_absence)
         mContext=this
+        activity=this
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
 
@@ -146,6 +150,15 @@ class RequestPlannedLeavesActivity : AppCompatActivity(){
                 else{
                     if (enterMessage.text.toString().trim().equals("")){
                         InternetCheckClass. showErrorAlert(mContext,"Please enter reason for your absence","Alert")
+                    }
+                    else if (!CommonFunctions.validateEditText(enterMessage))
+                    {
+                        InternetCheckClass.showErrorAlert(
+                            mContext,
+                            "Please remove html content.",
+                            "Alert"
+                        )
+
                     }
                     else{
                         val aniRotate: Animation =
@@ -277,7 +290,7 @@ class RequestPlannedLeavesActivity : AppCompatActivity(){
     {
         studentArrayList=ArrayList<StudentList>()
         val token = sharedprefs.getaccesstoken(mContext)
-        val call: Call<StudentListModel> = ApiClient.getClient.studentList("Bearer "+token)
+        val call: Call<StudentListModel> = ApiClient(mContext).getClient.studentList("Bearer "+token)
         call.enqueue(object : Callback<StudentListModel> {
             override fun onFailure(call: Call<StudentListModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -420,7 +433,7 @@ class RequestPlannedLeavesActivity : AppCompatActivity(){
             .name)
         val token = sharedprefs.getaccesstoken(mContext)
         val requestLeaveBody= RequestAbsenceApiModel(sharedprefs.getStudentID(mContext)!!,from,toDate,reason,"2",devicename,"1.0")
-        val call: Call<ResponseBody> = ApiClient.getClient.plannedLeaveRequest(requestLeaveBody,"Bearer "+token)
+        val call: Call<ResponseBody> = ApiClient(mContext).getClient.plannedLeaveRequest(requestLeaveBody,"Bearer "+token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 CommonFunctions.faliurepopup(mContext)
@@ -546,6 +559,14 @@ class RequestPlannedLeavesActivity : AppCompatActivity(){
             dpd1.datePicker.minDate = android.icu.util.Calendar.getInstance().timeInMillis
             dpd1.show()
 
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }
 

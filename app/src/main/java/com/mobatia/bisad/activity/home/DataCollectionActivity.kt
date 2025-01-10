@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.home
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -61,6 +62,8 @@ var own_details: JSONArray? =null
 var kin_details: JSONArray? =null
 var JSONSTRING: String =""
 var  previousPage:Int=0
+lateinit var activity: Activity
+
 class DataCollectionActivity : FragmentActivity(), OnPageChangeListener,
     RadioGroup.OnCheckedChangeListener {
     @RequiresApi(Build.VERSION_CODES.M)
@@ -71,6 +74,7 @@ class DataCollectionActivity : FragmentActivity(), OnPageChangeListener,
         setContentView(R.layout.activity_data_collection)
         sharedprefs = PreferenceData()
         context = this
+        activity = this
         initializeUI()
     }
 
@@ -733,7 +737,7 @@ class DataCollectionActivity : FragmentActivity(), OnPageChangeListener,
                 + " " + Build.VERSION_CODES::class.java.fields[Build.VERSION.SDK_INT]
             .name)
         val requestLeaveBody= DataCollectionSubmissionModel(overallStatus,JSONSTRING,triggertype,"2",devicename,"1.0")
-        val call: Call<ResponseBody> = ApiClient.getClient.dataCollectionSubmittion(requestLeaveBody,"Bearer "+token)
+        val call: Call<ResponseBody> = ApiClient(context).getClient.dataCollectionSubmittion(requestLeaveBody,"Bearer "+token)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -778,5 +782,15 @@ class DataCollectionActivity : FragmentActivity(), OnPageChangeListener,
             }
 
         })
+    }
+    override fun onResume() {
+        super.onResume()
+        Intent.FLAG_ACTIVITY_CLEAR_TASK
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
+
     }
 }

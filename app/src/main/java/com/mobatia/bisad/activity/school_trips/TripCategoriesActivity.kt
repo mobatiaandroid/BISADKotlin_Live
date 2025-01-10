@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.school_trips
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -73,11 +74,14 @@ class TripCategoriesActivity : AppCompatActivity() {
     var studClass = ""
     var orderId = ""
     var stud_img = ""
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_trip)
         context = this
+        activity=this
         initialiseUI()
         var internetCheck = InternetCheckClass.isInternetAvailable(context)
         if (internetCheck)
@@ -232,7 +236,7 @@ class TripCategoriesActivity : AppCompatActivity() {
     private fun getTripCategories() {
       progressDialogP.show()
         val call: Call<TripCategoriesResponseModel> =
-            ApiClient.getClient.tripCategories("Bearer " + PreferenceData().getaccesstoken(context))
+            ApiClient(context).getClient.tripCategories("Bearer " + PreferenceData().getaccesstoken(context))
         call.enqueue(object : Callback<TripCategoriesResponseModel> {
             override fun onFailure(call: Call<TripCategoriesResponseModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -303,7 +307,7 @@ class TripCategoriesActivity : AppCompatActivity() {
         val token = PreferenceData().getaccesstoken(context)
         val sendMailBody = CanteenSendEmailApiModel( staffEmail, title, message)
         val call: Call<SendStaffEmailModel> =
-            ApiClient.getClient.sendEmailCanteen(sendMailBody, "Bearer " + token)
+            ApiClient(context).getClient.sendEmailCanteen(sendMailBody, "Bearer " + token)
         call.enqueue(object : Callback<SendStaffEmailModel> {
             override fun onFailure(call: Call<SendStaffEmailModel>, t: Throwable) {
                 CommonFunctions.faliurepopup(context)
@@ -353,6 +357,14 @@ class TripCategoriesActivity : AppCompatActivity() {
 
         })
 
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(context)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 
 }

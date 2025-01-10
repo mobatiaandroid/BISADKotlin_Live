@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.communication.magazine
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -63,6 +64,8 @@ class MagazineListActivity : AppCompatActivity() {
     var stopLoading=false
     var startValue:Int=0
     var limit:Int=20
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +86,7 @@ class MagazineListActivity : AppCompatActivity() {
 
     private fun initializeUI() {
         mContext=this
+        activity=this
         sharedprefs = PreferenceData()
         jsonConstans = JsonConstants()
         btn_left = findViewById(R.id.btn_left)
@@ -146,7 +150,7 @@ class MagazineListActivity : AppCompatActivity() {
         newsLetterArrayList= ArrayList()
         val token = sharedprefs.getaccesstoken(mContext)
         val notificationBody= MessageListApiModel(start,limit)
-        val call: Call<MagazineResponseModel> = ApiClient.getClient.magazineList(notificationBody,"Bearer "+token)
+        val call: Call<MagazineResponseModel> = ApiClient(mContext).getClient.magazineList(notificationBody,"Bearer "+token)
         call.enqueue(object : Callback<MagazineResponseModel> {
             override fun onFailure(call: Call<MagazineResponseModel>, t: Throwable) {
                 progressDialog.visibility = View.GONE
@@ -226,6 +230,14 @@ class MagazineListActivity : AppCompatActivity() {
 
         }
         dialog.show()
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 
 }

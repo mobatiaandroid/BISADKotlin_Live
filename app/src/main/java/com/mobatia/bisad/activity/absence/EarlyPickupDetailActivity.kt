@@ -1,5 +1,6 @@
 package com.mobatia.bisad.activity.absence
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.timepicker.TimeFormat
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.CommonFunctions
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,12 +38,15 @@ class EarlyPickupDetailActivity : AppCompatActivity(){
     var reason_pickup:String=""
     var status_pickup:String=""
     var reason_for_rejection:String=""
+    lateinit var activity: Activity
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_earlypickup_details)
         mContext = this
-init()
+        activity = this
+        init()
     }
 
     private fun init(){
@@ -115,5 +120,13 @@ init()
             startActivity(intent)
         }
 
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!CommonFunctions.runMethod.equals("Dev")) {
+            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+            }
+        }
     }
 }
