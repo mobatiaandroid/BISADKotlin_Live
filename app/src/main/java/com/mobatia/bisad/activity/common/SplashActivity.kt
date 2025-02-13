@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.os.Debug
 import android.os.Handler
 import android.provider.Settings
 import android.view.Window
@@ -27,6 +28,7 @@ import com.mobatia.bisad.constants.DebuggingChecker
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.AccessTokenClass
 import com.mobatia.bisad.rest.ApiClient
+import com.scottyab.rootbeer.RootBeer
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -67,9 +69,13 @@ class SplashActivity : AppCompatActivity() {
         var re_enroll = "1"
         sharedprefs.setreenrollvalue(mContext, re_enroll)
         val isDebuggingEnabled: Boolean = DebuggingChecker().isUsbDebuggingEnabled(mContext)
+        val rootBeer = RootBeer(this)
 
-        if (isDeviceRootedOrEmulator()) {
+        if (isDeviceRootedOrEmulator(mContext)) {
             showDeviceIsRootedPopUp(mContext)
+        } else if (rootBeer.isRooted()) {
+            Toast.makeText(this, "Root detected! App will close.", Toast.LENGTH_LONG).show()
+            finish()
         }
         else if (isDebuggingEnabled) {
 
@@ -119,7 +125,7 @@ class SplashActivity : AppCompatActivity() {
     /*  boolean isDebuggerConnected() {
         return Debug.isDebuggerConnected();
     }*/
-    fun isDeviceRootedOrEmulator(): Boolean {
+    fun isDeviceRootedOrEmulator(mContext: Context): Boolean {
         return (SplashActivity().isDeviceRooted()
                 || SplashActivity().isEmulator()
                 || SplashActivity().hasEmulatorFiles()
@@ -128,7 +134,7 @@ class SplashActivity : AppCompatActivity() {
                 || SplashActivity().isFridaLibraryLoaded()
                 || SplashActivity().isSuspiciousProcessRunning())
                 ||SplashActivity(). checkForRootBinaries()
-                ||SplashActivity(). checkForRootApps(context)
+                ||SplashActivity(). checkForRootApps(mContext)
                 ||SplashActivity(). detectJavaDebugger()
                 || SplashActivity().detect_threadCpuTimeNanos()
 
