@@ -33,7 +33,7 @@ class ApiClient(private val context: Context) {
 
             val certificatePinner = CertificatePinner.Builder()
 //                .add("nas2025.mobatia.in", "")
-                .add("delta.mobatia.in", "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=")
+                .add("delta.mobatia.in", "sha256/ohmltvh1K5StBefzEp0tYM2hSfbnru5lSGaCRVTHjmU=")
                 .build()
 
 

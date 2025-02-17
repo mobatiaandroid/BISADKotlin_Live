@@ -1,61 +1,116 @@
-# Gson
--keep class com.google.gson.** { *; }
--keep class * extends com.google.gson.TypeAdapter { *; }
+# Keep JetBrains annotations
+-keep class org.jetbrains.annotations.** { *; }
 
-# Retrofit & OkHttp
--dontwarn okhttp3.**
--dontwarn retrofit2.**
--keep class com.squareup.okhttp3.** { *; }
+# Keep OkHttp classes (if still facing issues)
+-keep class okhttp3.** { *; }
+-keep class com.squareup.okhttp.** { *; }
+
+# Keep Picasso classes (if needed)
+-keep class com.squareup.picasso.** { *; }
+
+# Keep Retrofit API interfaces
+-keep interface * { *; }
+
+# Keep Retrofit and OkHttp3 classes
 -keep class retrofit2.** { *; }
+-keep class okhttp3.** { *; }
+
+# Keep generic type arguments for Retrofit
 -keepattributes Signature
 -keepattributes *Annotation*
+
+# Prevent obfuscation of class names for Gson serialization/deserialization
+-keep class com.google.gson.** { *; }
+
+# Keep fields of model classes
+-keepclassmembers class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
 
 # Firebase
 -dontwarn com.google.firebase.**
 -keep class com.google.firebase.** { *; }
+-keepattributes *Annotation*
+-keep class com.google.android.gms.** { *; }
+-dontwarn com.google.android.gms.**
 
 # Play Services
 -dontwarn com.google.android.gms.**
 -keep class com.google.android.gms.** { *; }
 
 # Glide
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep class com.bumptech.glide.** { *; }
--keep class com.bumptech.glide.load.** { *; }
 -dontwarn com.bumptech.glide.**
 
-# Android Support Libraries (for backward compatibility)
--dontwarn android.support.**
--dontwarn androidx.**
--keep class androidx.** { *; }
+# AndroidX Security Crypto
+-keep class androidx.security.** { *; }
+-dontwarn androidx.security.**
 
-# Searchable Spinner
--dontwarn com.toptoche.searchablespinner.**
+# BouncyCastle Security Libraries
+-keep class org.bouncycastle.** { *; }
+-dontwarn org.bouncycastle.**
 
-# EasyPermissions
--dontwarn pub.devrel.easypermissions.**
--keep class pub.devrel.easypermissions.** { *; }
+# Conscrypt
+-keep class org.conscrypt.** { *; }
+-dontwarn org.conscrypt.**
 
-# RootBeer (Root Detection Library)
--dontwarn com.scottyab.rootbeer.**
+# OpenJSSE
+-keep class org.openjsse.** { *; }
+-dontwarn org.openjsse.**
+
+# Material Calendar View
+-keep class com.applandeo.** { *; }
+-dontwarn com.applandeo.**
+
+# Android PDF Viewer
+-keep class com.github.barteksc.pdfviewer.** { *; }
+-dontwarn com.github.barteksc.pdfviewer.**
+
+# PRDownloader
+-keep class com.mindorks.android.prdownloader.** { *; }
+-dontwarn com.mindorks.android.prdownloader.**
+
+# ShortcutBadger
+-keep class me.leolin.shortcutbadger.** { *; }
+-dontwarn me.leolin.shortcutbadger.**
+
+# Elegant Number Button
+-keep class com.cepheuen.elegantnumberbutton.** { *; }
+-dontwarn com.cepheuen.elegantnumberbutton.**
+
+# RootBeer Library
 -keep class com.scottyab.rootbeer.** { *; }
+-dontwarn com.scottyab.rootbeer.**
 
-# ExoPlayer
--dontwarn com.google.android.exoplayer.**
--keep class com.google.android.exoplayer.** { *; }
+# Tooltips Library
+-keep class com.ryanharter.android.tooltips.** { *; }
+-dontwarn com.ryanharter.android.tooltips.**
 
-# Digital Signature Library
--dontwarn com.github.gcacace.signaturepad.**
+# Signature Pad
 -keep class com.github.gcacace.signaturepad.** { *; }
+-dontwarn com.github.gcacace.signaturepad.**
 
-# Picasso
--keep class com.squareup.picasso.** { *; }
--dontwarn com.squareup.picasso.**
+# Payment SDK (Network International)
+-keep class com.network.** { *; }
+-dontwarn com.network.**
 
+# Samsung Payment SDK
+-keep class com.network.samsungpay.** { *; }
+-dontwarn com.network.samsungpay.**
 
+# Mockito (For Testing)
+-dontwarn org.mockito.**
+-keep class org.mockito.** { *; }
 
-# Security Crypto (AndroidX)
--keep class androidx.security.crypto.** { *; }
--dontwarn androidx.security.crypto.**
+# General Keep Rules
+-keepattributes *Annotation*
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+-keepclassmembers class * {
+    @androidx.annotation.Keep <methods>;
+}
 
 -keep class com.mobatia.bisad.activity.absence.model.EarlyPickupListModel { *; }
 -keep class com.mobatia.bisad.activity.absence.model.EarlyPickupModel { *; }
