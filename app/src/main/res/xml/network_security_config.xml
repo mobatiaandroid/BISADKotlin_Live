@@ -2,16 +2,11 @@
 <network-security-config>
     <base-config cleartextTrafficPermitted="false" /><!--For allowing HTTP-->
     <domain-config cleartextTrafficPermitted="false">
-        <domain includeSubdomains="true">192.168.0.153</domain>
-        <domain includeSubdomains="true">192.168.0.166</domain>
-        <domain includeSubdomains="true">bisad.mobatia.in</domain>
-        <domain includeSubdomains="true">stagingcms.bisad.ae</domain>
+
+        <domain includeSubdomains="true">delta.mobatia.in</domain>
         <domain includeSubdomains="true">mobile.bisad.ae</domain>
         <domain includeSubdomains="true">twitter.com</domain>
-        <domain includeSubdomains="true">beta.mobatia.in</domain>
-        <domain includeSubdomains="true">gama.mobatia.in:8080</domain>
-        <domain includeSubdomains="true">gama.mobatia.in</domain>
-        <domain includeSubdomains="true">ec2-3-85-200-232.compute-1.amazonaws.com</domain>
+
 
     </domain-config>
 </network-security-config>
