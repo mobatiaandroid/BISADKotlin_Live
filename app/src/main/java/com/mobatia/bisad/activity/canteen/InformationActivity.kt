@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -78,6 +79,11 @@ class InformationActivity : AppCompatActivity() {
                     {
                         recyclerview.layoutManager = LinearLayoutManager(mContext)
                         recyclerview.adapter = Canteeninfo_adapter(response.body()!!.responseArray.information, mContext)
+                    }
+                    else
+                    {
+                        Toast.makeText(mContext, "No Data Found", Toast.LENGTH_SHORT).show()
+
                     }
 
 

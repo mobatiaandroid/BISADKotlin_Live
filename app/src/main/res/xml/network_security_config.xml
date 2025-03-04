@@ -7,6 +7,5 @@
         <domain includeSubdomains="true">mobile.bisad.ae</domain>
         <domain includeSubdomains="true">twitter.com</domain>
 
-
     </domain-config>
 </network-security-config>

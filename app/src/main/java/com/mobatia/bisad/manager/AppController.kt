@@ -11,6 +11,8 @@ class AppController : MultiDexApplication() {
     var mListImgArrays: TypedArray? = null
     var mTitles: String? = null
     var trip_name: String? = null
+    var reciver:String="0"
+
     override fun onCreate() {
         super.onCreate()
 

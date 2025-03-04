@@ -10,8 +10,8 @@ android {
         applicationId "com.mobatia.bisad"
         minSdkVersion 27
         targetSdkVersion 34
-        versionCode 44
-        versionName "3.2.5"
+        versionCode 48
+        versionName "3.3.2"
         multiDexEnabled true
         generatedDensities = []
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -34,8 +34,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true // Removes unused resources
+            minifyEnabled false
+            shrinkResources false // Removes unused resources
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             debuggable false
         }

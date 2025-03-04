@@ -115,7 +115,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
 
         }
         else{
-            InternetCheckClass.showSuccessInternetAlert(com.mobatia.bisad.fragment.home.mContext)
+            InternetCheckClass.showSuccessInternetAlert(nContext)
         }
         studentSpinner.setOnClickListener(){
             showStudentList(nContext,studentListArrayList)
@@ -481,7 +481,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
         val tsLong = System.currentTimeMillis() / 1000
         val ts = tsLong.toString()
         var mechantorderRef=invoice_ref+"-"+ts
-        val token = PreferenceData().getaccesstoken(com.mobatia.bisad.fragment.home.mContext)
+        val token = PreferenceData().getaccesstoken(nContext)
         val paymentGatewayBody = PaymentGatewayApiModel(amount,PreferenceData().getUserEmail(nContext).toString(),
             mechantorderRef,studentName,"","BISAD","","Abu Dhabi",
             payment_token)
@@ -516,7 +516,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
                         }else {
                             if (response.body()!!.status==116) {
                                 //call Token Expired
-                                AccessTokenClass.getAccessToken(com.mobatia.bisad.fragment.home.mContext)
+                                AccessTokenClass.getAccessToken(nContext)
                                 var amt:Int=payAmount.toInt() * 100
                                 callForPayment(payment_token,payAmount)
                             } else {
@@ -632,7 +632,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
                         }else {
                             if (response.body()!!.status==116) {
                                 //call Token Expired
-                                AccessTokenClass.getAccessToken(com.mobatia.bisad.fragment.home.mContext)
+                                AccessTokenClass.getAccessToken(nContext)
                                 paySuccessApi()
                             } else {
                                 if (response.body()!!.status==103) {

@@ -1,5 +1,6 @@
 package com.mobatia.bisad.pdfviewer
 
+import android.app.Activity
 import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -8,6 +9,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.animation.Animation
@@ -23,14 +25,17 @@ import com.downloader.PRDownloader
 import com.github.barteksc.pdfviewer.PDFView
 import com.mobatia.bisad.R
 import com.mobatia.bisad.activity.home.HomeActivity
+import com.mobatia.bisad.constants.MyBroadcastReceiver
 import com.mobatia.bisad.fragment.home.mContext
+import com.mobatia.bisad.manager.AppController
 import java.io.File
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "DEPRECATION")
+lateinit var progressBar: RelativeLayout
+
 class PdfViewer : AppCompatActivity() {
     lateinit var pdfviewer: PDFView
     lateinit var urltoshow: String
-    lateinit var progressBar: RelativeLayout
     lateinit var btn_left: ImageView
     lateinit var sharepdf: ImageView
     lateinit var downloadpdf: ImageView
@@ -78,6 +83,7 @@ class PdfViewer : AppCompatActivity() {
             fileName
         )
         downloadpdf.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                     requestPermissions(
@@ -135,18 +141,23 @@ class PdfViewer : AppCompatActivity() {
     }
 
      fun onDownloadComplete() {
-        val onComplete = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                progressBar.visibility = View.GONE
-                Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show()
+         val onComplete = object : MyBroadcastReceiver() {
 
-            }
+             override fun onReceive(context: Context?, intent: Intent?) {
+                 // Ensure that the UI update happens on the main thread
+                 context?.let {
+                     (it as Activity).runOnUiThread {
 
-        }
-        registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+                         Toast.makeText(it, "File downloaded", Toast.LENGTH_SHORT).show()
+                     }
+                 }
+             }
+         }
+      //  registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }
 
     private fun startdownloading() {
+        progressBar.visibility = View.VISIBLE
         val request = DownloadManager.Request(Uri.parse(urltoshow))   //URL = URL to download
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
         request.setTitle("Download")
@@ -154,7 +165,6 @@ class PdfViewer : AppCompatActivity() {
         request.allowScanningByMediaScanner()
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "$title.pdf")
-        progressBar.visibility = View.VISIBLE
         val manager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         manager.enqueue(request)
     }
@@ -214,5 +224,17 @@ class PdfViewer : AppCompatActivity() {
 
     override fun onBackPressed() {
         finish()
+    }
+    fun receiveroption()
+    {
+        if (AppController().reciver.equals("0"))
+        {
+            progressBar.visibility=View.GONE
+        }
+        else
+        {
+            progressBar.visibility=View.VISIBLE
+
+        }
     }
 }

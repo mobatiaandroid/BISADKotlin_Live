@@ -23,7 +23,7 @@ import java.security.GeneralSecurityException
 
 @Suppress("DEPRECATION")
 class PreferenceData {
-    private val PREFSNAME_BISAD = "encrypted_bisad_prefs"
+    private val PREFSNAME = "encrypted_bisad_prefs"
 
 
     /**
@@ -35,7 +35,7 @@ class PreferenceData {
             val masterKeyAlias: String = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
             return EncryptedSharedPreferences.create(
-                PreferenceData().PREFSNAME_BISAD,
+                PreferenceData().PREFSNAME,
                 masterKeyAlias,
                 context,
                 EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
@@ -67,15 +67,18 @@ class PreferenceData {
     }
 
     fun setreenrollvalue(context:Context,value:String){
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("value", value)
         editor.apply()
     }
     fun getreenrollvalue(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("value", "")
     }
     /**
@@ -83,8 +86,9 @@ class PreferenceData {
      */
 
     fun setbuttononetabid(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_onetabid", id)
         editor.apply()
@@ -95,14 +99,17 @@ class PreferenceData {
      */
 
     fun getbuttononetabid(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_onetabid", "1")
     }
 
     fun setbuttontwotabid(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_twotabid", id)
         editor.apply()
@@ -113,14 +120,17 @@ class PreferenceData {
      */
 
     fun getbuttontwotabid(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_twotabid", "4")
     }
 
     fun setbuttonthreetabid(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_threetabid", id)
         editor.apply()
@@ -131,14 +141,17 @@ class PreferenceData {
      */
 
     fun getbuttonthreetabid(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_threetabid", "14")
     }
 
     fun setbuttonfourtabid(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_fourtabid", id)
         editor.apply()
@@ -149,14 +162,17 @@ class PreferenceData {
      */
 
     fun getbuttonfourtabid(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_fourtabid", "15")
     }
 
     fun setbuttonfivetabid(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_fivetabid", id)
         editor.apply()
@@ -167,14 +183,17 @@ class PreferenceData {
      */
 
     fun getbuttonfivetabid(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_fivetabid", "2")
     }
 
     fun setbuttonsixtabid(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_sixtabid", id)
         editor.apply()
@@ -185,14 +204,17 @@ class PreferenceData {
      */
 
     fun getbuttonsixtabid(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_sixtabid", "3")
     }
 
     fun setbuttonseventabid(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_seventabid", id)
         editor.apply()
@@ -203,14 +225,17 @@ class PreferenceData {
      */
 
     fun getbuttonseventabid(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_seventabid", "8")
     }
 
     fun setbuttoneighttabid(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_eighttabid", id)
         editor.apply()
@@ -221,14 +246,17 @@ class PreferenceData {
      */
 
     fun getbuttoneighttabid(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_eighttabid", "6")
     }
 
     fun setbuttonninetabid(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_ninetabid", id)
         editor.apply()
@@ -239,8 +267,10 @@ class PreferenceData {
      */
 
     fun getbuttonninetabid(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_ninetabid", "16")
     }
 
@@ -250,8 +280,9 @@ class PreferenceData {
      */
 
     fun setbuttononetextimage(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_onetextimage", id)
         editor.apply()
@@ -262,14 +293,17 @@ class PreferenceData {
      */
 
     fun getbuttononetextimage(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_onetextimage", "1")
     }
 
     fun setbuttontwotextimage(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_twotextimage", id)
         editor.apply()
@@ -280,14 +314,17 @@ class PreferenceData {
      */
 
     fun getbuttontwotextimage(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_twotextimage", "4")
     }
 
     fun setbuttonthreetextimage(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_threetextimage", id)
         editor.apply()
@@ -298,14 +335,17 @@ class PreferenceData {
      */
 
     fun getbuttonthreetextimage(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_threetextimage", "14")
     }
 
     fun setbuttonfourtextimage(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_fourtextimage", id)
         editor.apply()
@@ -316,14 +356,17 @@ class PreferenceData {
      */
 
     fun getbuttonfourtextimage(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_fourtextimage", "15")
     }
 
     fun setbuttonfivetextimage(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_fivetextimage", id)
         editor.apply()
@@ -334,14 +377,17 @@ class PreferenceData {
      */
 
     fun getbuttonfivetextimage(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_fivetextimage", "2")
     }
 
     fun setbuttonsixtextimage(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_sixtextimage", id)
         editor.apply()
@@ -352,14 +398,17 @@ class PreferenceData {
      */
 
     fun getbuttonsixtextimage(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_sixtextimage", "3")
     }
 
     fun setbuttonseventextimage(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_seventextimage", id)
         editor.apply()
@@ -370,14 +419,17 @@ class PreferenceData {
      */
 
     fun getbuttonseventextimage(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_seventextimage", "8")
     }
 
     fun setbuttoneighttextimage(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_eighttextimage", id)
         editor.apply()
@@ -388,14 +440,17 @@ class PreferenceData {
      */
 
     fun getbuttoneighttextimage(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_eighttextimage", "6")
     }
 
     fun setbuttonninetextimage(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("button_ninetextimage", id)
         editor.apply()
@@ -406,22 +461,27 @@ class PreferenceData {
      */
 
     fun getbuttonninetextimage(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("button_ninetextimage", "16")
     }
 
     fun setButtonOneGuestBg(context: Context, color: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("buttononeguestbg", color)
         editor.apply()
     }
 
     fun getButtonOneGuestBg(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt(
             "buttononeguestbg", context.resources
                 .getColor(R.color.transparent)
@@ -429,16 +489,19 @@ class PreferenceData {
     }
 
     fun setButtontwoGuestBg(context: Context, color: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("buttontwoguestbg", color)
         editor.apply()
     }
 
     fun getButtontwoGuestBg(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt(
             "buttontwoguestbg", context.resources
                 .getColor(R.color.transparent)
@@ -446,16 +509,19 @@ class PreferenceData {
     }
 
     fun setButtonthreeGuestBg(context: Context, color: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("buttonthreeguestbg", color)
         editor.apply()
     }
 
     fun getButtonthreeGuestBg(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt(
             "buttonthreeguestbg", context.resources
                 .getColor(R.color.transparent)
@@ -463,16 +529,19 @@ class PreferenceData {
     }
 
     fun setButtonfourGuestBg(context: Context, color: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("buttonfourguestbg", color)
         editor.apply()
     }
 
     fun getButtonfourGuestBg(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt(
             "buttonfourguestbg", context.resources
                 .getColor(R.color.transparent)
@@ -480,16 +549,19 @@ class PreferenceData {
     }
 
     fun setButtonfiveGuestBg(context: Context, color: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("buttonfiveguestbg", color)
         editor.apply()
     }
 
     fun getButtonfiveGuestBg(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt(
             "buttonfiveguestbg", context.resources
                 .getColor(R.color.transparent)
@@ -497,16 +569,19 @@ class PreferenceData {
     }
 
     fun setButtonsixGuestBg(context: Context, color: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("buttonsixguestbg", color)
         editor.apply()
     }
 
     fun getButtonsixGuestBg(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt(
             "buttonsixguestbg", context.resources
                 .getColor(R.color.transparent)
@@ -514,16 +589,19 @@ class PreferenceData {
     }
 
     fun setButtonsevenGuestBg(context: Context, color: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("buttonsevenguestbg", color)
         editor.apply()
     }
 
     fun getButtonsevenGuestBg(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt(
             "buttonsevenguestbg", context.resources
                 .getColor(R.color.transparent)
@@ -531,16 +609,19 @@ class PreferenceData {
     }
 
     fun setButtoneightGuestBg(context: Context, color: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("buttoneightguestbg", color)
         editor.apply()
     }
 
     fun getButtoneightGuestBg(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt(
             "buttoneightguestbg", context.resources
                 .getColor(R.color.transparent)
@@ -548,16 +629,19 @@ class PreferenceData {
     }
 
     fun setButtonnineGuestBg(context: Context, color: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("buttonnineguestbg", color)
         editor.apply()
     }
 
     fun getButtonnineGuestBg(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt(
             "buttonnineguestbg", context.resources
                 .getColor(R.color.transparent)
@@ -571,8 +655,9 @@ class PreferenceData {
      */
 
     fun setUserID(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("user_id", id)
         editor.apply()
@@ -580,13 +665,16 @@ class PreferenceData {
 
 
     fun getUserID(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("user_id", "")
     }
     fun setUserEmail(context: Context, email: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("email", email)
         editor.apply()
@@ -594,15 +682,18 @@ class PreferenceData {
 
 
     fun getUserEmail(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("email", "")
     }
 
     /*SET USER CODE*/
     fun setUserCode(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("user_code", id)
         editor.apply()
@@ -610,15 +701,18 @@ class PreferenceData {
 
     /*GET USER CODE*/
     fun getUserCode(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("user_code", "")
     }
 
     /*SET FIRE BASE ID*/
     fun setFcmID(context: Context, id: String) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("firebase id", id)
         editor.apply()
@@ -626,15 +720,18 @@ class PreferenceData {
 
     /*GET FIREBASE ID*/
     fun getFcmID(context: Context): String {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("firebase id", "").toString()
     }
 
     /*SET STUDENT_ID*/
     fun setStudentID(context: Context, id: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("student_id", id)
         editor.apply()
@@ -642,14 +739,17 @@ class PreferenceData {
 
     /*GET STUDENT_ID*/
     fun getStudentID(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("student_id", "")
     }
     /*SET STUDENT_NAME*/
     fun setStudentName(context: Context, name: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("student_name", name)
         editor.apply()
@@ -657,14 +757,17 @@ class PreferenceData {
 
     /*GET STUDENT_NAME*/
     fun getStudentName(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("student_name", "")
     }
     /*SET STUDENT_PHOTO*/
     fun setStudentPhoto(context: Context, photo: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("student_img", photo)
         editor.apply()
@@ -672,14 +775,17 @@ class PreferenceData {
 
     /*GET STUDENT_NAME*/
     fun getStudentPhoto(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("student_img", "")
     }
     /*SET STUDENT_PHOTO*/
     fun setStudentClass(context: Context, studClass: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("student_class", studClass)
         editor.apply()
@@ -687,16 +793,19 @@ class PreferenceData {
 
     /*GET STUDENT_NAME*/
     fun getStudentClass(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("student_class", "")
     }
 
 
     /*SET APP VERSION*/
     fun setAppVersion(context: Context, appVersion: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("app_version", appVersion)
         editor.apply()
@@ -704,15 +813,18 @@ class PreferenceData {
 
     /*GET APP VERSION*/
     fun getAppVersion(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("app_version", "")
     }
 
     /*SET DATA COLLECTION*/
     fun setDataCollection(context: Context, dataCollection: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("data_collection", dataCollection)
         editor.apply()
@@ -720,15 +832,18 @@ class PreferenceData {
 
     /*GET DATA COLLECTION*/
     fun getDataCollection(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt("data_collection", 0)
     }
 
     /*SET DATA COLLECTION*/
     fun setDataCollectionShown(context: Context, dataCollection: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("data_collection_shown", dataCollection)
         editor.apply()
@@ -736,15 +851,18 @@ class PreferenceData {
 
     /*GET DATA COLLECTION*/
     fun getDataCollectionShown(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt("data_collection_shown", 0)
     }
 
     /*SET TRIGGER TYPE*/
     fun setTriggerType(context: Context, triggerType: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("trigger_type", triggerType)
         editor.apply()
@@ -752,15 +870,18 @@ class PreferenceData {
 
     /*GET TRIGGER TYPE*/
     fun getTriggerType(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt("trigger_type", 0)
     }
 
     /*SET ALREADY TRIGGERED*/
     fun setAlreadyTriggered(context: Context, alreadyTrigger: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("already_triggered", alreadyTrigger)
         editor.apply()
@@ -768,14 +889,16 @@ class PreferenceData {
 
     /*GET ALREADY TRIGGERED*/
     fun getAlreadyTriggered(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt("already_triggered", 0)
     }
 
     /*SET ALREADY TRIGGERED*/
     fun setCountryArrayList(context: Context, countryArrayList: ArrayList<CountryiesDetailModel>) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
+        val prefs = context.getSharedPreferences(PREFSNAME, Context.MODE_PRIVATE)
         val editor = prefs.edit()
         val gson = Gson()
         val json = gson.toJson(countryArrayList)
@@ -784,8 +907,10 @@ class PreferenceData {
     }
     /*GET ALREADY TRIGGERED*/
     fun getCountryArrayList(context: Context): ArrayList<CountryiesDetailModel> {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         val gson = Gson()
         val json = prefs.getString("country_array", null)
         val type = object : TypeToken<java.util.ArrayList<CountryiesDetailModel?>?>() {}.type
@@ -794,7 +919,7 @@ class PreferenceData {
 
     /*SET ALREADY TRIGGERED*/
     fun setRelationShipArrayList(context: Context, countryArrayList: ArrayList<RelationShipDetailModel>) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
+        val prefs = context.getSharedPreferences(PREFSNAME, Context.MODE_PRIVATE)
         val editor = prefs.edit()
         val gson = Gson()
         val json = gson.toJson(countryArrayList)
@@ -803,8 +928,10 @@ class PreferenceData {
     }
     /*GET ALREADY TRIGGERED*/
     fun getRelationShipArrayList(context: Context): ArrayList<RelationShipDetailModel> {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         val gson = Gson()
         val json = prefs.getString("relationship", null)
         val type = object : TypeToken<java.util.ArrayList<RelationShipDetailModel?>?>() {}.type
@@ -812,7 +939,7 @@ class PreferenceData {
     }
     /*SET ALREADY TRIGGERED*/
     fun setTitleArrayList(context: Context, titleArrayList: ArrayList<TitlesArrayList>) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
+        val prefs = context.getSharedPreferences(PREFSNAME, Context.MODE_PRIVATE)
         val editor = prefs.edit()
         val gson = Gson()
         val json = gson.toJson(titleArrayList)
@@ -821,8 +948,10 @@ class PreferenceData {
     }
     /*GET ALREADY TRIGGERED*/
     fun getTitleArrayList(context: Context): ArrayList<TitlesArrayList> {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         val gson = Gson()
         val json = prefs.getString("title_array", "")
         val type = object : TypeToken<java.util.ArrayList<TitlesArrayList?>?>() {}.type
@@ -830,7 +959,7 @@ class PreferenceData {
     }
     /*SET ALREADY TRIGGERED*/
     fun setStudentArrayList(context: Context, studentArrayList: ArrayList<StudentListDataCollection>) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
+        val prefs = context.getSharedPreferences(PREFSNAME, Context.MODE_PRIVATE)
         val editor = prefs.edit()
         val gson = Gson()
         val json = gson.toJson(studentArrayList)
@@ -839,8 +968,10 @@ class PreferenceData {
     }
     /*GET ALREADY TRIGGERED*/
     fun getStudentArrayList(context: Context): ArrayList<StudentListDataCollection> {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         val gson = Gson()
         val json = prefs.getString("student_array", null)
         val type = object : TypeToken<java.util.ArrayList<StudentListDataCollection?>?>() {}.type
@@ -940,8 +1071,9 @@ class PreferenceData {
     }
     /*SET TRIGGER TYPE*/
     fun setIsAlreadyEnteredOwn(context: Context, alreadyEntered: Boolean) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putBoolean("already_entered_own", alreadyEntered)
         editor.apply()
@@ -949,14 +1081,17 @@ class PreferenceData {
 
     /*GET TRIGGER TYPE*/
     fun getIsAlreadyEnteredOwn(context: Context): Boolean {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getBoolean("already_entered_own", false)
     }
     /*SET TRIGGER TYPE*/
     fun setIsAlreadyEnteredKin(context: Context, alreadyEntered: Boolean) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putBoolean("already_entered_kin", alreadyEntered)
         editor.apply()
@@ -964,15 +1099,18 @@ class PreferenceData {
 
     /*GET TRIGGER TYPE*/
     fun getIsAlreadyEnteredKin(context: Context): Boolean {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getBoolean("already_entered_kin", false)
     }
 
     /*SET STUDENT_ID*/
     fun setSuspendTrigger(context: Context, suspend: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("SuspendTrigger", suspend)
         editor.apply()
@@ -980,14 +1118,17 @@ class PreferenceData {
 
     /*GET STUDENT_ID*/
     fun getSuspendTrigger(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("SuspendTrigger", "0")
     }
     /*SET STUDENT_ID*/
     fun setDisplayMessage(context: Context, suspend: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("display_message", suspend)
         editor.apply()
@@ -995,91 +1136,111 @@ class PreferenceData {
 
     /*GET STUDENT_ID*/
     fun getDisplayMessage(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("display_message", "")
     }
 
     fun setIsFirstTimeInPE(context: Context, result: Boolean) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putBoolean("is_first_pe", result)
         editor.apply()
     }
     fun getIsFirstTimeInPE(context: Context): Boolean {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getBoolean("is_first_pe", true)
     }
     fun setTrnNo(context: Context, trn_no: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("trn_no", trn_no)
         editor.apply()
     }
 
     fun getTrnNo(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("trn_no", "")
     }
     fun setTrnPayment(context: Context, trn_pay: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("trn_pay", trn_pay)
         editor.apply()
     }
 
     fun getTrnPayment(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("trn_pay", "")
     }
 
     fun setCanteenTopUpLimit(context: Context, topUpLimit: String?) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putString("topUpLimit", topUpLimit)
         editor.apply()
     }
 
     fun getCanteenTopUpLimit(context: Context): String? {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getString("topUpLimit", "")
     }
 
     fun setcartamounttotal(context: Context, result: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("cartamounttotal", result)
         editor.apply()
     }
 
     fun getcartamounttotal(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt(
             "cartamounttotal", context.resources
                 .getColor(R.color.transparent)
         )
     }
     fun setwalletAmout(context: Context, color: Int) {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
         val editor = prefs.edit()
         editor.putInt("walletamount", color)
         editor.apply()
     }
 
     fun getWalletAmount(context: Context): Int {
-        val prefs: SharedPreferences = PreferenceData().getEncryptedSharedPreferences(context)!!
-
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
         return prefs.getInt(
             "walletamount", context.resources
                 .getColor(R.color.transparent)

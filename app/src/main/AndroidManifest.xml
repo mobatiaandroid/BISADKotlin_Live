@@ -344,6 +344,13 @@
         <!-- <action android:name="com.google.firebase.MESSAGING_EVENT"/> -->
         <!-- </intent-filter> -->
         <!-- </service> -->
+        <receiver
+            android:name=".constants.MyBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
         <service
             android:name=".fcmservice.MyFirebaseMessagingService"
             android:enabled="true"

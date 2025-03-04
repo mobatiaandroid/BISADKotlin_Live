@@ -1604,7 +1604,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
             dialog.findViewById<View>(R.id.btnUpdate) as Button
 
         btnUpdate.setOnClickListener {
-            dialog.dismiss()
+          //  dialog.dismiss()
             val appPackageName =
                 mContext.packageName
             try {

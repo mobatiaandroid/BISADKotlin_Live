@@ -1,7 +1,6 @@
 package com.mobatia.bisad.activity.school_trips
 
 import android.Manifest
-import android.R.attr.path
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -20,7 +19,6 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Html
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -250,7 +248,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
     lateinit var mProgressRelLayout: ProgressBar
     lateinit var activity: Activity
 
-
+    var tripDetail: TripDetailsResponseModel.TripData? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -296,6 +294,7 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
                     progressDialogP.dismiss()
                     imagesArray = java.util.ArrayList()
                     if (response.body()!!.getResponseCode()==100) {
+                        tripDetail=response.body()!!.getResponse()!!.data!!
                         if (response.body()!!.getResponse()!!.data!!.tripImage!!.size > 0) {
 
 //                            Glide.with(context).load(AppUtils.replace(response.body().getResponse().getData().getTripImage().get(0))).placeholder(R.drawable.default_banner).into(tripMainBanner);
@@ -2353,6 +2352,11 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         val ts = tsLong.toString()
      //   var mechantorderRef=invoice_ref+"-"+ts
          merchantOrderReference="BISTRIPAND$ts"
+        val installmentIds: List<Int> =
+          getAllInstallmentIds(
+              tripDetail
+            )
+
 
         val token = PreferenceData().getaccesstoken(context)
         val paymentGatewayBody = PaymentGatewayApiModelTrip(strDouble,PreferenceData().getUserEmail(context).toString(),
@@ -2719,6 +2723,58 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         }
         return true
     }
+
+    fun getAllInstallmentIds(tripDetail: TripDetailsResponseModel.TripData?): List<Int> {
+        val installmentIds: MutableList<Int> = java.util.ArrayList()
+        if (tripDetail?.installmentDetails != null) {
+            for (installment in tripDetail.installmentDetails!!) {
+                installmentIds.add(installment.id)
+            }
+        }
+        return installmentIds
+    } //    public void callSubmitDocumentAPI(){
+
+    //
+    //        APIInterface service = APIClient.getRetrofitInstance(mContext).create(APIInterface.class);
+    //        Call<TripCategoriesResponseModel> call = service.tripCategories("Bearer " + PreferenceManager.getAccessToken(context));
+    //        call.enqueue(new Callback<TripCategoriesResponseModel>() {});
+    //
+    //
+    //        Retrofit retrofit = APIClient.getClient(BASE_URL);
+    //        APIInterface apiInterface = retrofit.create(APIInterface.class);
+    //
+    //        // Create request body for image file
+    //        RequestBody requestFile = RequestBody.create(MEDIA_TYPE_IMAGE, imageFile);
+    //        MultipartBody.Part body = MultipartBody.Part.createFormData("image", imageFile.getName(), requestFile);
+    //
+    //        // Create request body for form data
+    //        RequestBody actionBody = RequestBody.create(MediaType.parse("text/plain"), action);
+    //        RequestBody tripItemIdBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(tripItemId));
+    //        RequestBody studentIdBody = RequestBody.create(MediaType.parse("text/plain"), studentId);
+    //        RequestBody cardNumberBody = RequestBody.create(MediaType.parse("text/plain"), cardNumber);
+    //
+    //        // Create authorization header
+    //        String bearerToken = "Bearer " + authToken;
+    //        Headers headers = new Headers.Builder()
+    //                .add("Authorization", bearerToken)
+    //                .build();
+    //
+    //        try {
+    //            Response<String> response = apiInterface.uploadImageWithFormDataAndAuth(headers, body, actionBody, tripItemIdBody, studentIdBody, cardNumberBody).execute();
+    //            if (response.isSuccessful()) {
+    //                // Image upload successful
+    //                String responseBody = response.body();
+    //                return responseBody;
+    //            } else {
+    //                // Image upload failed
+    //                return "Image upload failed";
+    //            }
+    //        } catch (IOException e) {
+    //            // Error handling
+    //            e.printStackTrace();
+    //            return "Error: " + e.getMessage();
+    //        }
+    //    }
     override fun onResume() {
         super.onResume()
         if (!CommonFunctions.runMethod.equals("Dev")) {

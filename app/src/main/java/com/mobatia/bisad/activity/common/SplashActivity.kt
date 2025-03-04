@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.os.Debug
 import android.os.Handler
 import android.provider.Settings
+import android.util.Log
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
@@ -77,10 +78,10 @@ class SplashActivity : AppCompatActivity() {
             Toast.makeText(this, "Root detected! App will close.", Toast.LENGTH_LONG).show()
             finish()
         }
-       /* else if (isDebuggingEnabled) {
+        else if (isDebuggingEnabled) {
 
            Toast.makeText(mContext, "This app does not support debugging", Toast.LENGTH_SHORT).show();
-       }*/
+       }
         else if (!CommonFunctions.runMethod.equals("Dev"))
         {
             if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
@@ -93,7 +94,6 @@ class SplashActivity : AppCompatActivity() {
                         finish()
                     } else {
                         var accessTokenValue = AccessTokenClass.getAccessToken(mContext)
-
                         callDeviceRegistrationApi()
                         sharedprefs.setSuspendTrigger(mContext, "0")
                         startActivity(Intent(this, HomeActivity::class.java))

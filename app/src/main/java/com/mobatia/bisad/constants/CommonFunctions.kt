@@ -28,7 +28,7 @@ class CommonFunctions {
     companion object{
 
         lateinit var cart_list: ArrayList<CanteenCartResModel>
-        var runMethod: String = "Dev"
+        var runMethod: String = "client"
 
 
         fun faliurepopup(context: Context) {
@@ -234,7 +234,7 @@ class CommonFunctions {
             dialog.setContentView(R.layout.alert_dialogue_ok_layout)
             val icon = dialog.findViewById<ImageView>(R.id.iconImageView)
             icon.setBackgroundResource(R.drawable.round)
-            icon.setImageResource(R.drawable.alert)
+            icon.setImageResource(R.drawable.exclamationicon)
             val text = dialog.findViewById<TextView>(R.id.text_dialog)
             val textHead = dialog.findViewById<TextView>(R.id.alertHead)
             text.text =

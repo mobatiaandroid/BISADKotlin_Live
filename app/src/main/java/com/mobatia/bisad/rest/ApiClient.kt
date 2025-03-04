@@ -17,10 +17,10 @@ import javax.net.ssl.X509TrustManager
 
 class ApiClient(private val context: Context) {
     //dev
-    var BASE_URL = "https://delta.mobatia.in:8083/bisadv10/public/api/v1/"
+ //   var BASE_URL = "https://delta.mobatia.in:8083/bisadv10/public/api/v1/"
 
     //Live
-    //var BASE_URL = "https://mobile.bisad.ae/api/v1/"
+    var BASE_URL = "https://mobile.bisad.ae/api/v1/"
     //var BASE_URL = "http://beta.mobatia.in:81/bisad_demo/api/"
     // var BASE_URL ="http://192.168.0.166/bisadv8/"
 
@@ -34,6 +34,7 @@ class ApiClient(private val context: Context) {
             val certificatePinner = CertificatePinner.Builder()
 //                .add("nas2025.mobatia.in", "")
                 .add("delta.mobatia.in", "sha256/ohmltvh1K5StBefzEp0tYM2hSfbnru5lSGaCRVTHjmU=")
+                .add("mobile.bisad.ae", "sha256/igyuoGmeq2uH6W7vKJHjxo1ZsVkYvm/w/9FU8+8YKEc=")
                 .build()
 
 

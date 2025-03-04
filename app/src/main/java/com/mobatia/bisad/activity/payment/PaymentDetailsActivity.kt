@@ -313,7 +313,7 @@ getpaymenttoken()
                         }else {
                             if (response.body()!!.status==116) {
                                 //call Token Expired
-                                AccessTokenClass.getAccessToken(com.mobatia.bisad.fragment.home.mContext)
+                                AccessTokenClass.getAccessToken(context)
                                 getpaymenttoken()
                             } else {
                                 if (response.body()!!.status==103) {
@@ -338,7 +338,7 @@ getpaymenttoken()
         val tsLong = System.currentTimeMillis() / 1000
         val ts = tsLong.toString()
         var mechantorderRef=invoice_ref+"-"+ts
-        val token = PreferenceData().getaccesstoken(com.mobatia.bisad.fragment.home.mContext)
+        val token = PreferenceData().getaccesstoken(context)
         val paymentGatewayBody = PaymentGatewayApiModel(amount,PreferenceData().getUserEmail(context).toString(),
             mechantorderRef,student_name,"","BISAD","","Abu Dhabi",
         payment_token)
@@ -374,7 +374,7 @@ getpaymenttoken()
                         }else {
                             if (response.body()!!.status==116) {
                                 //call Token Expired
-                                AccessTokenClass.getAccessToken(com.mobatia.bisad.fragment.home.mContext)
+                                AccessTokenClass.getAccessToken(context)
                                 getpaymenttoken()
                             } else {
                                 if (response.body()!!.status==103) {
