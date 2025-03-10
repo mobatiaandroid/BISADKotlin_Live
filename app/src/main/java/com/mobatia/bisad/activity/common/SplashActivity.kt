@@ -78,10 +78,10 @@ class SplashActivity : AppCompatActivity() {
             Toast.makeText(this, "Root detected! App will close.", Toast.LENGTH_LONG).show()
             finish()
         }
-        else if (isDebuggingEnabled) {
+       /* else if (isDebuggingEnabled) {
 
            Toast.makeText(mContext, "This app does not support debugging", Toast.LENGTH_SHORT).show();
-       }
+       }*/
         else if (!CommonFunctions.runMethod.equals("Dev"))
         {
             if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
@@ -133,9 +133,9 @@ class SplashActivity : AppCompatActivity() {
                 || SplashActivity().isFridaRunning()
                 || SplashActivity().isFridaLibraryLoaded()
                 || SplashActivity().isSuspiciousProcessRunning())
-                ||SplashActivity(). checkForRootBinaries()
-                ||SplashActivity(). checkForRootApps(mContext)
-                ||SplashActivity(). detectJavaDebugger()
+                || SplashActivity(). checkForRootBinaries()
+                || SplashActivity(). checkForRootApps(mContext)
+                || SplashActivity(). detectJavaDebugger()
                 || SplashActivity().detect_threadCpuTimeNanos()
 
     }

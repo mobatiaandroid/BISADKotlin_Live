@@ -11,5 +11,7 @@ class PaymentGatewayApiModel (
     @SerializedName("address1") var address1:String,
     @SerializedName("city") var city:String,
     @SerializedName("countryCode") var countryCode:String,
-    @SerializedName("access_token") var access_token:String
+    @SerializedName("access_token") var access_token:String,
+    @SerializedName("module") var module :String
+
 )

@@ -2361,7 +2361,8 @@ class TripDetailActivity : AppCompatActivity() ,ChoicePreferenceAdapter.OnItemSe
         val token = PreferenceData().getaccesstoken(context)
         val paymentGatewayBody = PaymentGatewayApiModelTrip(strDouble,PreferenceData().getUserEmail(context).toString(),
             merchantOrderReference,PreferenceData().getStudentName(context)!!,"","BISAD","","Abu Dhabi",
-            acessToken!!,tripID)
+            acessToken!!,tripID,"trip_payment", installmentIds.toString()
+        )
         val call: Call<TripPaymentInitiateResponseModel> =
             ApiClient(context).getClient.payment_gateway_trip(paymentGatewayBody, "Bearer " + token)
         call.enqueue(object : Callback<TripPaymentInitiateResponseModel> {

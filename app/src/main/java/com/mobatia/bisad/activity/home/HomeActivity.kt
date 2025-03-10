@@ -295,15 +295,16 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                 }
                 else if (position == 9) {
 
-                    mFragment = SocialMediaFragment()
-                    replaceFragmentsSelected(position)
-                }
-                else if (position == 10) {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
                         "Alert"
                     )
+                }
+                else if (position == 10) {
+                    mFragment = SocialMediaFragment()
+                    replaceFragmentsSelected(position)
+
                 }
 //                else if (position == 9) {
 //                    showSuccessAlert(
@@ -339,6 +340,13 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                         "Alert"
                     )
                 }
+                else if (position == 15) {
+                    showSuccessAlert(
+                        context,
+                        "This feature is only available for registered users.",
+                        "Alert"
+                    )
+                }
               /*  else if (position == 14) {
                     showSuccessAlert(
                         context,
@@ -353,7 +361,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                         "Alert"
                     )
                 }*/
-                else if (position == 15) {
+                else if (position == 16) {
                     if (ActivityCompat.checkSelfPermission(
                             context,
                             Manifest.permission.ACCESS_FINE_LOCATION
@@ -377,7 +385,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
 
                 }
 
-                else if (position == 16) {
+                else if (position == 17) {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",

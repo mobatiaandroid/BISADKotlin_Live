@@ -484,7 +484,7 @@ class CanteenPaymentActivity:AppCompatActivity() {
         val token = PreferenceData().getaccesstoken(nContext)
         val paymentGatewayBody = PaymentGatewayApiModel(amount,PreferenceData().getUserEmail(nContext).toString(),
             mechantorderRef,studentName,"","BISAD","","Abu Dhabi",
-            payment_token)
+            payment_token,"canteen_payment")
         val call: Call<PaymentGatewayModel> =
             ApiClient(nContext).getClient.payment_gateway(paymentGatewayBody, "Bearer " + token)
         call.enqueue(object : Callback<PaymentGatewayModel> {

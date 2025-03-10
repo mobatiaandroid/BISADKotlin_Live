@@ -17,12 +17,11 @@ import javax.net.ssl.X509TrustManager
 
 class ApiClient(private val context: Context) {
     //dev
- //   var BASE_URL = "https://delta.mobatia.in:8083/bisadv10/public/api/v1/"
+   var BASE_URL = "https://delta.mobatia.in:8083/bisadv10/public/api/v1/"
 
     //Live
-    var BASE_URL = "https://mobile.bisad.ae/api/v1/"
-    //var BASE_URL = "http://beta.mobatia.in:81/bisad_demo/api/"
-    // var BASE_URL ="http://192.168.0.166/bisadv8/"
+  //  var BASE_URL = "https://mobile.bisad.ae/api/v1/"
+
 
     val getClient: ApiInterface
         get() {

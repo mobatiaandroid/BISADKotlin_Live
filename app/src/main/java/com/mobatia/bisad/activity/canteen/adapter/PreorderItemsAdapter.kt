@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,7 @@ import com.mobatia.bisad.rest.ApiClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
+import kotlin.collections.ArrayList
 
 class PreorderItemsAdapter(
     val itemlist: ArrayList<CatItemsListModel>,
@@ -72,7 +71,7 @@ class PreorderItemsAdapter(
             var llm = (LinearLayoutManager(mcontext))
             llm.orientation = LinearLayoutManager.HORIZONTAL
             holder.allergy_rec.layoutManager = llm
-            var allergy_adapter=AllergyContentsAdapter(allergycontentlist,mcontext)
+            var allergy_adapter=AllergyContentsAdapter(itemlist.get(position).allergy_contents,mcontext)
             holder.allergy_rec.adapter=allergy_adapter
 
             /* holder.allergy_rec.addOnItemClickListener(object : OnItemClickListener {
@@ -89,7 +88,7 @@ class PreorderItemsAdapter(
             holder.allergy_info.visibility=View.GONE
         }
         holder.allergy_info.setOnClickListener {
-            allergy_contents_popup(mcontext,itemlist[position].item_name)
+            allergy_contents_popup(mcontext,itemlist[position].item_name,itemlist.get(position).allergy_contents)
         }
         holder.itemNameTxt.text=itemlist[position].item_name
         holder.itemDescription.text = itemlist[position].description
@@ -456,7 +455,11 @@ private fun addToCart(id:String,price:String,position: Int){
 
         })
     }
-    fun allergy_contents_popup(context: Context,item:String){
+    fun allergy_contents_popup(
+        context: Context,
+        item: String,
+        allergyContents: ArrayList<AllergyContentModel>
+    ){
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.alert_allergy_contents)
@@ -470,7 +473,7 @@ private fun addToCart(id:String,price:String,position: Int){
 
         var allergy_popup_rec=dialog.findViewById<RecyclerView>(R.id.allergy_popup_rec)
         allergy_popup_rec.layoutManager=LinearLayoutManager(context)
-        var allergypopupAdapter=AllergyPopupAdapter(allergycontentlist,context)
+        var allergypopupAdapter=AllergyPopupAdapter(allergyContents,context)
         allergy_popup_rec.adapter=allergypopupAdapter
         dialog.show()
     }

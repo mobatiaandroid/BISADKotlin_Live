@@ -393,7 +393,7 @@ class TripInstallmentActivity : AppCompatActivity() {
         val token = PreferenceData().getaccesstoken(context)
         val paymentGatewayBody = PaymentGatewayApiModelTrip(strDouble,PreferenceData().getUserEmail(context).toString(),
             mechantorderRef,PreferenceData().getStudentName(context)!!,"","BISAD","","Abu Dhabi",
-            Tokenacesss!!,tripID)
+            Tokenacesss!!,tripID,"trip_payment","["+installmentID+"]")
         val call: Call<TripPaymentInitiateResponseModel> =
             ApiClient(context).getClient.payment_gateway_trip(paymentGatewayBody, "Bearer " + token)
         call.enqueue(object : Callback<TripPaymentInitiateResponseModel> {

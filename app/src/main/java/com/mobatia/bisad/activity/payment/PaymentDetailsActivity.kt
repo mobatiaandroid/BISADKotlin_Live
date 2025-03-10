@@ -37,6 +37,7 @@ import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.rest.AccessTokenClass
 import com.mobatia.bisad.rest.ApiClient
 import payment.sdk.android.PaymentClient
+import payment.sdk.android.SDKConfig
 import payment.sdk.android.cardpayment.CardPaymentData
 import payment.sdk.android.cardpayment.CardPaymentRequest
 import retrofit2.Call
@@ -337,11 +338,11 @@ getpaymenttoken()
         mProgressRelLayout.visibility=View.VISIBLE
         val tsLong = System.currentTimeMillis() / 1000
         val ts = tsLong.toString()
-        var mechantorderRef=invoice_ref+"-"+ts
+        var mechantorderRef=invoice_ref
         val token = PreferenceData().getaccesstoken(context)
         val paymentGatewayBody = PaymentGatewayApiModel(amount,PreferenceData().getUserEmail(context).toString(),
             mechantorderRef,student_name,"","BISAD","","Abu Dhabi",
-        payment_token)
+        payment_token,"fee_payment")
         val call: Call<PaymentGatewayModel> =
             ApiClient(context).getClient.payment_gateway(paymentGatewayBody, "Bearer " + token)
         call.enqueue(object : Callback<PaymentGatewayModel> {
@@ -365,6 +366,8 @@ getpaymenttoken()
                             val Code: String = orderPageUrl.split("=").toTypedArray().get(1)
 
                             mProgressRelLayout.visibility = View.GONE
+                            SDKConfig.shouldShowOrderAmount(true)
+                            SDKConfig.shouldShowCancelAlert(true)
                             val request: CardPaymentRequest = CardPaymentRequest.Builder().gatewayUrl(auth).code(Code).build()
 
                             val paymentClient = PaymentClient(activity, "fdhasfd")

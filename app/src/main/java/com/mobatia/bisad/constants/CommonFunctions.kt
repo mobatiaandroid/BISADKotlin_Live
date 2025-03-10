@@ -28,7 +28,7 @@ class CommonFunctions {
     companion object{
 
         lateinit var cart_list: ArrayList<CanteenCartResModel>
-        var runMethod: String = "client"
+        var runMethod: String = "Dev"
 
 
         fun faliurepopup(context: Context) {

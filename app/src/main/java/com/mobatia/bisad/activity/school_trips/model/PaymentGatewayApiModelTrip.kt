@@ -12,6 +12,9 @@ class PaymentGatewayApiModelTrip (
     @SerializedName("city") var city:String,
     @SerializedName("countryCode") var countryCode:String,
     @SerializedName("access_token") var access_token:String,
-    @SerializedName("trip_id") var trip_id:String
+    @SerializedName("trip_id") var trip_id:String,
+    @SerializedName("module") var module :String,
+    @SerializedName("payment_id") var payment_id:String
 
-    )
+
+)
