@@ -166,7 +166,7 @@ lateinit var pager: ViewPager
 var isDraggable: Boolean = false
 lateinit var mContext: Context
 lateinit var current_date:String
-
+var mFragment: Fragment? = null
 
 
 @Suppress(
@@ -1136,21 +1136,23 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
     private fun CHECKINTENTVALUE(intentTabId: String) {
         TAB_ID = intentTabId
 
-        var mFragment: Fragment? = null
+
         if (sharedprefs.getUserCode(mContext).equals("")) {
             when (intentTabId) {
                 naisTabConstants.TAB_STUDENT_INFORMATION -> {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        ""
                     )
                 }
                 naisTabConstants.TAB_CALENDAR -> {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        ""
                     )
                 }
 
@@ -1158,7 +1160,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        ""
                     )
                 }
                 naisTabConstants.TAB_COMMUNICATION -> {
@@ -1169,14 +1172,16 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        ""
                     )
                 }
                 naisTabConstants.TAB_TEACHER_CONTACT -> {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        ""
                     )
                 }
                 naisTabConstants.TAB_SOCIAL_MEDIA -> {
@@ -1187,21 +1192,24 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        ""
                     )
                 }
                 naisTabConstants.TAB_REPORTS -> {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        ""
                     )
                 }
                 naisTabConstants.TAB_TRIP -> {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        ""
                     )
                 }
 //                naisTabConstants.TAB_ATTENDANCE -> {
@@ -1222,7 +1230,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                       ""
                     )
                 }
 //                naisTabConstants.TAB_UPDATE -> {
@@ -1256,14 +1265,16 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        ""
                     )
                 }
                 naisTabConstants.TAB_FORMS -> {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                       ""
                     )
                 }
 //                naisTabConstants.TAB_STAFF_DIRECTORY -> {
@@ -1274,29 +1285,32 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        ""
                     )
                 }
                 naisTabConstants.TAB_PARENT_MEETINGS -> {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        ""
                     )
                 }
                 naisTabConstants.TAB_PAYMENT -> {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        ""
                     )
                 }
                 naisTabConstants.TAB_CANTEEN -> {
                     showSuccessAlert(
                         mContext,
                         "This feature is only available for registered users.",
-                        "Alert"
-                    )
+                        "Alert",
+""                    )
                 }
 
             }
@@ -1391,12 +1405,12 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     fragmentIntent(mFragment)
                 }
                 naisTabConstants.TAB_TRIP -> {
-                    sharedprefs.setStudentID(mContext, "")
-                    sharedprefs.setStudentName(mContext, "")
-                    sharedprefs.setStudentPhoto(mContext, "")
-                    sharedprefs.setStudentClass(mContext, "")
-                    mFragment = SchoolTripsFragment()
-                    fragmentIntent(mFragment)
+                    showSuccessAlert(
+                        mContext,
+                        sharedprefs.getPaymentMessage(mContext)!!,
+                        "Alert",naisTabConstants.TAB_TRIP
+                    )
+
                 }
 //                naisTabConstants.TAB_CURRICULUM -> {
 //                    sharedprefs.setStudentID(mContext, "")
@@ -1474,12 +1488,17 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 //                    fragmentIntent(mFragment)
 //                }
                 naisTabConstants.TAB_PERMISSION_SLIPS -> {
-                    sharedprefs.setStudentID(mContext, "")
+                    showSuccessAlert(
+                        mContext,
+                        sharedprefs.getPaymentMessage(mContext)!!,
+                        "Alert",naisTabConstants.TAB_TRIP
+                    )
+                    /*sharedprefs.setStudentID(mContext, "")
                     sharedprefs.setStudentName(mContext, "")
                     sharedprefs.setStudentPhoto(mContext, "")
                     sharedprefs.setStudentClass(mContext, "")
                     mFragment = PermissionSlipFragment()
-                    fragmentIntent(mFragment)
+                    fragmentIntent(mFragment)*/
                 }
                 naisTabConstants.TAB_PARENT_MEETINGS -> {
                     sharedprefs.setStudentID(mContext, "")
@@ -1491,20 +1510,22 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 }
 
                 naisTabConstants.TAB_PAYMENT -> {
-                    sharedprefs.setStudentID(mContext, "")
-                    sharedprefs.setStudentName(mContext, "")
-                    sharedprefs.setStudentPhoto(mContext, "")
-                    sharedprefs.setStudentClass(mContext, "")
-                    mFragment = PaymentFragment()
-                    fragmentIntent(mFragment)
+                    showSuccessAlert(
+                        mContext,
+                        sharedprefs.getPaymentMessage(mContext)!!,
+                        "Alert",
+                        naisTabConstants.TAB_PAYMENT
+                    )
+
                 }
                 naisTabConstants.TAB_CANTEEN -> {
-                    sharedprefs.setStudentID(mContext, "")
-                    sharedprefs.setStudentName(mContext, "")
-                    sharedprefs.setStudentPhoto(mContext, "")
-                    sharedprefs.setStudentClass(mContext, "")
-                    mFragment = CanteenFragment()
-                    fragmentIntent(mFragment)
+                    showSuccessAlert(
+                        mContext,
+                        sharedprefs.getPaymentMessage(mContext)!!,
+                        "Alert",
+                        naisTabConstants.TAB_CANTEEN
+                    )
+
                 }
 
             }
@@ -1538,6 +1559,9 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                                 val dataArray = responseObj.getJSONArray("banner_images")
                                 val appVersion = responseObj.optString("android_app_version")
                                 var reEnrollStatus=responseObj.optString("enrollment_status")
+                                var payment_module_disabled_message=responseObj.optString("payment_module_disabled_message")
+                                Log.e("payment_module_disabled_messge",payment_module_disabled_message)
+                                sharedprefs.setPaymentMessage(mContext,payment_module_disabled_message)
                                 sharedprefs.setAppVersion(mContext, appVersion)
                                 versionfromapi =
                                     sharedprefs.getAppVersion(mContext)!!.replace(".", "")
@@ -1640,7 +1664,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
     }
 
 
-    fun showSuccessAlert(context: Context, message: String, msgHead: String) {
+    fun showSuccessAlert(context: Context, message: String, msgHead: String, tabTrip: String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -1655,6 +1679,48 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         iconImageView.setImageResource(R.drawable.exclamationicon)
         btn_Ok.setOnClickListener()
         {
+            try {
+                context.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=io.nexquare.parent")
+                    )
+                )
+
+            } catch (e: android.content.ActivityNotFoundException) {
+                context.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id=io.nexquare.parent")
+                    )
+                )
+            }
+           /* when(tabTrip){
+               "8"->{
+                   sharedprefs.setStudentID(mContext, "")
+                   sharedprefs.setStudentName(mContext, "")
+                   sharedprefs.setStudentPhoto(mContext, "")
+                   sharedprefs.setStudentClass(mContext, "")
+                   mFragment = SchoolTripsFragment()
+                   fragmentIntent(mFragment)
+               }
+                "7"->{
+                    sharedprefs.setStudentID(mContext, "")
+                    sharedprefs.setStudentName(mContext, "")
+                    sharedprefs.setStudentPhoto(mContext, "")
+                    sharedprefs.setStudentClass(mContext, "")
+                    mFragment = CanteenFragment()
+                    fragmentIntent(mFragment)
+                }
+                "6"->{
+                    sharedprefs.setStudentID(mContext, "")
+                    sharedprefs.setStudentName(mContext, "")
+                    sharedprefs.setStudentPhoto(mContext, "")
+                    sharedprefs.setStudentClass(mContext, "")
+                    mFragment = PaymentFragment()
+                    fragmentIntent(mFragment)
+                }
+            }*/
             dialog.dismiss()
 
 

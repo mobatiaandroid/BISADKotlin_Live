@@ -1246,4 +1246,21 @@ class PreferenceData {
                 .getColor(R.color.transparent)
         )
     }
+    fun setPaymentMessage(context: Context, appVersion: String?) {
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
+        val editor = prefs.edit()
+        editor.putString("payment_message", appVersion)
+        editor.apply()
+    }
+
+    /*GET APP VERSION*/
+    fun getPaymentMessage(context: Context): String? {
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
+        return prefs.getString("payment_message", "")
+    }
 }

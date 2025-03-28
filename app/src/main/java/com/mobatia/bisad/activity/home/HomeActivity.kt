@@ -11,10 +11,10 @@ import android.content.pm.PackageManager
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -46,11 +46,9 @@ import com.mobatia.bisad.constants.InternetCheckClass
 import com.mobatia.bisad.constants.JsonConstants
 import com.mobatia.bisad.fragment.apps.AppsFragment
 import com.mobatia.bisad.fragment.calendar_new.CalFragment
-import com.mobatia.bisad.fragment.calendar_new.CalendarFragmentNew
 import com.mobatia.bisad.fragment.canteen.CanteenFragment
 import com.mobatia.bisad.fragment.communication.CommunicationFragment
 import com.mobatia.bisad.fragment.contact_us.ContactUsFragment
-import com.mobatia.bisad.fragment.curriculum.CurriculumFragment
 import com.mobatia.bisad.fragment.forms.FormsFragment
 import com.mobatia.bisad.fragment.home.*
 import com.mobatia.bisad.fragment.home.model.BannerModel
@@ -59,7 +57,6 @@ import com.mobatia.bisad.fragment.home.model.datacollection.KinDetailApiModel
 import com.mobatia.bisad.fragment.home.model.datacollection.OwnContactModel
 import com.mobatia.bisad.fragment.home.model.datacollection.PassportApiModel
 import com.mobatia.bisad.fragment.messages.MessageFragment
-import com.mobatia.bisad.fragment.parents_meeting.ParentsMeetingFragment
 import com.mobatia.bisad.fragment.payment.PaymentFragment
 import com.mobatia.bisad.fragment.permission_slip.PermissionSlipFragment
 import com.mobatia.bisad.fragment.report_absence.ReportAbsenceFragment
@@ -70,7 +67,6 @@ import com.mobatia.bisad.fragment.settings.adapter.TriggerAdapter
 import com.mobatia.bisad.fragment.settings.model.TriggerDataModel
 import com.mobatia.bisad.fragment.settings.model.TriggerUSer
 import com.mobatia.bisad.fragment.socialmedia.SocialMediaFragment
-import com.mobatia.bisad.fragment.staff_directory.StaffDirectoryFragment
 import com.mobatia.bisad.fragment.student_information.StudentInformationFragment
 import com.mobatia.bisad.fragment.teacher_contact.TeacherContactFragment
 import com.mobatia.bisad.fragment.termdates.TermDatesFragment
@@ -247,19 +243,22 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 } else if (position == 2) {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 } else if (position == 3) {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 } else if (position == 4) {
 
@@ -269,13 +268,15 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 } else if (position == 6) {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 }
 
@@ -283,14 +284,16 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 }
                 else if (position == 8) {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 }
                 else if (position == 9) {
@@ -302,7 +305,8 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 }
 //                else if (position == 9) {
@@ -316,27 +320,31 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 } else if (position == 12) {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 }
                 else if (position == 13) {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 }
                 else if (position == 14) {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 }
               /*  else if (position == 14) {
@@ -381,16 +389,19 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     showSuccessAlert(
                         context,
                         "This feature is only available for registered users.",
-                        "Alert"
+                        "Alert",
+                        position
                     )
                 }
 
 
             } else {
                 if (position == 0) {
+                    //home
                     mFragment = HomescreenFragment()
                     replaceFragmentsSelected(position)
                 } else if (position == 1) {
+                    //studentinformation
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
@@ -398,6 +409,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     mFragment = StudentInformationFragment()
                     replaceFragmentsSelected(position)
                 } else if (position == 2) {
+                    //calendar
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
@@ -405,9 +417,11 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     mFragment = CalFragment()
                     replaceFragmentsSelected(position)
                 } else if (position == 3) {
+                    //message
                     mFragment = MessageFragment()
                     replaceFragmentsSelected(position)
                 } else if (position == 4) {
+                    //communication
                     if (ActivityCompat.checkSelfPermission(
                             mContext,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -424,6 +438,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     }
 
                 } else if (position == 5) {
+                    //absence
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
@@ -431,20 +446,21 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     mFragment = ReportAbsenceFragment()
                     replaceFragmentsSelected(position)
                 } else if (position == 6) {
-                    sharedprefs.setStudentID(context, "")
-                    sharedprefs.setStudentName(context, "")
-                    sharedprefs.setStudentPhoto(context, "")
-                    sharedprefs.setStudentClass(context, "")
-                    mFragment = PaymentFragment()
-                    replaceFragmentsSelected(position)
+                    showSuccessAlert(
+                        context,
+                        sharedprefs.getPaymentMessage(context)!!,
+                        "Alert",
+                        position
+                    )
+
                 }
                 else if (position == 7) {
-                    sharedprefs.setStudentID(context, "")
-                    sharedprefs.setStudentName(context, "")
-                    sharedprefs.setStudentPhoto(context, "")
-                    sharedprefs.setStudentClass(context, "")
-                    mFragment = CanteenFragment()
-                    replaceFragmentsSelected(position)
+                    showSuccessAlert(
+                        context,
+                        sharedprefs.getPaymentMessage(context)!!,
+                        "Alert",position
+                    )
+
                 } else if (position == 8) {
                   /*  sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
@@ -452,15 +468,17 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     sharedprefs.setStudentClass(context, "")
                     mFragment = SchoolTripsFragment()
                     replaceFragmentsSelected(position)*/
+                    showSuccessAlert(
+                        context,
+                        sharedprefs.getPaymentMessage(context)!!,
+                        "Alert",
+                        position
+                    )
 
-                    sharedprefs.setStudentID(context, "")
-                    sharedprefs.setStudentName(context, "")
-                    sharedprefs.setStudentPhoto(context, "")
-                    sharedprefs.setStudentClass(context, "")
-                    mFragment = SchoolTripsFragment()
-                    replaceFragmentsSelected(position)
+
 
                 }else if (position == 9) {
+                    //teacher contact
                   /*  sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
@@ -476,10 +494,12 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                 }
 
                 else if (position == 10) {
+                    //social media
                     mFragment = SocialMediaFragment()
                     replaceFragmentsSelected(position)
                 }
                 else if (position ==11) {
+                    //reports
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
@@ -498,6 +518,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
 
                 else if (position == 12)
                 {
+                    //timetable
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
@@ -507,6 +528,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                 }
                 else if (position == 13)
                 {
+                    //forms
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
@@ -524,18 +546,26 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
 //                    replaceFragmentsSelected(position)
 //                }
                 else if (position == 14) {
-                    sharedprefs.setStudentID(context, "")
+                    showSuccessAlert(
+                        context,
+                        sharedprefs.getPaymentMessage(context)!!,
+                        "Alert",
+                        position
+                    )
+                   /* sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
                     sharedprefs.setStudentClass(context, "")
                     mFragment = PermissionSlipFragment()
-                    replaceFragmentsSelected(position)
+                    replaceFragmentsSelected(position)*/
                 }
                 else if (position == 15) {
+                    //termdates
                     mFragment = TermDatesFragment()
                     replaceFragmentsSelected(position)
                 }
                 else if(position==16){
+                    //contactus
                     if (ActivityCompat.checkSelfPermission(
                             context,
                             Manifest.permission.ACCESS_FINE_LOCATION
@@ -556,6 +586,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     }
                 }
                 else if (position == 17) {
+                    //apps
                     sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
@@ -768,7 +799,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
         }
     }
 
-    fun showSuccessAlert(context: Context, message: String, msgHead: String) {
+    fun showSuccessAlert(context: Context, message: String, msgHead: String, position: Int) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -783,6 +814,51 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
         iconImageView.setImageResource(R.drawable.exclamationicon)
         btn_Ok.setOnClickListener()
         {
+            val appPackageName =
+                context.packageName
+            try {
+                context.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=io.nexquare.parent")
+                    )
+                )
+
+            } catch (e: android.content.ActivityNotFoundException) {
+                context.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id=io.nexquare.parent")
+                    )
+                )
+            }
+            /*if (position==6)
+            {
+                sharedprefs.setStudentID(context, "")
+                sharedprefs.setStudentName(context, "")
+                sharedprefs.setStudentPhoto(context, "")
+                sharedprefs.setStudentClass(context, "")
+                mFragment = PaymentFragment()
+                replaceFragmentsSelected(position)
+            }
+            else if(position==7)
+            {
+                sharedprefs.setStudentID(context, "")
+                sharedprefs.setStudentName(context, "")
+                sharedprefs.setStudentPhoto(context, "")
+                sharedprefs.setStudentClass(context, "")
+                mFragment = CanteenFragment()
+                replaceFragmentsSelected(position)
+            }
+            else if(position==8)
+            {
+                sharedprefs.setStudentID(context, "")
+                sharedprefs.setStudentName(context, "")
+                sharedprefs.setStudentPhoto(context, "")
+                sharedprefs.setStudentClass(context, "")
+                mFragment = SchoolTripsFragment()
+                replaceFragmentsSelected(position)
+            }*/
             dialog.dismiss()
 
         }

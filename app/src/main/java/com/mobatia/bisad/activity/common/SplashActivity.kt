@@ -70,7 +70,7 @@ class SplashActivity : AppCompatActivity() {
         var re_enroll = "1"
         sharedprefs.setreenrollvalue(mContext, re_enroll)
         val isDebuggingEnabled: Boolean = DebuggingChecker().isUsbDebuggingEnabled(mContext)
-        val rootBeer = RootBeer(this)
+        val rootBeer = RootBeer(mContext)
 
         if (isDeviceRootedOrEmulator(mContext)) {
             showDeviceIsRootedPopUp(mContext)
@@ -78,10 +78,10 @@ class SplashActivity : AppCompatActivity() {
             Toast.makeText(this, "Root detected! App will close.", Toast.LENGTH_LONG).show()
             finish()
         }
-        else if (isDebuggingEnabled) {
+        /*else if (isDebuggingEnabled) {
 
            Toast.makeText(mContext, "This app does not support debugging", Toast.LENGTH_SHORT).show();
-       }
+       }*/
         else if (!CommonFunctions.runMethod.equals("Dev"))
         {
             if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
