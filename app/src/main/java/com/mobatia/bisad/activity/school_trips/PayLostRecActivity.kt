@@ -35,7 +35,7 @@ class PayLostRecActivity :AppCompatActivity() {
         outsatnding: String
     ) {
         var student_name = student_name
-        context = context
+        context = this
         activity=this
         student_name = student_name
         var sb = StringBuffer()

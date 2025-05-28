@@ -452,28 +452,45 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                         "Alert",
                         position
                     )
+//                    sharedprefs.setStudentID(context, "")
+//                    sharedprefs.setStudentName(context, "")
+//                    sharedprefs.setStudentPhoto(context, "")
+//                    sharedprefs.setStudentClass(context, "")
+//                    mFragment = PaymentFragment()
+//                    replaceFragmentsSelected(position)
 
                 }
                 else if (position == 7) {
-                    showSuccessAlert(
-                        context,
-                        sharedprefs.getPaymentMessage(context)!!,
-                        "Alert",position
-                    )
+                    //Canteen enabled
+//                    showSuccessAlert(
+//                        context,
+//                        sharedprefs.getPaymentMessage(context)!!,
+//                        "Alert",position
+//                    )
+//
+                    sharedprefs.setStudentID(context, "")
+                    sharedprefs.setStudentName(context, "")
+                    sharedprefs.setStudentPhoto(context, "")
+                    sharedprefs.setStudentClass(context, "")
+                    mFragment = CanteenFragment()
+                    replaceFragmentsSelected(position)
 
                 } else if (position == 8) {
-                  /*  sharedprefs.setStudentID(context, "")
+
+                    sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
                     sharedprefs.setStudentClass(context, "")
                     mFragment = SchoolTripsFragment()
-                    replaceFragmentsSelected(position)*/
-                    showSuccessAlert(
-                        context,
-                        sharedprefs.getPaymentMessage(context)!!,
-                        "Alert",
-                        position
-                    )
+                    replaceFragmentsSelected(position)
+
+                    //Trip enabled
+//                    showSuccessAlert(
+//                        context,
+//                        sharedprefs.getPaymentMessage(context)!!,
+//                        "Alert",
+//                        position
+//                    )
 
 
 
@@ -546,18 +563,20 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
 //                    replaceFragmentsSelected(position)
 //                }
                 else if (position == 14) {
-                    showSuccessAlert(
-                        context,
-                        sharedprefs.getPaymentMessage(context)!!,
-                        "Alert",
-                        position
-                    )
-                   /* sharedprefs.setStudentID(context, "")
+//                    showSuccessAlert(
+//                        context,
+//                        sharedprefs.getPaymentMessage(context)!!,
+//                        "Alert",
+//                        position
+//                    )
+
+                    sharedprefs.setStudentID(context, "")
                     sharedprefs.setStudentName(context, "")
                     sharedprefs.setStudentPhoto(context, "")
                     sharedprefs.setStudentClass(context, "")
                     mFragment = PermissionSlipFragment()
-                    replaceFragmentsSelected(position)*/
+                    replaceFragmentsSelected(position)
+
                 }
                 else if (position == 15) {
                     //termdates

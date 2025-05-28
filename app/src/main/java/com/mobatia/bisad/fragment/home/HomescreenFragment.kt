@@ -1405,11 +1405,21 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     fragmentIntent(mFragment)
                 }
                 naisTabConstants.TAB_TRIP -> {
-                    showSuccessAlert(
-                        mContext,
-                        sharedprefs.getPaymentMessage(mContext)!!,
-                        "Alert",naisTabConstants.TAB_TRIP
-                    )
+
+                    sharedprefs.setStudentID(mContext, "")
+                    sharedprefs.setStudentName(mContext, "")
+                    sharedprefs.setStudentPhoto(mContext, "")
+                    sharedprefs.setStudentClass(mContext, "")
+                    mFragment = SchoolTripsFragment()
+                    fragmentIntent(mFragment)
+
+
+
+//                    showSuccessAlert(
+//                        mContext,
+//                        sharedprefs.getPaymentMessage(mContext)!!,
+//                        "Alert",naisTabConstants.TAB_TRIP
+//                    )
 
                 }
 //                naisTabConstants.TAB_CURRICULUM -> {
@@ -1488,17 +1498,20 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
 //                    fragmentIntent(mFragment)
 //                }
                 naisTabConstants.TAB_PERMISSION_SLIPS -> {
-                    showSuccessAlert(
-                        mContext,
-                        sharedprefs.getPaymentMessage(mContext)!!,
-                        "Alert",naisTabConstants.TAB_TRIP
-                    )
-                    /*sharedprefs.setStudentID(mContext, "")
+
+//                    showSuccessAlert(
+//                        mContext,
+//                        sharedprefs.getPaymentMessage(mContext)!!,
+//                        "Alert",naisTabConstants.TAB_TRIP
+//                    )
+
+
+                    sharedprefs.setStudentID(mContext, "")
                     sharedprefs.setStudentName(mContext, "")
                     sharedprefs.setStudentPhoto(mContext, "")
                     sharedprefs.setStudentClass(mContext, "")
                     mFragment = PermissionSlipFragment()
-                    fragmentIntent(mFragment)*/
+                    fragmentIntent(mFragment)
                 }
                 naisTabConstants.TAB_PARENT_MEETINGS -> {
                     sharedprefs.setStudentID(mContext, "")
@@ -1517,14 +1530,30 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                         naisTabConstants.TAB_PAYMENT
                     )
 
+//                    sharedprefs.setStudentID(mContext, "")
+//                    sharedprefs.setStudentName(mContext, "")
+//                    sharedprefs.setStudentPhoto(mContext, "")
+//                    sharedprefs.setStudentClass(mContext, "")
+//                    mFragment = PaymentFragment()
+//                    fragmentIntent(mFragment)
+
                 }
                 naisTabConstants.TAB_CANTEEN -> {
-                    showSuccessAlert(
-                        mContext,
-                        sharedprefs.getPaymentMessage(mContext)!!,
-                        "Alert",
-                        naisTabConstants.TAB_CANTEEN
-                    )
+
+                    //Canteen enabled
+//                    showSuccessAlert(
+//                        mContext,
+//                        sharedprefs.getPaymentMessage(mContext)!!,
+//                        "Alert",
+//                        naisTabConstants.TAB_CANTEEN
+//                    )
+
+                    sharedprefs.setStudentID(mContext, "")
+                    sharedprefs.setStudentName(mContext, "")
+                    sharedprefs.setStudentPhoto(mContext, "")
+                    sharedprefs.setStudentClass(mContext, "")
+                    mFragment = CanteenFragment()
+                    fragmentIntent(mFragment)
 
                 }
 
