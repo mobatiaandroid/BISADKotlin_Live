@@ -21,9 +21,7 @@ import retrofit2.Response
 import java.util.Locale
 import com.mobatia.bisad.R
 
-import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.upstream.DataSource
+
 import com.mobatia.bisad.activity.home.HomeActivity
 import com.mobatia.bisad.activity.home.context
 import com.mobatia.bisad.activity.message.model.MessageDetailApiModel
@@ -38,7 +36,7 @@ import com.mobatia.bisad.rest.ApiClient
 private var mediaplayer: MediaPlayer? = null
 private var handler2 = Handler()
 private var seebbar: SeekBar? = null
-class AudioPlayerDetailNew : AppCompatActivity(), Player.EventListener{
+class AudioPlayerDetailNew : AppCompatActivity(){
     lateinit var mContext: Context
     var id:String=""
     var title:String=""
@@ -53,9 +51,7 @@ class AudioPlayerDetailNew : AppCompatActivity(), Player.EventListener{
     private lateinit var heading: TextView
     private lateinit var webView: WebView
     private lateinit var progressBar: ProgressBar
-    lateinit var playerView: PlayerView
     var playbackPosition: Long = 0
-    lateinit var mediaDataSourceFactory: DataSource.Factory
     lateinit var playbutton_audio: ImageView
     lateinit var duration_time: TextView
     lateinit var textcurrent_time: TextView

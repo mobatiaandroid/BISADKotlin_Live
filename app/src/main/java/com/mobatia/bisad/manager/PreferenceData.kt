@@ -1263,4 +1263,55 @@ class PreferenceData {
         )
         return prefs.getString("payment_message", "")
     }
+    fun setfee_payment(context: Context, appVersion: String?) {
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
+        val editor = prefs.edit()
+        editor.putString("fee_payment", appVersion)
+        editor.apply()
+    }
+
+    /*GET APP VERSION*/
+    fun getfee_payment(context: Context): String? {
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
+        return prefs.getString("fee_payment", "")
+    }
+    fun setwallet_payment(context: Context, appVersion: String?) {
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
+        val editor = prefs.edit()
+        editor.putString("wallet_payment", appVersion)
+        editor.apply()
+    }
+
+    /*GET APP VERSION*/
+    fun getwallet_payment(context: Context): String? {
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
+        return prefs.getString("wallet_payment", "")
+    }
+    fun settrip_payment(context: Context, appVersion: String?) {
+        val prefs = context.getSharedPreferences(
+            PREFSNAME, Context.MODE_PRIVATE
+        )
+        val editor = prefs.edit()
+        editor.putString("trip_payment", appVersion)
+        editor.apply()
+    }
+
+    /*GET APP VERSION*/
+    fun gettrip_payment(context: Context): String? {
+        val prefs = context.getSharedPreferences(
+            PREFSNAME,
+            Context.MODE_PRIVATE
+        )
+        return prefs.getString("trip_payment", "")
+    }
 }

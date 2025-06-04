@@ -3,6 +3,7 @@ package com.mobatia.bisad.fragment.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -33,7 +34,6 @@ import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.kyanogen.signatureview.SignatureView
 import com.mobatia.bisad.BuildConfig
 import com.mobatia.bisad.R
 import com.mobatia.bisad.WebviewActivity
@@ -1405,21 +1405,22 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     fragmentIntent(mFragment)
                 }
                 naisTabConstants.TAB_TRIP -> {
+                    if (sharedprefs.gettrip_payment(mContext) == "1") {
+                        sharedprefs.setStudentID(mContext, "")
+                        sharedprefs.setStudentName(mContext, "")
+                        sharedprefs.setStudentPhoto(mContext, "")
+                        sharedprefs.setStudentClass(mContext, "")
+                        mFragment = SchoolTripsFragment()
+                        fragmentIntent(mFragment)
+                    }else{
 
-                    sharedprefs.setStudentID(mContext, "")
-                    sharedprefs.setStudentName(mContext, "")
-                    sharedprefs.setStudentPhoto(mContext, "")
-                    sharedprefs.setStudentClass(mContext, "")
-                    mFragment = SchoolTripsFragment()
-                    fragmentIntent(mFragment)
+                        showSuccessAlert(
+                            mContext,
+                            sharedprefs.getPaymentMessage(mContext)!!,
+                            "Alert",naisTabConstants.TAB_TRIP
+                        )
+                    }
 
-
-
-//                    showSuccessAlert(
-//                        mContext,
-//                        sharedprefs.getPaymentMessage(mContext)!!,
-//                        "Alert",naisTabConstants.TAB_TRIP
-//                    )
 
                 }
 //                naisTabConstants.TAB_CURRICULUM -> {
@@ -1523,37 +1524,46 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                 }
 
                 naisTabConstants.TAB_PAYMENT -> {
-                    showSuccessAlert(
-                        mContext,
-                        sharedprefs.getPaymentMessage(mContext)!!,
-                        "Alert",
-                        naisTabConstants.TAB_PAYMENT
-                    )
+                    if (sharedprefs.getfee_payment(mContext) == "1") {
+                        sharedprefs.setStudentID(mContext, "")
+                        sharedprefs.setStudentName(mContext, "")
+                        sharedprefs.setStudentPhoto(mContext, "")
+                        sharedprefs.setStudentClass(mContext, "")
+                        mFragment = PaymentFragment()
+                        fragmentIntent(mFragment)
+                    } else {
+                        showSuccessAlert(
+                            mContext,
+                            sharedprefs.getPaymentMessage(mContext)!!,
+                            "Alert",
+                            naisTabConstants.TAB_PAYMENT
+                        )
+                    }
 
-//                    sharedprefs.setStudentID(mContext, "")
-//                    sharedprefs.setStudentName(mContext, "")
-//                    sharedprefs.setStudentPhoto(mContext, "")
-//                    sharedprefs.setStudentClass(mContext, "")
-//                    mFragment = PaymentFragment()
-//                    fragmentIntent(mFragment)
+
+
 
                 }
                 naisTabConstants.TAB_CANTEEN -> {
-
+                    if (sharedprefs.getwallet_payment(mContext) == "1") {
+                        sharedprefs.setStudentID(mContext, "")
+                        sharedprefs.setStudentName(mContext, "")
+                        sharedprefs.setStudentPhoto(mContext, "")
+                        sharedprefs.setStudentClass(mContext, "")
+                        mFragment = CanteenFragment()
+                        fragmentIntent(mFragment)
+                    } else{
+                        showSuccessAlert(
+                            mContext,
+                            sharedprefs.getPaymentMessage(mContext)!!,
+                            "Alert",
+                            naisTabConstants.TAB_CANTEEN
+                        )
+                    }
                     //Canteen enabled
-//                    showSuccessAlert(
-//                        mContext,
-//                        sharedprefs.getPaymentMessage(mContext)!!,
-//                        "Alert",
-//                        naisTabConstants.TAB_CANTEEN
-//                    )
 
-                    sharedprefs.setStudentID(mContext, "")
-                    sharedprefs.setStudentName(mContext, "")
-                    sharedprefs.setStudentPhoto(mContext, "")
-                    sharedprefs.setStudentClass(mContext, "")
-                    mFragment = CanteenFragment()
-                    fragmentIntent(mFragment)
+
+
 
                 }
 
@@ -1589,8 +1599,15 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                                 val appVersion = responseObj.optString("android_app_version")
                                 var reEnrollStatus=responseObj.optString("enrollment_status")
                                 var payment_module_disabled_message=responseObj.optString("payment_module_disabled_message")
+                                var fee_payment=responseObj.optString("fee_payment")
+                                var wallet_payment=responseObj.optString("wallet_payment")
+                                var trip_payment=responseObj.optString("trip_payment")
+                                var payment_hide_android_url=responseObj.optString("payment_hide_android_url")
                                 Log.e("payment_module_disabled_messge",payment_module_disabled_message)
                                 sharedprefs.setPaymentMessage(mContext,payment_module_disabled_message)
+                                sharedprefs.setfee_payment(mContext,fee_payment)
+                                sharedprefs.setwallet_payment(mContext,wallet_payment)
+                                sharedprefs.settrip_payment(mContext,trip_payment)
                                 sharedprefs.setAppVersion(mContext, appVersion)
                                 versionfromapi =
                                     sharedprefs.getAppVersion(mContext)!!.replace(".", "")
@@ -1697,7 +1714,7 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCancelable(false)
+        dialog.setCancelable(true)
         dialog.setContentView(R.layout.alert_dialogue_ok_layout)
         var iconImageView = dialog.findViewById(R.id.iconImageView) as ImageView
         var alertHead = dialog.findViewById(R.id.alertHead) as TextView
@@ -1708,6 +1725,8 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         iconImageView.setImageResource(R.drawable.exclamationicon)
         btn_Ok.setOnClickListener()
         {
+            val appPackageName =
+                context.packageName
             try {
                 context.startActivity(
                     Intent(
@@ -2631,7 +2650,6 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
         var option_txt=d.findViewById<TextView>(R.id.option_txt)
         var clear=d.findViewById<TextView>(R.id.clear)
         var sign_linear=d.findViewById<ConstraintLayout>(R.id.sign_linear)
-        var signatureView=d.findViewById<SignatureView>(R.id.signature_view)
         var dropdown_btn=d.findViewById<ImageView>(R.id.dropdown_btn)
         var sign_btn=d.findViewById<Button>(R.id.signature_btn)
         var dropdownList:ArrayList<String>

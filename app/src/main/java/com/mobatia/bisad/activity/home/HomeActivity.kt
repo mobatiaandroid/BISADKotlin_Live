@@ -446,51 +446,66 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     mFragment = ReportAbsenceFragment()
                     replaceFragmentsSelected(position)
                 } else if (position == 6) {
-                    showSuccessAlert(
-                        context,
-                        sharedprefs.getPaymentMessage(context)!!,
-                        "Alert",
-                        position
-                    )
-//                    sharedprefs.setStudentID(context, "")
-//                    sharedprefs.setStudentName(context, "")
-//                    sharedprefs.setStudentPhoto(context, "")
-//                    sharedprefs.setStudentClass(context, "")
-//                    mFragment = PaymentFragment()
-//                    replaceFragmentsSelected(position)
+                    if (sharedprefs.getfee_payment(context)=="1") {
+                        sharedprefs.setStudentID(context, "")
+                        sharedprefs.setStudentName(context, "")
+                        sharedprefs.setStudentPhoto(context, "")
+                        sharedprefs.setStudentClass(context, "")
+                        mFragment = PaymentFragment()
+                        replaceFragmentsSelected(position)
+                    }else{
+                        showSuccessAlert(
+                            context,
+                            sharedprefs.getPaymentMessage(context)!!,
+                            "Alert",
+                            position
+                        )
+                    }
+
+
 
                 }
                 else if (position == 7) {
+                    if (sharedprefs.getwallet_payment(context)=="1") {
+                        sharedprefs.setStudentID(context, "")
+                        sharedprefs.setStudentName(context, "")
+                        sharedprefs.setStudentPhoto(context, "")
+                        sharedprefs.setStudentClass(context, "")
+                        mFragment = CanteenFragment()
+                        replaceFragmentsSelected(position)
+                    }else{
+                        showSuccessAlert(
+                            context,
+                            sharedprefs.getPaymentMessage(context)!!,
+                            "Alert",position
+                        )
+                    }
                     //Canteen enabled
-//                    showSuccessAlert(
-//                        context,
-//                        sharedprefs.getPaymentMessage(context)!!,
-//                        "Alert",position
-//                    )
-//
-                    sharedprefs.setStudentID(context, "")
-                    sharedprefs.setStudentName(context, "")
-                    sharedprefs.setStudentPhoto(context, "")
-                    sharedprefs.setStudentClass(context, "")
-                    mFragment = CanteenFragment()
-                    replaceFragmentsSelected(position)
+
+
+
 
                 } else if (position == 8) {
+                    if(sharedprefs.gettrip_payment(context)=="1") {
+                        sharedprefs.setStudentID(context, "")
+                        sharedprefs.setStudentName(context, "")
+                        sharedprefs.setStudentPhoto(context, "")
+                        sharedprefs.setStudentClass(context, "")
+                        mFragment = SchoolTripsFragment()
+                        replaceFragmentsSelected(position)
+                    } else{
+                        showSuccessAlert(
+                            context,
+                            sharedprefs.getPaymentMessage(context)!!,
+                            "Alert",
+                            position
+                        )
+                    }
 
-                    sharedprefs.setStudentID(context, "")
-                    sharedprefs.setStudentName(context, "")
-                    sharedprefs.setStudentPhoto(context, "")
-                    sharedprefs.setStudentClass(context, "")
-                    mFragment = SchoolTripsFragment()
-                    replaceFragmentsSelected(position)
+
 
                     //Trip enabled
-//                    showSuccessAlert(
-//                        context,
-//                        sharedprefs.getPaymentMessage(context)!!,
-//                        "Alert",
-//                        position
-//                    )
+
 
 
 
@@ -822,7 +837,7 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCancelable(false)
+        dialog.setCancelable(true)
         dialog.setContentView(R.layout.alert_dialogue_ok_layout)
         var iconImageView = dialog.findViewById(R.id.iconImageView) as ImageView
         var alertHead = dialog.findViewById(R.id.alertHead) as TextView

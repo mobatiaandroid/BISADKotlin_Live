@@ -518,17 +518,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.8" />
-        <com.kyanogen.signatureview.SignatureView
+        <com.github.gcacace.signaturepad.views.SignaturePad
             android:id="@+id/signature_view"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/add_green"
-            app:enableSignature="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/guideline4"
-            app:penColor="#000000"
-            app:penSize="5dp" />
+             />
 
         <ImageView
             android:id="@+id/image_view"

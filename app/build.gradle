@@ -10,8 +10,8 @@ android {
         applicationId "com.mobatia.bisad"
         minSdkVersion 27
         targetSdkVersion 34
-        versionCode 46
-        versionName "3.3.0"
+        versionCode 48
+        versionName "3.3.1"
         multiDexEnabled true
         generatedDensities = []
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -103,11 +103,11 @@ dependencies {
     implementation 'com.mindorks.android:prdownloader:0.6.0'
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     implementation 'com.google.android.material:material:1.8.0'
-    implementation 'com.kyanogen.signatureview:signature-view:1.0'
+//    implementation 'com.kyanogen.signatureview:signature-view:1.0'
     implementation 'com.pixelcarrot.base64image:base64image:1.0.0'
     implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
     implementation 'gun0912.ted:tedpermission:2.1.1'
-    implementation 'com.google.android.exoplayer:exoplayer:2.10.4'
+//    implementation 'com.google.android.exoplayer:exoplayer:2.10.4'
 
     implementation 'org.bouncycastle:bcprov-jdk15to18:1.70'
     implementation 'org.bouncycastle:bcpkix-jdk15to18:1.70'
