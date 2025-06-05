@@ -71,6 +71,7 @@ import com.mobatia.bisad.fragment.student_information.StudentInformationFragment
 import com.mobatia.bisad.fragment.teacher_contact.TeacherContactFragment
 import com.mobatia.bisad.fragment.termdates.TermDatesFragment
 import com.mobatia.bisad.fragment.time_table.TimeTableFragment
+import com.mobatia.bisad.fragment.vouchers.VouchersFragment
 import com.mobatia.bisad.manager.MyDragShadowBuilder
 import com.mobatia.bisad.manager.PreferenceData
 
@@ -626,6 +627,14 @@ class HomeActivity : AppCompatActivity(), OnItemLongClickListener {
                     sharedprefs.setStudentPhoto(context, "")
                     sharedprefs.setStudentClass(context, "")
                     mFragment = AppsFragment()
+                    replaceFragmentsSelected(position)
+                }else if (position == 18) {
+                    //apps
+                    sharedprefs.setStudentID(context, "")
+                    sharedprefs.setStudentName(context, "")
+                    sharedprefs.setStudentPhoto(context, "")
+                    sharedprefs.setStudentClass(context, "")
+                    mFragment = VouchersFragment()
                     replaceFragmentsSelected(position)
                 }
 

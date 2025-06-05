@@ -23,6 +23,7 @@ class NaisTabConstants {
     var TAB_STAFF_DIRECTORY="19"
     var TAB_CONTACT_US = "16"
     var TAB_APPS = "17"
+    var TAB_VOUCHERS = "18"
 
 
 

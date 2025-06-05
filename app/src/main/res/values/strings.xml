@@ -45,7 +45,7 @@
         <item>Trips</item>
         <item>Teacher Contact</item>
 
-       <!-- <item>Parent Meetings</item>-->
+        <!-- <item>Parent Meetings</item>-->
         <item>Social Media</item>
         <item>Reports</item>
         <!-- <item>Attendance</item>-->
@@ -53,12 +53,13 @@
         <item>Forms</item>
         <item>Permission Slips</item>
         <item>Term Dates</item>
-      <!--  <item>Curriculum</item>
+        <!--  <item>Curriculum</item>
         &lt;!&ndash;        <item>Update Account Details</item>&ndash;&gt;
         <item>Staff Directory</item>-->
         <item>Contact Us</item>
         <item>Apps</item>
-<!--        <item>Cal</item>-->
+        <item>Vouchers</item>
+        <!--        <item>Cal</item>-->
 
     </string-array>
 
@@ -75,8 +76,7 @@
         <item>@drawable/parentevening</item>
 
 
-
-      <!--  <item>@drawable/parent_association</item>-->
+        <!--  <item>@drawable/parent_association</item>-->
         <item>@drawable/social</item>
         <item>@drawable/report_side</item>
         <!-- <item>@drawable/attendance_side</item>-->
@@ -89,7 +89,8 @@
         <item>@drawable/aboutus</item>-->
         <item>@drawable/contacts</item>
         <item>@drawable/app</item>
-<!--        <item>@drawable/calendar</item>-->
+        <item>@drawable/app</item>
+        <!--        <item>@drawable/calendar</item>-->
 
 
     </string-array>
@@ -220,4 +221,6 @@
     <string name="planned_leaves_head">Planned\nAbsence</string>
     <string name="reg_planned_leaves">Register Planned Absence</string>
     <string name="success_planned_leave">Successfully submitted your planned Absence.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

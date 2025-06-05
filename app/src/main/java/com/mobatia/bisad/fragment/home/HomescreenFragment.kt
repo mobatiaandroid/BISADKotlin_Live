@@ -73,6 +73,7 @@ import com.mobatia.bisad.fragment.student_information.model.StudentListModel
 import com.mobatia.bisad.fragment.teacher_contact.TeacherContactFragment
 import com.mobatia.bisad.fragment.termdates.TermDatesFragment
 import com.mobatia.bisad.fragment.time_table.TimeTableFragment
+import com.mobatia.bisad.fragment.vouchers.VouchersFragment
 import com.mobatia.bisad.manager.AppController
 import com.mobatia.bisad.manager.PreferenceData
 import com.mobatia.bisad.recyclermanager.OnItemClickListener
@@ -1402,6 +1403,14 @@ class HomescreenFragment : Fragment(), View.OnClickListener {
                     sharedprefs.setStudentPhoto(mContext, "")
                     sharedprefs.setStudentClass(mContext, "")
                     mFragment = ReportsFragment()
+                    fragmentIntent(mFragment)
+                }
+                naisTabConstants.TAB_VOUCHERS -> {
+                    sharedprefs.setStudentID(mContext, "")
+                    sharedprefs.setStudentName(mContext, "")
+                    sharedprefs.setStudentPhoto(mContext, "")
+                    sharedprefs.setStudentClass(mContext, "")
+                    mFragment = VouchersFragment()
                     fragmentIntent(mFragment)
                 }
                 naisTabConstants.TAB_TRIP -> {
