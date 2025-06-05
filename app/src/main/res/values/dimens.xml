@@ -8,4 +8,14 @@
     <dimen name="pageMargin">16dp</dimen>
     <dimen name="offset">8dp</dimen>
 
+    <!-- Voucher Card Dimensions -->
+    <dimen name="card_width">300dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="page_margin">16dp</dimen>
+    <dimen name="page_margin_between">8dp</dimen>
+    <dimen name="card_corner_radius">12dp</dimen>
+    <dimen name="card_content_padding">16dp</dimen>
+    <dimen name="card_header_height">200dp</dimen>
+    <dimen name="card_footer_height">180dp</dimen>
+
 </resources>
