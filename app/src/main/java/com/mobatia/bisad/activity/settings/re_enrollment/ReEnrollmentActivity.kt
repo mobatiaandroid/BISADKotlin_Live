@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.kyanogen.signatureview.SignatureView
+import com.github.gcacace.signaturepad.views.SignaturePad
 import com.mobatia.bisad.R
 import com.mobatia.bisad.WebviewActivity
 import com.mobatia.bisad.activity.common.LoginActivity
@@ -256,7 +256,6 @@ class ReEnrollmentActivity: AppCompatActivity() {
         var option_txt=d.findViewById<TextView>(R.id.option_txt)
         var clear=d.findViewById<TextView>(R.id.clear)
         var sign_linear=d.findViewById<ConstraintLayout>(R.id.sign_linear)
-        var signatureView=d.findViewById<SignatureView>(R.id.signature_view)
         var dropdown_btn=d.findViewById<ImageView>(R.id.dropdown_btn)
         var sign_btn=d.findViewById<Button>(R.id.signature_btn)
         var dropdownList:ArrayList<String>

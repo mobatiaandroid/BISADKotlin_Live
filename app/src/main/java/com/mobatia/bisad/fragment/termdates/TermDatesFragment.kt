@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -17,8 +18,10 @@ import android.view.animation.AnimationUtils
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.*
 import androidx.annotation.NonNull
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,6 +61,7 @@ import com.mobatia.bisad.rest.ApiClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 class TermDatesFragment : Fragment(){
     lateinit var jsonConstans: JsonConstants
@@ -236,14 +240,15 @@ class TermDatesFragment : Fragment(){
         webView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null)
 
 
-        webView.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView, newProgress: Int) {
-                progressDialog.visibility = View.VISIBLE
-                if (newProgress == 100)
-                {
-                    progressDialog.visibility = View.GONE
-
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                if (url != null) {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                    return true
                 }
+                return false
             }
         }
     }

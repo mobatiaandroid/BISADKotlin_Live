@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.os.Debug
 import android.os.Handler
 import android.provider.Settings
-import android.util.Log
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
@@ -42,10 +41,10 @@ import java.net.Socket
 
 class SplashActivity : AppCompatActivity() {
     lateinit var mContext: Context
-    private val SPLASH_TIME_OUT:Long = 3000
+    private val SPLASH_TIME_OUT: Long = 3000
     lateinit var sharedprefs: PreferenceData
-    var tokenM:String=""
-    var firebaseid:String=""
+    var tokenM: String = ""
+    var firebaseid: String = ""
     lateinit var activity: Activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +52,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         mContext = this
-        activity=this
+        activity = this
         sharedprefs = PreferenceData()
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isComplete) {
@@ -70,30 +69,45 @@ class SplashActivity : AppCompatActivity() {
         var re_enroll = "1"
         sharedprefs.setreenrollvalue(mContext, re_enroll)
         val isDebuggingEnabled: Boolean = DebuggingChecker().isUsbDebuggingEnabled(mContext)
-        val rootBeer = RootBeer(this)
+        val rootBeer = RootBeer(mContext)
 
-        if (isDeviceRootedOrEmulator(mContext)) {
-            showDeviceIsRootedPopUp(mContext)
-        } else if (rootBeer.isRooted()) {
-            Toast.makeText(this, "Root detected! App will close.", Toast.LENGTH_LONG).show()
-            finish()
-        }
-        else if (isDebuggingEnabled) {
+//        if (isDeviceRootedOrEmulator(mContext)) {
+//            showDeviceIsRootedPopUp(mContext)
+//        } else
+            if (rootBeer.isRooted()) {
 
-           Toast.makeText(mContext, "This app does not support debugging", Toast.LENGTH_SHORT).show();
-       }
-        else if (!CommonFunctions.runMethod.equals("Dev"))
-        {
-            if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
-                CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+                Toast.makeText(this, "Root detected! App will close.", Toast.LENGTH_LONG).show()
+                finish()
             }
-            else{
+            /*else if (isDebuggingEnabled) {
+
+               Toast.makeText(mContext, "This app does not support debugging", Toast.LENGTH_SHORT).show();
+           }*/
+            else if (!CommonFunctions.runMethod.equals("Dev")) {
+                if (CommonFunctions.isDeveloperModeEnabled(mContext)) {
+                    CommonFunctions.showDeviceIsDeveloperPopUp(activity)
+                } else {
+                    Handler().postDelayed({
+                        if (sharedprefs.getUserCode(mContext).equals("")) {
+                            startActivity(Intent(this, LoginActivity::class.java))
+                            finish()
+                        } else {
+                            var accessTokenValue = AccessTokenClass.getAccessToken(mContext)
+                            callDeviceRegistrationApi()
+                            sharedprefs.setSuspendTrigger(mContext, "0")
+                            startActivity(Intent(this, HomeActivity::class.java))
+                            finish()
+                        }
+                    }, SPLASH_TIME_OUT)
+                }
+            } else {
                 Handler().postDelayed({
                     if (sharedprefs.getUserCode(mContext).equals("")) {
                         startActivity(Intent(this, LoginActivity::class.java))
                         finish()
                     } else {
                         var accessTokenValue = AccessTokenClass.getAccessToken(mContext)
+
                         callDeviceRegistrationApi()
                         sharedprefs.setSuspendTrigger(mContext, "0")
                         startActivity(Intent(this, HomeActivity::class.java))
@@ -101,22 +115,6 @@ class SplashActivity : AppCompatActivity() {
                     }
                 }, SPLASH_TIME_OUT)
             }
-        }
-        else{
-            Handler().postDelayed({
-                if (sharedprefs.getUserCode(mContext).equals("")) {
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    finish()
-                } else {
-                    var accessTokenValue = AccessTokenClass.getAccessToken(mContext)
-
-                    callDeviceRegistrationApi()
-                    sharedprefs.setSuspendTrigger(mContext, "0")
-                    startActivity(Intent(this, HomeActivity::class.java))
-                    finish()
-                }
-            }, SPLASH_TIME_OUT)
-        }
     }
 
     /*  boolean isDebuggerConnected() {
@@ -133,12 +131,13 @@ class SplashActivity : AppCompatActivity() {
                 || SplashActivity().isFridaRunning()
                 || SplashActivity().isFridaLibraryLoaded()
                 || SplashActivity().isSuspiciousProcessRunning())
-                ||SplashActivity(). checkForRootBinaries()
-                ||SplashActivity(). checkForRootApps(mContext)
-                ||SplashActivity(). detectJavaDebugger()
+                || SplashActivity().checkForRootBinaries()
+                || SplashActivity().checkForRootApps(mContext)
+                || SplashActivity().detectJavaDebugger()
                 || SplashActivity().detect_threadCpuTimeNanos()
 
     }
+
     fun isDeviceRooted(): Boolean {
         val paths = arrayOf(
             "/system/xbin/su",
@@ -155,6 +154,7 @@ class SplashActivity : AppCompatActivity() {
         }
         return false
     }
+
     fun isMagiskInstalled(): Boolean {
         val magiskPaths = arrayOf(
             "/sbin/magisk",
@@ -172,6 +172,7 @@ class SplashActivity : AppCompatActivity() {
         }
         return false
     }
+
     fun hasEmulatorFiles(): Boolean {
         val paths = arrayOf(
             "/dev/qemu_pipe",
@@ -188,6 +189,7 @@ class SplashActivity : AppCompatActivity() {
         }
         return false
     }
+
     fun isEmulator(): Boolean {
         val buildFingerprint = Build.FINGERPRINT
         val model = Build.MODEL
@@ -204,6 +206,7 @@ class SplashActivity : AppCompatActivity() {
                 || manufacturer.contains("Genymotion")
                 || (brand.startsWith("generic") && device.startsWith("generic"))) || product == "google_sdk"
     }
+
     fun isFridaRunning(): Boolean {
         try {
             // Check for Frida default port
@@ -254,6 +257,7 @@ class SplashActivity : AppCompatActivity() {
         }
         return false
     }
+
     fun checkForRootBinaries(): Boolean {
         val rootBinariesPaths = arrayOf(
             "/system/app/Superuser.apk",
@@ -300,6 +304,7 @@ class SplashActivity : AppCompatActivity() {
         }
         return false
     }
+
     fun detectJavaDebugger(): Boolean {
         return Debug.isDebuggerConnected() || Debug.waitingForDebugger()
     }
@@ -341,18 +346,20 @@ class SplashActivity : AppCompatActivity() {
     }
 
 
-    fun callDeviceRegistrationApi()
-    {
-        var devicename:String= (Build.MANUFACTURER
+    fun callDeviceRegistrationApi() {
+        var devicename: String = (Build.MANUFACTURER
                 + " " + Build.MODEL + " " + Build.VERSION.RELEASE
                 + " " + Build.VERSION_CODES::class.java.fields[Build.VERSION.SDK_INT]
             .name)
         val version: String = BuildConfig.VERSION_NAME
         val token = sharedprefs.getaccesstoken(mContext)
-        var androidID = Settings.Secure.getString(this.contentResolver,
-            Settings.Secure.ANDROID_ID)
-        var deviceReg= DeviceRegModel(2, tokenM,androidID,devicename,version)
-        val call: Call<ResponseBody> = ApiClient(mContext).getClient.deviceregistration(deviceReg,"Bearer "+token)
+        var androidID = Settings.Secure.getString(
+            this.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
+        var deviceReg = DeviceRegModel(2, tokenM, androidID, devicename, version)
+        val call: Call<ResponseBody> =
+            ApiClient(mContext).getClient.deviceregistration(deviceReg, "Bearer " + token)
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -360,6 +367,7 @@ class SplashActivity : AppCompatActivity() {
                 CommonFunctions.faliurepopup(mContext)
 
             }
+
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val responsedata = response.body()
 
@@ -367,8 +375,7 @@ class SplashActivity : AppCompatActivity() {
                 if (responsedata != null) {
                     try {
 
-                    }
-                    catch (e: Exception) {
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 }
@@ -376,6 +383,7 @@ class SplashActivity : AppCompatActivity() {
 
         })
     }
+
     override fun onResume() {
         super.onResume()
         if (!CommonFunctions.runMethod.equals("Dev")) {
