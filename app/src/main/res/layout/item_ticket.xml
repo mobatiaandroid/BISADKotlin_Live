@@ -2,18 +2,17 @@
 <com.mreram.ticketview.TicketView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ticketView"
-    android:layout_width="300dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
-    android:layout_gravity="center"
-    android:background="#F3F1F1"
+    android:layout_margin="8dp"
+    android:duplicateParentState="true"
+    android:elevation="4dp"
     app:tv_anchor1="@+id/headerLayout"
     app:tv_anchor2="@+id/contentLayout"
     app:tv_circleRadius="12dp"
     app:tv_circleSpace="20dp"
-    app:tv_dashColor="@color/white"
+    app:tv_dashColor="@android:color/white"
     app:tv_dashSize="2dp">
 
     <LinearLayout
@@ -21,93 +20,92 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Header Section with Banner -->
+        <!-- Header Section -->
         <RelativeLayout
             android:id="@+id/headerLayout"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@color/red">
+            android:background="?attr/colorPrimary">
 
-            <!-- Banner Image -->
-            <ImageView
-                android:id="@+id/bannerImage"
+            <!-- Banner Image with Gradient Overlay -->
+            <FrameLayout
+                android:id="@+id/frameLayout1"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/default_banner"
-                android:contentDescription="Voucher Banner"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:adjustViewBounds="true" />
+                android:layout_height="match_parent">
 
-            <!-- Text Content Overlay -->
+                <ImageView
+                    android:id="@+id/bannerImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/voucher_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/banner_gradient" />
+            </FrameLayout>
+
+            <!-- Text Content -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
                 android:orientation="vertical"
-                android:paddingStart="24dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="24dp"
-                android:paddingBottom="16dp"
-                android:layout_below="@id/bannerImage">
+                android:padding="24dp"
+                android:paddingTop="16dp">
 
                 <TextView
                     android:id="@+id/amountText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="50% OFF"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:textColor="@color/white"
-                    android:textSize="28sp"
                     android:shadowColor="#80000000"
                     android:shadowDx="2"
                     android:shadowDy="2"
-                    android:shadowRadius="4" />
+                    android:shadowRadius="4"
+                    android:text="50% OFF"
+                    android:textColor="@android:color/white"
+                    android:textSize="28sp" />
 
                 <TextView
                     android:id="@+id/titleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="EXCLUSIVE VOUCHER"
                     android:fontFamily="@font/montserrat"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
                     android:letterSpacing="0.1"
                     android:shadowColor="#80000000"
                     android:shadowDx="1"
                     android:shadowDy="1"
-                    android:shadowRadius="2" />
+                    android:shadowRadius="2"
+                    android:text="EXCLUSIVE VOUCHER"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/descriptionText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Enjoy special discounts on your next purchase with this exclusive voucher code"
-                    android:fontFamily="@font/montserrat"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:maxLines="10"
                     android:ellipsize="end"
+                    android:fontFamily="@font/montserrat"
                     android:lineSpacingExtra="4dp"
-                    android:shadowColor="#80000000"
-                    android:shadowDx="1"
-                    android:shadowDy="1"
-                    android:shadowRadius="2" />
-
+                    android:maxLines="10"
+                    android:text="Enjoy special discounts on your next purchase"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
             </LinearLayout>
         </RelativeLayout>
 
-        <!-- Rest of the layout remains the same -->
+        <!-- Content Section -->
         <LinearLayout
             android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#F3F1F1"
+            android:background="@color/btnBackground"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -116,19 +114,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="2">
+
+                <!-- Code Section -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CODE"
                         android:fontFamily="@font/montserrat"
-                        android:textSize="10sp"
+                        android:text="CODE"
                         android:textAllCaps="true"
-                        />
+                        android:textColor="#666666"
+                        android:textSize="10sp" />
+
                     <TextView
                         android:id="@+id/codeText"
                         android:layout_width="wrap_content"
@@ -136,30 +138,33 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/montserrat_semibold"
                         android:text="BISAD50"
-                        android:textColor="@color/red"
-                        android:textSize="16sp"
-                        />
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
+                <!-- Divider -->
                 <View
                     android:layout_width="1dp"
                     android:layout_height="40dp"
-                    android:background="@color/grey"
-                    android:layout_marginHorizontal="8dp"/>
+                    android:layout_marginHorizontal="8dp"
+                    android:background="#E0E0E0" />
 
+                <!-- Validity Section -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="VALID UNTIL"
-                        android:textSize="10sp"
                         android:fontFamily="@font/montserrat"
+                        android:text="VALID UNTIL"
                         android:textAllCaps="true"
-                        />
+                        android:textColor="#666666"
+                        android:textSize="10sp" />
+
                     <TextView
                         android:id="@+id/validityText"
                         android:layout_width="wrap_content"
@@ -167,64 +172,63 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/montserrat_semibold"
                         android:text="31 DEC 2024"
-                        android:textSize="14sp"
-                        />
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <!-- Divider -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginVertical="16dp"
-                android:background="@color/grey"/>
+                android:background="@color/blue" />
+
+            <!-- Redeem Button -->
+            <Button
+                android:id="@+id/redeemButton"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="REDEEM NOW"
+                android:textAllCaps="true"
+                 />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/floatingActionButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/download"
-                    android:layout_marginLeft="8dp"
+                    android:src="@drawable/share"
+                    android:contentDescription="Share Voucher"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:borderWidth="0dp"
+                    app:elevation="8dp"
+                    app:maxImageSize="24dp"
+                    app:rippleColor="@android:color/transparent"
+                    app:useCompatPadding="true" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/floatingActionButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:src="@drawable/share"
-
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/redeemButton"
-                    app:layout_constraintStart_toEndOf="@+id/floatingActionButton2"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/redeemButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_semibold"
-                    android:text="REDEEM NOW"
-                    android:textAllCaps="true"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:gravity="center"
-                    android:textColor="@color/red"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/floatingActionButton"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    android:src="@drawable/download"
+                    android:contentDescription="Download Voucher"
+                    app:layout_constraintEnd_toStartOf="@+id/floatingActionButton2"
+                    app:layout_constraintTop_toTopOf="@id/floatingActionButton2"
+                    app:layout_constraintBottom_toBottomOf="@id/floatingActionButton2"
+                    app:borderWidth="0dp"
+                    app:elevation="8dp"
+                    app:maxImageSize="32dp"
+                    app:useCompatPadding="true" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
         </LinearLayout>
     </LinearLayout>
 </com.mreram.ticketview.TicketView>

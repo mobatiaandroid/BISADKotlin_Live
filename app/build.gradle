@@ -136,6 +136,7 @@ dependencies {
     implementation "androidx.security:security-crypto:1.1.0-alpha06"
     implementation "com.github.mreram:ticketview:1.0.0"
     implementation "org.jetbrains:annotations:24.0.1"
+    implementation "com.github.zhpanvip:viewpagerindicator:1.2.3"
 
 
 }
