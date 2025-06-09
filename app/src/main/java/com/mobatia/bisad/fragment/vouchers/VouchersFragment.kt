@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
@@ -16,6 +17,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.mobatia.bisad.R
+import com.tuyenmonkey.mkloader.type.Worm
+import com.zhpan.indicator.IndicatorView
+import com.zhpan.indicator.enums.IndicatorSlideMode
+import com.zhpan.indicator.enums.IndicatorStyle
 
 private lateinit var viewPager: ViewPager2
 
@@ -80,15 +85,16 @@ class VouchersFragment : Fragment() {
 
         // Set offscreen page limit for better performance
         viewPager.offscreenPageLimit = 3
-//        indicatorView = view.findViewById(R.id.indicator_view)
-//        indicatorView.apply {
-//            setSliderColor(resources.getColor(R.color.rel_one), resources.getColor(R.color.rel_two))
-//            setSliderWidth(resources.getDimension(R.dimen.dp_10))
-//            setSliderHeight(resources.getDimension(R.dimen.dp_5))
-//            setSlideMode(IndicatorSlideMode.WORM)
-//            setIndicatorStyle(IndicatorStyle.CIRCLE)
-//            setupWithViewPager(viewPager)
-//        }
+
+        val indicatorView = view.findViewById<IndicatorView>(R.id.indicator_view)
+        indicatorView.apply {
+            setSliderColor(resources.getColor(R.color.rel_one), resources.getColor(R.color.rel_two))
+            setSliderWidth(resources.getDimension(R.dimen.dp_10))
+            setSliderHeight(resources.getDimension(R.dimen.dp_5))
+            setSlideMode(IndicatorSlideMode.WORM)
+            setIndicatorStyle(IndicatorStyle.CIRCLE)
+            setupWithViewPager(viewPager)
+        }
     }
 
     private inner class TicketPagerAdapter : androidx.viewpager2.adapter.FragmentStateAdapter(this) {
@@ -103,10 +109,12 @@ class VouchersFragment : Fragment() {
         private lateinit var ticketData: TicketData
         private lateinit var amountText: TextView
         private lateinit var descriptionText: TextView
+        private lateinit var readMoreText: TextView
         private lateinit var codeText: TextView
         private lateinit var validityText: TextView
-        private lateinit var redeemButton: Button
+        private lateinit var redeemButton: ConstraintLayout
         private lateinit var headerLayout: RelativeLayout
+        private var isExpanded = false
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -118,6 +126,7 @@ class VouchersFragment : Fragment() {
             // Initialize views
             amountText = view.findViewById(R.id.amountText)
             descriptionText = view.findViewById(R.id.descriptionText)
+            readMoreText = view.findViewById(R.id.readMoreText)
             codeText = view.findViewById(R.id.codeText)
             validityText = view.findViewById(R.id.validityText)
             redeemButton = view.findViewById(R.id.redeemButton)
@@ -136,17 +145,63 @@ class VouchersFragment : Fragment() {
             codeText.text = ticketData.code
             validityText.text = ticketData.validity
 
+            // Check if we need to show "Read More"
+            descriptionText.post {
+                val lineCount = descriptionText.layout?.lineCount ?: 0
+                if (lineCount > 8) {
+                    readMoreText.visibility = View.VISIBLE
+                    descriptionText.maxLines = 8
+                    readMoreText.text = "Read More"
+                    readMoreText.setCompoundDrawablesWithIntrinsicBounds(
+                        0, 0, 
+                        R.drawable.ic_arrow_down, 0
+                    )
+                    
+                    // Make sure the drawables are tinted white
+                    readMoreText.compoundDrawables.forEach { drawable ->
+                        drawable?.setTint(android.graphics.Color.WHITE)
+                    }
+                } else {
+                    readMoreText.visibility = View.GONE
+                }
+
+                // Set click listener for read more/less
+                readMoreText.setOnClickListener {
+                    isExpanded = !isExpanded
+                    if (isExpanded) {
+                        descriptionText.maxLines = Integer.MAX_VALUE
+                        readMoreText.text = "Read Less"
+                        readMoreText.setCompoundDrawablesWithIntrinsicBounds(
+                            0, 0,
+                            R.drawable.ic_arrow_up, 0
+                        )
+                    } else {
+                        descriptionText.maxLines = 8
+                        readMoreText.text = "Read More"
+                        readMoreText.setCompoundDrawablesWithIntrinsicBounds(
+                            0, 0,
+                            R.drawable.ic_arrow_down, 0
+                        )
+                    }
+                    // Tint the drawables after setting them
+                    readMoreText.compoundDrawables.forEach { drawable ->
+                        drawable?.setTint(android.graphics.Color.WHITE)
+                    }
+                }
+            }
+
+
             // Apply dynamic colors
             val color = ResourcesCompat.getColor(resources, ticketData.color, null)
 
-            // Set header background color
-            headerLayout.setBackgroundColor(color)
-
-            // Set code text color
-            codeText.setTextColor(color)
-
-            // Set button text and border color
-            redeemButton.setTextColor(color)
+//            // Set header background color
+//            headerLayout.setBackgroundColor(color)
+//
+//            // Set code text color
+//            codeText.setTextColor(color)
+//
+//            // Set button text and border color
+//            redeemButton.setTextColor(color)
 
             // Create a custom drawable for the button background
 //            val buttonDrawable = ResourcesCompat.getDrawable(resources, R.drawable.button_border, null)?.mutate()
@@ -172,7 +227,7 @@ class VouchersFragment : Fragment() {
 //            redeemButton.background = buttonDrawable
 
             // Set the text color state list
-            redeemButton.setTextColor(colorStateList)
+//            redeemButton.setTextColor(colorStateList)
 
             // Set click listener for redeem button
             redeemButton.setOnClickListener {

@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="?attr/colorPrimary">
+            android:background="@color/red">
 
             <!-- Banner Image with Gradient Overlay -->
             <FrameLayout
@@ -38,8 +38,7 @@
                     android:id="@+id/bannerImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/voucher_bg" />
+                    android:scaleType="fitCenter" />
 
                 <View
                     android:layout_width="match_parent"
@@ -85,18 +84,37 @@
                     android:textColor="@android:color/white"
                     android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/descriptionText"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/montserrat"
-                    android:lineSpacingExtra="4dp"
-                    android:maxLines="10"
-                    android:text="Enjoy special discounts on your next purchase"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/descriptionText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/montserrat"
+                        android:lineSpacingExtra="4dp"
+                        android:maxLines="8"
+                        android:text="Enjoy special discounts on your next purchase"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/readMoreText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:text="Read More"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        android:drawableEnd="@drawable/ic_arrow_down"
+                        android:drawablePadding="4dp"/>
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
 
@@ -138,7 +156,7 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/montserrat_semibold"
                         android:text="BISAD50"
-                        android:textColor="?attr/colorPrimary"
+                        android:textColor="@color/prussianBlue"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -147,7 +165,7 @@
                     android:layout_width="1dp"
                     android:layout_height="40dp"
                     android:layout_marginHorizontal="8dp"
-                    android:background="#E0E0E0" />
+                    android:background="@color/prussianBlue" />
 
                 <!-- Validity Section -->
                 <LinearLayout
@@ -182,17 +200,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginVertical="16dp"
-                android:background="@color/blue" />
+
+                android:background="@color/prussianBlue" />
 
             <!-- Redeem Button -->
-            <Button
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/redeemButton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:gravity="center"
+                android:elevation="-8dp"
+                android:background="@drawable/button_blue_outline"
                 android:fontFamily="@font/montserrat_semibold"
                 android:text="REDEEM NOW"
                 android:textAllCaps="true"
-                 />
+                 >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:gravity="center"
+                    android:text="REDEEM NOW"
+                    android:textColor="@color/prussianBlue"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -210,7 +245,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:borderWidth="0dp"
-                    app:elevation="8dp"
+                    app:elevation="4dp"
                     app:maxImageSize="24dp"
                     app:rippleColor="@android:color/transparent"
                     app:useCompatPadding="true" />
@@ -225,7 +260,7 @@
                     app:layout_constraintTop_toTopOf="@id/floatingActionButton2"
                     app:layout_constraintBottom_toBottomOf="@id/floatingActionButton2"
                     app:borderWidth="0dp"
-                    app:elevation="8dp"
+                    app:elevation="4dp"
                     app:maxImageSize="32dp"
                     app:useCompatPadding="true" />
             </androidx.constraintlayout.widget.ConstraintLayout>

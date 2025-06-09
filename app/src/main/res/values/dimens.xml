@@ -17,5 +17,7 @@
     <dimen name="card_content_padding">16dp</dimen>
     <dimen name="card_header_height">200dp</dimen>
     <dimen name="card_footer_height">180dp</dimen>
+    <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_5">5dp</dimen>
 
 </resources>
